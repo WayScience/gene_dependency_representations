@@ -2,17 +2,6 @@ name: gene_dependency_representations
 channels:
 - conda-forge
 dependencies:
-- conda-forge::jupyter_client	=	7.3.4
-- conda-forge::jupyter_core	=	4.10.0
-- conda-forge::jupyter_server	=	1.17.1
 - conda-forge::jupyterlab	=	3.4.3
-- conda-forge::jupyterlab_pygments	=	0.2.2
-- conda-forge::jupyterlab_server	=	2.14.0
-- conda-forge::pyparsing	=	3.0.9
-- conda-forge::pyrsistent	=	0.18.1
-- conda-forge::pysocks	=	1.7.1
 - conda-forge::python	=	3.9.13
-- conda-forge::tornado	=	6.1
-- conda-forge::traitlets	=	5.2.2.post1
-- conda-forge::tzdata	=	2022a
 - conda-forge::urllib3	=	1.26.9
