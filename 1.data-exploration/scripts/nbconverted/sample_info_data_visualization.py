@@ -25,12 +25,12 @@ print(df.shape)
 
 
 # how many samples?
-n_samples = len(df["DepMap_ID"])
+n_samples = len(df["DepMap_ID"].unique())
 print(f"Number of Samples: {n_samples} \n")
 
-# how many genes 
-all_cancers = df["age"].unique()
-print(f"Ages sampled from: \n {all_cancers} \n")
+# how many different ages were sampled from? 
+all_ages = df["age"].unique()
+print(f"Ages sampled from: \n {all_ages} \n")
 
 # how many different types of cancer?
 all_cancers = df["primary_disease"].unique()
@@ -53,7 +53,7 @@ no_nan_age_df.loc[(df["age"] == "Adult")] = 18
 # create a new data frame that will also assign the integer value of 0 to cells containing "Pediatric"
 no_nan_age_df.loc[(df["age"] == "Pediatric")] = 0
 
-# create a new data frame that will also assign the integer value of 0 to cells containg "Fetus"
+# create a new data frame that will also assign the integer value of -1 to cells containg "Fetus"
 no_nan_age_df.loc[(df["age"] == "Fetus")] = -1
 
 
@@ -70,7 +70,7 @@ pediatric_df = pediatric_df.astype({"age": int})
 ig, axs = plt.subplots(1, 2, dpi=150)
 
 # plot adult age distribution 
-sns.histplot(x="age", data=adult_df, stat="frequency", ax=axs[0])
+sns.histplot(x="age", data=adult_df, stat="count", ax=axs[0])
 
 # plot pediatric age distribution
 sns.histplot(x="age", data=pediatric_df, stat="count", ax=axs[1])
@@ -82,10 +82,4 @@ sns.histplot(x="age", data=pediatric_df, stat="count", ax=axs[1])
 
 
 pediatric_df.loc[pediatric_df["age"] == 1]
-
-
-# In[ ]:
-
-
-
 
