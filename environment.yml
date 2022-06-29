@@ -7,3 +7,4 @@ dependencies:
 - conda-forge::urllib3	=	1.26.9
 - conda-forge::seaborn = 0.11.2
 - conda-forge::plotnine = 0.8.0
+- conda-forge::tensorflow = 2.9.1
