@@ -83,7 +83,8 @@ cancer_types_bar = (
     gg.ggplot(data, gg.aes(x="primary_disease")) + gg.geom_bar() + gg.theme(axis_text_x =element_text(angle = 90))
     )
 print(cancer_types_bar)
-cancer_types_bar.save("./figures/sample_cancer_types_bar_chart.png")
+sct_output = pathlib.Path("./figures/sample_cancer_types_bar_chart.png")
+cancer_types_bar.save(sct_output)
 
 # identify which samples are included in both sample_info.csv and CRISPR_gene_dependency.csv
 similar_samples = list(set(df_sample_info["DepMap_ID"]) & set(df_gene_dependency["DepMap_ID"]))
@@ -147,7 +148,8 @@ age_categories_bar = (
     + gg.geom_bar()
 )
 print(age_categories_bar)
-age_categories_bar.save("./figures/age_categories_bar_chart.png")
+acb_output = pathlib.Path("./figures/age_categories_bar_chart.png")
+age_categories_bar.save(acb_output)
 
 
 # In[10]:
@@ -159,7 +161,8 @@ age_distribution_plot = (
     + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
 )
 print(age_distribution_plot)
-age_distribution_plot.save("./figures/sample_age_distribution_plot.png")
+sad_output = pathlib.Path("./figures/sample_age_distribution_plot.png")
+age_distribution_plot.save(sad_output)
 
 
 # In[11]:
@@ -176,5 +179,6 @@ gendersamp_plot = (
     gg.ggplot(gendersamp, gg.aes(x="sex")) + gg.geom_bar()
 )
 print(gendersamp_plot)
-gendersamp_plot.save("./figures/sample_gender_bar_chart.png")
+sgb_output = pathlib.Path("./figures/sample_gender_bar_chart.png")
+gendersamp_plot.save(sgb_output)
 
