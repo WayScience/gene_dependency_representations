@@ -23,72 +23,80 @@ warnings.filterwarnings('ignore')
 input_file = pathlib.Path("../0.data-download/data/sample_info.csv")
 
 # set the data frame to be the desired .csv file that is read by pandas(pd) using the pd.read_csv(desired file read as a previously defined variable)
-df = pd.read_csv(input_file)
+df_sample_info = pd.read_csv(input_file)
 
 # assign the desired file a variable using pathlib.Path command
 input_file2 = pathlib.Path("../0.data-download/data/CRISPR_gene_dependency.csv")
 
 # set the data frame to be the desired .csv file that is read by pandas(pd) using the pd.read_csv(desired file read as a previously defined variable)
-df2 = pd.read_csv(input_file2)
+df_gene_dependency = pd.read_csv(input_file2)
 
 
 # In[3]:
 
 
 # print the parameters of the read file
-print(df.shape)
-df.head(1)
+print(df_sample_info.shape)
+df_sample_info.head(1)
 
 
 # In[4]:
 
 
 # print the parameters of the read file
-print(df2.shape)
-df2.head(1)
+print(df_gene_dependency.shape)
+df_gene_dependency.head(1)
 
 
 # In[5]:
 
 
-# sample_info.csv visualization
-# how many samples from sample_info.csv?
-n_samples = len(df["DepMap_ID"].unique())
-print(f"Number of Samples Documented in sample_info.csv: {n_samples} \n")
+# check if "figures" directory exists and create directory if it does not
+fig_dir = pathlib.Path("figures")
+fig_dir.mkdir(exist_ok=True)
+
+
+# In[6]:
+
 
 # sample_info.csv visualization
+# how many samples from sample_info.csv?
+n_samples = len(df_sample_info["DepMap_ID"].unique())
+print(f"Number of Samples Documented in sample_info.csv: {n_samples} \n")
+
 # how many samples from CRISPR_gene_dependency.csv?
-n_samples2 = len(df2["DepMap_ID"].unique())
+n_samples2 = len(df_gene_dependency["DepMap_ID"].unique())
 print(f"Number of Samples Included in CRISPR_gene_dependency.csv: {n_samples2} \n")
 
 # how many different ages were sampled from? 
-all_ages = df["age"].unique()
+all_ages = df_sample_info["age"].unique()
 print(f"Ages sampled from: \n {all_ages} \n")
 
 
 # how many different types of cancer?
-all_cancers = df["primary_disease"].unique()
+all_cancers = df_sample_info["primary_disease"].unique()
 print(f"All Cancer Types: \n {all_cancers} \n")
 
 # create a bar chart that shows the number of types of cancer sampled 
-data = df
+data = df_sample_info
 cancer_types_bar = (
     gg.ggplot(data, gg.aes(x="primary_disease")) + gg.geom_bar() + gg.theme(axis_text_x =element_text(angle = 90))
     )
 print(cancer_types_bar)
+cancer_types_bar.save("./figures/sample_cancer_types_bar_chart.png")
 
 # identify which samples are included in both sample_info.csv and CRISPR_gene_dependency.csv
-similar_samples = list(set(df["DepMap_ID"]) & set(df2["DepMap_ID"]))
+similar_samples = list(set(df_sample_info["DepMap_ID"]) & set(df_gene_dependency["DepMap_ID"]))
 
 # count the number of samples that overlap in both data sets 
 sample_overlap = len(similar_samples)
 print(f"number of sample overlaps between sample_info.csv and CRISPR_gene_dependency.csv: {sample_overlap} \n")
 
 
-# In[6]:
+# In[7]:
 
 
-age_vector_to_clean = df.loc[:, "age"].tolist()
+age_vector_to_clean = df_sample_info.loc[:, "age"].tolist()
 
 age_categories = []
 age_distribution = []
@@ -117,12 +125,12 @@ for age_entry in age_vector_to_clean:
         age_distribution.append(np.nan)
 
 
-# In[7]:
+# In[8]:
 
 
 # New dataframe containing two new columns age_categories & age_distribution
 df_age_visual = (
-    df.assign(
+    df_sample_info.assign(
         age_categories=age_categories,
         age_distribution=age_distribution
     )
@@ -131,37 +139,42 @@ df_age_visual = (
 df_age_visual.head()
 
 
-# In[8]:
-
-
-(
-    gg.ggplot(df_age_visual, gg.aes(x="age_categories"))
-    + gg.geom_bar()
-)
-
-
 # In[9]:
 
 
-(
-    gg.ggplot(df_age_visual, gg.aes(x="age_distribution"))
-    + gg.geom_density()
-    + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
+age_categories_bar = (
+    gg.ggplot(df_age_visual, gg.aes(x="age_categories"))
+    + gg.geom_bar()
 )
+print(age_categories_bar)
+age_categories_bar.save("./figures/age_categories_bar_chart.png")
 
 
 # In[10]:
 
 
-pd.DataFrame(age_categories).loc[:, 0].value_counts()
+age_distribution_plot = (
+    gg.ggplot(df_age_visual, gg.aes(x="age_distribution"))
+    + gg.geom_density()
+    + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
+)
+print(age_distribution_plot)
+age_distribution_plot.save("./figures/sample_age_distribution_plot.png")
 
 
 # In[11]:
 
 
-gendersamp = df
+pd.DataFrame(age_categories).loc[:, 0].value_counts()
+
+
+# In[12]:
+
+
+gendersamp = df_sample_info
 gendersamp_plot = (
     gg.ggplot(gendersamp, gg.aes(x="sex")) + gg.geom_bar()
 )
 print(gendersamp_plot)
+gendersamp_plot.save("./figures/sample_gender_bar_chart.png")
 
