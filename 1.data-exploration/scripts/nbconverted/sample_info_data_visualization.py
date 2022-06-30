@@ -143,6 +143,14 @@ df_age_visual.head()
 # In[9]:
 
 
+# save the new data frame to a new .csv file in 0.data -download module
+df_save_destination = pathlib.Path("../0.data-download/data/age_visual_sample_info.csv")
+df_age_visual.to_csv(df_save_destination)
+
+
+# In[10]:
+
+
 age_categories_bar = (
     gg.ggplot(df_age_visual, gg.aes(x="age_categories"))
     + gg.geom_bar()
@@ -152,7 +160,7 @@ acb_output = pathlib.Path("./figures/age_categories_bar_chart.png")
 age_categories_bar.save(acb_output)
 
 
-# In[10]:
+# In[11]:
 
 
 age_distribution_plot = (
@@ -165,13 +173,13 @@ sad_output = pathlib.Path("./figures/sample_age_distribution_plot.png")
 age_distribution_plot.save(sad_output)
 
 
-# In[11]:
+# In[12]:
 
 
 pd.DataFrame(age_categories).loc[:, 0].value_counts()
 
 
-# In[12]:
+# In[13]:
 
 
 gendersamp = df_sample_info
