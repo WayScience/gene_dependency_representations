@@ -144,8 +144,8 @@ df_age_visual.head()
 
 
 # save the new data frame to a new .csv file in 0.data -download module
-df_save_destination = pathlib.Path("../0.data-download/data/age_visual_sample_info.csv")
-df_age_visual.to_csv(df_save_destination)
+df_save_destination = pathlib.Path("../0.data-download/data/sample_info_age_column_cleaned.csv")
+df_age_visual.to_csv(df_save_destination, index = False)
 
 
 # In[10]:
