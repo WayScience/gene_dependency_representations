@@ -37,7 +37,7 @@ df_gene_dependency = pd.read_csv(input_file2)
 
 # print the parameters of the read file
 print(df_sample_info.shape)
-df_sample_info.head(1)
+df_sample_info.head(5)
 
 
 # In[4]:
@@ -45,7 +45,7 @@ df_sample_info.head(1)
 
 # print the parameters of the read file
 print(df_gene_dependency.shape)
-df_gene_dependency.head(1)
+df_gene_dependency.head(5)
 
 
 # In[5]:
@@ -97,6 +97,24 @@ print(f"number of sample overlaps between sample_info.csv and CRISPR_gene_depend
 # In[7]:
 
 
+# how many different types of cancer?
+dfsi = df_sample_info["DepMap_ID"].unique()
+print(f"All Cancer Types: \n {dfsi} \n")
+print(dfsi.shape)
+
+
+# In[8]:
+
+
+# how many different types of cancer?
+dfgd = df_gene_dependency["DepMap_ID"].unique()
+print(f"All Cancer Types: \n {dfgd} \n")
+print(dfgd.shape)
+
+
+# In[9]:
+
+
 age_vector_to_clean = df_sample_info.loc[:, "age"].tolist()
 
 age_categories = []
@@ -126,7 +144,7 @@ for age_entry in age_vector_to_clean:
         age_distribution.append(np.nan)
 
 
-# In[8]:
+# In[10]:
 
 
 # New dataframe containing two new columns age_categories & age_distribution
@@ -140,7 +158,7 @@ df_age_visual = (
 df_age_visual.head()
 
 
-# In[9]:
+# In[11]:
 
 
 # save the new data frame to a new .csv file in 0.data -download module
@@ -148,7 +166,14 @@ df_save_destination = pathlib.Path("../0.data-download/data/sample_info_age_colu
 df_age_visual.to_csv(df_save_destination, index = False)
 
 
-# In[10]:
+# In[12]:
+
+
+print(df_age_visual.shape)
+df_age_visual.head()
+
+
+# In[13]:
 
 
 age_categories_bar = (
@@ -160,7 +185,7 @@ acb_output = pathlib.Path("./figures/age_categories_bar_chart.png")
 age_categories_bar.save(acb_output)
 
 
-# In[11]:
+# In[14]:
 
 
 age_distribution_plot = (
@@ -173,13 +198,13 @@ sad_output = pathlib.Path("./figures/sample_age_distribution_plot.png")
 age_distribution_plot.save(sad_output)
 
 
-# In[12]:
+# In[15]:
 
 
 pd.DataFrame(age_categories).loc[:, 0].value_counts()
 
 
-# In[13]:
+# In[16]:
 
 
 gendersamp = df_sample_info
