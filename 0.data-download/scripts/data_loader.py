@@ -20,7 +20,7 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     dep_ids = dependency_df["DepMap_ID"].tolist()
     dep_vs_samp_ids = set(dep_ids) & set(sample_df["DepMap_ID"].tolist())
 
-    # searching for similar IDs FROM s ample df In dependency df
+    # searching for similar IDs FROM sample df In dependency df
     samp_ids = sample_df["DepMap_ID"].tolist()
     samp_vs_dep_ids = set(samp_ids) & set(sample_df["DepMap_ID"].tolist())
     
