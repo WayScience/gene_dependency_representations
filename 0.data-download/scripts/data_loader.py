@@ -24,7 +24,7 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     samp_ids = sample_df["DepMap_ID"].tolist()
     samp_vs_dep_ids = set(samp_ids) & set(sample_df["DepMap_ID"].tolist())
     
-    # extract matching IDs
+    # subset data to only matching IDs (samples in both dependency and sample data)
     sample_df = sample_df.loc[sample_df["DepMap_ID"].isin(dep_vs_samp_ids)]
     dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(samp_vs_dep_ids)]
     
