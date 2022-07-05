@@ -29,12 +29,9 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(samp_vs_dep_ids)]
     
 
-    if adult_or_pediatric == "all":
-       dependency_df = dependency_df
-       samples_to_keep = sample_df.reset_index(drop=True).DepMap_ID.tolist()
-       sample_df = sample_df.query("DepMap_ID == @samples_to_keep").reset_index(drop=True)
-    elif adult_or_pediatric != "all":
+    if adult_or_pediatric != "all":
        sample_df = sample_df.query("age_categories == @adult_or_pediatric").reset_index(drop=True)
        samples_to_keep = sample_df.reset_index(drop=True).DepMap_ID.tolist()  
        dependency_df = dependency_df.query("DepMap_ID == @samples_to_keep").reset_index(drop=True)
+    
     return sample_df, dependency_df
