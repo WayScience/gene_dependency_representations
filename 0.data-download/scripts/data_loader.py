@@ -10,11 +10,14 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     # Define data paths
     sample_info_file = pathlib.Path(data_directory, "age_visual_sample_info.csv")
     dependency_data_file = pathlib.Path(data_directory, "CRISPR_gene_dependency.csv")
+    training_data_file = pathlib.Path(data_directory, "VAE_train_df.csv")
+    testing_data_file = pathlib.Path(data_directory, "VAE_test_df.csv")
         
     # Load data
-    dependency_df = pd.read_csv(dependency_data_file, index_col=0).reset_index()
+    dependency_df = pd.read_csv(dependency_data_file, index_col=0).reset_index().dropna(1)
     sample_df = pd.read_csv(sample_info_file, index_col=0)
     sample_df = sample_df.set_index("DepMap_ID").reset_index()
+    
 
     # searching for similar IDs FROM dependency df IN sample df
     dep_ids = dependency_df["DepMap_ID"].tolist()
@@ -28,10 +31,20 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     sample_df = sample_df.loc[sample_df["DepMap_ID"].isin(dep_vs_samp_ids)].reset_index(drop=True)
     dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(samp_vs_dep_ids)]
     
+    if adult_or_pediatric == "test":
+      testing_df = pd.read_csv(testing_data_file, index_col=0
+                               ).reset_index(drop=True)
+      return testing_df
+    
+    if adult_or_pediatric == "train":
+      training_df = pd.read_csv(training_data_file, index_col=0
+                                 ).reset_index(drop=True)
+      return training_df
 
     if adult_or_pediatric != "all":
        sample_df = sample_df.query("age_categories == @adult_or_pediatric").reset_index(drop=True)
        samples_to_keep = sample_df.reset_index(drop=True).DepMap_ID.tolist()  
        dependency_df = dependency_df.query("DepMap_ID == @samples_to_keep").reset_index(drop=True)
+       
     
     return sample_df, dependency_df

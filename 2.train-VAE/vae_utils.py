@@ -1,3 +1,5 @@
+# THIS CODE WAS COPIED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/vae_utils.py
+
 from tensorflow.keras.layers import Lambda, Input, Dense, Dropout
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras import backend as K

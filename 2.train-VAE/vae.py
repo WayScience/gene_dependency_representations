@@ -1,3 +1,5 @@
+# THIS CODE WAS COPIED FROM THE FOLLWOING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/vae.py
+
 from tensorflow.keras import optimizers
 from tensorflow.keras.layers import Lambda, Input, Dense, Activation, BatchNormalization
 from tensorflow.keras.models import Model, Sequential
