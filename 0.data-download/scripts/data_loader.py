@@ -18,6 +18,13 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     sample_df = pd.read_csv(sample_info_file, index_col=0)
     sample_df = sample_df.set_index("DepMap_ID").reset_index()
     
+    # rearrange sample info index so DepMap_IDs are in alphabetical order
+    sample_df_sort = sample_df.set_index("DepMap_ID")
+    sample_df_sort = sample_df_sort.sort_index(ascending=True)
+    sample_df = sample_df_sort.reset_index()
+    sample_df = sample_df.set_index("DepMap_ID")
+    sample_df = sample_df.sort_index(ascending=True)
+    sample_df = sample_df.reset_index()
 
     # searching for similar IDs FROM dependency df IN sample df
     dep_ids = dependency_df["DepMap_ID"].tolist()
@@ -32,14 +39,14 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(samp_vs_dep_ids)]
     
     if adult_or_pediatric == "test":
-      testing_df = pd.read_csv(testing_data_file, index_col=0
+      test_df = pd.read_csv(testing_data_file, index_col=0
                                ).reset_index(drop=True)
-      return testing_df
+      return test_df
     
     if adult_or_pediatric == "train":
-      training_df = pd.read_csv(training_data_file, index_col=0
+      train_df = pd.read_csv(training_data_file, index_col=0
                                  ).reset_index(drop=True)
-      return training_df
+      return train_df
 
     if adult_or_pediatric != "all":
        sample_df = sample_df.query("age_categories == @adult_or_pediatric").reset_index(drop=True)
