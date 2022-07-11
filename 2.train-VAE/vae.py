@@ -1,4 +1,4 @@
-# THIS CODE WAS COPIED FROM THE FOLLWOING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/vae.py
+# THIS CODE WAS COPIED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/vae.py
 
 from tensorflow.keras import optimizers
 from tensorflow.keras.layers import Lambda, Input, Dense, Activation, BatchNormalization
@@ -148,3 +148,4 @@ class VAE:
             validation_data=(x_test, None),
             verbose=self.verbose,
         )
+        

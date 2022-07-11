@@ -18,13 +18,14 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     sample_df = pd.read_csv(sample_info_file, index_col=0)
     sample_df = sample_df.set_index("DepMap_ID").reset_index()
     
-    # rearrange sample info index so DepMap_IDs are in alphabetical order
+    # rearrange sample info and gene dependency dataframe indices so DepMap_IDs are in alphabetical order
     sample_df_sort = sample_df.set_index("DepMap_ID")
     sample_df_sort = sample_df_sort.sort_index(ascending=True)
     sample_df = sample_df_sort.reset_index()
-    sample_df = sample_df.set_index("DepMap_ID")
-    sample_df = sample_df.sort_index(ascending=True)
-    sample_df = sample_df.reset_index()
+    
+    dependency_df_sort = dependency_df.set_index("DepMap_ID")
+    dependency_df_sort = dependency_df_sort.sort_index(ascending=True)
+    dependency_df = dependency_df_sort.reset_index()
 
     # searching for similar IDs FROM dependency df IN sample df
     dep_ids = dependency_df["DepMap_ID"].tolist()
