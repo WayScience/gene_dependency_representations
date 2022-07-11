@@ -59,13 +59,11 @@ def load_train_test_data(data_directory, train_or_test = "all"):
     test_df = pd.read_csv(testing_data_file)
       
     if train_or_test == "test":
-      test_df = pd.read_csv(testing_data_file,
-                               )
+
       return test_df
     
     if train_or_test == "train":
-      train_df = pd.read_csv(training_data_file
-                                 )
+
       return train_df
 
     return train_df, test_df
