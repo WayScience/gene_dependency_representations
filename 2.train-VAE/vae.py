@@ -148,7 +148,3 @@ class VAE:
             validation_data=(x_test, None),
             verbose=self.verbose,
         )
-<<<<<<< HEAD
-        
-=======
->>>>>>> cd1a69dbbd0706dce804dd3366429fc995fc4562
