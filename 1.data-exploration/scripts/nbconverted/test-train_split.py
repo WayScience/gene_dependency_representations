@@ -55,7 +55,6 @@ for name, df in groups:
         
 # merge sample dataframes through concatentation and reorganize so that DepMap_IDs are in alphabetical order
 new_df = pd.concat(df_list, axis=0)
-new_df.reset_index(drop=True)
 new_df = new_df.set_index("DepMap_ID")
 new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()

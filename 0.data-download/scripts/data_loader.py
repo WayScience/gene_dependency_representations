@@ -1,6 +1,8 @@
+from cgi import test
 from copy import deepcopy
 import pathlib
 from random import sample
+from matplotlib import testing
 import pandas as pd
 import numpy 
 from numpy import ndarray
@@ -10,9 +12,7 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     # Define data paths
     sample_info_file = pathlib.Path(data_directory, "age_visual_sample_info.csv")
     dependency_data_file = pathlib.Path(data_directory, "CRISPR_gene_dependency.csv")
-    training_data_file = pathlib.Path(data_directory, "VAE_train_df.csv")
-    testing_data_file = pathlib.Path(data_directory, "VAE_test_df.csv")
-        
+
     # Load data
     dependency_df = pd.read_csv(dependency_data_file, index_col=0).reset_index().dropna(1)
     sample_df = pd.read_csv(sample_info_file, index_col=0)
@@ -39,16 +39,6 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     sample_df = sample_df.loc[sample_df["DepMap_ID"].isin(dep_vs_samp_ids)].reset_index(drop=True)
     dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(samp_vs_dep_ids)]
     
-    if adult_or_pediatric == "test":
-      test_df = pd.read_csv(testing_data_file, index_col=0
-                               ).reset_index(drop=True)
-      return test_df
-    
-    if adult_or_pediatric == "train":
-      train_df = pd.read_csv(training_data_file, index_col=0
-                                 ).reset_index(drop=True)
-      return train_df
-
     if adult_or_pediatric != "all":
        sample_df = sample_df.query("age_categories == @adult_or_pediatric").reset_index(drop=True)
        samples_to_keep = sample_df.reset_index(drop=True).DepMap_ID.tolist()  
@@ -56,3 +46,26 @@ def load_data(data_directory, adult_or_pediatric = "all"):
        
     
     return sample_df, dependency_df
+
+
+
+def load_train_test_data(data_directory, train_or_test = "all"):
+  # define directory paths
+    training_data_file = pathlib.Path(data_directory, "VAE_train_df.csv")
+    testing_data_file = pathlib.Path(data_directory, "VAE_test_df.csv")
+    
+    
+    train_df = pd.read_csv(training_data_file)
+    test_df = pd.read_csv(testing_data_file)
+      
+    if train_or_test == "test":
+      test_df = pd.read_csv(testing_data_file,
+                               )
+      return test_df
+    
+    if train_or_test == "train":
+      train_df = pd.read_csv(training_data_file
+                                 )
+      return train_df
+
+    return train_df, test_df
