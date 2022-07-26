@@ -114,3 +114,4 @@ def connect_decoder(input_dim, latent_dim, architecture=[]):
     nodes["outputs"] = Dense(input_dim, activation='linear')(nodes[idx])
 
     nodes["decoder"] = Model(nodes["inputs"], nodes["outputs"])
+    return nodes
