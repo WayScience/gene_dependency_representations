@@ -74,7 +74,7 @@ data = [{
          } for idx in range(len(vis_datas[0]))] 
 
 
-# In[8]:
+# In[6]:
 
 
 cleaned_data = []
@@ -85,7 +85,7 @@ for q in range(len(data)):
         cleaned_data.append(data[q])
 
 
-# In[9]:
+# In[7]:
 
 
 # display HiPlot
