@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 
 import os
 import json
 
 
-# In[8]:
+# In[2]:
 
 
 vis_datas = []
@@ -29,17 +29,8 @@ for layer in layers:
     vis_datas.append(vis_data)
 
 
-# In[9]:
+# In[3]:
 
-
-if vis_datas[0][0]['metrics']['metrics']['val_loss']['observations'][0]['value'] == ['nan']:
-    print(vis_datas)
-
-
-# In[10]:
-
-
-# optimal_hyperparameters = [vis_datas[0][0],vis_datas[1][0],vis_datas[2][0],vis_datas[3][0]]
 
 optimal_hyperparameters = [vis_datas[0][0]]
 
@@ -50,8 +41,7 @@ for i in range(len(vis_datas)):
             optimal_hyperparameters[i] = vis_datas[i][j]
 
 
-
-# In[11]:
+# In[4]:
 
 
 for layer in optimal_hyperparameters:
@@ -66,20 +56,40 @@ for layer in optimal_hyperparameters:
     print()
 
 
-# In[12]:
+# In[5]:
 
 
 # vis_data = vis_data[1:]
 
 import hiplot as hip
-data = [{'latent_dim': vis_data[idx]['hyperparameters']['values']['latent_dim'],
+data = [{
+         'latent_dim': vis_data[idx]['hyperparameters']['values']['latent_dim'],
          'learning_rate': vis_data[idx]['hyperparameters']['values']['learning_rate'], 
          'beta': vis_data[idx]['hyperparameters']['values']['beta'], 
          'encoder_batch_norm': vis_data[idx]['hyperparameters']['values']['encoder_batch_norm'], 
          'batch_size': vis_data[idx]['hyperparameters']['values']['batch_size'],
          'epochs': vis_data[idx]['hyperparameters']['values']['epochs'], 
-         'loss': vis_data[idx]['metrics']['metrics']['loss']['observations'][0]['value'],  
-         'val_loss': vis_data[idx]['metrics']['metrics']['val_loss']['observations'][0]['value'], } for idx in range(len(vis_datas[0]))]
+         'loss': vis_data[idx]['metrics']['metrics']['loss']['observations'][0]['value'][0],  
+         'val_loss': vis_data[idx]['metrics']['metrics']['val_loss']['observations'][0]['value'][0], 
+         } for idx in range(len(vis_datas[0]))] 
 
-hip.Experiment.from_iterable(data).display()
+
+# In[8]:
+
+
+cleaned_data = []
+for q in range(len(data)):
+    val_loss = data[q]['val_loss']
+    loss = data[q]['loss']
+    if val_loss < 300 and loss < 300:
+        cleaned_data.append(data[q])
+
+
+# In[9]:
+
+
+# display HiPlot
+hip.Experiment.from_iterable(cleaned_data).display()
+# save as html
+hip.Experiment.from_iterable(cleaned_data).to_html("./results/parameter_sweep_plot.html");
 
