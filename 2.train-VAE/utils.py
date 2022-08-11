@@ -60,4 +60,3 @@ def infer_L1000_features(population_df, metadata=False):
     ]
     
     return features
-    

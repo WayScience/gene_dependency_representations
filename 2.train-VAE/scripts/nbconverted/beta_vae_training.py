@@ -142,7 +142,7 @@ plt.figure(figsize=(6, 5), dpi = 500)
 plt.plot(history_df["loss"], label="Training data")
 plt.plot(history_df["val_loss"], label="Validation data")
 plt.ylabel("MSE + KL Divergence")
-plt.xlabel("No. Epoch")
+plt.xlabel("Epoch")
 plt.legend()
 plt.savefig(save_path)
 plt.show()
@@ -186,9 +186,9 @@ concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["age_category", "sex"]] = train_and_test.age_and_sex.str.split(pat='_',expand=True)
 train_and_test_subbed = train_and_test.filter(gene_list, axis = 1)
-asdf = []
-asdf = pd.DataFrame(asdf)
-metadata = asdf.assign(
+metadata_holder = []
+metadata_holder = pd.DataFrame(metadata_holder)
+metadata = metadata_holder.assign(
     DepMap_ID = train_and_test.DepMap_ID.astype(str), 
     age_category = train_and_test.age_category.astype(str), 
     sex = train_and_test.sex.astype(str), 
@@ -200,8 +200,13 @@ metadata
 # In[19]:
 
 
+from cv2 import DFT_COMPLEX_INPUT
+
+
 latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
 latent_df = pd.DataFrame(latent_complete)
+latent_df_dir = pathlib.Path('./results/latent_df.csv')
+latent_df.to_csv(latent_df_dir)
 
 
 # In[20]:
@@ -262,5 +267,5 @@ plt.gca().add_artist(legend4)
 
 # save the figure
 heat_save_path = pathlib.Path('../1.data-exploration/figures/heatmap.png')
-g.figure.savefig(heat_save_path, dpi=600)
+plt.savefig(heat_save_path, bbox_inches = 'tight', dpi=600)
 

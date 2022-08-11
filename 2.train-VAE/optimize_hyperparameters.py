@@ -45,14 +45,6 @@ gene_list
 train_df = train_feat.filter(gene_list, axis = 1)
 test_df = test_feat.filter(gene_list, axis = 1)
 
-# scvale the data
-def absolute_maximum_scale(series):
-    return series / series.abs().max()
-for col in train_df.columns:
-    train_df[col] = absolute_maximum_scale(train_df[col])
-for col in test_df.columns:
-    test_df[col] = absolute_maximum_scale(test_df[col])
-    
     
 # Initialize hyper parameter VAE tuning
 hypermodel = HyperVAE(
