@@ -6,7 +6,8 @@ from kerastuner import HyperModel
 from kerastuner.tuners import BayesianOptimization
 import sys
 from vae import VAE
-
+import random
+random.seed(18)
 
 class HyperVAE(HyperModel):
     def __init__(
