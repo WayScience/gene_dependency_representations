@@ -12,7 +12,7 @@ import json
 
 
 vis_datas = []
-layers = ["asdf1"]
+layers = ["parameter_sweep_with_seed"]
 # layers = ['threelayer']
 for layer in layers:
     vis_data = []
@@ -81,7 +81,7 @@ cleaned_data = []
 for q in range(len(data)):
     val_loss = data[q]['val_loss']
     loss = data[q]['loss']
-    if val_loss < 300 and loss < 300:
+    if val_loss < 1000 and loss < 1000:
         cleaned_data.append(data[q])
 
 
