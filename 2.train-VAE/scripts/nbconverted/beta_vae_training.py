@@ -100,14 +100,14 @@ decoder_architecture = []
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb"
 cp_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=10,
-    batch_size=16,
-    encoder_batch_norm=False,
-    epochs=40,
-    learning_rate=0.005,
+    latent_dim=5,
+    batch_size=128,
+    encoder_batch_norm=True,
+    epochs=50,
+    learning_rate=0.05,
     encoder_architecture=encoder_architecture,
     decoder_architecture=decoder_architecture,
-    beta=1.6,
+    beta=1.0,
     lam=0,
     verbose=True,
 )
@@ -200,9 +200,6 @@ metadata
 # In[19]:
 
 
-from cv2 import DFT_COMPLEX_INPUT
-
-
 latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
 latent_df = pd.DataFrame(latent_complete)
 latent_df_dir = pathlib.Path('./results/latent_df.csv')
@@ -266,6 +263,6 @@ plt.gca().add_artist(legend4)
 
 
 # save the figure
-heat_save_path = pathlib.Path('../1.data-exploration/figures/heatmap.png')
+heat_save_path = pathlib.Path('../1.data-exploration/figures/heatmap_from_seed.png')
 plt.savefig(heat_save_path, bbox_inches = 'tight', dpi=600)
 

@@ -15,6 +15,9 @@ from optimize_utils import HyperVAE, CustomBayesianTunerCellPainting, CustomBaye
 sys.path.insert(0, "../0.data-download/scripts/")
 from data_loader import load_train_test_data
 
+import random
+random.seed(18)
+
 # Load command line arguments
 args = get_optimize_args()
 
