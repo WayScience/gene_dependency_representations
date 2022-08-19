@@ -100,7 +100,7 @@ decoder_architecture = []
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb"
 cp_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=5,
+    latent_dim=10,
     batch_size=128,
     encoder_batch_norm=True,
     epochs=50,
@@ -141,6 +141,7 @@ save_path = pathlib.Path('../1.data-exploration/figures/training_curve.png')
 plt.figure(figsize=(6, 5), dpi = 500)
 plt.plot(history_df["loss"], label="Training data")
 plt.plot(history_df["val_loss"], label="Validation data")
+plt.yscale("log")
 plt.ylabel("MSE + KL Divergence")
 plt.xlabel("Epoch")
 plt.legend()
@@ -209,12 +210,18 @@ latent_df.to_csv(latent_df_dir)
 # In[20]:
 
 
+latent_df
+
+
+# In[21]:
+
+
 age_category = metadata.pop("age_category")
 sex = metadata.pop("sex")
 train_test = metadata.pop("train_or_test")
 
 
-# In[21]:
+# In[23]:
 
 
 # display clustered heatmap of coefficients
@@ -232,8 +239,10 @@ row_colors3 = train_test.map(mut)
 
 network_node_colors = pd.DataFrame(row_colors1).join(pd.DataFrame(row_colors2).join(pd.DataFrame(row_colors3)))
 
-sns.set(font_scale=1.4)
-g = sns.clustermap(latent_df, method='ward', figsize=(10, 20), row_colors= network_node_colors, yticklabels=False, dendrogram_ratio=(.1,.04), cbar_pos=(1,.2, 0.02, .6))
+sns.set(font_scale=4.0)
+g = sns.clustermap(latent_df, method='ward', figsize=(10, 20), row_colors= network_node_colors, yticklabels=False, dendrogram_ratio=(.1,.04), cbar_pos=(1,.3, 0.02, .6))
+g.ax_row_dendrogram.set_visible(False)
+g.ax_col_dendrogram.set_visible(False)
 
 
 xx = []
@@ -241,7 +250,7 @@ for label in age_category.unique():
     x = g.ax_row_dendrogram.bar(0, 0, color=lut[label], label=label, linewidth=0)
     xx.append(x)
 # add the legend
-legend3 = plt.legend(xx, age_category.unique(), loc="center", title='age category', ncol=2, bbox_to_anchor=(1.3, .55), bbox_transform=gcf().transFigure)
+legend3 = plt.legend(xx, age_category.unique(), loc="center", title='age category', ncol=2, bbox_to_anchor=(1.8, .91), bbox_transform=gcf().transFigure)
 
 
 yy = []
@@ -249,7 +258,7 @@ for label in sex.unique():
     y = g.ax_row_dendrogram.bar(0, 0, color=put[label], label=label, linewidth=0)
     yy.append(y)  
 # add the second legend
-legend4 = plt.legend(yy, sex.unique(), loc="center", title='sex', ncol=3, bbox_to_anchor=(1.3, .5), bbox_transform=gcf().transFigure)
+legend4 = plt.legend(yy, sex.unique(), loc="center", title='sex', ncol=3, bbox_to_anchor=(1.8, .8), bbox_transform=gcf().transFigure)
 plt.gca().add_artist(legend3)
 
 
@@ -258,11 +267,11 @@ for label in train_test.unique():
     z = g.ax_row_dendrogram.bar(0, 0, color=mut[label], label=label, linewidth=0)
     zz.append(z)
 # add the third legend
-legend5 = plt.legend(zz, train_test.unique(), loc="center", title='train or test', ncol=2, bbox_to_anchor=(1.3, .45), bbox_transform=gcf().transFigure)
+legend5 = plt.legend(zz, train_test.unique(), loc="center", title='train or test', ncol=2, bbox_to_anchor=(1.8, .69), bbox_transform=gcf().transFigure)
 plt.gca().add_artist(legend4)
 
 
 # save the figure
-heat_save_path = pathlib.Path('../1.data-exploration/figures/heatmap_from_seed.png')
+heat_save_path = pathlib.Path('../1.data-exploration/figures/heatmap.png')
 plt.savefig(heat_save_path, bbox_inches = 'tight', dpi=600)
 

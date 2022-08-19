@@ -47,7 +47,7 @@ class HyperVAE(HyperModel):
         model = VAE(
             input_dim=self.input_dim,
             latent_dim=hp.Int(
-                "latent_dim", self.min_latent_dim, self.max_latent_dim, step=5
+                "latent_dim", self.min_latent_dim, self.max_latent_dim, step=1
             ),
             epochs=self.epochs,
             batch_size=self.batch_size,             #self.batch_size,
