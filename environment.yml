@@ -1,9 +1,0 @@
-name: gene_dependency_representations
-channels:
-- conda-forge
-dependencies:
-- conda-forge::jupyterlab	=	3.4.3
-- conda-forge::python	=	3.9.13
-- conda-forge::urllib3	=	1.26.9
-- conda-forge::seaborn = 0.11.2
-- conda-forge::plotnine = 0.8.0
