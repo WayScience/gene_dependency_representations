@@ -10,22 +10,22 @@ from numpy import ndarray
 def load_data(data_directory, adult_or_pediatric = "all"):
 
     # Define data paths
-    sample_info_file = pathlib.Path(data_directory, "age_visual_sample_info.csv")
+    data_directory = "../0.data-download/data/"
+    sample_info_file = pathlib.Path(data_directory, "sample_info_age_column_cleaned.csv")
     dependency_data_file = pathlib.Path(data_directory, "CRISPR_gene_dependency.csv")
 
     # Load data
     dependency_df = pd.read_csv(dependency_data_file, index_col=0).reset_index().dropna(1)
     sample_df = pd.read_csv(sample_info_file, index_col=0)
-    sample_df = sample_df.set_index("DepMap_ID").reset_index()
+
     
     # rearrange sample info and gene dependency dataframe indices so DepMap_IDs are in alphabetical order
-    sample_df_sort = sample_df.set_index("DepMap_ID")
-    sample_df_sort = sample_df_sort.sort_index(ascending=True)
-    sample_df = sample_df_sort.reset_index()
+    sample_df = sample_df.sort_index(ascending=True)
+    sample_df = sample_df.reset_index()
     
-    dependency_df_sort = dependency_df.set_index("DepMap_ID")
-    dependency_df_sort = dependency_df_sort.sort_index(ascending=True)
-    dependency_df = dependency_df_sort.reset_index()
+    dependency_df = dependency_df.set_index("DepMap_ID")
+    dependency_df = dependency_df.sort_index(ascending=True)
+    dependency_df = dependency_df.reset_index()
 
     # searching for similar IDs FROM dependency df IN sample df
     dep_ids = dependency_df["DepMap_ID"].tolist()
@@ -43,9 +43,10 @@ def load_data(data_directory, adult_or_pediatric = "all"):
        sample_df = sample_df.query("age_categories == @adult_or_pediatric").reset_index(drop=True)
        samples_to_keep = sample_df.reset_index(drop=True).DepMap_ID.tolist()  
        dependency_df = dependency_df.query("DepMap_ID == @samples_to_keep").reset_index(drop=True)
-       
     
     return sample_df, dependency_df
+    
+    sample_df = sample_df.set_index("DepMap_ID").reset_index()
 
 
 
@@ -53,11 +54,11 @@ def load_train_test_data(data_directory, train_or_test = "all"):
     # define directory paths
     training_data_file = pathlib.Path(data_directory, "VAE_train_df.csv")
     testing_data_file = pathlib.Path(data_directory, "VAE_test_df.csv")
-    gene_statistics_file = pathlib.Path(data_directory, "genes_variances_and_t-tests_df.csv")
+    
     
     train_df = pd.read_csv(training_data_file)
     test_df = pd.read_csv(testing_data_file)
-    gene_stats = pd.read_csv(gene_statistics_file)
+    
       
     if train_or_test == "test":
 
@@ -67,4 +68,4 @@ def load_train_test_data(data_directory, train_or_test = "all"):
 
       return train_df
 
-    return train_df, test_df, gene_stats
+    return train_df, test_df
