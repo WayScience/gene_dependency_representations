@@ -9,7 +9,7 @@ https://depmap.org/portal/download/all/
 
 ## Files used in our multivariate gene dependency project
 
-### CRISPR_gene_dependency.csv ###
+### CRISPR_gene_dependency.csv
 
 This data comprises scores from individual CRISPR gene knockout screens in cancer cell lines for every gene across many different ages and cancer types. The values represent gene dependency probability estimates for cell survival and growth for all models in the integrated gene effect. The higher the score, the greater the gene dependency. 
 
