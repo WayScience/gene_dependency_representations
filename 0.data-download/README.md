@@ -1,4 +1,4 @@
-### Description of the Data ###
+# Description of the Data
 
 ## DepMap Public 22Q4
 
