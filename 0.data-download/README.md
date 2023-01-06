@@ -1,6 +1,6 @@
 ### Description of the Data ###
 
-# DepMap Public 22Q4
+## DepMap Public 22Q4
 
 This DepMap release contains data from in vitro studies of genetic dependencies in cancer cell lines using CRISPR/Cas9 loss-of-function screens from project Achilles, as well as genomic characterization data from the CCLE project.
 
