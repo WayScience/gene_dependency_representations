@@ -7,9 +7,6 @@ This DepMap release contains data from in vitro studies of genetic dependencies 
 Data resource:
 https://depmap.org/portal/download/all/
 
-
-
-
 ### Files used in the WayScience Project ###
 
 ### CRISPR_gene_dependency.csv ###
