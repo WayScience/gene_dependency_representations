@@ -54,11 +54,11 @@ def load_train_test_data(data_directory, train_or_test = "all"):
     # define directory paths
     training_data_file = pathlib.Path(data_directory, "VAE_train_df.csv")
     testing_data_file = pathlib.Path(data_directory, "VAE_test_df.csv")
-    
+    gene_statistics_file = pathlib.Path(data_directory, "genes_variances_and_t-tests_df.csv")    
     
     train_df = pd.read_csv(training_data_file)
     test_df = pd.read_csv(testing_data_file)
-    
+    gene_stats = pd.read_csv(gene_statistics_file)   
       
     if train_or_test == "test":
 
@@ -68,4 +68,4 @@ def load_train_test_data(data_directory, train_or_test = "all"):
 
       return train_df
 
-    return train_df, test_df
+    return train_df, test_df, gene_stats
