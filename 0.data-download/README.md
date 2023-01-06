@@ -15,7 +15,7 @@ This data comprises scores from individual CRISPR gene knockout screens in cance
 The values represent gene dependency probability estimates for cell survival and growth for all models in the integrated gene effect.
 The higher the score, the greater the gene dependency. 
 
-This information is derived from the CRISPRGeneEffect estimates for all models which were introduced to an algorithm, Chronos, to infer gene knockout fitness effects based on an explicit model of cell proliferation dynamics after CRISPR gene knockout.
+The probability estimate is derived from the CRISPRGeneEffect estimates for all models which were introduced to an algorithm, Chronos, to infer gene knockout fitness effects based on an explicit model of cell proliferation dynamics after CRISPR gene knockout.
 
 Columns: gene
 Rows: the ModelID
