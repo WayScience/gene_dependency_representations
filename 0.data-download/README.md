@@ -20,7 +20,6 @@ This information is derived from the CRISPRGeneEffect estimates for all models w
 Columns: gene
 Rows: the ModelID
 
-
 ### sample_info.csv ###
 
 This file gives detailed information on the cell lines, type of cancer, sex, and age of the patient.
