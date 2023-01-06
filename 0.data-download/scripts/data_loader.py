@@ -23,9 +23,12 @@ def load_data(data_directory, adult_or_pediatric = "all"):
     sample_df = sample_df.sort_index(ascending=True)
     sample_df = sample_df.reset_index()
     
-    dependency_df = dependency_df.set_index("DepMap_ID")
-    dependency_df = dependency_df.sort_index(ascending=True)
-    dependency_df = dependency_df.reset_index()
+    dependency_df = (
+        dependency_df
+        .set_index("DepMap_ID")
+        .sort_index(ascending=True)
+        .reset_index()
+    )
 
     # searching for similar IDs FROM dependency df IN sample df
     dep_ids = dependency_df["DepMap_ID"].tolist()
