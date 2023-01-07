@@ -1,4 +1,4 @@
-name: GDR_environment
+name: gene_dependency_representations
 channels:
   - conda-forge
   - anaconda
