@@ -13,9 +13,9 @@ def load_data(data_directory, adult_or_pediatric="all"):
     # Define data paths
     data_directory = "../0.data-download/data/"
     sample_info_file = pathlib.Path(
-        data_directory, "sample_info_age_column_cleaned.csv"
+        data_directory, "Model_age_column_cleaned.csv"
     )
-    dependency_data_file = pathlib.Path(data_directory, "CRISPR_gene_dependency.csv")
+    dependency_data_file = pathlib.Path(data_directory, "CRISPRGeneDependency.csv")
 
     # Load data
     dependency_df = (

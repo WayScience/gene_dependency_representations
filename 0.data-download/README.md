@@ -17,9 +17,9 @@ The higher the score, the greater the gene dependency.
 
 The probability estimate is derived from the CRISPRGeneEffect estimates for all models which were introduced to an algorithm, Chronos, to infer gene knockout fitness effects based on an explicit model of cell proliferation dynamics after CRISPR gene knockout.
 
-Columns (18,333): gene
+Columns (17,387): gene
 
-Rows (1,087): the ModelID
+Rows (1,086): the ModelID
 
 ### Model.csv
 
@@ -27,4 +27,4 @@ This file gives details on the cell lines, type of cancer, sex, age, and unique 
 
 Columns (29): description of cancer, and patient's biological and ID information
 
-Rows (1,841): the ModelID
+Rows (1,840): the ModelID
