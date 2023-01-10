@@ -1,9 +1,17 @@
 name: gene_dependency_representations
 channels:
-- conda-forge
+  - conda-forge
+  - anaconda
 dependencies:
-- conda-forge::jupyterlab	=	3.4.3
-- conda-forge::python	=	3.9.13
-- conda-forge::urllib3	=	1.26.9
-- conda-forge::seaborn = 0.11.2
-- conda-forge::plotnine = 0.8.0
+  - jupyterlab=>3.4.4
+  - python=>3.10
+  - urllib3=>1.26.9
+  - seaborn=>0.11.2
+  - plotnine=>0.8.0
+  - ipykernel=>6.19.2
+  - scikit-learn=>1.2.0
+  - NumPy=>1.23.0
+  - pathlib=>1.0.1
+  - pandas=>1.5.2
+  - matplotlib=>3.6.0
+  - keras-tuner=>1.1.3

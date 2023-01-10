@@ -5,9 +5,9 @@
 # 
 # Source: [Cancer Dependency Map resource](https://depmap.org/portal/download/).
 # 
-# - `CRISPR_gene_dependency.csv`: The data in this document describes the probability that a gene knockdown has an effect on cell-inhibition or death. These probabilities are derived from the data contained in CRISPR_gene_effect.csv using methods described [here](https://doi.org/10.1101/720243)
-# - `sample_info.csv`: Metadata for all of DepMap’s cancer models/cell lines.
-# - `CRISPR_gene_effect.csv`: The data in this document are the Gene Effect Scores obtained from CRISPR knockout screens conducted by the Broad Institute. Negative scores notate that cell growth inhibition and/or death occurred following a gene knockout. Information on how these Gene Effect Scores were determined can be found [here](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02540-7)
+# - `CRISPRGeneDependency.csv`: The data in this document describes the probability that a gene knockdown has an effect on cell-inhibition or death. These probabilities are derived from the data contained in CRISPRGeneEffect.csv using methods described [here](https://doi.org/10.1101/720243)
+# - `Model.csv`: Metadata for all of DepMap’s cancer models/cell lines.
+# - `CRISPRGeneEffect.csv`: The data in this document are the Gene Effect Scores obtained from CRISPR knockout screens conducted by the Broad Institute. Negative scores notate that cell growth inhibition and/or death occurred following a gene knockout. Information on how these Gene Effect Scores were determined can be found [here](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02540-7)
 
 # In[1]:
 
@@ -34,9 +34,8 @@ output_dir = pathlib.Path("data")
 figshare_url = "https://ndownloader.figshare.com/files/"
 
 download_dict = {
-    "34990033": "CRISPR_gene_dependency.csv",
-    "35020903": "sample_info.csv",
-    "34990036": "CRISPR_gene_effect"
+    "34990033": "CRISPRGeneDependency.csv",
+    "35020903": "Model.csv"
 }
 
 
