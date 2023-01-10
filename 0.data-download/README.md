@@ -16,7 +16,7 @@ The values represent gene dependency probability estimates for cell survival and
 The higher the score, the greater the gene dependency. 
 
 The probability estimate is derived from the CRISPRGeneEffect estimates for all models which were introduced to an algorithm, Chronos, to infer gene knockout fitness effects based on an explicit model of cell proliferation dynamics after CRISPR gene knockout.
-
+See the following resource for more information: https://forum.depmap.org/t/depmap-genetic-dependencies-faq/131
 Columns (17,387): gene
 
 Rows (1,086): the ModelID
