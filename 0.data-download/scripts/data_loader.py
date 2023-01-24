@@ -57,7 +57,7 @@ def load_data(data_directory, adult_or_pediatric="all"):
     return model_df, dependency_df
     
 
-def load_train_test_data(data_directory, trainf="VAE_train_df.csv", testf="VAE_test_df.csv", train_or_test="all", stats=False):
+def load_train_test_data(data_directory, train_file="VAE_train_df.csv", test_file="VAE_test_df.csv", train_or_test="all", load_gene_stats=False):
     
     # define directory paths
     training_data_file = pathlib.Path(data_directory, trainf)
