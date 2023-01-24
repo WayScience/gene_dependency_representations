@@ -8,22 +8,18 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
-sys.path.insert(0, ".././0.data-download/scripts/")
-from data_loader import load_train_test_data, load_data
-
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import figure, gcf
-
-from sklearn.decomposition import PCA
-from tensorflow import keras
-
-from vae import VAE
-
-from keras.models import Model, Sequential
 import random as python_random
 import tensorflow as tf
 import seaborn as sns;sns.set_theme(color_codes=True)
 import random
+sys.path.insert(0, ".././0.data-download/scripts/")
+from data_loader import load_train_test_data, load_data
+from matplotlib.pyplot import figure, gcf
+from sklearn.decomposition import PCA
+from tensorflow import keras
+from vae import VAE
+from keras.models import Model, Sequential
 
 
 # In[2]:
@@ -45,7 +41,7 @@ print(random.random())
 
 # load the data
 data_directory = pathlib.Path("../0.data-download/data")
-dfs = load_train_test_data(data_directory, train_or_test = "all")
+dfs = load_train_test_data(data_directory, train_or_test = "all", stats=True)
 train_init = dfs[0]
 test_init = dfs[1]
 gene_stats = dfs[2]
@@ -97,35 +93,35 @@ decoder_architecture = []
 # In[10]:
 
 
-# These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb"
-cp_vae = VAE(
+# These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE. 
+trained_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=10,
-    batch_size=128,
+    latent_dim=100,
+    batch_size=112,
     encoder_batch_norm=True,
-    epochs=50,
-    learning_rate=0.05,
+    epochs=905,
+    learning_rate=0.005,
     encoder_architecture=encoder_architecture,
     decoder_architecture=decoder_architecture,
-    beta=1.0,
+    beta=10,
     lam=0,
     verbose=True,
 )
 
-cp_vae.compile_vae()
+trained_vae.compile_vae()
 
 
 # In[11]:
 
 
-cp_vae.train(x_train = subset_train_df, x_test = subset_test_df)
+trained_vae.train(x_train = subset_train_df, x_test = subset_test_df)
 
 
 # In[12]:
 
 
 # display training history
-history_df = pd.DataFrame(cp_vae.vae.history.history)
+history_df = pd.DataFrame(trained_vae.vae.history.history)
 
 # save the training history as a .csv
 hist_dir = pathlib.Path("./results/beta_vae_training_history.csv")
@@ -149,21 +145,21 @@ plt.savefig(save_path)
 plt.show()
 
 
-# In[14]:
+# In[57]:
 
 
-cp_vae.vae
-cp_vae.vae.evaluate(subset_test_df)
+trained_vae.vae
+trained_vae.vae.evaluate(subset_test_df)
 
 
-# In[15]:
+# In[58]:
 
 
-encoder = cp_vae.encoder_block["encoder"]
-decoder = cp_vae.decoder_block["decoder"]
+encoder = trained_vae.encoder_block["encoder"]
+decoder = trained_vae.decoder_block["decoder"]
 
 
-# In[16]:
+# In[59]:
 
 
 data_dir = "../0.data-download/data/"
@@ -172,14 +168,14 @@ dependency_df = datafs[1]
 sample_df = datafs[0]
 
 
-# In[17]:
+# In[60]:
 
 
 train_init['train_or_test'] = train_init.apply(lambda _: 'train', axis=1)
 test_init['train_or_test'] = test_init.apply(lambda _: 'test', axis=1)
 
 
-# In[18]:
+# In[69]:
 
 
 # create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
@@ -198,7 +194,7 @@ metadata = metadata_holder.assign(
 metadata
 
 
-# In[19]:
+# In[70]:
 
 
 latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
@@ -207,13 +203,13 @@ latent_df_dir = pathlib.Path('./results/latent_df.csv')
 latent_df.to_csv(latent_df_dir)
 
 
-# In[20]:
+# In[71]:
 
 
 latent_df
 
 
-# In[21]:
+# In[72]:
 
 
 age_category = metadata.pop("age_category")
@@ -221,7 +217,8 @@ sex = metadata.pop("sex")
 train_test = metadata.pop("train_or_test")
 
 
-# In[23]:
+# In[73]:
+
 
 
 # display clustered heatmap of coefficients

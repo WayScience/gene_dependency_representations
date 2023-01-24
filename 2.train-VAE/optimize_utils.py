@@ -2,8 +2,8 @@
 
 from pyexpat import model
 from keras import backend as K
-from kerastuner import HyperModel
-from kerastuner.tuners import BayesianOptimization
+from keras_tuner import HyperModel
+from keras_tuner.tuners import BayesianOptimization
 import sys
 from vae import VAE
 import random
@@ -70,8 +70,8 @@ class HyperVAE(HyperModel):
 class CustomBayesianTunerCellPainting(BayesianOptimization):
     # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
     def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 16, 256, step=16)            
-        kwargs["epochs"] = trial.hyperparameters.Int("epochs", 5, 50, step=5)
+        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 16, 128, step=32)            
+        kwargs["epochs"] = trial.hyperparameters.Int("epochs", 5, 1000, step=100)
         
         return super(CustomBayesianTunerCellPainting, self).run_trial(trial, *args, **kwargs)  #added the return argument here
 
@@ -120,13 +120,13 @@ def get_optimize_args():
     )
     parser.add_argument(
         "--min_beta",
-        default=0,
+        default=1,
         type=int,
         help="Minimum beta penalty applied to VAE KL Divergence",
     )
     parser.add_argument(
         "--max_beta",
-        default=5,
+        default=10,
         type=int,
         help="Maximum beta penalty applied to VAE KL Divergence",
     )

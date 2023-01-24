@@ -149,7 +149,7 @@ class VAE:
 
     def setup_optimizer(self):
         if self.optimizer == "adam":
-            self.optim = optimizers.Adam(lr=self.learning_rate)
+            self.optim = optimizers.Adam(learning_rate=self.learning_rate)
 
     def train(self, x_train, x_test):
         if not hasattr(self, "vae_loss"):

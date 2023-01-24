@@ -28,7 +28,9 @@ data_directory = "../0.data-download/data/"
 
 
 # load the training data 
-dfs = load_train_test_data(data_directory, train_or_test = "train")
+data = load_train_test_data(data_directory, train_or_test = "all", stats=False)
+dfs = data[0]
+dfs_test = data[1]
 
 
 # In[4]:
@@ -141,14 +143,14 @@ print(t_test_sex.shape)
 t_test_sex.head(3)
 
 
-# In[13]:
+# In[14]:
 
 
 print(dependency_df.shape)
 dependency_df.head(3)
 
 
-# In[14]:
+# In[15]:
 
 
 # calculate variance of each gene then send the results plus the gene info into a new dataframe
@@ -162,7 +164,7 @@ print(variance_df.shape)
 variance_df.head(3)
 
 
-# In[15]:
+# In[16]:
 
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold
@@ -182,7 +184,7 @@ variance_density_plot.save(density_path)
 variance_density_plot
 
 
-# In[16]:
+# In[17]:
 
 
 # first create new dataframe containing gene info as well as both adult-pediatric and male-female t-test results and variance results
@@ -195,7 +197,7 @@ print(df.shape)
 df.head(3)
 
 
-# In[17]:
+# In[18]:
 
 
 # plot adult-pediatric ttest versus variance
@@ -210,7 +212,7 @@ A_vs_P_by_variance_plot.save(adult_vs_pediatric_path)
 A_vs_P_by_variance_plot
 
 
-# In[18]:
+# In[19]:
 
 
 # plot male-female ttest versus gene variance

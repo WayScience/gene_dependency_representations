@@ -27,7 +27,7 @@ decoder_architecture = []
 
 # Load Data
 data_directory = pathlib.Path("../0.data-download/data")
-dfs = load_train_test_data(data_directory, train_or_test = "all")
+dfs = load_train_test_data(data_directory, train_or_test = "all", stats=True)
 
 train_feat = dfs[0]
 test_feat = dfs[1]
@@ -56,7 +56,7 @@ hypermodel = HyperVAE(
         max_latent_dim=args.max_latent_dim,
         min_beta=args.min_beta,
         max_beta=args.max_beta,
-        learning_rate=[5e-2, 1e-2, 5e-3, 1e-3, 1e-4],
+        learning_rate=[5e-3, 1e-3, 1e-4, 1e-5, 1e-6],
         encoder_batch_norm=True,
         encoder_architecture=encoder_architecture,
         decoder_architecture=decoder_architecture,
@@ -66,7 +66,7 @@ hypermodel = HyperVAE(
 tuner = CustomBayesianTunerCellPainting(
         hypermodel,
         objective="val_loss",
-        max_trials=1000,
+        max_trials=500,
         directory=args.directory,
         project_name=args.project_name,
         overwrite=True,
@@ -76,6 +76,6 @@ tuner = CustomBayesianTunerCellPainting(
 tuner.search(
         train_df,
         validation_data=(test_df, None),
-        callbacks=[EarlyStopping("val_loss", patience=10)],
+        #callbacks=[EarlyStopping("val_loss", patience=10)],
         verbose=True,
 )

@@ -6,17 +6,18 @@
 
 import os
 import json
+import hiplot as hip
 
 
 # In[2]:
 
 
 vis_datas = []
-layers = ["parameter_sweep_with_seed"]
+layers = ["untitled_project"]
 # layers = ['threelayer']
 for layer in layers:
     vis_data = []
-    rootdir = './parameter_sweep/' + layer
+    rootdir = './hyperparameter/' + layer
     for subdirs, dirs, files in os.walk(rootdir):
         for file in files:
             if file.endswith("trial.json"):
@@ -30,6 +31,7 @@ for layer in layers:
 
 
 # In[3]:
+
 
 
 optimal_hyperparameters = [vis_datas[0][0]]
@@ -61,7 +63,6 @@ for layer in optimal_hyperparameters:
 
 # vis_data = vis_data[1:]
 
-import hiplot as hip
 data = [{
          'latent_dim': vis_data[idx]['hyperparameters']['values']['latent_dim'],
          'learning_rate': vis_data[idx]['hyperparameters']['values']['learning_rate'], 

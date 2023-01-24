@@ -11,41 +11,49 @@ import pandas as pd
 sys.path.insert(0, "../0.data-download/scripts/")
 from data_loader import load_data
 from sklearn.model_selection import train_test_split
+import random
 
 
 # In[2]:
+
+
+random.seed(18)
+print(random.random())
+
+
+# In[3]:
 
 
 # load all of the data 
 data_directory = "../0.data-download/data/"
 dfs = load_data(data_directory, adult_or_pediatric = "all")
 dependency_df = dfs[1]
-sample_df = dfs[0]
-
-
-# In[3]:
-
-
-# verifying that the DepMap_IDs in sample_df and dependency_df are alligned
-verify_df = sample_df
-verify_df["ID_allignment_verify"] = np.where(dependency_df["DepMap_ID"] == sample_df["DepMap_ID"], "True", "False")
-verrify = len(verify_df["ID_allignment_verify"].unique())
-print(verify_df["ID_allignment_verify"])
-print(f"There is {verrify} output object contained in the ID_allignment_verify column \n")
-
-
-# In[4]:
-
-
-# assign 'age_categories' and 'sex' columns to the dependency dataframe as a single column
-presplit_dependency_df = dependency_df.assign(age_and_sex = sample_df.age_categories.astype(str) + "_" + sample_df.sex.astype(str))
-presplit_dependency_df
+model_df = dfs[0]
 
 
 # In[5]:
 
 
-groups = sample_df.groupby("age_categories")
+# verifying that the DepMap_IDs in model_df and dependency_df are alligned
+verify_df = model_df
+verify_df["ID_allignment_verify"] = np.where(dependency_df["DepMap_ID"] == model_df["DepMap_ID"], "True", "False")
+verrify = len(verify_df["ID_allignment_verify"].unique())
+print(verify_df["ID_allignment_verify"])
+print(f"There is {verrify} output object contained in the ID_allignment_verify column \n")
+
+
+# In[7]:
+
+
+# assign 'age_categories' and 'sex' columns to the dependency dataframe as a single column
+presplit_dependency_df = dependency_df.assign(age_and_sex = model_df.age_categories.astype(str) + "_" + model_df.sex.astype(str))
+presplit_dependency_df
+
+
+# In[8]:
+
+
+groups = model_df.groupby("age_categories")
 df_list = []
 for name, df in groups:
     
@@ -60,7 +68,7 @@ new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
 
-# In[6]:
+# In[9]:
 
 
 # creating a list of DepMap_IDs that correlate to pediatric and adult samples
@@ -72,7 +80,7 @@ PA_IDs = set(PA_dependency_IDs) & set(presplit_dependency_df["DepMap_ID"].tolist
 PA_dependency_df = presplit_dependency_df.loc[presplit_dependency_df["DepMap_ID"].isin(PA_IDs)].reset_index(drop=True)
 
 
-# In[7]:
+# In[10]:
 
 
 #split the data based on age category and sex
@@ -83,7 +91,7 @@ train_df, test_df = train_test_split(
 )
 
 
-# In[8]:
+# In[11]:
 
 
 # save the TESTING dataframe 
@@ -94,7 +102,7 @@ print(test_df.shape)
 test_df.head(3)
 
 
-# In[9]:
+# In[12]:
 
 
 # save the TRAINING dataframe 
