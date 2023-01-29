@@ -7,7 +7,9 @@ from keras_tuner.tuners import BayesianOptimization
 import sys
 from vae import VAE
 import random
+
 random.seed(18)
+
 
 class HyperVAE(HyperModel):
     def __init__(
@@ -50,12 +52,14 @@ class HyperVAE(HyperModel):
                 "latent_dim", self.min_latent_dim, self.max_latent_dim, step=1
             ),
             epochs=self.epochs,
-            batch_size=self.batch_size,             #self.batch_size,
+            batch_size=self.batch_size,  # self.batch_size,
             optimizer=self.optimizer,
-            learning_rate=hp.Choice("learning_rate", values=self.learning_rate),            #learning_rate=self.learning_rate,
+            learning_rate=hp.Choice(
+                "learning_rate", values=self.learning_rate
+            ),  # learning_rate=self.learning_rate,
             epsilon_std=self.epsilon_std,
             beta=hp.Float("beta", self.min_beta, self.max_beta, step=0.1),
-#            beta = 1,
+            #            beta = 1,
             loss=self.loss,
             encoder_batch_norm=hp.Boolean(
                 "encoder_batch_norm", default=self.encoder_batch_norm
@@ -70,19 +74,24 @@ class HyperVAE(HyperModel):
 class CustomBayesianTunerCellPainting(BayesianOptimization):
     # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
     def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 16, 128, step=32)            
+        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 16, 128, step=32)
         kwargs["epochs"] = trial.hyperparameters.Int("epochs", 5, 1000, step=100)
-        
-        return super(CustomBayesianTunerCellPainting, self).run_trial(trial, *args, **kwargs)  #added the return argument here
+
+        return super(CustomBayesianTunerCellPainting, self).run_trial(
+            trial, *args, **kwargs
+        )  # added the return argument here
+
 
 class CustomBayesianTunerL1000(BayesianOptimization):
     # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
     def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 256, 768, step = 128)
+        kwargs["batch_size"] = trial.hyperparameters.Int(
+            "batch_size", 256, 768, step=128
+        )
         kwargs["epochs"] = trial.hyperparameters.Int("epochs", 10, 11, step=2)
-        
+
         super(CustomBayesianTunerL1000, self).run_trial(trial, *args, **kwargs)
-        
+
 
 def get_optimize_args():
     """
@@ -91,10 +100,7 @@ def get_optimize_args():
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--project_name", 
-        type=str, 
-        help="The name of the project")
+    parser.add_argument("--project_name", type=str, help="The name of the project")
     parser.add_argument(
         "--directory",
         default="hyperparameter",
@@ -137,15 +143,11 @@ def get_optimize_args():
         nargs="+",
         help="learning rates to use in hyperparameter sweep",
     )
+    parser.add_argument("--architecture", default="onelayer", help="VAE architecture")
+
     parser.add_argument(
-        "--architecture", 
-        default="onelayer", 
-        help="VAE architecture")
-    
-    parser.add_argument(
-        "--dataset", 
-        default="cell-painting", 
-        help="cell-painting or L1000 dataset")
-    
+        "--dataset", default="cell-painting", help="cell-painting or L1000 dataset"
+    )
+
     args = parser.parse_args()
     return args

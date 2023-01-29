@@ -12,9 +12,7 @@ def load_data(data_directory, adult_or_pediatric="all"):
 
     # Define data paths
     data_directory = "../0.data-download/data/"
-    model_file = pathlib.Path(
-        data_directory, "Model_age_column_cleaned.csv"
-    )
+    model_file = pathlib.Path(data_directory, "Model_age_column_cleaned.csv")
     dependency_data_file = pathlib.Path(data_directory, "CRISPRGeneDependency.csv")
 
     # Load data
@@ -46,34 +44,41 @@ def load_data(data_directory, adult_or_pediatric="all"):
     dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(mod_vs_dep_ids)]
 
     if adult_or_pediatric != "all":
-        model_df = model_df.query(
-            "age_categories == @adult_or_pediatric"
-        ).reset_index(drop=True)
+        model_df = model_df.query("age_categories == @adult_or_pediatric").reset_index(
+            drop=True
+        )
         model_to_keep = model_df.reset_index(drop=True).DepMap_ID.tolist()
         dependency_df = dependency_df.query(
             "DepMap_ID == @samples_to_keep"
         ).reset_index(drop=True)
 
     return model_df, dependency_df
-    
 
-def load_train_test_data(data_directory, train_file="VAE_train_df.csv", test_file="VAE_test_df.csv", train_or_test="all", load_gene_stats=False):
-    
+
+def load_train_test_data(
+    data_directory,
+    train_file="VAE_train_df.csv",
+    test_file="VAE_test_df.csv",
+    train_or_test="all",
+    load_gene_stats=False,
+):
+
     # define directory paths
-    training_data_file = pathlib.Path(data_directory, trainf)
-    testing_data_file = pathlib.Path(data_directory, testf)
-    
-    # load in the data 
+    training_data_file = pathlib.Path(data_directory, train_file)
+    testing_data_file = pathlib.Path(data_directory, test_file)
+
+    # load in the data
     train_df = pd.read_csv(training_data_file)
     test_df = pd.read_csv(testing_data_file)
-    gene_stats = None
-    
-    # overwrite gene_stats if stats is set to true
-    if stats is True:
-    	gene_statistics_file = pathlib.Path(
-		data_directory, "genes_variances_and_t-tests_df.csv"
-    	)
-    	gene_stats = pd.read_csv(gene_statistics_file)
+
+    # overwrite if load_gene_stats is set to true
+    if load_gene_stats is True:
+        gene_statistics_file = pathlib.Path(
+            data_directory, "genes_variances_and_t-tests_df.csv"
+        )
+        load_gene_stats = pd.read_csv(gene_statistics_file)
+    else:
+        load_gene_stats = None
 
     # return data based on what user wants
     if train_or_test == "test":
@@ -83,7 +88,7 @@ def load_train_test_data(data_directory, train_file="VAE_train_df.csv", test_fil
     elif train_or_test == "train":
 
         return train_df
-        
+
     elif train_or_test == "all":
 
-    	return train_df, test_df, gene_stats
+        return train_df, test_df, load_gene_stats

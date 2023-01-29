@@ -4,17 +4,17 @@
 # In[1]:
 
 
-
 # import the necessary packages that will be utilized
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd 
+import pandas as pd
 import pathlib
 import seaborn as sns
 import plotnine as gg
 from plotnine import *
 import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 
 # In[2]:
@@ -69,7 +69,7 @@ print(f"Number of Samples Documented in Model.csv: {n_samples} \n")
 n_samples2 = len(df_gene_dependency["DepMap_ID"].unique())
 print(f"Number of Samples Included in CRISPRGeneDependency.csv: {n_samples2} \n")
 
-# how many different ages were sampled from? 
+# how many different ages were sampled from?
 all_ages = df_model["age"].unique()
 print(f"Ages sampled from: \n {all_ages} \n")
 
@@ -78,21 +78,26 @@ print(f"Ages sampled from: \n {all_ages} \n")
 all_cancers = df_model["primary_disease"].unique()
 print(f"All Cancer Types: \n {all_cancers} \n")
 
-# create a bar chart that shows the number of types of cancer sampled 
-data = df_model
+# create a bar chart that shows the number of types of cancer sampled
 cancer_types_bar = (
-    gg.ggplot(data, gg.aes(x="primary_disease")) + gg.geom_bar() + gg.theme(axis_text_x =element_text(angle = 90))
-    )
+    gg.ggplot(df_model, gg.aes(x="primary_disease"))
+    + gg.geom_bar()
+    + gg.theme(axis_text_x=element_text(angle=90))
+)
 print(cancer_types_bar)
 sct_output = pathlib.Path("./figures/sample_cancer_types_bar_chart.png")
 cancer_types_bar.save(sct_output)
 
 # identify which samples are included in both Model.csv and CRISPRGeneDependency.csv
-similar_samples = list(set(df_model["DepMap_ID"]) & set(df_gene_dependency["DepMap_ID"]))
+similar_samples = list(
+    set(df_model["DepMap_ID"]) & set(df_gene_dependency["DepMap_ID"])
+)
 
-# count the number of samples that overlap in both data sets 
+# count the number of samples that overlap in both data sets
 sample_overlap = len(similar_samples)
-print(f"number of sample overlaps between Model.csv and CRISPRGeneDependency.csv: {sample_overlap} \n")
+print(
+    f"number of sample overlaps between Model.csv and CRISPRGeneDependency.csv: {sample_overlap} \n"
+)
 
 
 # In[7]:
@@ -131,7 +136,7 @@ for age_entry in age_vector_to_clean:
             age_categories.append("Adult")
         else:
             age_categories.append("Pediatric")
-        
+
         # If the age is an integer, apply appropriate continuous measure
         age_distribution.append(int(age_entry))
 
@@ -141,7 +146,7 @@ for age_entry in age_vector_to_clean:
             age_categories.append(age_entry)
         else:
             age_categories.append("Missing")
-        
+
         age_distribution.append(np.nan)
 
 
@@ -149,11 +154,8 @@ for age_entry in age_vector_to_clean:
 
 
 # New dataframe containing two new columns age_categories & age_distribution
-df_age_visual = (
-    df_model.assign(
-        age_categories=age_categories,
-        age_distribution=age_distribution
-    )
+df_age_visual = df_model.assign(
+    age_categories=age_categories, age_distribution=age_distribution
 )
 
 df_age_visual.head()
@@ -163,8 +165,10 @@ df_age_visual.head()
 
 
 # save the new data frame to a new .csv file in 0.data -download module
-df_save_destination = pathlib.Path("../0.data-download/data/Model_age_column_cleaned.csv")
-df_age_visual.to_csv(df_save_destination, index = False)
+df_save_destination = pathlib.Path(
+    "../0.data-download/data/Model_age_column_cleaned.csv"
+)
+df_age_visual.to_csv(df_save_destination, index=False)
 
 
 # In[12]:
@@ -178,8 +182,7 @@ df_age_visual.head()
 
 
 age_categories_bar = (
-    gg.ggplot(df_age_visual, gg.aes(x="age_categories"))
-    + gg.geom_bar()
+    gg.ggplot(df_age_visual, gg.aes(x="age_categories")) + gg.geom_bar()
 )
 print(age_categories_bar)
 acb_output = pathlib.Path("./figures/age_categories_bar_chart.png")
@@ -208,10 +211,7 @@ pd.DataFrame(age_categories).loc[:, 0].value_counts()
 # In[16]:
 
 
-gendersamp = df_model
-gendersamp_plot = (
-    gg.ggplot(gendersamp, gg.aes(x="sex")) + gg.geom_bar()
-)
+gendersamp_plot = gg.ggplot(df_model, gg.aes(x="sex")) + gg.geom_bar()
 print(gendersamp_plot)
 sgb_output = pathlib.Path("./figures/sample_gender_bar_chart.png")
 gendersamp_plot.save(sgb_output)

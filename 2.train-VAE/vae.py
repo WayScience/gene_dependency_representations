@@ -11,6 +11,7 @@ from tensorflow.keras import backend as K
 from tensorflow import keras
 from vae_utils import connect_encoder, connect_decoder, LossCallback
 
+
 class VAE:
     def __init__(
         self,
@@ -44,31 +45,29 @@ class VAE:
         self.decoder_architecture = decoder_architecture
         self.encoder_batch_norm = encoder_batch_norm
         self.verbose = verbose
-    
 
     def compile_loss(self):
-        
         def compute_kernel(x, y):
             x_size = K.shape(x)[0]
             y_size = K.shape(y)[0]
             dim = K.shape(x)[1]
             tiled_x = K.tile(K.reshape(x, [x_size, 1, dim]), [1, y_size, 1])
             tiled_y = K.tile(K.reshape(y, [1, y_size, dim]), [x_size, 1, 1])
-            return K.exp(-K.mean(K.square(tiled_x - tiled_y), axis=2) / K.cast(dim, 'float32'))
+            return K.exp(
+                -K.mean(K.square(tiled_x - tiled_y), axis=2) / K.cast(dim, "float32")
+            )
 
         def compute_mmd(x, y):
             x_kernel = compute_kernel(x, x)
             y_kernel = compute_kernel(y, y)
             xy_kernel = compute_kernel(x, y)
             return K.mean(x_kernel) + K.mean(y_kernel) - 2 * K.mean(xy_kernel)
-        
-       
+
         loss_fxn = mse(self.inputs, self.cycle)
 
         self.reconstruction_loss = loss_fxn
         self.reconstruction_loss *= self.input_dim
 
-        
         self.kl_loss = (
             1
             + self.encoder_block["z_log_var"]
@@ -76,27 +75,28 @@ class VAE:
             - K.exp(self.encoder_block["z_log_var"])
         )
         self.kl_loss = K.sum(self.kl_loss, axis=-1)
-        self.kl_loss *= -0.5  
-        
+        self.kl_loss *= -0.5
+
         batch_size = K.shape(self.encoder_block["z"])[0]
         latent_dim = K.int_shape(self.encoder_block["z"])[1]
-        true_samples = K.random_normal(shape=(batch_size, latent_dim), mean=0., stddev=1.)
-#        self.mmd_loss = compute_mmd(true_samples, self.encoder_block["z"])
-        
-#        mmd_loss = K.get_value(self.lam)* self.mmd_loss
-        kl_loss = K.get_value(self.beta)* self.kl_loss
-#         mmd_loss = kl_loss
-        total_loss = self.reconstruction_loss + kl_loss #+ mmd_loss
-#         total_loss = self.reconstruction_loss + kl_loss
+        true_samples = K.random_normal(
+            shape=(batch_size, latent_dim), mean=0.0, stddev=1.0
+        )
+        #        self.mmd_loss = compute_mmd(true_samples, self.encoder_block["z"])
 
- 
+        #        mmd_loss = K.get_value(self.lam)* self.mmd_loss
+        kl_loss = K.get_value(self.beta) * self.kl_loss
+        #         mmd_loss = kl_loss
+        total_loss = self.reconstruction_loss + kl_loss  # + mmd_loss
+        #         total_loss = self.reconstruction_loss + kl_loss
+
         return {
             "loss": total_loss,
             "reconstruction_loss": self.reconstruction_loss,
             "kl_loss": kl_loss,
- #           "mmd_loss": mmd_loss,
+            #           "mmd_loss": mmd_loss,
         }
-    
+
     def compile_encoder(self, name="encoder"):
         self.encoder_block = connect_encoder(
             input_dim=self.input_dim,
@@ -122,13 +122,13 @@ class VAE:
         # print(self.decoder_architecture)
 
     def compile_vae(self):
-       
+
         self.compile_encoder()
         self.compile_decoder()
         self.setup_optimizer()
-        
+
         # print(self.encoder_block)
-        
+
         # print(self.decoder_block)
 
         # instantiate VAE model
@@ -137,14 +137,14 @@ class VAE:
         )
         self.vae = Model(self.inputs, self.cycle, name="vae_mlp")
 
-        self.vae_loss = self.compile_loss()['loss']
-        kl_loss = self.compile_loss()['kl_loss']
-#        mmd_loss = self.compile_loss()['mmd_loss']
-        reconstruction_loss = self.compile_loss()['reconstruction_loss']
+        self.vae_loss = self.compile_loss()["loss"]
+        kl_loss = self.compile_loss()["kl_loss"]
+        #        mmd_loss = self.compile_loss()['mmd_loss']
+        reconstruction_loss = self.compile_loss()["reconstruction_loss"]
         self.vae.add_loss(self.vae_loss)
-        self.vae.add_metric(reconstruction_loss, aggregation='mean', name='recon')
-        self.vae.add_metric(kl_loss, aggregation='mean', name='kl')
-#        self.vae.add_metric(mmd_loss, aggregation='mean', name='mmd')
+        self.vae.add_metric(reconstruction_loss, aggregation="mean", name="recon")
+        self.vae.add_metric(kl_loss, aggregation="mean", name="kl")
+        #        self.vae.add_metric(mmd_loss, aggregation='mean', name='mmd')
         self.vae.compile(optimizer=self.optim)
 
     def setup_optimizer(self):
@@ -162,4 +162,3 @@ class VAE:
             validation_data=(x_test, None),
             verbose=self.verbose,
         )
-        
