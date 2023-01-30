@@ -52,6 +52,12 @@ def load_data(data_directory, adult_or_pediatric="all"):
             "DepMap_ID == @samples_to_keep"
         ).reset_index(drop=True)
 
+    model_df = model_df.set_index("DepMap_ID")
+    model_df = model_df.reindex(index=list(mod_vs_dep_ids)).reset_index()
+
+    dependency_df = dependency_df.set_index("DepMap_ID")
+    dependency_df = dependency_df.reindex(index=list(mod_vs_dep_ids)).reset_index()
+
     return model_df, dependency_df
 
 
