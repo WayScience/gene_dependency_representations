@@ -46,12 +46,14 @@ class LossCallback(Callback):
         keys = list(logs.keys())
         print("Start epoch {} of training; got log keys: {}".format(epoch, keys))
         return
-    
+
+
 def lrelu(x, alpha=0.3):
     return tf.maximum(x, tf.multiply(x, alpha))
 
+
 def connect_encoder(input_dim, latent_dim, architecture=[], batch_norm=True):
-    activation=lrelu
+    activation = lrelu
     nodes = {}
     nodes["inputs"] = Input(shape=(input_dim,))
 
@@ -65,7 +67,6 @@ def connect_encoder(input_dim, latent_dim, architecture=[], batch_norm=True):
 
         else:
             nodes[idx] = Dense(node_size, activation=activation)(nodes[idx - 1])
-
 
     z_mean = Dense(latent_dim, kernel_initializer="glorot_uniform")(nodes[idx])
     z_log_var = Dense(latent_dim, kernel_initializer="glorot_uniform")(nodes[idx])
@@ -90,9 +91,8 @@ def connect_encoder(input_dim, latent_dim, architecture=[], batch_norm=True):
     return nodes
 
 
-
 def connect_decoder(input_dim, latent_dim, architecture=[]):
-    activation=lrelu
+    activation = lrelu
     nodes = {}
     nodes["inputs"] = Input(shape=(latent_dim,))
 
@@ -111,7 +111,7 @@ def connect_decoder(input_dim, latent_dim, architecture=[]):
                 node_size, activation=activation, kernel_initializer="glorot_uniform"
             )(nodes[idx - 1])
 
-    nodes["outputs"] = Dense(input_dim, activation='linear')(nodes[idx])
+    nodes["outputs"] = Dense(input_dim, activation="linear")(nodes[idx])
 
     nodes["decoder"] = Model(nodes["inputs"], nodes["outputs"])
     return nodes

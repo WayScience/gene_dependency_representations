@@ -6,7 +6,9 @@ import pathlib
 
 path = "./"
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset", default="cell-painting", help="cell-painting or L1000 dataset")
+parser.add_argument(
+    "--dataset", default="cell-painting", help="cell-painting or L1000 dataset"
+)
 args = parser.parse_args()
 
 directory = "parameter_sweep"
@@ -19,9 +21,8 @@ max_beta = 1
 architectures = ["onelayer", "twolayer", "threelayer"]
 
 
-    
 min_beta = 1
-    
+
 dataset = args.dataset
 
 batch_norm = [True, False]
@@ -31,7 +32,7 @@ learning_rate_arg = ["--learning_rate"] + [str(x) for x in learning_rate]
 
 params = [
     "python",
-    pathlib.Path(path,"optimize_hyperparameters.py"),
+    pathlib.Path(path, "optimize_hyperparameters.py"),
     "--overwrite",
     "--directory",
     directory,
