@@ -1,13 +1,16 @@
 # THIS CODE WAS COPIED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/vae_utils.py
 
-from tensorflow.keras.layers import Lambda, Input, Dense, Dropout
-from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.layers import Lambda, Input, Dense
+from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 from tensorflow.keras.callbacks import Callback
 from tensorflow.keras.layers import Layer, BatchNormalization, Activation
+from tensorflow.python.keras.layers import LeakyReLU
 from tensorflow.keras import metrics
 from tensorflow import keras
 import tensorflow as tf
+
+
 
 
 def sampling(args):

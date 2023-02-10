@@ -15,6 +15,7 @@ import seaborn as sns
 
 sns.set_theme(color_codes=True)
 import random
+import joblib
 
 sys.path.insert(0, ".././0.data-download/scripts/")
 from data_loader import load_train_test_data, load_data
@@ -122,6 +123,14 @@ trained_vae.train(x_train=subset_train_df, x_test=subset_test_df)
 # In[12]:
 
 
+#save the βVAE model
+trained_vae_dir = pathlib.Path("./results/bVAE_model.sav")
+joblib.dump(trained_vae.vae, trained_vae_dir)
+
+
+# In[13]:
+
+
 # display training history
 history_df = pd.DataFrame(trained_vae.vae.history.history)
 
@@ -130,7 +139,7 @@ hist_dir = pathlib.Path("./results/beta_vae_training_history.csv")
 history_df.to_csv(hist_dir, index=False)
 
 
-# In[13]:
+# In[14]:
 
 
 # plot and save the figure
@@ -147,35 +156,35 @@ plt.savefig(save_path)
 plt.show()
 
 
-# In[14]:
+# In[15]:
 
 
 trained_vae.vae
 trained_vae.vae.evaluate(subset_test_df)
 
 
-# In[15]:
+# In[16]:
 
 
 encoder = trained_vae.encoder_block["encoder"]
 decoder = trained_vae.decoder_block["decoder"]
 
 
-# In[16]:
+# In[17]:
 
 
 data_dir = "../0.data-download/data/"
 model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
 
 
-# In[17]:
+# In[18]:
 
 
 train_init["train_or_test"] = train_init.apply(lambda _: "train", axis=1)
 test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 
 
-# In[18]:
+# In[19]:
 
 
 # create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
@@ -196,17 +205,16 @@ metadata = metadata_holder.assign(
 metadata
 
 
-# In[19]:
-
-
-latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
-latent_df = pd.DataFrame(latent_complete)
-latent_df_dir = pathlib.Path("./results/latent_df.csv")
-latent_df.to_csv(latent_df_dir)
-
-
 # In[20]:
 
+
+# Extract the latent space dimensions and save as csv
+latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
+
+latent_df = pd.DataFrame(latent_complete)
+
+latent_df_dir = pathlib.Path("./results/latent_df.csv")
+latent_df.to_csv(latent_df_dir)
 
 latent_df
 
@@ -214,98 +222,39 @@ latent_df
 # In[21]:
 
 
-age_category = metadata.pop("age_category")
-sex = metadata.pop("sex")
-train_test = metadata.pop("train_or_test")
+class BaseModel():
+    def __init__(self):
+        pass
+
+    def get_weights(self, decoder=True):
+        # Extract weight matrices from encoder or decoder
+        weights = []
+        if decoder:
+            for layer in self.decoder.layers:
+                weights.append(layer.get_weights())
+        else:
+            for layer in self.encoder.layers:
+                # Encoder weights must be transposed
+                encoder_weights = layer.get_weights()
+                encoder_weights = [np.transpose(x) for x in encoder_weights]
+                weights.append(encoder_weights)
+        return weights
+        
+    def save_models(self, encoder_file, decoder_file):
+        self.encoder.save(encoder_file)
+        self.decoder.save(decoder_file)
 
 
 # In[22]:
 
 
-# display clustered heatmap of coefficients
-lut_pal = sns.cubehelix_palette(
-    age_category.unique().size, light=0.9, dark=0.1, reverse=True, start=1, rot=-2
-)
-put_pal = sns.cubehelix_palette(sex.unique().size)
-mut_pal = sns.color_palette("hls", train_test.unique().size)
+# Create a dataframe from the weight matrix and save as csv
+weight_matrix, bias_term = decoder.get_weights()
 
-lut = dict(zip(age_category.unique(), lut_pal))
-put = dict(zip(sex.unique(), put_pal))
-mut = dict(zip(train_test.unique(), mut_pal))
+weight_df = pd.DataFrame(weight_matrix)
 
-row_colors1 = age_category.map(lut)
-row_colors2 = sex.map(put)
-row_colors3 = train_test.map(mut)
+weight_dir = pathlib.Path("./results/weight_matrix.csv")
+weight_df.to_csv(weight_dir, index = True)
 
-network_node_colors = pd.DataFrame(row_colors1).join(
-    pd.DataFrame(row_colors2).join(pd.DataFrame(row_colors3))
-)
-
-sns.set(font_scale=4.0)
-g = sns.clustermap(
-    latent_df,
-    method="ward",
-    figsize=(10, 20),
-    row_colors=network_node_colors,
-    yticklabels=False,
-    dendrogram_ratio=(0.1, 0.04),
-    cbar_pos=(1, 0.3, 0.02, 0.6),
-)
-g.ax_row_dendrogram.set_visible(False)
-g.ax_col_dendrogram.set_visible(False)
-
-
-xx = []
-for label in age_category.unique():
-    x = g.ax_row_dendrogram.bar(0, 0, color=lut[label], label=label, linewidth=0)
-    xx.append(x)
-# add the legend
-legend3 = plt.legend(
-    xx,
-    age_category.unique(),
-    loc="center",
-    title="age category",
-    ncol=2,
-    bbox_to_anchor=(1.8, 0.91),
-    bbox_transform=gcf().transFigure,
-)
-
-
-yy = []
-for label in sex.unique():
-    y = g.ax_row_dendrogram.bar(0, 0, color=put[label], label=label, linewidth=0)
-    yy.append(y)
-# add the second legend
-legend4 = plt.legend(
-    yy,
-    sex.unique(),
-    loc="center",
-    title="sex",
-    ncol=3,
-    bbox_to_anchor=(1.8, 0.8),
-    bbox_transform=gcf().transFigure,
-)
-plt.gca().add_artist(legend3)
-
-
-zz = []
-for label in train_test.unique():
-    z = g.ax_row_dendrogram.bar(0, 0, color=mut[label], label=label, linewidth=0)
-    zz.append(z)
-# add the third legend
-legend5 = plt.legend(
-    zz,
-    train_test.unique(),
-    loc="center",
-    title="train or test",
-    ncol=2,
-    bbox_to_anchor=(1.8, 0.69),
-    bbox_transform=gcf().transFigure,
-)
-plt.gca().add_artist(legend4)
-
-
-# save the figure
-heat_save_path = pathlib.Path("../1.data-exploration/figures/heatmap.png")
-plt.savefig(heat_save_path, bbox_inches="tight", dpi=600)
+weight_df
 
