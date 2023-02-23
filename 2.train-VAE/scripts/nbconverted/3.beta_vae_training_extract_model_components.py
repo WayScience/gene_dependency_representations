@@ -36,13 +36,6 @@ print(random.random())
 # In[3]:
 
 
-random.seed(18)
-print(random.random())
-
-
-# In[4]:
-
-
 # load the data
 data_directory = pathlib.Path("../0.data-download/data")
 train_init, test_init, gene_stats = load_train_test_data(
@@ -50,7 +43,7 @@ train_init, test_init, gene_stats = load_train_test_data(
 )
 
 
-# In[5]:
+# In[4]:
 
 
 # drop the string values
@@ -58,7 +51,7 @@ train_df = train_init.drop(columns=["DepMap_ID", "age_and_sex"])
 test_df = test_init.drop(columns=["DepMap_ID", "age_and_sex"])
 
 
-# In[6]:
+# In[5]:
 
 
 # subsetting the genes
@@ -72,28 +65,28 @@ subset_train_df = train_df.filter(gene_list, axis=1)
 subset_test_df = test_df.filter(gene_list, axis=1)
 
 
-# In[7]:
+# In[6]:
 
 
 print(subset_train_df.shape)
 subset_train_df.head(3)
 
 
-# In[8]:
+# In[7]:
 
 
 print(subset_test_df.shape)
 subset_test_df.head(3)
 
 
-# In[9]:
+# In[8]:
 
 
 encoder_architecture = []
 decoder_architecture = []
 
 
-# In[10]:
+# In[9]:
 
 
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
@@ -114,13 +107,13 @@ trained_vae = VAE(
 trained_vae.compile_vae()
 
 
-# In[11]:
+# In[10]:
 
 
 trained_vae.train(x_train=subset_train_df, x_test=subset_test_df)
 
 
-# In[12]:
+# In[11]:
 
 
 #save the βVAE model
@@ -128,7 +121,7 @@ trained_vae_dir = pathlib.Path("./results/bVAE_model.sav")
 joblib.dump(trained_vae.vae, trained_vae_dir)
 
 
-# In[13]:
+# In[12]:
 
 
 # display training history
@@ -139,7 +132,7 @@ hist_dir = pathlib.Path("./results/beta_vae_training_history.csv")
 history_df.to_csv(hist_dir, index=False)
 
 
-# In[14]:
+# In[13]:
 
 
 # plot and save the figure
@@ -156,35 +149,34 @@ plt.savefig(save_path)
 plt.show()
 
 
+# In[14]:
+
+
+#Need to add code here to close those model
+
+
 # In[15]:
-
-
-trained_vae.vae
-trained_vae.vae.evaluate(subset_test_df)
-
-
-# In[16]:
 
 
 encoder = trained_vae.encoder_block["encoder"]
 decoder = trained_vae.decoder_block["decoder"]
 
 
-# In[17]:
+# In[16]:
 
 
 data_dir = "../0.data-download/data/"
 model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
 
 
-# In[18]:
+# In[17]:
 
 
 train_init["train_or_test"] = train_init.apply(lambda _: "train", axis=1)
 test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 
 
-# In[19]:
+# In[18]:
 
 
 # create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
@@ -205,56 +197,68 @@ metadata = metadata_holder.assign(
 metadata
 
 
-# In[20]:
+# In[19]:
 
 
-# Extract the latent space dimensions and save as csv
+# Extract the latent space dimensions
 latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
 
 latent_df = pd.DataFrame(latent_complete)
 
-latent_df_dir = pathlib.Path("./results/latent_df.csv")
-latent_df.to_csv(latent_df_dir)
+# Create df of the latent space dimensions with the DepMap IDs added back in
+extracted_col = metadata['DepMap_ID']
 
-latent_df
+latent_df.insert(0, 'DepMap_ID', extracted_col)
+
+# Save as a csv
+latent_df_dir = pathlib.Path("./results/latent_df.csv")
+
+latent_df.to_csv(latent_df_dir, index=False)
+
+latent_df.head()
+
+
+# In[20]:
+
+
+# Extract the weights learned from the model, tranpose
+weight_matrix = encoder.get_weights()[2]
+
+weight_df = pd.DataFrame(weight_matrix)
+
+# Save as csv to use for heatmap
+weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.csv")
+weight_df.to_csv(weight_df_dir, index=False)
+weight_df.head()
 
 
 # In[21]:
 
 
-class BaseModel():
-    def __init__(self):
-        pass
+# Transpose, add gene names back in, transpose again, reset the index, renumber the columns 
+weight_df_T_df = weight_df.T
 
-    def get_weights(self, decoder=True):
-        # Extract weight matrices from encoder or decoder
-        weights = []
-        if decoder:
-            for layer in self.decoder.layers:
-                weights.append(layer.get_weights())
-        else:
-            for layer in self.encoder.layers:
-                # Encoder weights must be transposed
-                encoder_weights = layer.get_weights()
-                encoder_weights = [np.transpose(x) for x in encoder_weights]
-                weights.append(encoder_weights)
-        return weights
-        
-    def save_models(self, encoder_file, decoder_file):
-        self.encoder.save(encoder_file)
-        self.decoder.save(decoder_file)
+gene_weight_df = pd.DataFrame(data=weight_df_T_df.values, columns=subset_train_df.columns)
 
+gene_weight_T_df = gene_weight_df.T
 
-# In[22]:
+gw_reindex_df = gene_weight_T_df.reset_index()
 
+gw_renumber_df = gw_reindex_df.rename(columns={x:y for x,y in zip(gw_reindex_df.columns,range(0,len(gw_reindex_df.columns)))})
 
-# Create a dataframe from the weight matrix and save as csv
-weight_matrix, bias_term = decoder.get_weights()
+# Remove numbers from gene name column
+split_data_df = gw_renumber_df[0].str.split(" ", expand = True)
 
-weight_df = pd.DataFrame(weight_matrix)
+gene_name_df = split_data_df.iloc[:,:1]
 
-weight_dir = pathlib.Path("./results/weight_matrix.csv")
-weight_df.to_csv(weight_dir, index = True)
+trimmed_gene_weight_df = gw_renumber_df.iloc[:,1:]
 
-weight_df
+final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
+
+# Save as csv to use for GSEA
+gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.csv")
+
+final_gene_weights_df.to_csv(gene_weight_dir, index=False)
+
+final_gene_weights_df.head()
 
