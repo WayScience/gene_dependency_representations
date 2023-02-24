@@ -15,6 +15,7 @@ import seaborn as sns
 
 sns.set_theme(color_codes=True)
 import random
+import joblib
 
 sys.path.insert(0, ".././0.data-download/scripts/")
 from data_loader import load_train_test_data, load_data
@@ -35,13 +36,6 @@ print(random.random())
 # In[3]:
 
 
-random.seed(18)
-print(random.random())
-
-
-# In[4]:
-
-
 # load the data
 data_directory = pathlib.Path("../0.data-download/data")
 train_init, test_init, gene_stats = load_train_test_data(
@@ -49,7 +43,7 @@ train_init, test_init, gene_stats = load_train_test_data(
 )
 
 
-# In[5]:
+# In[4]:
 
 
 # drop the string values
@@ -57,7 +51,7 @@ train_df = train_init.drop(columns=["DepMap_ID", "age_and_sex"])
 test_df = test_init.drop(columns=["DepMap_ID", "age_and_sex"])
 
 
-# In[6]:
+# In[5]:
 
 
 # subsetting the genes
@@ -71,28 +65,28 @@ subset_train_df = train_df.filter(gene_list, axis=1)
 subset_test_df = test_df.filter(gene_list, axis=1)
 
 
-# In[7]:
+# In[6]:
 
 
 print(subset_train_df.shape)
 subset_train_df.head(3)
 
 
-# In[8]:
+# In[7]:
 
 
 print(subset_test_df.shape)
 subset_test_df.head(3)
 
 
-# In[9]:
+# In[8]:
 
 
 encoder_architecture = []
 decoder_architecture = []
 
 
-# In[10]:
+# In[9]:
 
 
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
@@ -113,10 +107,18 @@ trained_vae = VAE(
 trained_vae.compile_vae()
 
 
-# In[11]:
+# In[10]:
 
 
 trained_vae.train(x_train=subset_train_df, x_test=subset_test_df)
+
+
+# In[11]:
+
+
+#save the βVAE model
+trained_vae_dir = pathlib.Path("./results/bVAE_model.sav")
+joblib.dump(trained_vae.vae, trained_vae_dir)
 
 
 # In[12]:
@@ -150,8 +152,7 @@ plt.show()
 # In[14]:
 
 
-trained_vae.vae
-trained_vae.vae.evaluate(subset_test_df)
+#Need to add code here to close those model
 
 
 # In[15]:
@@ -199,113 +200,65 @@ metadata
 # In[19]:
 
 
+# Extract the latent space dimensions
 latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
+
 latent_df = pd.DataFrame(latent_complete)
+
+# Create df of the latent space dimensions with the DepMap IDs added back in
+extracted_col = metadata['DepMap_ID']
+
+latent_df.insert(0, 'DepMap_ID', extracted_col)
+
+# Save as a csv
 latent_df_dir = pathlib.Path("./results/latent_df.csv")
-latent_df.to_csv(latent_df_dir)
+
+latent_df.to_csv(latent_df_dir, index=False)
+
+latent_df.head()
 
 
 # In[20]:
 
 
-latent_df
+# Extract the weights learned from the model, tranpose
+weight_matrix = encoder.get_weights()[2]
+
+weight_df = pd.DataFrame(weight_matrix)
+
+# Save as csv to use for heatmap
+weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.csv")
+weight_df.to_csv(weight_df_dir, index=False)
+weight_df.head()
 
 
 # In[21]:
 
 
-age_category = metadata.pop("age_category")
-sex = metadata.pop("sex")
-train_test = metadata.pop("train_or_test")
+# Transpose, add gene names back in, transpose again, reset the index, renumber the columns 
+weight_df_T_df = weight_df.T
 
+gene_weight_df = pd.DataFrame(data=weight_df_T_df.values, columns=subset_train_df.columns)
 
-# In[22]:
+gene_weight_T_df = gene_weight_df.T
 
+gw_reindex_df = gene_weight_T_df.reset_index()
 
-# display clustered heatmap of coefficients
-lut_pal = sns.cubehelix_palette(
-    age_category.unique().size, light=0.9, dark=0.1, reverse=True, start=1, rot=-2
-)
-put_pal = sns.cubehelix_palette(sex.unique().size)
-mut_pal = sns.color_palette("hls", train_test.unique().size)
+gw_renumber_df = gw_reindex_df.rename(columns={x:y for x,y in zip(gw_reindex_df.columns,range(0,len(gw_reindex_df.columns)))})
 
-lut = dict(zip(age_category.unique(), lut_pal))
-put = dict(zip(sex.unique(), put_pal))
-mut = dict(zip(train_test.unique(), mut_pal))
+# Remove numbers from gene name column
+split_data_df = gw_renumber_df[0].str.split(" ", expand = True)
 
-row_colors1 = age_category.map(lut)
-row_colors2 = sex.map(put)
-row_colors3 = train_test.map(mut)
+gene_name_df = split_data_df.iloc[:,:1]
 
-network_node_colors = pd.DataFrame(row_colors1).join(
-    pd.DataFrame(row_colors2).join(pd.DataFrame(row_colors3))
-)
+trimmed_gene_weight_df = gw_renumber_df.iloc[:,1:]
 
-sns.set(font_scale=4.0)
-g = sns.clustermap(
-    latent_df,
-    method="ward",
-    figsize=(10, 20),
-    row_colors=network_node_colors,
-    yticklabels=False,
-    dendrogram_ratio=(0.1, 0.04),
-    cbar_pos=(1, 0.3, 0.02, 0.6),
-)
-g.ax_row_dendrogram.set_visible(False)
-g.ax_col_dendrogram.set_visible(False)
+final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
 
+# Save as csv to use for GSEA
+gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.csv")
 
-xx = []
-for label in age_category.unique():
-    x = g.ax_row_dendrogram.bar(0, 0, color=lut[label], label=label, linewidth=0)
-    xx.append(x)
-# add the legend
-legend3 = plt.legend(
-    xx,
-    age_category.unique(),
-    loc="center",
-    title="age category",
-    ncol=2,
-    bbox_to_anchor=(1.8, 0.91),
-    bbox_transform=gcf().transFigure,
-)
+final_gene_weights_df.to_csv(gene_weight_dir, index=False)
 
-
-yy = []
-for label in sex.unique():
-    y = g.ax_row_dendrogram.bar(0, 0, color=put[label], label=label, linewidth=0)
-    yy.append(y)
-# add the second legend
-legend4 = plt.legend(
-    yy,
-    sex.unique(),
-    loc="center",
-    title="sex",
-    ncol=3,
-    bbox_to_anchor=(1.8, 0.8),
-    bbox_transform=gcf().transFigure,
-)
-plt.gca().add_artist(legend3)
-
-
-zz = []
-for label in train_test.unique():
-    z = g.ax_row_dendrogram.bar(0, 0, color=mut[label], label=label, linewidth=0)
-    zz.append(z)
-# add the third legend
-legend5 = plt.legend(
-    zz,
-    train_test.unique(),
-    loc="center",
-    title="train or test",
-    ncol=2,
-    bbox_to_anchor=(1.8, 0.69),
-    bbox_transform=gcf().transFigure,
-)
-plt.gca().add_artist(legend4)
-
-
-# save the figure
-heat_save_path = pathlib.Path("../1.data-exploration/figures/heatmap.png")
-plt.savefig(heat_save_path, bbox_inches="tight", dpi=600)
+final_gene_weights_df.head()
 
