@@ -4,15 +4,15 @@
 # In[1]:
 
 
-# import the necessary packages that will be utilized
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
 import pathlib
-import seaborn as sns
-import plotnine as gg
-from plotnine import *
 import warnings
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotnine as gg
+import seaborn as sns
+from plotnine import *
 
 warnings.filterwarnings("ignore")
 
@@ -20,116 +20,108 @@ warnings.filterwarnings("ignore")
 # In[2]:
 
 
-# assign the desired file a variable using pathlib.Path command
-input_file = pathlib.Path("../0.data-download/data/Model.csv")
-
-# set the data frame to be the desired .csv file that is read by pandas(pd) using the pd.read_csv(desired file read as a previously defined variable)
-df_model = pd.read_csv(input_file)
-
-# assign the desired file a variable using pathlib.Path command
-input_file2 = pathlib.Path("../0.data-download/data/CRISPRGeneDependency.csv")
-
-# set the data frame to be the desired .csv file that is read by pandas(pd) using the pd.read_csv(desired file read as a previously defined variable)
-df_gene_dependency = pd.read_csv(input_file2)
+# Set constants
+adult_threshold = 15
+pediatric_liquid_tumors = ["Leukemia", "Lymphoma"]
 
 
 # In[3]:
 
 
-# print the parameters of the read file
-print(df_model.shape)
-df_model.head(5)
+# Set i/o paths and files
+data_dir = pathlib.Path("../0.data-download/data")
+fig_dir = pathlib.Path("figures")
+fig_dir.mkdir(exist_ok=True)
+
+model_input_file = pathlib.Path(f"{data_dir}/Model.csv")
+crispr_input_file = pathlib.Path(f"{data_dir}/CRISPRGeneDependency.csv")
+
+model_ouput_age_cleaned_file = pathlib.Path(f"{data_dir}/Model_age_column_cleaned.csv")
+cancer_type_output_figure = pathlib.Path(f"{fig_dir}/sample_cancer_types_bar_chart.png")
+age_category_output_figure = pathlib.Path(f"{fig_dir}/age_categories_bar_chart.png")
+age_distribution_output_figure = pathlib.Path(
+    f"{fig_dir}/sample_age_distribution_plot.png"
+)
+sex_output_figure = pathlib.Path(f"{fig_dir}/sample_gender_bar_chart.png")
+pediatric_cancer_type_output_figure = pathlib.Path(
+    f"{fig_dir}/pediatric_sample_cancer_types_bar_chart.png"
+)
 
 
 # In[4]:
 
 
-# print the parameters of the read file
-print(df_gene_dependency.shape)
-df_gene_dependency.head(5)
+# Load model data
+model_df = pd.read_csv(model_input_file)
+
+print(model_df.shape)
+model_df.head(3)
 
 
 # In[5]:
 
 
-# check if "figures" directory exists and create directory if it does not
-fig_dir = pathlib.Path("figures")
-fig_dir.mkdir(exist_ok=True)
+# Load dependency data
+gene_dependency_df = pd.read_csv(crispr_input_file)
 
+print(gene_dependency_df.shape)
+gene_dependency_df.head(3)
+
+
+# ## Describe input data
 
 # In[6]:
 
 
 # Model.csv visualization
-# how many samples from Model.csv?
-n_samples = len(df_model["DepMap_ID"].unique())
-print(f"Number of Samples Documented in Model.csv: {n_samples} \n")
+# How many samples from Model.csv?
+n_samples_model = len(model_df["DepMap_ID"].unique())
+print(f"Number of samples documented in Model.csv: {n_samples_model} \n")
 
-# how many samples from CRISPRGeneDependency.csv?
-n_samples2 = len(df_gene_dependency["DepMap_ID"].unique())
-print(f"Number of Samples Included in CRISPRGeneDependency.csv: {n_samples2} \n")
+# How many samples from CRISPRGeneDependency.csv?
+n_samples_gene = len(gene_dependency_df["DepMap_ID"].unique())
+print(f"Number of samples measured in CRISPRGeneDependency.csv: {n_samples_gene} \n")
 
-# how many different ages were sampled from?
-all_ages = df_model["age"].unique()
-print(f"Ages sampled from: \n {all_ages} \n")
-
-
-# how many different types of cancer?
-all_cancers = df_model["primary_disease"].unique()
-print(f"All Cancer Types: \n {all_cancers} \n")
-
-# create a bar chart that shows the number of types of cancer sampled
-cancer_types_bar = (
-    gg.ggplot(df_model, gg.aes(x="primary_disease"))
-    + gg.geom_bar()
-    + gg.theme(axis_text_x=element_text(angle=90))
-)
-print(cancer_types_bar)
-sct_output = pathlib.Path("./figures/sample_cancer_types_bar_chart.png")
-cancer_types_bar.save(sct_output)
-
-# identify which samples are included in both Model.csv and CRISPRGeneDependency.csv
-similar_samples = list(
-    set(df_model["DepMap_ID"]) & set(df_gene_dependency["DepMap_ID"])
-)
+# Identify which samples are included in both Model.csv and CRISPRGeneDependency.csv
+sample_overlap = list(set(model_df["DepMap_ID"]) & set(gene_dependency_df["DepMap_ID"]))
 
 # count the number of samples that overlap in both data sets
-sample_overlap = len(similar_samples)
-print(
-    f"number of sample overlaps between Model.csv and CRISPRGeneDependency.csv: {sample_overlap} \n"
-)
+print(f"Samples measured in both: {len(sample_overlap)} \n")
+
+# How many different types of cancer?
+n_cancer_types = model_df.query("DepMap_ID in @sample_overlap")[
+    "primary_disease"
+].nunique()
+print(f"Number of Cancer Types: \n {n_cancer_types} \n")
 
 
 # In[7]:
 
 
-# how many different types of cancer?
-dfsi = df_model["DepMap_ID"].unique()
-print(f"All Cancer Types: \n {dfsi} \n")
-print(dfsi.shape)
+# Visualize cancer type distribution
+cancer_types_bar = (
+    gg.ggplot(model_df, gg.aes(x="primary_disease"))
+    + gg.geom_bar()
+    + gg.coord_flip()
+    + gg.ggtitle("Distribution of cancer types")
+    + gg.theme_bw()
+)
 
+cancer_types_bar.save(cancer_type_output_figure, dpi=500)
+
+cancer_types_bar
+
+
+# ## Clean age variable
 
 # In[8]:
 
 
-# how many different types of cancer?
-dfgd = df_gene_dependency["DepMap_ID"].unique()
-print(f"All Cancer Types: \n {dfgd} \n")
-print(dfgd.shape)
-
-
-# In[9]:
-
-
-age_vector_to_clean = df_model.loc[:, "age"].tolist()
-
 age_categories = []
 age_distribution = []
 
-adult_threshold = 18
-
 # Loop through each age entry to clean it
-for age_entry in age_vector_to_clean:
+for age_entry in model_df.age.tolist():
     try:
         # If the age is an integer, apply appropriate category
         if int(age_entry) >= adult_threshold:
@@ -150,69 +142,152 @@ for age_entry in age_vector_to_clean:
         age_distribution.append(np.nan)
 
 
-# In[10]:
+# In[9]:
 
 
-# New dataframe containing two new columns age_categories & age_distribution
-df_age_visual = df_model.assign(
+# Add columns age_categories & age_distribution
+model_df = model_df.assign(
     age_categories=age_categories, age_distribution=age_distribution
 )
 
-df_age_visual.head()
+# Output file
+model_df.to_csv(model_ouput_age_cleaned_file, index=False)
+
+print(model_df.shape)
+model_df.head(3)
+
+
+# ## Visualize age categories and distribution
+
+# In[10]:
+
+
+age_categories_bar = (
+    gg.ggplot(model_df, gg.aes(x="age_categories"))
+    + gg.geom_bar()
+    + gg.ggtitle(
+        f"Age categories of derived cell lines (Pediatric =< {adult_threshold})"
+    )
+    + gg.theme_bw()
+)
+
+age_categories_bar.save(age_category_output_figure, dpi=500)
+
+age_categories_bar
 
 
 # In[11]:
 
 
-# save the new data frame to a new .csv file in 0.data -download module
-df_save_destination = pathlib.Path(
-    "../0.data-download/data/Model_age_column_cleaned.csv"
+age_distribution_plot = (
+    gg.ggplot(model_df, gg.aes(x="age_distribution"))
+    + gg.geom_density()
+    + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
+    + gg.ggtitle(
+        f"Age distribution of derived cell lines (Pediatric =< {adult_threshold})"
+    )
+    + gg.theme_bw()
 )
-df_age_visual.to_csv(df_save_destination, index=False)
+
+age_distribution_plot.save(age_distribution_output_figure, dpi=500)
+
+age_distribution_plot
 
 
 # In[12]:
 
 
-print(df_age_visual.shape)
-df_age_visual.head()
+pd.DataFrame(age_categories).loc[:, 0].value_counts()
 
 
 # In[13]:
 
 
-age_categories_bar = (
-    gg.ggplot(df_age_visual, gg.aes(x="age_categories")) + gg.geom_bar()
+gendersamp_plot = (
+    gg.ggplot(model_df, gg.aes(x="sex"))
+    + gg.geom_bar()
+    + gg.ggtitle(f"Sex categories of derived cell lines")
+    + gg.theme_bw()
 )
-print(age_categories_bar)
-acb_output = pathlib.Path("./figures/age_categories_bar_chart.png")
-age_categories_bar.save(acb_output)
 
+gendersamp_plot.save(sex_output_figure)
+
+gendersamp_plot
+
+
+# ## What cell lines are pediatric cancer?
 
 # In[14]:
 
 
-age_distribution_plot = (
-    gg.ggplot(df_age_visual, gg.aes(x="age_distribution"))
-    + gg.geom_density()
-    + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
+pediatric_model_df = (
+    model_df.query("age_categories == 'Pediatric'")
+    .query("DepMap_ID in @sample_overlap")
+    .reset_index(drop=True)
 )
-print(age_distribution_plot)
-sad_output = pathlib.Path("./figures/sample_age_distribution_plot.png")
-age_distribution_plot.save(sad_output)
+
+print(pediatric_model_df.shape)
+pediatric_model_df.head(3)
 
 
 # In[15]:
 
 
-pd.DataFrame(age_categories).loc[:, 0].value_counts()
+# What are the neuroblastoma models?
+pediatric_model_df.query(
+    "Cellosaurus_NCIt_disease == 'Neuroblastoma'"
+).stripped_cell_line_name
 
 
 # In[16]:
 
 
-gendersamp_plot = gg.ggplot(df_model, gg.aes(x="sex")) + gg.geom_bar()
-print(gendersamp_plot)
-sgb_output = pathlib.Path("./figures/sample_gender_bar_chart.png")
-gendersamp_plot.save(sgb_output)
+# What is the distribution of pediatric tumor types
+pediatric_cancer_counts = pediatric_model_df.primary_disease.value_counts()
+pediatric_cancer_counts
+
+
+# In[17]:
+
+
+pediatric_cancer_counts.reset_index()
+
+
+# In[18]:
+
+
+# Visualize cancer type distribution
+ped_cancer_types_bar = (
+    gg.ggplot(
+        pediatric_cancer_counts.reset_index(), gg.aes(x="index", y="primary_disease")
+    )
+    + gg.geom_bar(stat="identity")
+    + gg.coord_flip()
+    + gg.ggtitle("Distribution of pediatric cancer types")
+    + gg.ylab("count")
+    + gg.xlab("cancer type")
+    + gg.theme_bw()
+)
+
+ped_cancer_types_bar.save(pediatric_cancer_type_output_figure, dpi=500)
+
+ped_cancer_types_bar
+
+
+# In[19]:
+
+
+# Pediatric solid vs liquid tumors
+print("The number of pediatric solid tumors:")
+print(
+    pediatric_model_df.query("primary_disease not in @pediatric_liquid_tumors")
+    .primary_disease.value_counts()
+    .sum()
+)
+print("The number of pediatric liquid tumors:")
+print(
+    pediatric_model_df.query("primary_disease in @pediatric_liquid_tumors")
+    .primary_disease.value_counts()
+    .sum()
+)
 
