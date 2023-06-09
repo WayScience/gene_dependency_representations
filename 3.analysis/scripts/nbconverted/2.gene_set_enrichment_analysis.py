@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[33]:
+# In[1]:
 
 
 import sys
@@ -26,21 +26,21 @@ import urllib.request
 # Download the gene set library here: https://github.com/MaayanLab/blitzgsea
 
 
-# In[34]:
+# In[2]:
 
 
 random.seed(18)
 print(random.random())
 
 
-# In[35]:
+# In[3]:
 
 
 # list available gene set libraries in Enrichr
 blitz.enrichr.print_libraries()
 
 
-# In[36]:
+# In[4]:
 
 
 # use enrichr submodule to retrieve gene set library
@@ -48,7 +48,8 @@ blitz.enrichr.print_libraries()
 library = blitz.enrichr.get_library("GO_Biological_Process_2017")
 
 
-# In[37]:
+
+# In[5]:
 
 
 # load the weight matrix 
@@ -58,7 +59,7 @@ print(signature.shape)
 signature.head()
 
 
-# In[38]:
+# In[6]:
 
 
 all_GSEA_results = []
@@ -81,7 +82,7 @@ all_GSEA_results
 neg_GSEA_results
 
 
-# In[39]:
+# In[7]:
 
 
 # stack up all of the results to be analyzed
@@ -89,7 +90,7 @@ all_GSEA_results= pd.concat(all_GSEA_results)
 neg_GSEA_results = pd.concat(neg_GSEA_results)
 
 
-# In[40]:
+# In[8]:
 
 
 # sort by what you want to evaluate
@@ -100,7 +101,7 @@ neg_GSEA_results['rank'] = (-np.log10(neg_GSEA_results.pval))*(neg_GSEA_results.
 neg_GSEA_results.sort_values(by='es', ascending = False)
 
 
-# In[41]:
+# In[9]:
 
 
 plt.figure()
@@ -116,7 +117,7 @@ plt.ylabel('-log10(pvalue)')
 plt.title('Control Gene Set Enrichment Analysis')
 
 
-# In[ ]:
+# In[10]:
 
 
 # Using VAE generated data
