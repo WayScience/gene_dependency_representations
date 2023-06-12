@@ -65,12 +65,14 @@ all_GSEA_results = []
 all_signatures = []
 neg_GSEA_results = []
 negative_control = []
+results = []
 
 range = signature.shape[1]
 
 for col in signature.iloc[:,1:range].columns:
     df = signature.iloc[:,[0,int(col)]]
     result = blitz.gsea(df, library)
+    results.append(result)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
     all_signatures.append(df)
     neg_df = df.copy()
@@ -120,28 +122,30 @@ plt.title('Control Gene Set Enrichment Analysis')
 for df in all_signatures:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
+    z_result = results[int(dim)-1]
+    
+    fig = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=False)
+    fig.savefig("running_sum_z_" + dim + ".png", bbox_inches='tight')
 
-    fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=False)
-    fig.savefig("running_sum_z_" + str(dim) + ".png", bbox_inches='tight')
+    fig_compact = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=True)
+    fig_compact.savefig("running_sum_compact_z_" + dim + ".png", bbox_inches='tight')
 
-    fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=True)
-    fig_compact.savefig("running_sum_compact_z_" + str(dim) + ".png", bbox_inches='tight')
-
-    fig_table = blitz.plot.top_table(df, library, result, n=15)
-    fig_table.savefig("top_table_z_" + str(dim) + ".png", bbox_inches='tight')
+    fig_table = blitz.plot.top_table(df, library, z_result, n=15)
+    fig_table.savefig("top_table_z_" + dim + ".png", bbox_inches='tight')
 
 # Using negative control
 
 for df in negative_control:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
+    z_result = results[int(dim)-1]
 
-    fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=False)
-    fig.savefig("running_sum_neg_z_" + str(dim) + ".png", bbox_inches='tight')
+    fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=z_result, compact=False)
+    fig.savefig("running_sum_neg_z_" + dim + ".png", bbox_inches='tight')
 
-    fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=True)
-    fig_compact.savefig("running_sum_compact_neg_z_" + str(dim) + ".png", bbox_inches='tight')
+    fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=z_result, compact=True)
+    fig_compact.savefig("running_sum_compact_neg_z_" + dim + ".png", bbox_inches='tight')
 
-    fig_table = blitz.plot.top_table(df, library, result, n=15)
-    fig_table.savefig("top_table_neg_z_" + str(dim) + ".png", bbox_inches='tight')
+    fig_table = blitz.plot.top_table(df, library, z_result, n=15)
+    fig_table.savefig("top_table_neg_z_" + dim + ".png", bbox_inches='tight')
 
