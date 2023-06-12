@@ -48,7 +48,6 @@ blitz.enrichr.print_libraries()
 library = blitz.enrichr.get_library("GO_Biological_Process_2017")
 
 
-
 # In[5]:
 
 
@@ -67,7 +66,9 @@ all_signatures = []
 neg_GSEA_results = []
 negative_control = []
 
-for col in signature.iloc[:,1:101].columns:
+range = signature.shape[1]
+
+for col in signature.iloc[:,1:range].columns:
     df = signature.iloc[:,[0,int(col)]]
     result = blitz.gsea(df, library)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
@@ -77,9 +78,6 @@ for col in signature.iloc[:,1:101].columns:
     neg_result = blitz.gsea(neg_df, library)
     neg_GSEA_results.append(neg_result.assign(z_dim=f"z_{col}"))
     negative_control.append(neg_df)
-
-all_GSEA_results
-neg_GSEA_results
 
 
 # In[7]:
@@ -94,11 +92,8 @@ neg_GSEA_results = pd.concat(neg_GSEA_results)
 
 
 # sort by what you want to evaluate
-all_GSEA_results['rank'] = (-np.log10(all_GSEA_results.pval))*(all_GSEA_results.es)
 all_GSEA_results.sort_values(by='pval', ascending = True)
-
-neg_GSEA_results['rank'] = (-np.log10(neg_GSEA_results.pval))*(neg_GSEA_results.es)
-neg_GSEA_results.sort_values(by='es', ascending = False)
+#neg_GSEA_results.sort_values(by='pval', ascending = True)
 
 
 # In[9]:
@@ -122,33 +117,31 @@ plt.title('Control Gene Set Enrichment Analysis')
 
 # Using VAE generated data
 
-z = 0
 for df in all_signatures:
-    
-    z = z+1
+    col_titles = df.columns.tolist()
+    dim = col_titles[1]
 
     fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=False)
-    fig.savefig("running_sum_z_" + str(z) + ".png", bbox_inches='tight')
+    fig.savefig("running_sum_z_" + str(dim) + ".png", bbox_inches='tight')
 
     fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=True)
-    fig_compact.savefig("running_sum_compact_z_" + str(z) + ".png", bbox_inches='tight')
+    fig_compact.savefig("running_sum_compact_z_" + str(dim) + ".png", bbox_inches='tight')
 
     fig_table = blitz.plot.top_table(df, library, result, n=15)
-    fig_table.savefig("top_table_z_" + str(z) + ".png", bbox_inches='tight')
+    fig_table.savefig("top_table_z_" + str(dim) + ".png", bbox_inches='tight')
 
 # Using negative control
 
-z = 0
 for df in negative_control:
-    
-    z = z+1
+    col_titles = df.columns.tolist()
+    dim = col_titles[1]
 
     fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=False)
-    fig.savefig("running_sum_neg_z_" + str(z) + ".png", bbox_inches='tight')
+    fig.savefig("running_sum_neg_z_" + str(dim) + ".png", bbox_inches='tight')
 
     fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=result, compact=True)
-    fig_compact.savefig("running_sum_compact_neg_z_" + str(z) + ".png", bbox_inches='tight')
+    fig_compact.savefig("running_sum_compact_neg_z_" + str(dim) + ".png", bbox_inches='tight')
 
     fig_table = blitz.plot.top_table(df, library, result, n=15)
-    fig_table.savefig("top_table_neg_z_" + str(z) + ".png", bbox_inches='tigh t')
+    fig_table.savefig("top_table_neg_z_" + str(dim) + ".png", bbox_inches='tight')
 
