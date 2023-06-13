@@ -63,14 +63,23 @@ signature.head()
 
 all_GSEA_results = []
 all_signatures = []
-#negative_control = []
-for col in signature.iloc[:,1:50].columns:
+neg_GSEA_results = []
+negative_control = []
+results = []
+
+range = signature.shape[1]
+
+for col in signature.iloc[:,1:range].columns:
     df = signature.iloc[:,[0,int(col)]]
     result = blitz.gsea(df, library)
+    results.append(result)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
     all_signatures.append(df)
-    #add line here to create a negative control--this will be a random scramble of the gene scores
-all_GSEA_results
+    neg_df = df.copy()
+    neg_df[col] = neg_df[col].sample(frac=1).reset_index(drop=True)
+    neg_result = blitz.gsea(neg_df, library)
+    neg_GSEA_results.append(neg_result.assign(z_dim=f"z_{col}"))
+    negative_control.append(neg_df)
 
 
 # In[7]:
@@ -78,31 +87,65 @@ all_GSEA_results
 
 # stack up all of the results to be analyzed
 all_GSEA_results= pd.concat(all_GSEA_results)
+neg_GSEA_results = pd.concat(neg_GSEA_results)
 
 
 # In[8]:
 
 
 # sort by what you want to evaluate
-all_GSEA_results.sort_values(by='es', ascending=False)
+all_GSEA_results.sort_values(by='pval', ascending = True)
+#neg_GSEA_results.sort_values(by='pval', ascending = True)
 
 
 # In[9]:
 
 
-plt.scatter(x=all_GSEA_results['es'],y=all_GSEA_results['pval'].apply(lambda x:-np.log10(x)),s=1)
+plt.figure()
+plt.scatter(x=all_GSEA_results['es'],y=all_GSEA_results['pval'].apply(lambda x:-np.log10(x)),s=10)
+plt.xlabel('log2 Fold Change (ES)')
+plt.ylabel('-log10(pvalue)')
+plt.title('Gene Set Enrichment Analysis')
+
+plt.figure()
+plt.scatter(x=neg_GSEA_results['es'],y=neg_GSEA_results['pval'].apply(lambda x:-np.log10(x)), s=10)
+plt.xlabel('log2 Fold Change (ES)')
+plt.ylabel('-log10(pvalue)')
+plt.title('Control Gene Set Enrichment Analysis')
 
 
 # In[10]:
 
 
-# plot the enrichment results and save to png--this code needs some work done to it in order to work!
-fig = blitz.plot.running_sum(signature, "DIABETIC CARDIOMYOPATHY", library, result=result, compact=False)
-fig.savefig("running_sum.png", bbox_inches='tight')
+# Using VAE generated data
 
-fig_compact = blitz.plot.running_sum(signature, "PATHOGENIC ESCHERICHIA COLI INFECTION", library, result=result, compact=True)
-fig_compact.savefig("running_sum_compact.png", bbox_inches='tight')
+for df in all_signatures:
+    col_titles = df.columns.tolist()
+    dim = col_titles[1]
+    z_result = results[int(dim)-1]
+    
+    fig = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=False)
+    fig.savefig("running_sum_z_" + dim + ".png", bbox_inches='tight')
 
-fig_table = blitz.plot.top_table(signature, library, result, n=15)
-fig_table.savefig("top_table.png", bbox_inches='tight')
+    fig_compact = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=True)
+    fig_compact.savefig("running_sum_compact_z_" + dim + ".png", bbox_inches='tight')
+
+    fig_table = blitz.plot.top_table(df, library, z_result, n=15)
+    fig_table.savefig("top_table_z_" + dim + ".png", bbox_inches='tight')
+
+# Using negative control
+
+for df in negative_control:
+    col_titles = df.columns.tolist()
+    dim = col_titles[1]
+    z_result = results[int(dim)-1]
+
+    fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=z_result, compact=False)
+    fig.savefig("running_sum_neg_z_" + dim + ".png", bbox_inches='tight')
+
+    fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=z_result, compact=True)
+    fig_compact.savefig("running_sum_compact_neg_z_" + dim + ".png", bbox_inches='tight')
+
+    fig_table = blitz.plot.top_table(df, library, z_result, n=15)
+    fig_table.savefig("top_table_neg_z_" + dim + ".png", bbox_inches='tight')
 

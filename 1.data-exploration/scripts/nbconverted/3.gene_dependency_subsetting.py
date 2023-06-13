@@ -184,7 +184,7 @@ variance_df.head(3)
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold
 n = variance_df["variance"].nlargest(1000)
-variance_theshold = n.min().astype(float)
+variance_theshold = n.astype(float).min()
 
 # plotting variance density chart and marking the 1000 largest gene variation cutoff
 variance_density_plot = (
