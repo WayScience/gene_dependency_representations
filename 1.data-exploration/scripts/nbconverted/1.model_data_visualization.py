@@ -22,7 +22,7 @@ warnings.filterwarnings("ignore")
 
 # Set constants
 adult_threshold = 15
-pediatric_liquid_tumors = ["Leukemia", "Lymphoma"]
+liquid_tumors = ["Leukemia", "Lymphoma"]
 
 
 # In[3]:
@@ -36,7 +36,11 @@ fig_dir.mkdir(exist_ok=True)
 model_input_file = pathlib.Path(f"{data_dir}/Model.csv")
 crispr_input_file = pathlib.Path(f"{data_dir}/CRISPRGeneDependency.csv")
 
-model_ouput_age_cleaned_file = pathlib.Path(f"{data_dir}/Model_age_column_cleaned.csv")
+model_output_age_cleaned_file = pathlib.Path(f"{data_dir}/Model_age_column_cleaned.csv")
+ped_model_output_age_cleaned_file = pathlib.Path(f"{data_dir}/Pediatric_model_age_column_cleaned.csv")
+adult_model_output_age_cleaned_file = pathlib.Path(f"{data_dir}/Adult_model_age_column_cleaned.csv")
+
+
 cancer_type_output_figure = pathlib.Path(f"{fig_dir}/sample_cancer_types_bar_chart.png")
 age_category_output_figure = pathlib.Path(f"{fig_dir}/age_categories_bar_chart.png")
 age_distribution_output_figure = pathlib.Path(
@@ -45,6 +49,9 @@ age_distribution_output_figure = pathlib.Path(
 sex_output_figure = pathlib.Path(f"{fig_dir}/sample_gender_bar_chart.png")
 pediatric_cancer_type_output_figure = pathlib.Path(
     f"{fig_dir}/pediatric_sample_cancer_types_bar_chart.png"
+)
+adult_cancer_type_output_figure = pathlib.Path(
+    f"{fig_dir}/adult_sample_cancer_types_bar_chart.png"
 )
 
 
@@ -151,7 +158,7 @@ model_df = model_df.assign(
 )
 
 # Output file
-model_df.to_csv(model_ouput_age_cleaned_file, index=False)
+model_df.to_csv(model_output_age_cleaned_file, index=False)
 
 print(model_df.shape)
 model_df.head(3)
@@ -226,6 +233,8 @@ pediatric_model_df = (
     .reset_index(drop=True)
 )
 
+pediatric_model_df.to_csv(ped_model_output_age_cleaned_file, index=False)
+
 print(pediatric_model_df.shape)
 pediatric_model_df.head(3)
 
@@ -256,7 +265,7 @@ pediatric_cancer_counts.reset_index()
 # In[18]:
 
 
-# Visualize cancer type distribution
+# Visualize pediatric cancer type distribution
 ped_cancer_types_bar = (
     gg.ggplot(
         pediatric_cancer_counts.reset_index(), gg.aes(x="index", y="primary_disease")
@@ -280,13 +289,83 @@ ped_cancer_types_bar
 # Pediatric solid vs liquid tumors
 print("The number of pediatric solid tumors:")
 print(
-    pediatric_model_df.query("primary_disease not in @pediatric_liquid_tumors")
+    pediatric_model_df.query("primary_disease not in @liquid_tumors")
     .primary_disease.value_counts()
     .sum()
 )
 print("The number of pediatric liquid tumors:")
 print(
-    pediatric_model_df.query("primary_disease in @pediatric_liquid_tumors")
+    pediatric_model_df.query("primary_disease in @liquid_tumors")
+    .primary_disease.value_counts()
+    .sum()
+)
+
+
+# ## What cell lines are adult cancer?
+
+# In[20]:
+
+
+adult_model_df = (
+    model_df.query("age_categories == 'Adult'")
+    .query("DepMap_ID in @sample_overlap")
+    .reset_index(drop=True)
+)
+
+adult_model_df.to_csv(adult_model_output_age_cleaned_file, index=False)
+
+print(adult_model_df.shape)
+adult_model_df.head(3)
+
+
+# In[21]:
+
+
+# What is the distribution of adult tumor types
+adult_cancer_counts = adult_model_df.primary_disease.value_counts()
+adult_cancer_counts
+
+
+# In[22]:
+
+
+adult_cancer_counts.reset_index()
+
+
+# In[23]:
+
+
+# Visualize adult cancer type distribution
+adult_cancer_types_bar = (
+    gg.ggplot(
+        adult_cancer_counts.reset_index(), gg.aes(x="index", y="primary_disease")
+    )
+    + gg.geom_bar(stat="identity")
+    + gg.coord_flip()
+    + gg.ggtitle("Distribution of adult cancer types")
+    + gg.ylab("count")
+    + gg.xlab("cancer type")
+    + gg.theme_bw()
+)
+
+adult_cancer_types_bar.save(adult_cancer_type_output_figure, dpi=500)
+
+adult_cancer_types_bar
+
+
+# In[24]:
+
+
+# Adult solid vs liquid tumors
+print("The number of adult solid tumors:")
+print(
+    adult_model_df.query("primary_disease not in @liquid_tumors")
+    .primary_disease.value_counts()
+    .sum()
+)
+print("The number of adult liquid tumors:")
+print(
+    adult_model_df.query("primary_disease in @liquid_tumors")
     .primary_disease.value_counts()
     .sum()
 )
