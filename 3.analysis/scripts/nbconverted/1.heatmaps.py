@@ -149,8 +149,8 @@ g = sns.clustermap(
     cbar_pos=(1, 0.3, 0.02, 0.6),
     cmap = "coolwarm",
 )
-g.ax_row_dendrogram.set_visible(True)
-g.ax_col_dendrogram.set_visible(True)
+g.ax_row_dendrogram.set_visible(False)
+g.ax_col_dendrogram.set_visible(False)
 
 
 xx = []
@@ -161,11 +161,12 @@ for label in age_category.unique():
 legend3 = plt.legend(
     xx,
     age_category.unique(),
-    loc="center",
+    loc="upper right",
     title="age category",
-    ncol=2,
-    bbox_to_anchor=(1.8, 0.91),
+    ncol=1,
+    bbox_to_anchor=(1.75, 0.87),
     bbox_transform=gcf().transFigure,
+    fontsize = '30'
 )
 
 
@@ -177,11 +178,12 @@ for label in sex.unique():
 legend4 = plt.legend(
     yy,
     sex.unique(),
-    loc="center",
+    loc="upper right",
     title="sex",
-    ncol=3,
-    bbox_to_anchor=(1.8, 0.8),
+    ncol=1,
+    bbox_to_anchor=(1.75, 0.75),
     bbox_transform=gcf().transFigure,
+    fontsize = '30'
 )
 plt.gca().add_artist(legend3)
 
@@ -194,11 +196,12 @@ for label in train_test.unique():
 legend5 = plt.legend(
     zz,
     train_test.unique(),
-    loc="center",
+    loc="upper right",
     title="train or test",
-    ncol=2,
-    bbox_to_anchor=(1.8, 0.69),
+    ncol=1,
+    bbox_to_anchor=(1.75, 0.6),
     bbox_transform=gcf().transFigure,
+    fontsize = '30'
 )
 plt.gca().add_artist(legend4)
 
