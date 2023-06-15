@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import seaborn as sns
 import random
+import matplotlib.backends.backend_pdf
 
 sns.set_theme(color_codes=True)
 sys.path.insert(0, ".././0.data-download/scripts/")
@@ -63,8 +64,6 @@ signature.head()
 
 all_GSEA_results = []
 all_signatures = []
-neg_GSEA_results = []
-negative_control = []
 results = []
 
 range = signature.shape[1]
@@ -75,14 +74,34 @@ for col in signature.iloc[:,1:range].columns:
     results.append(result)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
     all_signatures.append(df)
-    neg_df = df.copy()
-    neg_df[col] = neg_df[col].sample(frac=1).reset_index(drop=True)
+
+
+# In[7]:
+
+
+# Generating negative control model for gsea
+
+neg_signature = signature.iloc[:, 1:].copy()
+
+for col in neg_signature.columns:
+    neg_signature.loc[:, col] = np.random.permutation(neg_signature.loc[:, col].values)
+
+genes = signature.iloc[:,:1]
+neg_signature.insert(0,'0', genes)
+
+neg_GSEA_results = []
+negative_control = []
+
+range = signature.shape[1]
+
+for col in neg_signature.iloc[:,1:range].columns:
+    neg_df = neg_signature.iloc[:,[0,int(col)]]
     neg_result = blitz.gsea(neg_df, library)
     neg_GSEA_results.append(neg_result.assign(z_dim=f"z_{col}"))
     negative_control.append(neg_df)
 
 
-# In[7]:
+# In[8]:
 
 
 # stack up all of the results to be analyzed
@@ -90,7 +109,7 @@ all_GSEA_results= pd.concat(all_GSEA_results)
 neg_GSEA_results = pd.concat(neg_GSEA_results)
 
 
-# In[8]:
+# In[9]:
 
 
 # sort by what you want to evaluate
@@ -98,7 +117,7 @@ all_GSEA_results.sort_values(by='pval', ascending = True)
 #neg_GSEA_results.sort_values(by='pval', ascending = True)
 
 
-# In[9]:
+# In[10]:
 
 
 plt.figure()
@@ -114,38 +133,76 @@ plt.ylabel('-log10(pvalue)')
 plt.title('Control Gene Set Enrichment Analysis')
 
 
-# In[10]:
+# In[11]:
 
 
 # Using VAE generated data
+
+pdf_path = "../1.data-exploration/figures/gsea_plots.pdf"
+pdf = matplotlib.backends.backend_pdf.PdfPages(pdf_path)
 
 for df in all_signatures:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
     z_result = results[int(dim)-1]
-    
-    fig = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=False)
-    fig.savefig("running_sum_z_" + dim + ".png", bbox_inches='tight')
 
-    fig_compact = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=True)
-    fig_compact.savefig("running_sum_compact_z_" + dim + ".png", bbox_inches='tight')
+    geneset = "mitochondrial translational elongation (GO:0070125)"
+
+    text, ax = plt.subplots()
+    ax.text(0.5, 0.5, 'The three following figures visualize the gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+    pdf.savefig(text, bbox_inches='tight')
+    plt.close()
+
+    fig = blitz.plot.running_sum(df, geneset, library, result=z_result, compact=False)
+    pdf.savefig(fig, bbox_inches='tight')
+    plt.close()
+
+
+    fig_compact = blitz.plot.running_sum(df, geneset, library, result=z_result, compact=True)
+    pdf.savefig(fig_compact, bbox_inches='tight')
+    plt.close()
 
     fig_table = blitz.plot.top_table(df, library, z_result, n=15)
-    fig_table.savefig("top_table_z_" + dim + ".png", bbox_inches='tight')
+    pdf.savefig(fig_table, bbox_inches='tight')
+    plt.close()
+
+pdf.close()
+
 
 # Using negative control
+
+ctrl_pdf_path = "../1.data-exploration/figures/ctrl_gsea_plots.pdf"
+ctrl_pdf = matplotlib.backends.backend_pdf.PdfPages(ctrl_pdf_path)
 
 for df in negative_control:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    fig = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=z_result, compact=False)
-    fig.savefig("running_sum_neg_z_" + dim + ".png", bbox_inches='tight')
+    geneset = "mitochondrial translational elongation (GO:0070125)"
 
-    fig_compact = blitz.plot.running_sum(df, "regulation of transcription from RNA polymerase II promoter in response to hypoxia (GO:0061418)", library, result=z_result, compact=True)
-    fig_compact.savefig("running_sum_compact_neg_z_" + dim + ".png", bbox_inches='tight')
+    text, ax = plt.subplots()
+    ax.text(0.5, 0.5, 'The three following figures visualize the negative control gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+    ctrl_pdf.savefig(text, bbox_inches='tight')
+    plt.close()
+
+    fig = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=False)
+    ctrl_pdf.savefig(fig, bbox_inches='tight')
+    plt.close()
+
+    fig_compact = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=True)
+    ctrl_pdf.savefig(fig_compact, bbox_inches='tight')
+    plt.close()
 
     fig_table = blitz.plot.top_table(df, library, z_result, n=15)
-    fig_table.savefig("top_table_neg_z_" + dim + ".png", bbox_inches='tight')
+    ctrl_pdf.savefig(fig_table, bbox_inches='tight')
+    plt.close()
+
+ctrl_pdf.close()
 
