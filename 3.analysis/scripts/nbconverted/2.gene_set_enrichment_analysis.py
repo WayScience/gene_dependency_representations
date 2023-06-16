@@ -5,13 +5,13 @@
 
 
 import sys
+import random
 import pathlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import seaborn as sns
-import random
 import matplotlib.backends.backend_pdf
 
 sns.set_theme(color_codes=True)
@@ -62,6 +62,8 @@ signature.head()
 # In[6]:
 
 
+# Running GSEA
+
 all_GSEA_results = []
 all_signatures = []
 results = []
@@ -79,20 +81,22 @@ for col in signature.iloc[:,1:range].columns:
 # In[7]:
 
 
-# Generating negative control model for gsea
-
+# Copying signature dataframe without gene column
 neg_signature = signature.iloc[:, 1:].copy()
 
+# Vertically shuffling the data in each column to create a negative control
 for col in neg_signature.columns:
     neg_signature.loc[:, col] = np.random.permutation(neg_signature.loc[:, col].values)
 
+# Adding gene column back to finalize negative control data
 genes = signature.iloc[:,:1]
 neg_signature.insert(0,'0', genes)
 
+# Running GSEA with negative control data
 neg_GSEA_results = []
 negative_control = []
 
-range = signature.shape[1]
+range = neg_signature.shape[1]
 
 for col in neg_signature.iloc[:,1:range].columns:
     neg_df = neg_signature.iloc[:,[0,int(col)]]
@@ -114,7 +118,6 @@ neg_GSEA_results = pd.concat(neg_GSEA_results)
 
 # sort by what you want to evaluate
 all_GSEA_results.sort_values(by='pval', ascending = True)
-#neg_GSEA_results.sort_values(by='pval', ascending = True)
 
 
 # In[10]:
@@ -138,9 +141,11 @@ plt.title('Control Gene Set Enrichment Analysis')
 
 # Using VAE generated data
 
-pdf_path = "../1.data-exploration/figures/gsea_plots.pdf"
+pdf_path = pathlib.Path("../1.data-exploration/figures/gsea_plots.pdf")
 pdf = matplotlib.backends.backend_pdf.PdfPages(pdf_path)
 
+# Looping over each dataframe in all_signatures to generate gsea plots for the chosen geneset with data 
+# from each latent dimension (1-100) and saving the plots to a singular pdf
 for df in all_signatures:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
@@ -174,9 +179,11 @@ pdf.close()
 
 # Using negative control
 
-ctrl_pdf_path = "../1.data-exploration/figures/ctrl_gsea_plots.pdf"
+ctrl_pdf_path = pathlib.path("../1.data-exploration/figures/ctrl_gsea_plots.pdf")
 ctrl_pdf = matplotlib.backends.backend_pdf.PdfPages(ctrl_pdf_path)
 
+# Looping over each dataframe in negative_control to generate gsea plots for the chosen geneset with data 
+# from each latent dimension (1-100) and saving the plots to a singular pdf
 for df in negative_control:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
