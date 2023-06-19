@@ -21,7 +21,6 @@ warnings.filterwarnings("ignore")
 
 
 # Set constants
-adult_threshold = 15
 liquid_tumors = ["Leukemia", "Lymphoma"]
 
 
@@ -82,22 +81,22 @@ gene_dependency_df.head(3)
 
 # Model.csv visualization
 # How many samples from Model.csv?
-n_samples_model = len(model_df["DepMap_ID"].unique())
+n_samples_model = len(model_df["ModelID"].unique())
 print(f"Number of samples documented in Model.csv: {n_samples_model} \n")
 
 # How many samples from CRISPRGeneDependency.csv?
-n_samples_gene = len(gene_dependency_df["DepMap_ID"].unique())
+n_samples_gene = len(gene_dependency_df["ModelID"].unique())
 print(f"Number of samples measured in CRISPRGeneDependency.csv: {n_samples_gene} \n")
 
 # Identify which samples are included in both Model.csv and CRISPRGeneDependency.csv
-sample_overlap = list(set(model_df["DepMap_ID"]) & set(gene_dependency_df["DepMap_ID"]))
+sample_overlap = list(set(model_df["ModelID"]) & set(gene_dependency_df["ModelID"]))
 
 # count the number of samples that overlap in both data sets
 print(f"Samples measured in both: {len(sample_overlap)} \n")
 
 # How many different types of cancer?
-n_cancer_types = model_df.query("DepMap_ID in @sample_overlap")[
-    "primary_disease"
+n_cancer_types = model_df.query("ModelID in @sample_overlap")[
+    "OncotreePrimaryDisease"
 ].nunique()
 print(f"Number of Cancer Types: \n {n_cancer_types} \n")
 
@@ -107,7 +106,7 @@ print(f"Number of Cancer Types: \n {n_cancer_types} \n")
 
 # Visualize cancer type distribution
 cancer_types_bar = (
-    gg.ggplot(model_df, gg.aes(x="primary_disease"))
+    gg.ggplot(model_df, gg.aes(x="OncotreePrimaryDisease"))
     + gg.geom_bar()
     + gg.coord_flip()
     + gg.ggtitle("Distribution of cancer types")
@@ -124,28 +123,15 @@ cancer_types_bar
 # In[8]:
 
 
-age_categories = []
 age_distribution = []
 
 # Loop through each age entry to clean it
-for age_entry in model_df.age.tolist():
-    try:
-        # If the age is an integer, apply appropriate category
-        if int(age_entry) >= adult_threshold:
-            age_categories.append("Adult")
-        else:
-            age_categories.append("Pediatric")
-
-        # If the age is an integer, apply appropriate continuous measure
+for age_entry in model_df.Age.tolist():
+    try: 
+        # If the age is an integer or float, apply appropriate continuous measure
         age_distribution.append(int(age_entry))
-
-    except ValueError:
+    except:
         # If conversion fails, categorize appropriately
-        if pd.notnull(age_entry):
-            age_categories.append(age_entry)
-        else:
-            age_categories.append("Missing")
-
         age_distribution.append(np.nan)
 
 
@@ -153,9 +139,7 @@ for age_entry in model_df.age.tolist():
 
 
 # Add columns age_categories & age_distribution
-model_df = model_df.assign(
-    age_categories=age_categories, age_distribution=age_distribution
-)
+model_df = model_df.assign(age_distribution=age_distribution)
 
 # Output file
 model_df.to_csv(model_output_age_cleaned_file, index=False)
@@ -170,10 +154,10 @@ model_df.head(3)
 
 
 age_categories_bar = (
-    gg.ggplot(model_df, gg.aes(x="age_categories"))
+    gg.ggplot(model_df, gg.aes(x="AgeCategory"))
     + gg.geom_bar()
     + gg.ggtitle(
-        f"Age categories of derived cell lines (Pediatric =< {adult_threshold})"
+        f"Age categories of derived cell lines"
     )
     + gg.theme_bw()
 )
@@ -189,9 +173,9 @@ age_categories_bar
 age_distribution_plot = (
     gg.ggplot(model_df, gg.aes(x="age_distribution"))
     + gg.geom_density()
-    + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
+    + gg.geom_vline(xintercept=18, linetype="dashed", color="red")
     + gg.ggtitle(
-        f"Age distribution of derived cell lines (Pediatric =< {adult_threshold})"
+        f"Age distribution of derived cell lines"
     )
     + gg.theme_bw()
 )
@@ -204,14 +188,14 @@ age_distribution_plot
 # In[12]:
 
 
-pd.DataFrame(age_categories).loc[:, 0].value_counts()
+model_df['AgeCategory'].value_counts()
 
 
 # In[13]:
 
 
 gendersamp_plot = (
-    gg.ggplot(model_df, gg.aes(x="sex"))
+    gg.ggplot(model_df, gg.aes(x="Sex"))
     + gg.geom_bar()
     + gg.ggtitle(f"Sex categories of derived cell lines")
     + gg.theme_bw()
@@ -228,8 +212,8 @@ gendersamp_plot
 
 
 pediatric_model_df = (
-    model_df.query("age_categories == 'Pediatric'")
-    .query("DepMap_ID in @sample_overlap")
+    model_df.query("AgeCategory == 'Pediatric'")
+    .query("ModelID in @sample_overlap")
     .reset_index(drop=True)
 )
 
@@ -244,15 +228,15 @@ pediatric_model_df.head(3)
 
 # What are the neuroblastoma models?
 pediatric_model_df.query(
-    "Cellosaurus_NCIt_disease == 'Neuroblastoma'"
-).stripped_cell_line_name
+    "OncotreeSubtype == 'Neuroblastoma'"
+).StrippedCellLineName
 
 
 # In[16]:
 
 
 # What is the distribution of pediatric tumor types
-pediatric_cancer_counts = pediatric_model_df.primary_disease.value_counts()
+pediatric_cancer_counts = pediatric_model_df.OncotreePrimaryDisease.value_counts()
 pediatric_cancer_counts
 
 
@@ -268,7 +252,7 @@ pediatric_cancer_counts.reset_index()
 # Visualize pediatric cancer type distribution
 ped_cancer_types_bar = (
     gg.ggplot(
-        pediatric_cancer_counts.reset_index(), gg.aes(x="index", y="primary_disease")
+        pediatric_cancer_counts.reset_index(), gg.aes(x="index", y="OncotreePrimaryDisease")
     )
     + gg.geom_bar(stat="identity")
     + gg.coord_flip()
@@ -287,18 +271,22 @@ ped_cancer_types_bar
 
 
 # Pediatric solid vs liquid tumors
+cancer_types = pediatric_model_df['OncotreePrimaryDisease'].tolist()
+
+liquid = []
+non_liquid = []
+
+for type in cancer_types:
+    if liquid_tumors[0] in type or liquid_tumors[1] in type:
+        liquid.append(type)
+    else:
+        non_liquid.append(type)
+
 print("The number of pediatric solid tumors:")
-print(
-    pediatric_model_df.query("primary_disease not in @liquid_tumors")
-    .primary_disease.value_counts()
-    .sum()
-)
+print(len(non_liquid))
+
 print("The number of pediatric liquid tumors:")
-print(
-    pediatric_model_df.query("primary_disease in @liquid_tumors")
-    .primary_disease.value_counts()
-    .sum()
-)
+print(len(liquid))
 
 
 # ## What cell lines are adult cancer?
@@ -307,8 +295,8 @@ print(
 
 
 adult_model_df = (
-    model_df.query("age_categories == 'Adult'")
-    .query("DepMap_ID in @sample_overlap")
+    model_df.query("AgeCategory == 'Adult'")
+    .query("ModelID in @sample_overlap")
     .reset_index(drop=True)
 )
 
@@ -322,7 +310,7 @@ adult_model_df.head(3)
 
 
 # What is the distribution of adult tumor types
-adult_cancer_counts = adult_model_df.primary_disease.value_counts()
+adult_cancer_counts = adult_model_df.OncotreePrimaryDisease.value_counts()
 adult_cancer_counts
 
 
@@ -338,7 +326,7 @@ adult_cancer_counts.reset_index()
 # Visualize adult cancer type distribution
 adult_cancer_types_bar = (
     gg.ggplot(
-        adult_cancer_counts.reset_index(), gg.aes(x="index", y="primary_disease")
+        adult_cancer_counts.reset_index(), gg.aes(x="index", y="OncotreePrimaryDisease")
     )
     + gg.geom_bar(stat="identity")
     + gg.coord_flip()
@@ -357,16 +345,20 @@ adult_cancer_types_bar
 
 
 # Adult solid vs liquid tumors
+cancer_types = adult_model_df['OncotreePrimaryDisease'].tolist()
+
+liquid = []
+non_liquid = []
+
+for type in cancer_types:
+    if liquid_tumors[0] in type or liquid_tumors[1] in type:
+        liquid.append(type)
+    else:
+        non_liquid.append(type)
+
 print("The number of adult solid tumors:")
-print(
-    adult_model_df.query("primary_disease not in @liquid_tumors")
-    .primary_disease.value_counts()
-    .sum()
-)
+print(len(non_liquid))
+
 print("The number of adult liquid tumors:")
-print(
-    adult_model_df.query("primary_disease in @liquid_tumors")
-    .primary_disease.value_counts()
-    .sum()
-)
+print(len(liquid))
 

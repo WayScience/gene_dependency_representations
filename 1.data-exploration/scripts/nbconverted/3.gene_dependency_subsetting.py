@@ -123,17 +123,17 @@ female_dependency_df.head(3)
 
 # drop the string values from all dataframes
 adult_dependency_df_float = adult_dependency_df.drop(
-    columns=["DepMap_ID", "age_and_sex"]
+    columns=["ModelID", "age_and_sex"]
 )
-ped_dependency_df_float = ped_dependency_df.drop(columns=["DepMap_ID", "age_and_sex"])
+ped_dependency_df_float = ped_dependency_df.drop(columns=["ModelID", "age_and_sex"])
 
-male_dependency_df_float = male_dependency_df.drop(columns=["DepMap_ID", "age_and_sex"])
+male_dependency_df_float = male_dependency_df.drop(columns=["ModelID", "age_and_sex"])
 female_dependency_df_float = female_dependency_df.drop(
-    columns=["DepMap_ID", "age_and_sex"]
+    columns=["ModelID", "age_and_sex"]
 )
 
 dependency_df = dfs.drop(columns="age_and_sex")
-dependency_df = dependency_df.set_index("DepMap_ID")
+dependency_df = dependency_df.set_index("ModelID")
 
 
 # In[11]:

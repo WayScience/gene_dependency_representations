@@ -33,7 +33,7 @@ def download_dependency_data(figshare_id, figshare_url, output_file):
 output_dir = pathlib.Path("data")
 figshare_url = "https://ndownloader.figshare.com/files/"
 
-download_dict = {"34990033": "CRISPRGeneDependency.csv", "35020903": "Model.csv"}
+download_dict = {"40448549": "CRISPRGeneDependency.csv", "40448834": "Model.csv"}
 
 
 # In[4]:

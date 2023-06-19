@@ -21,41 +21,40 @@ def load_data(data_directory, adult_or_pediatric="all"):
     )
     model_df = pd.read_csv(model_file, index_col=0)
 
-    # rearrange model info and gene dependency dataframe indices so DepMap_IDs are in alphabetical order
+    # rearrange model info and gene dependency dataframe indices so ModelIDs are in alphabetical order
     model_df = model_df.sort_index(ascending=True)
     model_df = model_df.reset_index()
 
-    dependency_df = (
-        dependency_df.set_index("DepMap_ID").sort_index(ascending=True).reset_index()
-    )
+    dependency_df = dependency_df.set_index("ModelID").sort_index(ascending=True)
+    dependency_df = dependency_df.reset_index()
 
     # searching for similar IDs FROM dependency df IN model df
-    dep_ids = dependency_df["DepMap_ID"].tolist()
-    dep_vs_mod_ids = set(dep_ids) & set(model_df["DepMap_ID"].tolist())
+    dep_ids = dependency_df["ModelID"].tolist()
+    mod_ids = model_df["ModelID"].tolist()
+    dep_vs_mod_ids = set(dep_ids) & set(mod_ids)
 
     # searching for similar IDs FROM model df In dependency df
-    mod_ids = model_df["DepMap_ID"].tolist()
-    mod_vs_dep_ids = set(mod_ids) & set(model_df["DepMap_ID"].tolist())
+    mod_vs_dep_ids = set(mod_ids) & set(dep_ids)
 
     # subset data to only matching IDs (samples in both dependency and model data)
-    model_df = model_df.loc[model_df["DepMap_ID"].isin(dep_vs_mod_ids)].reset_index(
+    model_df = model_df.loc[model_df["ModelID"].isin(dep_vs_mod_ids)].reset_index(
         drop=True
     )
-    dependency_df = dependency_df.loc[dependency_df["DepMap_ID"].isin(mod_vs_dep_ids)]
+    dependency_df = dependency_df.loc[dependency_df["ModelID"].isin(mod_vs_dep_ids)]
 
     if adult_or_pediatric != "all":
         model_df = model_df.query("age_categories == @adult_or_pediatric").reset_index(
             drop=True
         )
-        model_to_keep = model_df.reset_index(drop=True).DepMap_ID.tolist()
+        model_to_keep = model_df.reset_index(drop=True).ModelID.tolist()
         dependency_df = dependency_df.query(
-            "DepMap_ID == @samples_to_keep"
+            "ModelID == @samples_to_keep"
         ).reset_index(drop=True)
 
-    model_df = model_df.set_index("DepMap_ID")
+    model_df = model_df.set_index("ModelID")
     model_df = model_df.reindex(index=list(mod_vs_dep_ids)).reset_index()
 
-    dependency_df = dependency_df.set_index("DepMap_ID")
+    dependency_df = dependency_df.set_index("ModelID")
     dependency_df = dependency_df.reindex(index=list(mod_vs_dep_ids)).reset_index()
 
     return model_df, dependency_df

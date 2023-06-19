@@ -5,13 +5,13 @@
 
 
 import sys
-import random
 import pathlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import seaborn as sns
+import random
 import matplotlib.backends.backend_pdf
 
 sns.set_theme(color_codes=True)
@@ -53,7 +53,7 @@ library = blitz.enrichr.get_library("GO_Biological_Process_2017")
 
 
 # load the weight matrix 
-gene_weight_dir = pathlib.Path("../2.train-VAE//results/weight_matrix_gsea.csv")
+gene_weight_dir = pathlib.Path("../2.train-VAE/results/weight_matrix_gsea.csv")
 signature = pd.read_csv(gene_weight_dir)
 print(signature.shape)
 signature.head()
@@ -112,12 +112,22 @@ for col in neg_signature.iloc[:,1:range].columns:
 all_GSEA_results= pd.concat(all_GSEA_results)
 neg_GSEA_results = pd.concat(neg_GSEA_results)
 
+# merging real and negative control gsea results to single dataframe with column specifying source
+all_GSEA_results['source'] = 'real'
+neg_GSEA_results['source'] = 'negative control'
+
+combo_gsea_df = pd.concat([all_GSEA_results, neg_GSEA_results])
+
+# saving gsea results as single output file
+combo_gsea_dir = pathlib.Path("./results/combined_gsea_results.csv.gz")
+combo_gsea_df.to_csv(combo_gsea_dir, compression = 'gzip')
+
 
 # In[9]:
 
 
 # sort by what you want to evaluate
-all_GSEA_results.sort_values(by='pval', ascending = True)
+all_GSEA_results.sort_values(by='nes', ascending = True)
 
 
 # In[10]:
@@ -179,7 +189,7 @@ pdf.close()
 
 # Using negative control
 
-ctrl_pdf_path = pathlib.path("../1.data-exploration/figures/ctrl_gsea_plots.pdf")
+ctrl_pdf_path = pathlib.Path("../1.data-exploration/figures/ctrl_gsea_plots.pdf")
 ctrl_pdf = matplotlib.backends.backend_pdf.PdfPages(ctrl_pdf_path)
 
 # Looping over each dataframe in negative_control to generate gsea plots for the chosen geneset with data 

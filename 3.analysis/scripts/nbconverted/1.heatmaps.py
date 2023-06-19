@@ -50,8 +50,8 @@ model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
 
 
 # drop the string values
-train_df = train_init.drop(columns=["DepMap_ID", "age_and_sex"])
-test_df = test_init.drop(columns=["DepMap_ID", "age_and_sex"])
+train_df = train_init.drop(columns=["ModelID", "age_and_sex"])
+test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 
 # In[5]:
@@ -93,16 +93,16 @@ latent_df.head(5)
 # create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
 concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
-train_and_test[["age_category", "sex"]] = train_and_test.age_and_sex.str.split(
+train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
 train_and_test_subbed = train_and_test.filter(gene_list, axis=1)
 metadata_holder = []
 metadata_holder = pd.DataFrame(metadata_holder)
 metadata = metadata_holder.assign(
-    DepMap_ID=train_and_test.DepMap_ID.astype(str),
-    age_category=train_and_test.age_category.astype(str),
-    sex=train_and_test.sex.astype(str),
+    ModelID=train_and_test.ModelID.astype(str),
+    AgeCategory=train_and_test.AgeCategory.astype(str),
+    Sex=train_and_test.Sex.astype(str),
     train_or_test=train_and_test.train_or_test.astype(str),
 )
 metadata
@@ -111,8 +111,8 @@ metadata
 # In[9]:
 
 
-age_category = metadata.pop("age_category")
-sex = metadata.pop("sex")
+AgeCategory = metadata.pop("AgeCategory")
+Sex = metadata.pop("Sex")
 train_test = metadata.pop("train_or_test")
 
 
@@ -121,17 +121,17 @@ train_test = metadata.pop("train_or_test")
 
 # display clustered heatmap of coefficients
 lut_pal = sns.cubehelix_palette(
-    age_category.unique().size, light=0.9, dark=0.1, reverse=True, start=1, rot=-2
+    AgeCategory.unique().size, light=0.9, dark=0.1, reverse=True, start=1, rot=-2
 )
-put_pal = sns.cubehelix_palette(sex.unique().size)
+put_pal = sns.cubehelix_palette(Sex.unique().size)
 mut_pal = sns.color_palette("hls", train_test.unique().size)
 
-lut = dict(zip(age_category.unique(), lut_pal))
-put = dict(zip(sex.unique(), put_pal))
+lut = dict(zip(AgeCategory.unique(), lut_pal))
+put = dict(zip(Sex.unique(), put_pal))
 mut = dict(zip(train_test.unique(), mut_pal))
 
-row_colors1 = age_category.map(lut)
-row_colors2 = sex.map(put)
+row_colors1 = AgeCategory.map(lut)
+row_colors2 = Sex.map(put)
 row_colors3 = train_test.map(mut)
 
 network_node_colors = pd.DataFrame(row_colors1).join(
@@ -154,13 +154,13 @@ g.ax_col_dendrogram.set_visible(False)
 
 
 xx = []
-for label in age_category.unique():
+for label in AgeCategory.unique():
     x = g.ax_row_dendrogram.bar(0, 0, color=lut[label], label=label, linewidth=0)
     xx.append(x)
 # add the legend
 legend3 = plt.legend(
     xx,
-    age_category.unique(),
+    AgeCategory.unique(),
     loc="upper right",
     title="age category",
     ncol=1,
@@ -171,13 +171,13 @@ legend3 = plt.legend(
 
 
 yy = []
-for label in sex.unique():
+for label in Sex.unique():
     y = g.ax_row_dendrogram.bar(0, 0, color=put[label], label=label, linewidth=0)
     yy.append(y)
 # add the second legend
 legend4 = plt.legend(
     yy,
-    sex.unique(),
+    Sex.unique(),
     loc="upper right",
     title="sex",
     ncol=1,
