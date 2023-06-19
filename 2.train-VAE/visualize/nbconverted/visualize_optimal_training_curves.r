@@ -40,7 +40,7 @@ full_gg <- (
         values = curve_colors
     )
     + xlab(xlab_)
-    + ylab("Loss value\n(Reconstruction + BetaKL)")
+    + ylab("BetaVAE Loss value\n(Reconstruction + BetaKL)")
 )
 
 full_gg
@@ -71,12 +71,12 @@ combined_gg <- cowplot::ggdraw(
     + cowplot::draw_plot(
         zoom_gg,
         x = 200,
-        y = 11000,
+        y = 7000,
         width = 650,
         height = 12000
     )
 )
 
-ggsave(output_file, combined_gg, width = 7, height = 6, dpi = 500)
+ggsave(output_file, combined_gg, width = 4.5, height = 3, dpi = 500)
 
 combined_gg
