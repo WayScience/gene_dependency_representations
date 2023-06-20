@@ -92,14 +92,14 @@ decoder_architecture = []
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
 trained_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=10,
+    latent_dim=70,
     batch_size=16,
     encoder_batch_norm=True,
-    epochs=905, 
-    learning_rate=0.001,
+    epochs=805, 
+    learning_rate=0.0001,
     encoder_architecture=encoder_architecture,
     decoder_architecture=decoder_architecture,
-    beta=1,
+    beta=3,
     lam=0,
     verbose=True,
 )

@@ -21,6 +21,7 @@ warnings.filterwarnings("ignore")
 
 
 # Set constants
+adult_threshold = 18
 liquid_tumors = ["Leukemia", "Lymphoma"]
 
 
@@ -34,11 +35,6 @@ fig_dir.mkdir(exist_ok=True)
 
 model_input_file = pathlib.Path(f"{data_dir}/Model.csv")
 crispr_input_file = pathlib.Path(f"{data_dir}/CRISPRGeneDependency.csv")
-
-model_output_age_cleaned_file = pathlib.Path(f"{data_dir}/Model_age_column_cleaned.csv")
-ped_model_output_age_cleaned_file = pathlib.Path(f"{data_dir}/Pediatric_model_age_column_cleaned.csv")
-adult_model_output_age_cleaned_file = pathlib.Path(f"{data_dir}/Adult_model_age_column_cleaned.csv")
-
 
 cancer_type_output_figure = pathlib.Path(f"{fig_dir}/sample_cancer_types_bar_chart.png")
 age_category_output_figure = pathlib.Path(f"{fig_dir}/age_categories_bar_chart.png")
@@ -118,39 +114,9 @@ cancer_types_bar.save(cancer_type_output_figure, dpi=500)
 cancer_types_bar
 
 
-# ## Clean age variable
-
-# In[8]:
-
-
-age_distribution = []
-
-# Loop through each age entry to clean it
-for age_entry in model_df.Age.tolist():
-    try: 
-        # If the age is an integer or float, apply appropriate continuous measure
-        age_distribution.append(int(age_entry))
-    except:
-        # If conversion fails, categorize appropriately
-        age_distribution.append(np.nan)
-
-
-# In[9]:
-
-
-# Add columns age_categories & age_distribution
-model_df = model_df.assign(age_distribution=age_distribution)
-
-# Output file
-model_df.to_csv(model_output_age_cleaned_file, index=False)
-
-print(model_df.shape)
-model_df.head(3)
-
-
 # ## Visualize age categories and distribution
 
-# In[10]:
+# In[8]:
 
 
 age_categories_bar = (
@@ -167,13 +133,13 @@ age_categories_bar.save(age_category_output_figure, dpi=500)
 age_categories_bar
 
 
-# In[11]:
+# In[9]:
 
 
 age_distribution_plot = (
-    gg.ggplot(model_df, gg.aes(x="age_distribution"))
+    gg.ggplot(model_df, gg.aes(x="Age"))
     + gg.geom_density()
-    + gg.geom_vline(xintercept=18, linetype="dashed", color="red")
+    + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
     + gg.ggtitle(
         f"Age distribution of derived cell lines"
     )
@@ -185,13 +151,13 @@ age_distribution_plot.save(age_distribution_output_figure, dpi=500)
 age_distribution_plot
 
 
-# In[12]:
+# In[10]:
 
 
 model_df['AgeCategory'].value_counts()
 
 
-# In[13]:
+# In[11]:
 
 
 gendersamp_plot = (
@@ -208,7 +174,7 @@ gendersamp_plot
 
 # ## What cell lines are pediatric cancer?
 
-# In[14]:
+# In[12]:
 
 
 pediatric_model_df = (
@@ -217,13 +183,11 @@ pediatric_model_df = (
     .reset_index(drop=True)
 )
 
-pediatric_model_df.to_csv(ped_model_output_age_cleaned_file, index=False)
-
 print(pediatric_model_df.shape)
 pediatric_model_df.head(3)
 
 
-# In[15]:
+# In[13]:
 
 
 # What are the neuroblastoma models?
@@ -232,7 +196,7 @@ pediatric_model_df.query(
 ).StrippedCellLineName
 
 
-# In[16]:
+# In[14]:
 
 
 # What is the distribution of pediatric tumor types
@@ -240,13 +204,13 @@ pediatric_cancer_counts = pediatric_model_df.OncotreePrimaryDisease.value_counts
 pediatric_cancer_counts
 
 
-# In[17]:
+# In[15]:
 
 
 pediatric_cancer_counts.reset_index()
 
 
-# In[18]:
+# In[16]:
 
 
 # Visualize pediatric cancer type distribution
@@ -267,31 +231,31 @@ ped_cancer_types_bar.save(pediatric_cancer_type_output_figure, dpi=500)
 ped_cancer_types_bar
 
 
-# In[19]:
+# In[17]:
 
 
 # Pediatric solid vs liquid tumors
 cancer_types = pediatric_model_df['OncotreePrimaryDisease'].tolist()
 
-liquid = []
-non_liquid = []
+ped_liquid = []
+ped_non_liquid = []
 
-for type in cancer_types:
-    if liquid_tumors[0] in type or liquid_tumors[1] in type:
-        liquid.append(type)
+for cancer_type in cancer_types:
+    if liquid_tumors[0] in cancer_type or liquid_tumors[1] in cancer_type:
+        ped_liquid.append(cancer_type)
     else:
-        non_liquid.append(type)
+        ped_non_liquid.append(cancer_type)
 
 print("The number of pediatric solid tumors:")
-print(len(non_liquid))
+print(len(ped_non_liquid))
 
 print("The number of pediatric liquid tumors:")
-print(len(liquid))
+print(len(ped_liquid))
 
 
 # ## What cell lines are adult cancer?
 
-# In[20]:
+# In[18]:
 
 
 adult_model_df = (
@@ -300,13 +264,11 @@ adult_model_df = (
     .reset_index(drop=True)
 )
 
-adult_model_df.to_csv(adult_model_output_age_cleaned_file, index=False)
-
 print(adult_model_df.shape)
 adult_model_df.head(3)
 
 
-# In[21]:
+# In[19]:
 
 
 # What is the distribution of adult tumor types
@@ -314,13 +276,13 @@ adult_cancer_counts = adult_model_df.OncotreePrimaryDisease.value_counts()
 adult_cancer_counts
 
 
-# In[22]:
+# In[20]:
 
 
 adult_cancer_counts.reset_index()
 
 
-# In[23]:
+# In[21]:
 
 
 # Visualize adult cancer type distribution
@@ -341,24 +303,24 @@ adult_cancer_types_bar.save(adult_cancer_type_output_figure, dpi=500)
 adult_cancer_types_bar
 
 
-# In[24]:
+# In[22]:
 
 
 # Adult solid vs liquid tumors
 cancer_types = adult_model_df['OncotreePrimaryDisease'].tolist()
 
-liquid = []
-non_liquid = []
+adult_liquid = []
+adult_non_liquid = []
 
-for type in cancer_types:
-    if liquid_tumors[0] in type or liquid_tumors[1] in type:
-        liquid.append(type)
+for cancer_type in cancer_types:
+    if liquid_tumors[0] in cancer_type or liquid_tumors[1] in cancer_type:
+        adult_liquid.append(cancer_type)
     else:
-        non_liquid.append(type)
+        adult_non_liquid.append(cancer_type)
 
 print("The number of adult solid tumors:")
-print(len(non_liquid))
+print(len(adult_non_liquid))
 
 print("The number of adult liquid tumors:")
-print(len(liquid))
+print(len(adult_liquid))
 
