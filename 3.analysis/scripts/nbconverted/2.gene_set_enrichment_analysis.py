@@ -127,7 +127,7 @@ combo_gsea_df.to_csv(combo_gsea_dir, compression = 'gzip')
 
 
 # sort by what you want to evaluate
-all_GSEA_results.sort_values(by='nes', ascending = True)
+combo_gsea_df.sort_values(by='nes', ascending = True)
 
 
 # In[10]:

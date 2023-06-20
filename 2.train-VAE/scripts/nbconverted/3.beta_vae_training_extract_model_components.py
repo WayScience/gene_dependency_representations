@@ -188,6 +188,9 @@ metadata = metadata_holder.assign(
     Sex=train_and_test.Sex.astype(str),
     train_or_test=train_and_test.train_or_test.astype(str),
 )
+
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv")
+metadata.to_csv(metadata_df_dir, index=False)
 metadata
 
 
