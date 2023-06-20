@@ -12,15 +12,27 @@ def load_data(data_directory, adult_or_pediatric="all"):
 
     # Define data paths
     data_directory = "../0.data-download/data/"
-    model_file = pathlib.Path(data_directory, "Model_age_column_cleaned.csv")
+    model_file = pathlib.Path(data_directory, "Model.csv")
     dependency_data_file = pathlib.Path(data_directory, "CRISPRGeneDependency.csv")
 
     # Load data
     dependency_df = (
         pd.read_csv(dependency_data_file, index_col=0).reset_index().dropna(axis=1)
     )
-    model_df = pd.read_csv(model_file, index_col=0)
+    model_df = pd.read_csv(model_file)
+ 
+    # Ensure ID variable is ModelID; if not then rename
+    try:
+        dependency_df['ModelID']
+    except:
+        dependency_df = dependency_df.rename(columns={dependency_df.columns[0]:"ModelID"})
 
+    try:
+        model_df['ModelID']
+    except ValueError:
+        model_df = model_df.rename(columns={model_df.columns[0]:"ModelID"})
+
+    
     # rearrange model info and gene dependency dataframe indices so ModelIDs are in alphabetical order
     model_df = model_df.sort_index(ascending=True)
     model_df = model_df.reset_index()
