@@ -40,8 +40,8 @@ test_feat = dfs[1]
 load_gene_stats = dfs[2]
 
 # Prepare data for training
-train_features_df = train_feat.drop(columns=["DepMap_ID", "age_and_sex"])
-test_features_df = test_feat.drop(columns=["DepMap_ID", "age_and_sex"])
+train_features_df = train_feat.drop(columns=["ModelID", "age_and_sex"])
+test_features_df = test_feat.drop(columns=["ModelID", "age_and_sex"])
 
 # subsetting the genes
 # create dataframe containing the 1000 genes with the largest variances and their corresponding gene label and extract the gene labels

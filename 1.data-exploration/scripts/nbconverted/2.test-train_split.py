@@ -33,9 +33,9 @@ model_df, dependency_df = load_data(data_directory, adult_or_pediatric="all")
 # In[4]:
 
 
-# verifying that the DepMap_IDs in model_df and dependency_df are alligned
+# verifying that the ModelIDs in model_df and dependency_df are alligned
 model_df["ID_allignment_verify"] = np.where(
-    dependency_df["DepMap_ID"] == model_df["DepMap_ID"], "True", "False"
+    dependency_df["ModelID"] == model_df["ModelID"], "True", "False"
 )
 verrify = len(model_df["ID_allignment_verify"].unique())
 print(model_df["ID_allignment_verify"])
@@ -47,9 +47,9 @@ print(
 # In[5]:
 
 
-# assign 'age_categories' and 'sex' columns to the dependency dataframe as a single column
+# assign 'AgeCategory' and 'Sex' columns to the dependency dataframe as a single column
 presplit_dependency_df = dependency_df.assign(
-    age_and_sex=model_df.age_categories.astype(str) + "_" + model_df.sex.astype(str)
+    age_and_sex=model_df.AgeCategory.astype(str) + "_" + model_df.Sex.astype(str)
 )
 presplit_dependency_df
 
@@ -57,7 +57,7 @@ presplit_dependency_df
 # In[6]:
 
 
-groups = model_df.groupby("age_categories")
+groups = model_df.groupby("AgeCategory")
 df_list = []
 for name, df in groups:
 
@@ -65,9 +65,9 @@ for name, df in groups:
     if name == "Adult" or name == "Pediatric":
         df_list.append(df)
 
-# merge sample dataframes through concatentation and reorganize so that DepMap_IDs are in alphabetical order
+# merge sample dataframes through concatentation and reorganize so that ModelIDs are in alphabetical order
 new_df = pd.concat(df_list, axis=0)
-new_df = new_df.set_index("DepMap_ID")
+new_df = new_df.set_index("ModelID")
 new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
@@ -75,14 +75,14 @@ new_df = new_df.reset_index()
 # In[7]:
 
 
-# creating a list of DepMap_IDs that correlate to pediatric and adult samples
-PA_dependency_IDs = new_df["DepMap_ID"].tolist()
+# creating a list of ModelIDs that correlate to pediatric and adult samples
+PA_dependency_IDs = new_df["ModelID"].tolist()
 
-PA_IDs = set(PA_dependency_IDs) & set(presplit_dependency_df["DepMap_ID"].tolist())
+PA_IDs = set(PA_dependency_IDs) & set(presplit_dependency_df["ModelID"].tolist())
 
-# creating a new gene dependency data frame containing correlating DepMap_IDs to the filtered sample info IDs
+# creating a new gene dependency data frame containing correlating ModelIDs to the filtered sample info IDs
 PA_dependency_df = presplit_dependency_df.loc[
-    presplit_dependency_df["DepMap_ID"].isin(PA_IDs)
+    presplit_dependency_df["ModelID"].isin(PA_IDs)
 ].reset_index(drop=True)
 
 

@@ -47,8 +47,8 @@ train_init, test_init, gene_stats = load_train_test_data(
 
 
 # drop the string values
-train_df = train_init.drop(columns=["DepMap_ID", "age_and_sex"])
-test_df = test_init.drop(columns=["DepMap_ID", "age_and_sex"])
+train_df = train_init.drop(columns=["ModelID", "age_and_sex"])
+test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 
 # In[5]:
@@ -92,14 +92,14 @@ decoder_architecture = []
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
 trained_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=100,
-    batch_size=112,
+    latent_dim=70,
+    batch_size=16,
     encoder_batch_norm=True,
-    epochs=905,
-    learning_rate=0.005,
+    epochs=805, 
+    learning_rate=0.0001,
     encoder_architecture=encoder_architecture,
     decoder_architecture=decoder_architecture,
-    beta=10,
+    beta=3,
     lam=0,
     verbose=True,
 )
@@ -152,52 +152,46 @@ plt.show()
 # In[14]:
 
 
-#Need to add code here to close those model
-
-
-# In[15]:
-
-
 encoder = trained_vae.encoder_block["encoder"]
 decoder = trained_vae.decoder_block["decoder"]
 
 
-# In[16]:
+# In[15]:
 
 
 data_dir = "../0.data-download/data/"
 model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
 
 
-# In[17]:
+# In[16]:
 
 
 train_init["train_or_test"] = train_init.apply(lambda _: "train", axis=1)
 test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 
 
-# In[18]:
+# In[17]:
 
 
 # create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
 concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
-train_and_test[["age_category", "sex"]] = train_and_test.age_and_sex.str.split(
+train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
 train_and_test_subbed = train_and_test.filter(gene_list, axis=1)
 metadata_holder = []
 metadata_holder = pd.DataFrame(metadata_holder)
 metadata = metadata_holder.assign(
-    DepMap_ID=train_and_test.DepMap_ID.astype(str),
-    age_category=train_and_test.age_category.astype(str),
-    sex=train_and_test.sex.astype(str),
+    ModelID=train_and_test.ModelID.astype(str),
+    AgeCategory=train_and_test.AgeCategory.astype(str),
+    Sex=train_and_test.Sex.astype(str),
     train_or_test=train_and_test.train_or_test.astype(str),
 )
 metadata
 
 
-# In[19]:
+# In[18]:
 
 
 # Extract the latent space dimensions
@@ -205,10 +199,10 @@ latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
 
 latent_df = pd.DataFrame(latent_complete)
 
-# Create df of the latent space dimensions with the DepMap IDs added back in
-extracted_col = metadata['DepMap_ID']
+# Create df of the latent space dimensions with the Model IDs added back in
+extracted_col = metadata['ModelID']
 
-latent_df.insert(0, 'DepMap_ID', extracted_col)
+latent_df.insert(0, 'ModelID', extracted_col)
 
 # Save as a csv
 latent_df_dir = pathlib.Path("./results/latent_df.csv")
@@ -218,7 +212,7 @@ latent_df.to_csv(latent_df_dir, index=False)
 latent_df.head()
 
 
-# In[20]:
+# In[19]:
 
 
 # Extract the weights learned from the model, tranpose
@@ -232,7 +226,7 @@ weight_df.to_csv(weight_df_dir, index=False)
 weight_df.head()
 
 
-# In[21]:
+# In[20]:
 
 
 # Transpose, add gene names back in, transpose again, reset the index, renumber the columns 
