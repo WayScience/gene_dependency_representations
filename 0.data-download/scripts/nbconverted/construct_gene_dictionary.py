@@ -7,7 +7,7 @@
 # 
 # Additionally, the `depmap_gene_meta.tsv` contains genes that passed an initial QC (see Pan et al. 2022).
 # 
-# This notebooke will create a four column matrix that separates symbol from entrez id, retains the original column name, and includes a column of if the gene passed QC.
+# This notebook will create a four column matrix that separates symbol from entrez id, retains the original column name, and includes a column of if the gene passed QC.
 # 
 # Example:
 # 
@@ -139,7 +139,7 @@ gene_dictionary_qc_df = (
 gene_dictionary_qc_df.loc[gene_dictionary_qc_df.qc_pass != False, "qc_pass"] = True
 
 # Output file
-gene_dictionary_df.to_csv(output_gene_dict_file, index=False, sep="\t")
+gene_dictionary_qc_df.to_csv(output_gene_dict_file, index=False, sep="\t")
 
 print(gene_dictionary_qc_df.qc_pass.value_counts())
 print(gene_dictionary_qc_df.shape)

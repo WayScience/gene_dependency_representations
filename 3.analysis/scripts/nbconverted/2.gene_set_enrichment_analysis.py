@@ -155,7 +155,7 @@ pdf_path = pathlib.Path("../1.data-exploration/figures/gsea_plots.pdf")
 pdf = matplotlib.backends.backend_pdf.PdfPages(pdf_path)
 
 # Looping over each dataframe in all_signatures to generate gsea plots for the chosen geneset with data 
-# from each latent dimension (1-100) and saving the plots to a singular pdf
+# from each latent dimension and saving the plots to a singular pdf
 for df in all_signatures:
     col_titles = df.columns.tolist()
     dim = col_titles[1]
@@ -193,7 +193,7 @@ ctrl_pdf_path = pathlib.Path("../1.data-exploration/figures/ctrl_gsea_plots.pdf"
 ctrl_pdf = matplotlib.backends.backend_pdf.PdfPages(ctrl_pdf_path)
 
 # Looping over each dataframe in negative_control to generate gsea plots for the chosen geneset with data 
-# from each latent dimension (1-100) and saving the plots to a singular pdf
+# from each latent dimension and saving the plots to a singular pdf
 for df in negative_control:
     col_titles = df.columns.tolist()
     dim = col_titles[1]

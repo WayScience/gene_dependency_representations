@@ -55,10 +55,13 @@ test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 
 # subsetting the genes
-# create dataframe containing the 1000 genes with the largest variances and their corresponding gene label and extract the gene labels
-largest_var_df = gene_stats.nlargest(1000, "variance")
-gene_list = largest_var_df["gene_ID"].tolist()
-gene_list
+
+# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_list = []
+for index, row in gene_dict_df.iterrows():
+    if row['qc_pass'] == True:
+        gene_list.append(row['dependency_column'])
 
 # create new training and testing dataframes that contain only the corresponding genes
 subset_train_df = train_df.filter(gene_list, axis=1)
@@ -160,7 +163,7 @@ decoder = trained_vae.decoder_block["decoder"]
 
 
 data_dir = "../0.data-download/data/"
-model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
+model_df, effect_df = load_data(data_dir, adult_or_pediatric="all")
 
 
 # In[16]:
@@ -173,7 +176,7 @@ test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 # In[17]:
 
 
-# create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
+# create a data frame of both test and train gene effect data sorted by top 1000 highest gene variances
 concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(

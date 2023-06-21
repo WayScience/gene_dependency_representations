@@ -13,52 +13,51 @@ def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
     # Define data paths
     data_directory = "../0.data-download/data/"
     model_file = pathlib.Path(data_directory, "Model.csv")
-    dependency_data_file = pathlib.Path(data_directory, "CRISPRGeneDependency.csv")
+    effect_data_file = pathlib.Path(data_directory, "CRISPRGeneEffect.csv")
 
     # Load data
-    dependency_df = (
-        pd.read_csv(dependency_data_file, index_col=0).reset_index().dropna(axis=1)
-    )
     model_df = pd.read_csv(model_file)
- 
+    effect_df = (
+        pd.read_csv(effect_data_file, index_col=0).reset_index().dropna(axis=1)
+    )
 
-    # rearrange model info and gene dependency dataframe indices so id_column is in alphabetical order
+    # rearrange model info and gene effect dataframe indices so id_column is in alphabetical order
     model_df = model_df.sort_index(ascending=True)
     model_df = model_df.reset_index()
 
-    dependency_df = dependency_df.set_index(id_column).sort_index(ascending=True)
-    dependency_df = dependency_df.reset_index()
+    effect_df = effect_df.set_index(id_column).sort_index(ascending=True)
+    effect_df = effect_df.reset_index()
 
-    # searching for similar IDs FROM dependency df IN model df
-    dep_ids = dependency_df[id_column].tolist()
+    # searching for similar IDs FROM effect df IN model df
+    eff_ids = effect_df[id_column].tolist()
     mod_ids = model_df[id_column].tolist()
-    dep_vs_mod_ids = set(dep_ids) & set(mod_ids)
+    eff_vs_mod_ids = set(eff_ids) & set(mod_ids)
 
-    # searching for similar IDs FROM model df In dependency df
-    mod_vs_dep_ids = set(mod_ids) & set(dep_ids)
+    # searching for similar IDs FROM model df In effect df
+    mod_vs_eff_ids = set(mod_ids) & set(eff_ids)
 
-    # subset data to only matching IDs (samples in both dependency and model data)
-    model_df = model_df.loc[model_df[id_column].isin(dep_vs_mod_ids)].reset_index(
+    # subset data to only matching IDs (samples in both effect and model data)
+    model_df = model_df.loc[model_df[id_column].isin(eff_vs_mod_ids)].reset_index(
         drop=True
     )
-    dependency_df = dependency_df.loc[dependency_df[id_column].isin(mod_vs_dep_ids)]
+    effect_df = effect_df.loc[effect_df[id_column].isin(mod_vs_eff_ids)]
 
     if adult_or_pediatric != "all":
         model_df = model_df.query("age_categories == @adult_or_pediatric").reset_index(
             drop=True
         )
         model_to_keep = model_df.reset_index(drop=True).ast.literal_eval(id_column).tolist()
-        dependency_df = dependency_df.query(
+        effect_df = effect_df.query(
             id_column + " == @samples_to_keep"
         ).reset_index(drop=True)
 
     model_df = model_df.set_index(id_column)
-    model_df = model_df.reindex(index=list(mod_vs_dep_ids)).reset_index()
+    model_df = model_df.reindex(index=list(mod_vs_eff_ids)).reset_index()
 
-    dependency_df = dependency_df.set_index(id_column)
-    dependency_df = dependency_df.reindex(index=list(mod_vs_dep_ids)).reset_index()
+    effect_df = effect_df.set_index(id_column)
+    effect_df = effect_df.reindex(index=list(mod_vs_eff_ids)).reset_index()
 
-    return model_df, dependency_df
+    return model_df, effect_df
 
 
 def load_train_test_data(
