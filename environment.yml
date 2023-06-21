@@ -3,6 +3,9 @@ channels:
   - conda-forge
 dependencies:
   - conda-forge::jupyterlab=>3.4.4
+  - conda-forge::jupyter
+  - conda-forge::ipykernel
+  - conda-forge::nb_conda_kernels
   - conda-forge::python=>3.10
   - conda-forge::urllib3=>1.26.9
   - conda-forge::seaborn=>0.11.2
