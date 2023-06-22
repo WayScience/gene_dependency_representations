@@ -43,7 +43,7 @@ train_init, test_init, gene_stats = load_train_test_data(
 )
 
 data_dir = "../0.data-download/data/"
-model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
+model_df, effect_df = load_data(data_dir, adult_or_pediatric="all")
 
 
 # In[4]:
@@ -90,7 +90,7 @@ latent_df.head(5)
 # In[8]:
 
 
-# create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
+# create a data frame of both test and train gene effect data sorted by top 1000 highest gene variances
 concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(

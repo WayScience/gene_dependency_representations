@@ -8,6 +8,7 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 sys.path.insert(0, "../0.data-download/scripts/")
 from data_loader import load_data
@@ -27,15 +28,15 @@ print(random.random())
 
 # load all of the data
 data_directory = "../0.data-download/data/"
-model_df, dependency_df = load_data(data_directory, adult_or_pediatric="all")
+model_df, effect_df = load_data(data_directory, adult_or_pediatric="all")
 
 
 # In[4]:
 
 
-# verifying that the ModelIDs in model_df and dependency_df are alligned
+# verifying that the ModelIDs in model_df and effect_df are alligned
 model_df["ID_allignment_verify"] = np.where(
-    dependency_df["ModelID"] == model_df["ModelID"], "True", "False"
+    effect_df["ModelID"] == model_df["ModelID"], "True", "False"
 )
 verrify = len(model_df["ID_allignment_verify"].unique())
 print(model_df["ID_allignment_verify"])
@@ -47,11 +48,11 @@ print(
 # In[5]:
 
 
-# assign 'AgeCategory' and 'Sex' columns to the dependency dataframe as a single column
-presplit_dependency_df = dependency_df.assign(
+# assign 'AgeCategory' and 'Sex' columns to the effect dataframe as a single column
+presplit_effect_df = effect_df.assign(
     age_and_sex=model_df.AgeCategory.astype(str) + "_" + model_df.Sex.astype(str)
 )
-presplit_dependency_df
+presplit_effect_df
 
 
 # In[6]:
@@ -76,13 +77,13 @@ new_df = new_df.reset_index()
 
 
 # creating a list of ModelIDs that correlate to pediatric and adult samples
-PA_dependency_IDs = new_df["ModelID"].tolist()
+PA_effect_IDs = new_df["ModelID"].tolist()
 
-PA_IDs = set(PA_dependency_IDs) & set(presplit_dependency_df["ModelID"].tolist())
+PA_IDs = set(PA_effect_IDs) & set(presplit_effect_df["ModelID"].tolist())
 
-# creating a new gene dependency data frame containing correlating ModelIDs to the filtered sample info IDs
-PA_dependency_df = presplit_dependency_df.loc[
-    presplit_dependency_df["ModelID"].isin(PA_IDs)
+# creating a new gene effect data frame containing correlating ModelIDs to the filtered sample info IDs
+PA_effect_df = presplit_effect_df.loc[
+    presplit_effect_df["ModelID"].isin(PA_IDs)
 ].reset_index(drop=True)
 
 
@@ -91,11 +92,51 @@ PA_dependency_df = presplit_dependency_df.loc[
 
 # split the data based on age category and sex
 train_df, test_df = train_test_split(
-    PA_dependency_df, test_size=0.15, stratify=PA_dependency_df.age_and_sex
+    PA_effect_df, test_size=0.15, stratify=PA_effect_df.age_and_sex
 )
+train_df.reset_index(drop=True,inplace=True)
+test_df.reset_index(drop=True,inplace=True)
 
 
 # In[9]:
+
+
+# preparing train dataframe to be scaled
+col_num = train_df.shape[1]
+train_scaled_df = train_df.iloc[:, 1:col_num-1]
+
+# scaling gene effect data to 0-1 range
+scaler = MinMaxScaler(feature_range=(0,1))
+train_scaled_df = scaler.fit_transform(train_scaled_df)
+
+# adding id column and age and sex column back
+train_scaled_df = pd.DataFrame(train_scaled_df)
+train_scaled_df.insert(0, train_df.columns[0], train_df[train_df.columns[0]])
+train_scaled_df.insert(col_num-1, train_df.columns[col_num-1], train_df[train_df.columns[col_num-1]])
+train_scaled_df.columns = train_df.columns
+train_scaled_df
+
+
+# In[10]:
+
+
+# preparing test dataframe to be scaled
+col_num = test_df.shape[1]
+test_scaled_df = test_df.iloc[:, 1:col_num-1]
+
+# scaling gene effect data to 0-1 range
+scaler = MinMaxScaler(feature_range=(0,1))
+test_scaled_df = scaler.fit_transform(test_scaled_df)
+
+# adding id column and age and sex column back
+test_scaled_df = pd.DataFrame(test_scaled_df)
+test_scaled_df.insert(0, test_df.columns[0], test_df[test_df.columns[0]])
+test_scaled_df.insert(col_num-1, test_df.columns[col_num-1], test_df[test_df.columns[col_num-1]])
+test_scaled_df.columns = test_df.columns
+test_scaled_df
+
+
+# In[11]:
 
 
 # save the TESTING dataframe
@@ -106,7 +147,7 @@ print(test_df.shape)
 test_df.head(3)
 
 
-# In[10]:
+# In[12]:
 
 
 # save the TRAINING dataframe

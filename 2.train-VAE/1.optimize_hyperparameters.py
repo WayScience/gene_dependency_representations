@@ -44,14 +44,14 @@ train_features_df = train_feat.drop(columns=["ModelID", "age_and_sex"])
 test_features_df = test_feat.drop(columns=["ModelID", "age_and_sex"])
 
 # subsetting the genes
-# create dataframe containing the 1000 genes with the largest variances and their corresponding gene label and extract the gene labels
-largest_var_df = load_gene_stats.nlargest(1000, "variance")
-gene_list = largest_var_df["gene_ID"].tolist()
-gene_list
+
+# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
 
 # create new training and testing dataframes that contain only the corresponding genes
-train_df = train_feat.filter(gene_list, axis=1)
-test_df = test_feat.filter(gene_list, axis=1)
+train_df = train_feat.filter(gene_list_passed_qc, axis=1)
+test_df = test_feat.filter(gene_list_passed_qc, axis=1)
 
 
 # Initialize hyper parameter VAE tuning

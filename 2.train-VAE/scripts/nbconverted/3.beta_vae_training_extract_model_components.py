@@ -55,14 +55,14 @@ test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 
 # subsetting the genes
-# create dataframe containing the 1000 genes with the largest variances and their corresponding gene label and extract the gene labels
-largest_var_df = gene_stats.nlargest(1000, "variance")
-gene_list = largest_var_df["gene_ID"].tolist()
-gene_list
+
+# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
 
 # create new training and testing dataframes that contain only the corresponding genes
-subset_train_df = train_df.filter(gene_list, axis=1)
-subset_test_df = test_df.filter(gene_list, axis=1)
+subset_train_df = train_df.filter(gene_list_passed_qc, axis=1)
+subset_test_df = test_df.filter(gene_list_passed_qc, axis=1)
 
 
 # In[6]:
@@ -92,14 +92,14 @@ decoder_architecture = []
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
 trained_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=70,
-    batch_size=16,
+    latent_dim=56,
+    batch_size=112,
     encoder_batch_norm=True,
-    epochs=805, 
-    learning_rate=0.0001,
+    epochs=305, 
+    learning_rate=0.005,
     encoder_architecture=encoder_architecture,
     decoder_architecture=decoder_architecture,
-    beta=3,
+    beta=1,
     lam=0,
     verbose=True,
 )
@@ -160,7 +160,7 @@ decoder = trained_vae.decoder_block["decoder"]
 
 
 data_dir = "../0.data-download/data/"
-model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
+model_df, effect_df = load_data(data_dir, adult_or_pediatric="all")
 
 
 # In[16]:
@@ -173,13 +173,13 @@ test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 # In[17]:
 
 
-# create a data frame of both test and train gene dependency data sorted by top 1000 highest gene variances
+# create a data frame of both test and train gene effect data sorted by top 1000 highest gene variances
 concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
-train_and_test_subbed = train_and_test.filter(gene_list, axis=1)
+train_and_test_subbed = train_and_test.filter(gene_list_passed_qc, axis=1)
 metadata_holder = []
 metadata_holder = pd.DataFrame(metadata_holder)
 metadata = metadata_holder.assign(
@@ -188,6 +188,9 @@ metadata = metadata_holder.assign(
     Sex=train_and_test.Sex.astype(str),
     train_or_test=train_and_test.train_or_test.astype(str),
 )
+
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv")
+metadata.to_csv(metadata_df_dir, index=False)
 metadata
 
 

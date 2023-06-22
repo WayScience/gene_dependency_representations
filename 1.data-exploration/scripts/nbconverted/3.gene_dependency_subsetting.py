@@ -42,19 +42,19 @@ training_df_age = dfs
 
 # group by age and create new dataframes that can be appended to
 groups = training_df_age.groupby("age_and_sex")
-adult_dependency_df = pd.DataFrame()
-ped_dependency_df = pd.DataFrame()
+adult_effect_df = pd.DataFrame()
+ped_effect_df = pd.DataFrame()
 for name, training_df_age in groups:
 
-    # append rows that contain Adult samples (male or female) to the new adult dependency dataframe
+    # append rows that contain Adult samples (male or female) to the new adult effect dataframe
     if name == "Adult_Male" or name == "Adult_Female" or name == "Adult_nan":
-        adult_dependency_df = adult_dependency_df.append(training_df_age)
-        adult_dependency_df = adult_dependency_df.reset_index(drop=True)
+        adult_effect_df = adult_effect_df._append(training_df_age)
+        adult_effect_df = adult_effect_df.reset_index(drop=True)
 
     # append rows that contain Pediatric samples (male ore female) to the new pediatric dataframe
     else:
-        ped_dependency_df = ped_dependency_df.append(training_df_age)
-        ped_dependency_df = ped_dependency_df.reset_index(drop=True)
+        ped_effect_df = ped_effect_df._append(training_df_age)
+        ped_effect_df = ped_effect_df.reset_index(drop=True)
 
 
 # In[5]:
@@ -65,82 +65,82 @@ training_df_sex = dfs
 
 # group by sex and create new dataframes to be appended to
 groups_sex = training_df_sex.groupby("age_and_sex")
-male_dependency_df = pd.DataFrame()
-female_dependency_df = pd.DataFrame()
+male_effect_df = pd.DataFrame()
+female_effect_df = pd.DataFrame()
 for name, training_df_sex in groups_sex:
 
-    # append rows that contain Male samples (Adult or Pediatric) to the new male dependency dataframe and filter out samples that contain no gender info
+    # append rows that contain Male samples (Adult or Pediatric) to the new male effect dataframe and filter out samples that contain no gender info
     if (
         name == "Adult_Male"
         or name == "Pediatric_Male"
         and name != "Pediatric_nan"
         and name != "Adult_nan"
     ):
-        male_dependency_df = male_dependency_df.append(training_df_sex)
-        male_dependency_df = male_dependency_df.reset_index(drop=True)
+        male_effect_df = male_effect_df._append(training_df_sex)
+        male_effect_df = male_effect_df.reset_index(drop=True)
 
-    # append rows that contain Female samples (Adult or Pediatric) to the new female dependency dataframe and filter out samples that contain no gender info
+    # append rows that contain Female samples (Adult or Pediatric) to the new female effect dataframe and filter out samples that contain no gender info
     elif (
         name == "Adult_Female"
         or name == "Pediatric_Female"
         and name != "Pediatric_nan"
         and name != "Adult_nan"
     ):
-        female_dependency_df = female_dependency_df.append(training_df_sex)
-        female_dependency_df = female_dependency_df.reset_index(drop=True)
+        female_effect_df = female_effect_df._append(training_df_sex)
+        female_effect_df = female_effect_df.reset_index(drop=True)
 
 
 # In[6]:
 
 
-print(adult_dependency_df.shape)
-adult_dependency_df.head(3)
+print(adult_effect_df.shape)
+adult_effect_df.head(3)
 
 
 # In[7]:
 
 
-print(ped_dependency_df.shape)
-ped_dependency_df.head(3)
+print(ped_effect_df.shape)
+ped_effect_df.head(3)
 
 
 # In[8]:
 
 
-print(male_dependency_df.shape)
-male_dependency_df.head(3)
+print(male_effect_df.shape)
+male_effect_df.head(3)
 
 
 # In[9]:
 
 
-print(female_dependency_df.shape)
-female_dependency_df.head(3)
+print(female_effect_df.shape)
+female_effect_df.head(3)
 
 
 # In[10]:
 
 
 # drop the string values from all dataframes
-adult_dependency_df_float = adult_dependency_df.drop(
+adult_effect_df_float = adult_effect_df.drop(
     columns=["ModelID", "age_and_sex"]
 )
-ped_dependency_df_float = ped_dependency_df.drop(columns=["ModelID", "age_and_sex"])
+ped_effect_df_float = ped_effect_df.drop(columns=["ModelID", "age_and_sex"])
 
-male_dependency_df_float = male_dependency_df.drop(columns=["ModelID", "age_and_sex"])
-female_dependency_df_float = female_dependency_df.drop(
+male_effect_df_float = male_effect_df.drop(columns=["ModelID", "age_and_sex"])
+female_effect_df_float = female_effect_df.drop(
     columns=["ModelID", "age_and_sex"]
 )
 
-dependency_df = dfs.drop(columns="age_and_sex")
-dependency_df = dependency_df.set_index("ModelID")
+effect_df = dfs.drop(columns="age_and_sex")
+effect_df = effect_df.set_index("ModelID")
 
 
 # In[11]:
 
 
 # t_test comparing gene dependencies in adult vs pediatric samples
-t_test = ttest_ind(adult_dependency_df_float, ped_dependency_df_float)
+t_test = ttest_ind(adult_effect_df_float, ped_effect_df_float)
 t_test = pd.DataFrame(t_test).T
 t_test.columns = ["t_stat", "p_value"]
 print(t_test.shape)
@@ -151,7 +151,7 @@ t_test.head(3)
 
 
 # t_test comparing gene dependencies in male vs female samples
-t_test_sex = ttest_ind(male_dependency_df_float, female_dependency_df_float)
+t_test_sex = ttest_ind(male_effect_df_float, female_effect_df_float)
 t_test_sex = pd.DataFrame(t_test_sex).T
 t_test_sex.columns = ["t_stat", "p_value"]
 print(t_test_sex.shape)
@@ -161,15 +161,15 @@ t_test_sex.head(3)
 # In[13]:
 
 
-print(dependency_df.shape)
-dependency_df.head(3)
+print(effect_df.shape)
+effect_df.head(3)
 
 
 # In[14]:
 
 
 # calculate variance of each gene then send the results plus the gene info into a new dataframe
-variance = dependency_df.var()
+variance = effect_df.var()
 variance_list = variance.tolist()
 column_names = ["variance"]
 variance_df = pd.DataFrame(variance, columns=column_names)
