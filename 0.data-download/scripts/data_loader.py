@@ -17,9 +17,7 @@ def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
 
     # Load data
     model_df = pd.read_csv(model_file)
-    effect_df = (
-        pd.read_csv(effect_data_file, index_col=0).reset_index().dropna(axis=1)
-    )
+    effect_df = (pd.read_csv(effect_data_file).dropna(axis=1))
 
     # rearrange model info and gene effect dataframe indices so id_column is in alphabetical order
     model_df = model_df.sort_index(ascending=True)

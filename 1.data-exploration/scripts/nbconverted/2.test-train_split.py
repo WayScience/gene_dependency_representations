@@ -58,25 +58,6 @@ presplit_effect_df
 # In[6]:
 
 
-# preparing presplit dataframe to be scaled
-col_num = len(presplit_effect_df.columns.to_list())
-presplit_effect_scaled_df = presplit_effect_df.iloc[:, 1:col_num-1]
-
-# scaling gene effect data to 0-1 range
-scaler = MinMaxScaler(feature_range=(0,1))
-presplit_effect_scaled_df = scaler.fit_transform(presplit_effect_scaled_df)
-
-# adding id column and age and sex column back
-presplit_effect_scaled_df = pd.DataFrame(presplit_effect_scaled_df)
-presplit_effect_scaled_df.insert(0, presplit_effect_df.columns[0], presplit_effect_df[presplit_effect_df.columns[0]])
-presplit_effect_scaled_df.insert(col_num-1, presplit_effect_df.columns[col_num-1], presplit_effect_df[presplit_effect_df.columns[col_num-1]])
-presplit_effect_scaled_df.columns = presplit_effect_df.columns
-presplit_effect_scaled_df
-
-
-# In[7]:
-
-
 groups = model_df.groupby("AgeCategory")
 df_list = []
 for name, df in groups:
@@ -92,30 +73,70 @@ new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
 
-# In[8]:
+# In[7]:
 
 
 # creating a list of ModelIDs that correlate to pediatric and adult samples
 PA_effect_IDs = new_df["ModelID"].tolist()
 
-PA_IDs = set(PA_effect_IDs) & set(presplit_effect_scaled_df["ModelID"].tolist())
+PA_IDs = set(PA_effect_IDs) & set(presplit_effect_df["ModelID"].tolist())
 
 # creating a new gene effect data frame containing correlating ModelIDs to the filtered sample info IDs
-PA_effect_df = presplit_effect_scaled_df.loc[
-    presplit_effect_scaled_df["ModelID"].isin(PA_IDs)
+PA_effect_df = presplit_effect_df.loc[
+    presplit_effect_df["ModelID"].isin(PA_IDs)
 ].reset_index(drop=True)
 
 
-# In[9]:
+# In[8]:
 
 
 # split the data based on age category and sex
 train_df, test_df = train_test_split(
     PA_effect_df, test_size=0.15, stratify=PA_effect_df.age_and_sex
 )
+train_df.reset_index(drop=True,inplace=True)
+test_df.reset_index(drop=True,inplace=True)
+
+
+# In[9]:
+
+
+# preparing train dataframe to be scaled
+col_num = train_df.shape[1]
+train_scaled_df = train_df.iloc[:, 1:col_num-1]
+
+# scaling gene effect data to 0-1 range
+scaler = MinMaxScaler(feature_range=(0,1))
+train_scaled_df = scaler.fit_transform(train_scaled_df)
+
+# adding id column and age and sex column back
+train_scaled_df = pd.DataFrame(train_scaled_df)
+train_scaled_df.insert(0, train_df.columns[0], train_df[train_df.columns[0]])
+train_scaled_df.insert(col_num-1, train_df.columns[col_num-1], train_df[train_df.columns[col_num-1]])
+train_scaled_df.columns = train_df.columns
+train_scaled_df
 
 
 # In[10]:
+
+
+# preparing test dataframe to be scaled
+col_num = test_df.shape[1]
+test_scaled_df = test_df.iloc[:, 1:col_num-1]
+
+# scaling gene effect data to 0-1 range
+scaler = MinMaxScaler(feature_range=(0,1))
+test_scaled_df = scaler.fit_transform(test_scaled_df)
+
+# adding id column and age and sex column back
+test_scaled_df = pd.DataFrame(test_scaled_df)
+test_scaled_df.insert(0, test_df.columns[0], test_df[test_df.columns[0]])
+test_scaled_df.insert(col_num-1, test_df.columns[col_num-1], test_df[test_df.columns[col_num-1]])
+test_scaled_df.columns = test_df.columns
+test_scaled_df
+
+
+# In[11]:
 
 
 # save the TESTING dataframe
@@ -126,7 +147,7 @@ print(test_df.shape)
 test_df.head(3)
 
 
-# In[11]:
+# In[12]:
 
 
 # save the TRAINING dataframe

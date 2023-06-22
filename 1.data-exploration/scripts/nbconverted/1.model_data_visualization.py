@@ -216,7 +216,7 @@ pediatric_cancer_counts.reset_index()
 # Visualize pediatric cancer type distribution
 ped_cancer_types_bar = (
     gg.ggplot(
-        pediatric_cancer_counts.reset_index(), gg.aes(x="index", y="OncotreePrimaryDisease")
+        pediatric_cancer_counts.reset_index(), gg.aes(x="OncotreePrimaryDisease", y="count")
     )
     + gg.geom_bar(stat="identity")
     + gg.coord_flip()
@@ -288,7 +288,7 @@ adult_cancer_counts.reset_index()
 # Visualize adult cancer type distribution
 adult_cancer_types_bar = (
     gg.ggplot(
-        adult_cancer_counts.reset_index(), gg.aes(x="index", y="OncotreePrimaryDisease")
+        adult_cancer_counts.reset_index(), gg.aes(x="OncotreePrimaryDisease", y="count")
     )
     + gg.geom_bar(stat="identity")
     + gg.coord_flip()

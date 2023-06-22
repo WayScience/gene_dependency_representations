@@ -48,12 +48,12 @@ for name, training_df_age in groups:
 
     # append rows that contain Adult samples (male or female) to the new adult effect dataframe
     if name == "Adult_Male" or name == "Adult_Female" or name == "Adult_nan":
-        adult_effect_df = adult_effect_df.append(training_df_age)
+        adult_effect_df = adult_effect_df._append(training_df_age)
         adult_effect_df = adult_effect_df.reset_index(drop=True)
 
     # append rows that contain Pediatric samples (male ore female) to the new pediatric dataframe
     else:
-        ped_effect_df = ped_effect_df.append(training_df_age)
+        ped_effect_df = ped_effect_df._append(training_df_age)
         ped_effect_df = ped_effect_df.reset_index(drop=True)
 
 
@@ -76,7 +76,7 @@ for name, training_df_sex in groups_sex:
         and name != "Pediatric_nan"
         and name != "Adult_nan"
     ):
-        male_effect_df = male_effect_df.append(training_df_sex)
+        male_effect_df = male_effect_df._append(training_df_sex)
         male_effect_df = male_effect_df.reset_index(drop=True)
 
     # append rows that contain Female samples (Adult or Pediatric) to the new female effect dataframe and filter out samples that contain no gender info
@@ -86,7 +86,7 @@ for name, training_df_sex in groups_sex:
         and name != "Pediatric_nan"
         and name != "Adult_nan"
     ):
-        female_effect_df = female_effect_df.append(training_df_sex)
+        female_effect_df = female_effect_df._append(training_df_sex)
         female_effect_df = female_effect_df.reset_index(drop=True)
 
 

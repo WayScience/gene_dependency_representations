@@ -58,14 +58,11 @@ test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
 gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
-gene_list = []
-for index, row in gene_dict_df.iterrows():
-    if row['qc_pass'] == True:
-        gene_list.append(row['dependency_column'])
+gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
 
 # create new training and testing dataframes that contain only the corresponding genes
-subset_train_df = train_df.filter(gene_list, axis=1)
-subset_test_df = test_df.filter(gene_list, axis=1)
+subset_train_df = train_df.filter(gene_list_passed_qc, axis=1)
+subset_test_df = test_df.filter(gene_list_passed_qc, axis=1)
 
 
 # In[6]:
@@ -95,14 +92,14 @@ decoder_architecture = []
 # These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
 trained_vae = VAE(
     input_dim=subset_train_df.shape[1],
-    latent_dim=70,
-    batch_size=16,
+    latent_dim=56,
+    batch_size=112,
     encoder_batch_norm=True,
-    epochs=805, 
-    learning_rate=0.0001,
+    epochs=305, 
+    learning_rate=0.005,
     encoder_architecture=encoder_architecture,
     decoder_architecture=decoder_architecture,
-    beta=3,
+    beta=1,
     lam=0,
     verbose=True,
 )
@@ -182,7 +179,7 @@ train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
-train_and_test_subbed = train_and_test.filter(gene_list, axis=1)
+train_and_test_subbed = train_and_test.filter(gene_list_passed_qc, axis=1)
 metadata_holder = []
 metadata_holder = pd.DataFrame(metadata_holder)
 metadata = metadata_holder.assign(
