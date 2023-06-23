@@ -7,17 +7,25 @@
 # 
 # Additionally, the `depmap_gene_meta.tsv` contains genes that passed an initial QC (see Pan et al. 2022).
 # 
-# This notebook will create a four column matrix that separates symbol from entrez id, retains the original column name, and includes a column of if the gene passed QC.
+# This notebook will create a six column matrix that separates symbol from entrez id, retains the original column name, two columns of if the gene passed two different QC, and a QC summary column.
 # 
 # Example:
 # 
-# | entrez_id | symbol_id | dependency_column | qc_pass |
-# | :-------: | :-------: | :---------------: | :-----: |
-# | 1 | A1BG |A1BG (1)| True |
-# | 29974 | A1CF | A1CF (29974) | True |
-# |	2 	| A2M | A2M (2) | False |
+# | entrez_id | symbol_id | dependency_column | qc_pass_pan | qc_pass_other | qc_pass |
+# | :-------: | :-------: | :---------------: | :---------: | :-----------: | :-----: |
+# | 1 | A1BG |A1BG (1)| True | True | True |
+# | 29974 | A1CF | A1CF (29974) | True | False | False |
+# |	2 	| A2M | A2M (2) | False | True | False |
 # 
 # *Note, the example qc_pass column above is an example and may not reflect truth.*
+# 
+# ### Quality control columns
+# 
+# - `qc_pass_pan` refers to the genes QC'd by Pan et al. 2022
+# - `qc_pass_other` refers to gene families filtered by saturated signals
+#     - RPL - Ribosomal proteins (including mitochondrial)
+#     - RPS - S Ribosomal proteins
+# - `qc_pass` refers to genes that pass all qc metrics
 
 # In[1]:
 
@@ -115,12 +123,6 @@ gene_dictionary_df.head()
 
 
 # ## Create the QC columns
-# 
-# - `qc_pass_pan` refers to the genes QC'd by Pan et al. 2022
-# - `qc_pass_other` refers to gene families filtered by saturated signals
-#     - RPL - Ribosomal proteins (including mitochondrial)
-#     - RPS - S Ribosomal proteins
-# - `qc_pass` refers to genes that pass all qc metrics
 
 # In[7]:
 
