@@ -46,7 +46,7 @@ blitz.enrichr.print_libraries()
 
 # use enrichr submodule to retrieve gene set library
 # these libraries are finicky to work with--they usually work the first time but then may stop working. You may need to remove the library from your computer and trying to reimport it to work again.
-library = blitz.enrichr.get_library("GO_Biological_Process_2017")
+library = blitz.enrichr.get_library("Reactome_2022")
 
 
 # In[5]:
@@ -161,7 +161,7 @@ for df in all_signatures:
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    geneset = "mitochondrial translational elongation (GO:0070125)"
+    geneset = "Signal Transduction R-HSA-162582"
 
     text, ax = plt.subplots()
     ax.text(0.5, 0.5, 'The three following figures visualize the gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
@@ -199,7 +199,7 @@ for df in negative_control:
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    geneset = "mitochondrial translational elongation (GO:0070125)"
+    geneset = "Signal Transduction R-HSA-162582"
 
     text, ax = plt.subplots()
     ax.text(0.5, 0.5, 'The three following figures visualize the negative control gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
@@ -209,11 +209,11 @@ for df in negative_control:
     ctrl_pdf.savefig(text, bbox_inches='tight')
     plt.close()
 
-    fig = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=False)
+    fig = blitz.plot.running_sum(df, geneset, library, result=z_result, compact=False)
     ctrl_pdf.savefig(fig, bbox_inches='tight')
     plt.close()
 
-    fig_compact = blitz.plot.running_sum(df, "mitochondrial translational elongation (GO:0070125)", library, result=z_result, compact=True)
+    fig_compact = blitz.plot.running_sum(df, geneset, library, result=z_result, compact=True)
     ctrl_pdf.savefig(fig_compact, bbox_inches='tight')
     plt.close()
 

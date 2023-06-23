@@ -58,14 +58,14 @@ test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 
 # subsetting the genes
-# create dataframe containing the 1000 genes with the largest variances and their corresponding gene label and extract the gene labels
-largest_var_df = gene_stats.nlargest(1000, "variance")
-gene_list = largest_var_df["gene_ID"].tolist()
-gene_list
+
+# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
 
 # create new training and testing dataframes that contain only the corresponding genes
-subset_train_df = train_df.filter(gene_list, axis=1)
-subset_test_df = test_df.filter(gene_list, axis=1)
+subset_train_df = train_df.filter(gene_list_passed_qc, axis=1)
+subset_test_df = test_df.filter(gene_list_passed_qc, axis=1)
 
 
 # In[6]:
@@ -96,7 +96,7 @@ train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
-train_and_test_subbed = train_and_test.filter(gene_list, axis=1)
+train_and_test_subbed = train_and_test.filter(gene_list_passed_qc, axis=1)
 metadata_holder = []
 metadata_holder = pd.DataFrame(metadata_holder)
 metadata = metadata_holder.assign(
