@@ -7,17 +7,25 @@
 # 
 # Additionally, the `depmap_gene_meta.tsv` contains genes that passed an initial QC (see Pan et al. 2022).
 # 
-# This notebook will create a four column matrix that separates symbol from entrez id, retains the original column name, and includes a column of if the gene passed QC.
+# This notebook will create a six column matrix that separates symbol from entrez id, retains the original column name, two columns of if the gene passed two different QC, and a QC summary column.
 # 
 # Example:
 # 
-# | entrez_id | symbol_id | dependency_column | qc_pass |
-# | :-------: | :-------: | :---------------: | :-----: |
-# | 1 | A1BG |A1BG (1)| True |
-# | 29974 | A1CF | A1CF (29974) | True |
-# |	2 	| A2M | A2M (2) | False |
+# | entrez_id | symbol_id | dependency_column | qc_pass_pan | qc_pass_other | qc_pass |
+# | :-------: | :-------: | :---------------: | :---------: | :-----------: | :-----: |
+# | 1 | A1BG |A1BG (1)| True | True | True |
+# | 29974 | A1CF | A1CF (29974) | True | False | False |
+# |	2 	| A2M | A2M (2) | False | True | False |
 # 
 # *Note, the example qc_pass column above is an example and may not reflect truth.*
+# 
+# ### Quality control columns
+# 
+# - `qc_pass_pan` refers to the genes QC'd by Pan et al. 2022
+# - `qc_pass_other` refers to gene families filtered by saturated signals
+#     - RPL - Ribosomal proteins (including mitochondrial)
+#     - RPS - S Ribosomal proteins
+# - `qc_pass` refers to genes that pass all qc metrics
 
 # In[1]:
 
@@ -114,9 +122,16 @@ print(gene_dictionary_df.shape)
 gene_dictionary_df.head()
 
 
-# ## Create the QC column
+# ## Create the QC columns
 
 # In[7]:
+
+
+# These gene families consistently oversaturate signals in latent representations
+qc_fail_other_genes = "RPL|RPS"
+
+
+# In[8]:
 
 
 gene_dictionary_qc_df = (
@@ -132,11 +147,25 @@ gene_dictionary_qc_df = (
     # Values that are missing indicate genes that did not pass QC
     .fillna(value={"entrezgene": False})
     # Rename the column to be clearly defined
-    .rename(columns={"entrezgene": "qc_pass"})
+    .rename(columns={"entrezgene": "qc_pass_pan"})
 )
 
 # Convert genes with entrez entries to those that indicate QC pass
-gene_dictionary_qc_df.loc[gene_dictionary_qc_df.qc_pass != False, "qc_pass"] = True
+gene_dictionary_qc_df.loc[gene_dictionary_qc_df.qc_pass_pan != False, "qc_pass_pan"] = True
+
+# Create the qc_pass_other column
+gene_dictionary_qc_df = (
+    gene_dictionary_qc_df.assign(
+        qc_pass_other=~gene_dictionary_qc_df.symbol_id.str.contains(qc_fail_other_genes)
+    )
+)
+
+# Create qc_pass summary column
+gene_dictionary_qc_df = (
+    gene_dictionary_qc_df.assign(
+        qc_pass=(gene_dictionary_qc_df.qc_pass_pan & gene_dictionary_qc_df.qc_pass_other)
+    )
+)
 
 # Output file
 gene_dictionary_qc_df.to_csv(output_gene_dict_file, index=False, sep="\t")
