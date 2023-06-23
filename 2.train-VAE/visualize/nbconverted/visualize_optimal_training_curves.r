@@ -71,9 +71,9 @@ combined_gg <- cowplot::ggdraw(
     + cowplot::draw_plot(
         zoom_gg,
         x = 50,
-        y = 6000,
+        y = 8000,
         width = 250,
-        height = 70000
+        height = 60000
     )
 )
 
