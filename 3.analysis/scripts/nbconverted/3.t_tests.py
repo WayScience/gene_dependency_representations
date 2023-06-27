@@ -199,7 +199,7 @@ t_test_adult_male_vs_adult_female.head(5)
 
 
 # Combining and saving t test results
-t_test_results_df = pd.concat([t_test_adult_vs_ped, t_test_male_vs_female, t_test_adult_male_vs_ped_male, t_test_adult_female_vs_ped_female, t_test_ped_male_vs_ped_female, t_test_adult_male_vs_adult_female])
+t_test_results_df = pd.concat([t_test_adult_vs_ped, t_test_male_vs_female, t_test_adult_male_vs_ped_male, t_test_adult_female_vs_ped_female, t_test_ped_male_vs_ped_female, t_test_adult_male_vs_adult_female]).reset_index(drop=True)
 t_test_results_dir = pathlib.Path("./results/t_test_results.tsv")
 t_test_results_df.to_csv(t_test_results_dir, sep="\t")
 
