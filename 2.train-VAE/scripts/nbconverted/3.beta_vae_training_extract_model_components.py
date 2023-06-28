@@ -56,11 +56,11 @@ test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 
 # subsetting the genes
 
-# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and a saturated signal qc, then extracting their corresponding gene label
 gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
 gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
 
-# create new training and testing dataframes that contain only the corresponding genes
+# create new training and testing dataframes that contain only the filtered genes
 subset_train_df = train_df.filter(gene_list_passed_qc, axis=1)
 subset_test_df = test_df.filter(gene_list_passed_qc, axis=1)
 
@@ -89,7 +89,8 @@ decoder_architecture = []
 # In[9]:
 
 
-# These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to learn the best hyperparamaters to use in the VAE.
+# These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to 
+# learn the best hyperparamaters to use in the VAE.
 trained_vae = VAE(
     input_dim=subset_train_df.shape[1],
     latent_dim=49,
@@ -110,6 +111,10 @@ trained_vae.compile_vae()
 # In[10]:
 
 
+# training the beta VAE
+# ideally loss and val_loss are both small and similar in value
+# if validation appears to start increasing after reaching values near the trainging curve, try lowering the epochs to finish prior to the start of overfitting
+# a decreasing Kullback-Leibler divergence score suggests a better trained model
 trained_vae.train(x_train=subset_train_df, x_test=subset_test_df)
 
 
@@ -173,7 +178,7 @@ test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 # In[17]:
 
 
-# create a data frame of both test and train gene effect data sorted by top 1000 highest gene variances
+# create a data frame of both test and train gene effect data with sex, AgeCategory, and ModelID for use in later t-tests
 concat_frames = [train_init, test_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
