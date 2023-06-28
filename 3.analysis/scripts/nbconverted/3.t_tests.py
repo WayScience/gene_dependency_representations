@@ -111,7 +111,6 @@ t_test_adult_vs_ped['comparison'] = 'Adult vs Pediatric'
 t_test_adult_vs_ped['latent feature'] = t_test_adult_vs_ped.index + 1
 print(t_test_adult_vs_ped.shape)
 
-# Sort to show latent dimensions with most significant p values
 t_test_adult_vs_ped.head(5)
 
 
@@ -127,7 +126,6 @@ t_test_male_vs_female['comparison'] = 'Male vs Female'
 t_test_male_vs_female['latent feature'] = t_test_male_vs_female.index + 1
 print(t_test_male_vs_female.shape)
 
-# Sort to show latent dimensions with most significant p values
 t_test_male_vs_female.head(5)
 
 
@@ -143,7 +141,6 @@ t_test_adult_male_vs_ped_male['comparison'] = 'Adult Male vs Pediatric Male'
 t_test_adult_male_vs_ped_male['latent feature'] = t_test_adult_male_vs_ped_male.index + 1
 print(t_test_adult_male_vs_ped_male.shape)
 
-# Sort to show latent dimensions with most significant p values
 t_test_adult_male_vs_ped_male.head(5)
 
 
@@ -159,7 +156,6 @@ t_test_adult_female_vs_ped_female['comparison'] = 'Adult Female vs Pediatric Fem
 t_test_adult_female_vs_ped_female['latent feature'] = t_test_adult_female_vs_ped_female.index + 1
 print(t_test_adult_female_vs_ped_female.shape)
 
-# Sort to show latent dimensions with most significant p values
 t_test_adult_female_vs_ped_female.head(5)
 
 
@@ -175,7 +171,6 @@ t_test_ped_male_vs_ped_female['comparison'] = 'Pediatric Male vs Pediatric Femal
 t_test_ped_male_vs_ped_female['latent feature'] = t_test_ped_male_vs_ped_female.index + 1
 print(t_test_ped_male_vs_ped_female.shape)
 
-# Sort to show latent dimensions with most significant p values
 t_test_ped_male_vs_ped_female.head(5)
 
 
@@ -191,7 +186,6 @@ t_test_adult_male_vs_adult_female['comparison'] = 'Adult Male vs Adult Female'
 t_test_adult_male_vs_adult_female['latent feature'] = t_test_adult_male_vs_adult_female.index + 1
 print(t_test_adult_male_vs_adult_female.shape)
 
-# Sort to show latent dimensions with most significant p values
 t_test_adult_male_vs_adult_female.head(5)
 
 
@@ -199,9 +193,17 @@ t_test_adult_male_vs_adult_female.head(5)
 
 
 # Combining and saving t test results
-t_test_results_df = pd.concat([t_test_adult_vs_ped, t_test_male_vs_female, t_test_adult_male_vs_ped_male, t_test_adult_female_vs_ped_female, t_test_ped_male_vs_ped_female, t_test_adult_male_vs_adult_female]).reset_index(drop=True)
+t_test_results_df = pd.concat([
+    t_test_adult_vs_ped, 
+    t_test_male_vs_female, 
+    t_test_adult_male_vs_ped_male, 
+    t_test_adult_female_vs_ped_female, 
+    t_test_ped_male_vs_ped_female, 
+    t_test_adult_male_vs_adult_female
+]).reset_index(drop=True)
 t_test_results_dir = pathlib.Path("./results/t_test_results.tsv")
 t_test_results_df.to_csv(t_test_results_dir, sep="\t")
 
+# sort to show most significant p-values
 t_test_results_df.sort_values(by='p_value', ascending = True)
 
