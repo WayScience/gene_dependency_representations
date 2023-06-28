@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Initial exploration of the CRISPR dependency data
+
 # In[1]:
 
 
@@ -33,9 +35,12 @@ data_dir = pathlib.Path("../0.data-download/data")
 fig_dir = pathlib.Path("figures")
 fig_dir.mkdir(exist_ok=True)
 
+# Input files
 model_input_file = pathlib.Path(f"{data_dir}/Model.csv")
-crispr_input_file = pathlib.Path(f"{data_dir}/CRISPRGeneDependency.csv")
+crispr_input_file = pathlib.Path(f"{data_dir}/CRISPRGeneEffect.csv")
+gene_input_file = pathlib.Path(f"{data_dir}/depmap_gene_meta.tsv")
 
+# Output figures
 cancer_type_output_figure = pathlib.Path(f"{fig_dir}/sample_cancer_types_bar_chart.png")
 age_category_output_figure = pathlib.Path(f"{fig_dir}/age_categories_bar_chart.png")
 age_distribution_output_figure = pathlib.Path(
@@ -63,16 +68,26 @@ model_df.head(3)
 # In[5]:
 
 
-# Load dependency data
+# Load gene effect data
 gene_dependency_df = pd.read_csv(crispr_input_file)
 
 print(gene_dependency_df.shape)
 gene_dependency_df.head(3)
 
 
+# In[6]:
+
+
+# Load gene data for subsetting
+gene_meta_df = pd.read_csv(gene_input_file, sep="\t")
+
+print(gene_meta_df.shape)
+gene_meta_df.head(3)
+
+
 # ## Describe input data
 
-# In[6]:
+# In[7]:
 
 
 # Model.csv visualization
@@ -90,6 +105,9 @@ sample_overlap = list(set(model_df["ModelID"]) & set(gene_dependency_df["ModelID
 # count the number of samples that overlap in both data sets
 print(f"Samples measured in both: {len(sample_overlap)} \n")
 
+# count the number of genes we will use to subset
+print(f"Number of genes that pass QC: {gene_meta_df.symbol.nunique()} \n")
+
 # How many different types of cancer?
 n_cancer_types = model_df.query("ModelID in @sample_overlap")[
     "OncotreePrimaryDisease"
@@ -97,7 +115,7 @@ n_cancer_types = model_df.query("ModelID in @sample_overlap")[
 print(f"Number of Cancer Types: \n {n_cancer_types} \n")
 
 
-# In[7]:
+# In[8]:
 
 
 # Visualize cancer type distribution
@@ -109,14 +127,15 @@ cancer_types_bar = (
     + gg.theme_bw()
 )
 
-cancer_types_bar.save(cancer_type_output_figure, dpi=500)
+cancer_types_bar.save(cancer_type_output_figure, dpi=500, height=11, width=12)
+print(cancer_type_output_figure)
 
 cancer_types_bar
 
 
 # ## Visualize age categories and distribution
 
-# In[8]:
+# In[9]:
 
 
 age_categories_bar = (
@@ -133,7 +152,7 @@ age_categories_bar.save(age_category_output_figure, dpi=500)
 age_categories_bar
 
 
-# In[9]:
+# In[10]:
 
 
 age_distribution_plot = (
@@ -151,13 +170,13 @@ age_distribution_plot.save(age_distribution_output_figure, dpi=500)
 age_distribution_plot
 
 
-# In[10]:
+# In[11]:
 
 
 model_df['AgeCategory'].value_counts()
 
 
-# In[11]:
+# In[12]:
 
 
 gendersamp_plot = (
@@ -174,7 +193,7 @@ gendersamp_plot
 
 # ## What cell lines are pediatric cancer?
 
-# In[12]:
+# In[13]:
 
 
 pediatric_model_df = (
@@ -187,7 +206,7 @@ print(pediatric_model_df.shape)
 pediatric_model_df.head(3)
 
 
-# In[13]:
+# In[14]:
 
 
 # What are the neuroblastoma models?
@@ -196,7 +215,7 @@ pediatric_model_df.query(
 ).StrippedCellLineName
 
 
-# In[14]:
+# In[15]:
 
 
 # What is the distribution of pediatric tumor types
@@ -204,19 +223,27 @@ pediatric_cancer_counts = pediatric_model_df.OncotreePrimaryDisease.value_counts
 pediatric_cancer_counts
 
 
-# In[15]:
-
-
-pediatric_cancer_counts.reset_index()
-
-
 # In[16]:
+
+
+# What is the distribution of pediatric tumor types
+pediatric_cancer_counts = (
+    pediatric_model_df
+    .OncotreePrimaryDisease
+    .value_counts()
+    .reset_index()
+    .rename(columns={"count": "cancer_type_count"})
+)
+pediatric_cancer_counts
+
+
+# In[17]:
 
 
 # Visualize pediatric cancer type distribution
 ped_cancer_types_bar = (
     gg.ggplot(
-        pediatric_cancer_counts.reset_index(), gg.aes(x="OncotreePrimaryDisease", y="count")
+        pediatric_cancer_counts.reset_index(), gg.aes(x="OncotreePrimaryDisease", y="cancer_type_count")
     )
     + gg.geom_bar(stat="identity")
     + gg.coord_flip()
@@ -226,12 +253,12 @@ ped_cancer_types_bar = (
     + gg.theme_bw()
 )
 
-ped_cancer_types_bar.save(pediatric_cancer_type_output_figure, dpi=500)
+ped_cancer_types_bar.save(pediatric_cancer_type_output_figure, dpi=500, height=6, width=12)
 
 ped_cancer_types_bar
 
 
-# In[17]:
+# In[18]:
 
 
 # Pediatric solid vs liquid tumors
@@ -255,7 +282,7 @@ print(len(ped_liquid))
 
 # ## What cell lines are adult cancer?
 
-# In[18]:
+# In[19]:
 
 
 adult_model_df = (
@@ -268,7 +295,7 @@ print(adult_model_df.shape)
 adult_model_df.head(3)
 
 
-# In[19]:
+# In[20]:
 
 
 # What is the distribution of adult tumor types
@@ -276,19 +303,28 @@ adult_cancer_counts = adult_model_df.OncotreePrimaryDisease.value_counts()
 adult_cancer_counts
 
 
-# In[20]:
-
-
-adult_cancer_counts.reset_index()
-
-
 # In[21]:
+
+
+# What is the distribution of adult tumor types
+adult_cancer_counts = (
+    adult_model_df
+    .OncotreePrimaryDisease
+    .value_counts()
+    .reset_index()
+    .rename(columns={"count": "cancer_type_count"})
+)
+
+adult_cancer_counts
+
+
+# In[22]:
 
 
 # Visualize adult cancer type distribution
 adult_cancer_types_bar = (
     gg.ggplot(
-        adult_cancer_counts.reset_index(), gg.aes(x="OncotreePrimaryDisease", y="count")
+        adult_cancer_counts.reset_index(), gg.aes(x="OncotreePrimaryDisease", y="cancer_type_count")
     )
     + gg.geom_bar(stat="identity")
     + gg.coord_flip()
@@ -298,12 +334,12 @@ adult_cancer_types_bar = (
     + gg.theme_bw()
 )
 
-adult_cancer_types_bar.save(adult_cancer_type_output_figure, dpi=500)
+adult_cancer_types_bar.save(adult_cancer_type_output_figure, dpi=500, height=10, width=12)
 
 adult_cancer_types_bar
 
 
-# In[22]:
+# In[23]:
 
 
 # Adult solid vs liquid tumors
