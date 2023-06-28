@@ -12,9 +12,10 @@ import hiplot as hip
 # In[2]:
 
 
+# read through jsons produced by 1.optimize_hyperparameters and append data to vis_datas
+
 vis_datas = []
 layers = ["untitled_project"]
-# layers = ['threelayer']
 for layer in layers:
     vis_data = []
     rootdir = "./hyperparameter/" + layer
@@ -32,6 +33,8 @@ for layer in layers:
 
 # In[3]:
 
+
+# determining the optimal hyperparameters by sorting for lowest val_loss
 
 optimal_hyperparameters = [vis_datas[0][0]]
 
@@ -52,6 +55,8 @@ for i in range(len(vis_datas)):
 # In[4]:
 
 
+# printing out the optimal hyperparameters to use in beta VAE training
+
 for layer in optimal_hyperparameters:
     print("latent_dim:", layer["hyperparameters"]["values"]["latent_dim"])
     print("learning_rate:", layer["hyperparameters"]["values"]["learning_rate"])
@@ -60,7 +65,7 @@ for layer in optimal_hyperparameters:
     )
     print(
         "beta:", layer["hyperparameters"]["values"]["beta"]
-    )  # added print beta statement
+    )  
     print("batch_size:", layer["hyperparameters"]["values"]["batch_size"])
     print("epochs:", layer["hyperparameters"]["values"]["epochs"])
     print("loss:", layer["metrics"]["metrics"]["loss"]["observations"][0]["value"])
@@ -73,7 +78,7 @@ for layer in optimal_hyperparameters:
 # In[5]:
 
 
-# vis_data = vis_data[1:]
+# creating list of all hyperparameter data
 
 data = [
     {
@@ -99,6 +104,8 @@ data = [
 # In[6]:
 
 
+# cleaning data to remove extreme values
+
 cleaned_data = []
 for q in range(len(data)):
     val_loss = data[q]["val_loss"]
@@ -110,7 +117,8 @@ for q in range(len(data)):
 # In[7]:
 
 
-# display HiPlot
+# display HiPlot, which visualizes the val_loss and loss of each trial with the corresponding hyperparameters (epochs, batch_size, 
+# encoder_batch_norm, beta, learning rate, latent_dim) 
 hip.Experiment.from_iterable(cleaned_data).display()
 # save as html
 hip.Experiment.from_iterable(cleaned_data).to_html(
