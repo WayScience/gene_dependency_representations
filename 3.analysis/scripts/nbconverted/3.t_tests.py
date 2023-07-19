@@ -8,7 +8,8 @@ import sys
 import pandas as pd
 sys.path.insert(0, ".././0.data-download/scripts/")
 from data_loader import load_data
-from scipy.stats import ttest_ind
+from scipy.stats import ttest_ind 
+from scipy.stats import f_oneway
 import pathlib
 
 
@@ -108,7 +109,7 @@ t_test_adult_vs_ped = ttest_ind(adult_latent_df_float, ped_latent_df_float)
 t_test_adult_vs_ped = pd.DataFrame(t_test_adult_vs_ped).T
 t_test_adult_vs_ped.columns = ["t_stat", "p_value"]
 t_test_adult_vs_ped['comparison'] = 'Adult vs Pediatric'
-t_test_adult_vs_ped['latent feature'] = t_test_adult_vs_ped.index + 1
+t_test_adult_vs_ped['latent_feature'] = t_test_adult_vs_ped.index + 1
 print(t_test_adult_vs_ped.shape)
 
 t_test_adult_vs_ped.head(5)
@@ -123,7 +124,7 @@ t_test_male_vs_female = ttest_ind(male_latent_df_float, female_latent_df_float)
 t_test_male_vs_female = pd.DataFrame(t_test_male_vs_female).T
 t_test_male_vs_female.columns = ["t_stat", "p_value"]
 t_test_male_vs_female['comparison'] = 'Male vs Female'
-t_test_male_vs_female['latent feature'] = t_test_male_vs_female.index + 1
+t_test_male_vs_female['latent_feature'] = t_test_male_vs_female.index + 1
 print(t_test_male_vs_female.shape)
 
 t_test_male_vs_female.head(5)
@@ -138,7 +139,7 @@ t_test_adult_male_vs_ped_male = ttest_ind(ped_male_latent_df_float, adult_male_l
 t_test_adult_male_vs_ped_male = pd.DataFrame(t_test_adult_male_vs_ped_male).T
 t_test_adult_male_vs_ped_male.columns = ["t_stat", "p_value"]
 t_test_adult_male_vs_ped_male['comparison'] = 'Adult Male vs Pediatric Male'
-t_test_adult_male_vs_ped_male['latent feature'] = t_test_adult_male_vs_ped_male.index + 1
+t_test_adult_male_vs_ped_male['latent_feature'] = t_test_adult_male_vs_ped_male.index + 1
 print(t_test_adult_male_vs_ped_male.shape)
 
 t_test_adult_male_vs_ped_male.head(5)
@@ -153,7 +154,7 @@ t_test_adult_female_vs_ped_female = ttest_ind(ped_female_latent_df_float, adult_
 t_test_adult_female_vs_ped_female = pd.DataFrame(t_test_adult_female_vs_ped_female).T
 t_test_adult_female_vs_ped_female.columns = ["t_stat", "p_value"]
 t_test_adult_female_vs_ped_female['comparison'] = 'Adult Female vs Pediatric Female'
-t_test_adult_female_vs_ped_female['latent feature'] = t_test_adult_female_vs_ped_female.index + 1
+t_test_adult_female_vs_ped_female['latent_feature'] = t_test_adult_female_vs_ped_female.index + 1
 print(t_test_adult_female_vs_ped_female.shape)
 
 t_test_adult_female_vs_ped_female.head(5)
@@ -168,7 +169,7 @@ t_test_ped_male_vs_ped_female = ttest_ind(ped_female_latent_df_float, ped_male_l
 t_test_ped_male_vs_ped_female = pd.DataFrame(t_test_ped_male_vs_ped_female).T
 t_test_ped_male_vs_ped_female.columns = ["t_stat", "p_value"]
 t_test_ped_male_vs_ped_female['comparison'] = 'Pediatric Male vs Pediatric Female'
-t_test_ped_male_vs_ped_female['latent feature'] = t_test_ped_male_vs_ped_female.index + 1
+t_test_ped_male_vs_ped_female['latent_feature'] = t_test_ped_male_vs_ped_female.index + 1
 print(t_test_ped_male_vs_ped_female.shape)
 
 t_test_ped_male_vs_ped_female.head(5)
@@ -183,7 +184,7 @@ t_test_adult_male_vs_adult_female = ttest_ind(adult_female_latent_df_float, adul
 t_test_adult_male_vs_adult_female = pd.DataFrame(t_test_adult_male_vs_adult_female).T
 t_test_adult_male_vs_adult_female.columns = ["t_stat", "p_value"]
 t_test_adult_male_vs_adult_female['comparison'] = 'Adult Male vs Adult Female'
-t_test_adult_male_vs_adult_female['latent feature'] = t_test_adult_male_vs_adult_female.index + 1
+t_test_adult_male_vs_adult_female['latent_feature'] = t_test_adult_male_vs_adult_female.index + 1
 print(t_test_adult_male_vs_adult_female.shape)
 
 t_test_adult_male_vs_adult_female.head(5)
@@ -206,4 +207,14 @@ t_test_results_df.to_csv(t_test_results_dir, sep="\t")
 
 # sort to show most significant p-values
 t_test_results_df.sort_values(by='p_value', ascending = True)
+
+
+# In[12]:
+
+
+# ANOVA Testing
+f_statistic, p_value = f_oneway(adult_male_latent_df_float, ped_male_latent_df_float, adult_female_latent_df_float, ped_female_latent_df_float)
+anova_df = pd.DataFrame({'f_stat': f_statistic.tolist(), 'p_value': p_value.tolist()})
+anova_df['latent_feature'] = anova_df.index + 1
+anova_df
 
