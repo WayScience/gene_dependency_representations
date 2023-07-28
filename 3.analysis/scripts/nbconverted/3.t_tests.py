@@ -218,3 +218,92 @@ anova_df = pd.DataFrame({'f_stat': f_statistic.tolist(), 'p_value': p_value.toli
 anova_df['latent_feature'] = anova_df.index + 1
 anova_df
 
+
+# In[13]:
+
+
+# Lung Cancer in adult vs Neuroblastoma in ped comparison
+NB_ids = model_df.query("OncotreePrimaryDisease == 'Neuroblastoma'").ModelID.tolist()
+
+ped_NB_latent_df = ped_latent_df.copy()
+for index, row in ped_NB_latent_df.iterrows():
+    if row['ModelID'] not in NB_ids:
+        ped_NB_latent_df.drop(index, inplace=True)
+ped_NB_latent_float_df = ped_NB_latent_df.drop(columns=["ModelID"])
+ped_NB_latent_float_df.reset_index(drop=True, inplace=True)
+
+LC_ids = model_df.query("OncotreePrimaryDisease == 'Non-Small Cell Lung Cancer'").ModelID.tolist()
+
+adult_LC_latent_df = adult_latent_df.copy()
+for index, row in adult_LC_latent_df.iterrows():
+    if row['ModelID'] not in LC_ids:
+        adult_LC_latent_df.drop(index, inplace=True)
+adult_LC_latent_float_df = adult_LC_latent_df.drop(columns=["ModelID"])
+adult_LC_latent_float_df.reset_index(drop=True, inplace=True)
+
+
+# In[14]:
+
+
+# t tests comparing Lung Cancer in adult vs Neuroblastoma in ped for each latent dimension
+
+t_test_diff_adult_vs_ped = ttest_ind(adult_LC_latent_float_df, ped_NB_latent_float_df)
+t_test_diff_adult_vs_ped = pd.DataFrame(t_test_diff_adult_vs_ped).T
+t_test_diff_adult_vs_ped.columns = ["t_stat", "p_value"]
+t_test_diff_adult_vs_ped['comparison'] = 'Adult vs Pediatric'
+t_test_diff_adult_vs_ped['latent_feature'] = t_test_diff_adult_vs_ped.index + 1
+print(t_test_diff_adult_vs_ped.shape)
+
+t_test_diff_adult_vs_ped.sort_values(by = 'p_value', ascending= True)
+
+
+# In[15]:
+
+
+# Obtaining shared cancer types in ped and adult
+adult_types = model_df.query("AgeCategory == 'Adult'").OncotreePrimaryDisease.tolist()
+adult_types = [x for x in adult_types if adult_types.count(x) >= 5]
+adult_types = list(set(adult_types))
+
+ped_types = model_df.query("AgeCategory == 'Pediatric'").OncotreePrimaryDisease.tolist()
+ped_types = [x for x in ped_types if ped_types.count(x) >= 5]
+ped_types = list(set(ped_types))
+
+shared_types = set(adult_types) & set(ped_types)
+shared_types
+
+
+# In[16]:
+
+
+# Comparing the shared cancer types
+comp_dfs = []
+
+for cancer_type in shared_types:
+    type_ids = model_df.query("OncotreePrimaryDisease == " + "'" + cancer_type + "'").ModelID.tolist()
+
+    ped_type_latent_df = ped_latent_df.copy()
+    for index, row in ped_type_latent_df.iterrows():
+        if row['ModelID'] not in type_ids:
+           ped_type_latent_df.drop(index, inplace=True)
+    ped_type_latent_float_df = ped_type_latent_df.drop(columns=["ModelID"])
+    ped_type_latent_float_df.reset_index(drop=True, inplace=True)
+
+    adult_type_latent_df = adult_latent_df.copy()
+    for index, row in adult_type_latent_df.iterrows():
+        if row['ModelID'] not in type_ids:
+            adult_type_latent_df.drop(index, inplace=True)
+    adult_type_latent_float_df = adult_type_latent_df.drop(columns=["ModelID"])
+    adult_type_latent_float_df.reset_index(drop=True, inplace=True)
+
+    t_test_type_adult_vs_ped = ttest_ind(adult_type_latent_float_df, ped_type_latent_float_df)
+    t_test_type_adult_vs_ped = pd.DataFrame(t_test_type_adult_vs_ped).T
+    t_test_type_adult_vs_ped.columns = ["t_stat", "p_value"]
+    t_test_type_adult_vs_ped['comparison'] = 'Adult vs Pediatric'
+    t_test_type_adult_vs_ped['cancer_type'] = cancer_type
+    t_test_type_adult_vs_ped['latent_feature'] = t_test_type_adult_vs_ped.index + 1
+    comp_dfs.append(t_test_type_adult_vs_ped)
+
+t_test_type_results_df = pd.concat(comp_dfs).reset_index(drop=True)
+t_test_type_results_df.sort_values(by='p_value', ascending = True)
+
