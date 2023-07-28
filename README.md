@@ -20,7 +20,10 @@ This repository is structured as follows:
 | [3.analysis](3.analysis/) | Analyze BVAE Outputs | Generate heatmaps to visualize death windows by cell line and by genes, run Gene Set Enrichment Analysis with BVAE synthesized data, and analyze extracted BVAE latent space data to compare similarity of cancer between different demographics |
 
 ## Goal
-Current cancer treatments tend to be toxic and leave patients with lifelong side-effects. The future of drug development is based on synthetic lethality, where the combination of two genetic events results in cell death. It is used in molecular targeted cancer therapy, with the first example of a molecular targeted therapeutic exploiting a synthetic lethal exposed by an inactivated tumor suppressor gene (BRCA1 and 2) receiving FDA approval in 2016 (PARP inhibitor). The benefits of synthetic lethality-based treatment strategies include success against the majority of cancer mutations, simple identification of treatment-responding patients due to its selective nature of specific cancer cell genetic mutations, and reduced toxicity compared to traditional chemotherapy.
+Current cancer treatments tend to be toxic and leave patients with lifelong side-effects. 
+The future of drug development is based on synthetic lethality, where the combination of two genetic events results in cell death. 
+It is used in molecular targeted cancer therapy, with the first example of a molecular targeted therapeutic exploiting a synthetic lethal exposed by an inactivated tumor suppressor gene (BRCA1 and 2) receiving FDA approval in 2016 (PARP inhibitor). 
+The benefits of synthetic lethality-based treatment strategies include success against the majority of cancer mutations, simple identification of treatment-responding patients due to its selective nature of specific cancer cell genetic mutations, and reduced toxicity compared to traditional chemotherapy.
 
 **The goal of this project is to discover multivariate gene vulnerability patterns in cancer.**
 Using cancer cell line data from DepMap, we can find multivariate gene vulnerability patterns that can be applied to the development of novel cancer treatments. ​
