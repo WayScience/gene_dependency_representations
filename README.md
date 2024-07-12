@@ -41,7 +41,7 @@ Perform the following steps to set up the `gene_dependency_representations` envi
 ```sh
 # Run this command to create the proper conda environment
 
-conda env create --force --file environment.yml
+conda env create --yes --file environment.yml
 ```
 
 ### Step 2: Activate Gene Dependency Representations Environment
