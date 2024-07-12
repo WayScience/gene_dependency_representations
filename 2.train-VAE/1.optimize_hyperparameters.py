@@ -1,15 +1,16 @@
 # THIS CODE WAS SOURCED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/optimize-hyperparameters.py
 
+#no worky. at all. whatever is up with tensorflow keras thing is real bad 
+
 import sys
 import pathlib
 import numpy as np
 import pandas as pd
-import keras_tuner
+
 
 from keras_tuner.tuners import BayesianOptimization
 import tensorflow
 from keras.callbacks import EarlyStopping
-
 from optimize_utils import (
     HyperVAE,
     CustomBayesianTunerCellPainting,

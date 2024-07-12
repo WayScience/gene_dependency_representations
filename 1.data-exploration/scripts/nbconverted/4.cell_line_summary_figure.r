@@ -1,21 +1,24 @@
+
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(cowplot))
+library(tidyverse)
 
+#Fixed path names
 # Set i/o paths and files
-data_dir <- file.path("../0.data-download/data")
-fig_dir <- file.path("figures")
+data_dir <- file.path("0.data-download/data/")
+fig_dir <- file.path("1.data-exploration/figures")
 
 model_input_file <- file.path(data_dir, "Model.csv")
 crispr_input_file <- file.path(data_dir, "CRISPRGeneEffect.csv")
 
-figure_output_file <- file.path(fig_dir, "age_and_ped_model_distributions.png")
+figure_output_file <- file.path(fig_dir, "age_and_ped_model_distributions_test.png")
 
 # Set figure sizes
 text_size = 9
 
 # Process dataset
-model_df <- readr::read_csv(
+model_df <- read_csv(
     model_input_file,
     col_types = readr::cols(
         .default = "c",

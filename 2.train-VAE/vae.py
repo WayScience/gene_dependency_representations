@@ -1,6 +1,3 @@
-# THIS CODE WAS COPIED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/vae.py
-
-
 from tensorflow.keras import optimizers
 from tensorflow.keras.layers import Lambda, Input, Dense, Activation, BatchNormalization
 from tensorflow.keras.models import Model, Sequential
@@ -10,7 +7,6 @@ from tensorflow.keras.utils import plot_model
 from tensorflow.keras import backend as K
 from tensorflow import keras
 from vae_utils import connect_encoder, connect_decoder, LossCallback
-
 
 class VAE:
     def __init__(
@@ -30,7 +26,6 @@ class VAE:
         encoder_batch_norm=True,
         verbose=True,
     ):
-        # print("setting VAE parameters \n\n")
         self.input_dim = input_dim
         self.latent_dim = latent_dim
         self.epochs = epochs
@@ -45,29 +40,31 @@ class VAE:
         self.decoder_architecture = decoder_architecture
         self.encoder_batch_norm = encoder_batch_norm
         self.verbose = verbose
+    
 
     def compile_loss(self):
+        
         def compute_kernel(x, y):
             x_size = K.shape(x)[0]
             y_size = K.shape(y)[0]
             dim = K.shape(x)[1]
             tiled_x = K.tile(K.reshape(x, [x_size, 1, dim]), [1, y_size, 1])
             tiled_y = K.tile(K.reshape(y, [1, y_size, dim]), [x_size, 1, 1])
-            return K.exp(
-                -K.mean(K.square(tiled_x - tiled_y), axis=2) / K.cast(dim, "float32")
-            )
+            return K.exp(-K.mean(K.square(tiled_x - tiled_y), axis=2) / K.cast(dim, 'float32'))
 
         def compute_mmd(x, y):
             x_kernel = compute_kernel(x, x)
             y_kernel = compute_kernel(y, y)
             xy_kernel = compute_kernel(x, y)
             return K.mean(x_kernel) + K.mean(y_kernel) - 2 * K.mean(xy_kernel)
-
+        
+       
         loss_fxn = mse(self.inputs, self.cycle)
 
         self.reconstruction_loss = loss_fxn
         self.reconstruction_loss *= self.input_dim
 
+        
         self.kl_loss = (
             1
             + self.encoder_block["z_log_var"]
@@ -75,28 +72,27 @@ class VAE:
             - K.exp(self.encoder_block["z_log_var"])
         )
         self.kl_loss = K.sum(self.kl_loss, axis=-1)
-        self.kl_loss *= -0.5
-
+        self.kl_loss *= -0.5  
+        
         batch_size = K.shape(self.encoder_block["z"])[0]
         latent_dim = K.int_shape(self.encoder_block["z"])[1]
-        true_samples = K.random_normal(
-            shape=(batch_size, latent_dim), mean=0.0, stddev=1.0
-        )
-        #        self.mmd_loss = compute_mmd(true_samples, self.encoder_block["z"])
+        true_samples = K.random_normal(shape=(batch_size, latent_dim), mean=0., stddev=1.)
+        self.mmd_loss = compute_mmd(true_samples, self.encoder_block["z"])
+        
+        mmd_loss = K.get_value(self.lam)* self.mmd_loss
+        kl_loss = K.get_value(self.beta)* self.kl_loss
+#         mmd_loss = kl_loss
+        total_loss = self.reconstruction_loss + mmd_loss + kl_loss
+#         total_loss = self.reconstruction_loss + kl_loss
 
-        #        mmd_loss = K.get_value(self.lam)* self.mmd_loss
-        kl_loss = K.get_value(self.beta) * self.kl_loss
-        #         mmd_loss = kl_loss
-        total_loss = self.reconstruction_loss + kl_loss  # + mmd_loss
-        #         total_loss = self.reconstruction_loss + kl_loss
-
+ 
         return {
             "loss": total_loss,
             "reconstruction_loss": self.reconstruction_loss,
             "kl_loss": kl_loss,
-            #           "mmd_loss": mmd_loss,
+            "mmd_loss": mmd_loss,
         }
-
+    
     def compile_encoder(self, name="encoder"):
         self.encoder_block = connect_encoder(
             input_dim=self.input_dim,
@@ -107,29 +103,17 @@ class VAE:
         self.inputs = self.encoder_block["inputs"]
 
     def compile_decoder(self, name="decoder"):
-        # print(self.input_dim)
-        # print(self.latent_dim)
-        # print(self.decoder_architecture)
-        # print("\n\n setting self.decoder_block \n\n")
         self.decoder_block = connect_decoder(
             input_dim=self.input_dim,
             latent_dim=self.latent_dim,
             architecture=self.decoder_architecture,
         )
-        # print("self.decoder_block has now been set. checking to see if variables were lost \n")
-        # print(self.input_dim)
-        # print(self.latent_dim)
-        # print(self.decoder_architecture)
 
     def compile_vae(self):
-
+       
         self.compile_encoder()
         self.compile_decoder()
         self.setup_optimizer()
-
-        # print(self.encoder_block)
-
-        # print(self.decoder_block)
 
         # instantiate VAE model
         self.cycle = self.decoder_block["decoder"](
@@ -137,19 +121,19 @@ class VAE:
         )
         self.vae = Model(self.inputs, self.cycle, name="vae_mlp")
 
-        self.vae_loss = self.compile_loss()["loss"]
-        kl_loss = self.compile_loss()["kl_loss"]
-        #        mmd_loss = self.compile_loss()['mmd_loss']
-        reconstruction_loss = self.compile_loss()["reconstruction_loss"]
+        self.vae_loss = self.compile_loss()['loss']
+        kl_loss = self.compile_loss()['kl_loss']
+        mmd_loss = self.compile_loss()['mmd_loss']
+        reconstruction_loss = self.compile_loss()['reconstruction_loss']
         self.vae.add_loss(self.vae_loss)
-        self.vae.add_metric(reconstruction_loss, aggregation="mean", name="recon")
-        self.vae.add_metric(kl_loss, aggregation="mean", name="kl")
-        #        self.vae.add_metric(mmd_loss, aggregation='mean', name='mmd')
+        self.vae.add_metric(reconstruction_loss, aggregation='mean', name='recon')
+        self.vae.add_metric(kl_loss, aggregation='mean', name='kl')
+        self.vae.add_metric(mmd_loss, aggregation='mean', name='mmd')
         self.vae.compile(optimizer=self.optim)
 
     def setup_optimizer(self):
         if self.optimizer == "adam":
-            self.optim = optimizers.Adam(learning_rate=self.learning_rate)
+            self.optim = optimizers.Adam(lr=self.learning_rate)
 
     def train(self, x_train, x_test):
         if not hasattr(self, "vae_loss"):
