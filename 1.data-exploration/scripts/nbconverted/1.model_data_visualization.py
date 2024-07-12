@@ -121,10 +121,13 @@ print(f"Number of Cancer Types: \n {n_cancer_types} \n")
 # Visualize cancer type distribution
 cancer_types_bar = (
     gg.ggplot(model_df, gg.aes(x="OncotreePrimaryDisease"))
-    + gg.geom_bar()
+    + gg.geom_bar(width = 0.5, position = position_dodge2(padding = 0.5))
     + gg.coord_flip()
+    + gg.xlab("Primary Disease")
+    + gg.ylab("Count")
     + gg.ggtitle("Distribution of cancer types")
     + gg.theme_bw()
+    + theme(figure_size = (16, 12))
 )
 
 cancer_types_bar.save(cancer_type_output_figure, dpi=500, height=11, width=12)
@@ -159,6 +162,7 @@ age_distribution_plot = (
     gg.ggplot(model_df, gg.aes(x="Age"))
     + gg.geom_density()
     + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
+    + annotate(geom="text", x=30, y = 0.0045, label="Adult Threshold", color="red")    
     + gg.ggtitle(
         f"Age distribution of derived cell lines"
     )
@@ -251,6 +255,7 @@ ped_cancer_types_bar = (
     + gg.ylab("count")
     + gg.xlab("cancer type")
     + gg.theme_bw()
+    + theme(figure_size = (14, 6))
 )
 
 ped_cancer_types_bar.save(pediatric_cancer_type_output_figure, dpi=500, height=6, width=12)
@@ -332,6 +337,7 @@ adult_cancer_types_bar = (
     + gg.ylab("count")
     + gg.xlab("cancer type")
     + gg.theme_bw()
+    + theme(figure_size = (14, 10))
 )
 
 adult_cancer_types_bar.save(adult_cancer_type_output_figure, dpi=500, height=10, width=12)
