@@ -191,7 +191,7 @@ variance_density_plot = (
     p9.ggplot(variance_df, p9.aes(x="variance"))
     + p9.geom_density()
     + p9.geom_vline(xintercept=variance_threshold, linetype="dashed", color="red")
-    + p9.annotate(geom="text", x=variance_threshold + 0.11, y = 10, label="Top 1000 Gene Variances Threshold", color="red") 
+    + p9.annotate(geom="text", x=variance_threshold + 0.13, y = 10, label="Top 1000 Gene Variances Threshold", color="red") 
     + p9.theme(figure_size=(10, 6))
 )
 
