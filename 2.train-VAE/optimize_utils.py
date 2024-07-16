@@ -3,7 +3,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from keras_tuner.tuners import BayesianOptimization
+
 
 
 class HyperVAE(nn.Module):
@@ -43,16 +43,7 @@ class HyperVAE(nn.Module):
         KLD = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
         return BCE + self.beta * KLD
 
-#this tunes batch size and epochs
-class CustomBayesianTunerCellPainting(BayesianOptimization):
-    # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
-    def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 16, 128, step=32)
-        kwargs["epochs"] = trial.hyperparameters.Int("epochs", 5, 1000, step=100)
 
-        return super(CustomBayesianTunerCellPainting, self).run_trial(
-            trial, *args, **kwargs
-        )  # added the return argument here
 
 
 def get_optimize_args():
