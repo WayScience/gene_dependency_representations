@@ -1,76 +1,49 @@
 # THIS CODE WAS SOURCED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/optimize_utils.py
 
-from pyexpat import model
-from keras import backend as K
-from keras_tuner import HyperModel
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 from keras_tuner.tuners import BayesianOptimization
-import sys
-from vae import VAE
-import random
-
-random.seed(18)
 
 
-class HyperVAE(HyperModel):
+class HyperVAE(nn.Module):
     def __init__(
-        self,
-        input_dim,
-        min_latent_dim,
-        max_latent_dim,
-        epochs=5,
-        batch_size=16,
-        optimizer="adam",
-        learning_rate=[1e-2, 1e-3, 1e-4, 1e-5],
-        epsilon_std=1.0,
-        min_beta=1,
-        max_beta=10,
-        loss="binary_crossentropy",
-        encoder_batch_norm=True,
-        encoder_architecture=[100],
-        decoder_architecture=[100],
-        verbose=True,
-    ):
-        self.input_dim = input_dim
-        self.min_latent_dim = min_latent_dim
-        self.max_latent_dim = max_latent_dim
-        self.epochs = epochs
-        self.batch_size = batch_size
-        self.optimizer = optimizer
-        self.learning_rate = learning_rate
-        self.epsilon_std = epsilon_std
-        self.min_beta = min_beta
-        self.max_beta = max_beta
-        self.loss = loss
-        self.encoder_batch_norm = encoder_batch_norm
-        self.encoder_architecture = encoder_architecture
-        self.decoder_architecture = decoder_architecture
-
-    def build(self, hp):
-        model = VAE(
-            input_dim=self.input_dim,
-            latent_dim=hp.Int(
-                "latent_dim", self.min_latent_dim, self.max_latent_dim, step=1
-            ),
-            epochs=self.epochs,
-            batch_size=self.batch_size,  # self.batch_size,
-            optimizer=self.optimizer,
-            learning_rate=hp.Choice(
-                "learning_rate", values=self.learning_rate
-            ),  # learning_rate=self.learning_rate,
-            epsilon_std=self.epsilon_std,
-            beta=hp.Float("beta", self.min_beta, self.max_beta, step=0.1),
-            #            beta = 1,
-            loss=self.loss,
-            encoder_batch_norm=hp.Boolean(
-                "encoder_batch_norm", default=self.encoder_batch_norm
-            ),
-            encoder_architecture=self.encoder_architecture,
-            decoder_architecture=self.decoder_architecture,
+        self, 
+        input_dim, 
+        latent_dim, 
+        beta):
+        super(HyperVAE, self).__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, latent_dim * 2)
         )
-        model.compile_vae()
-        return model.vae
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, input_dim),
+            nn.Sigmoid()
+        )
+        self.latent_dim = latent_dim
+        self.beta = beta
 
+    def reparameterize(self, mu, log_var):
+        std = torch.exp(0.5 * log_var)
+        eps = torch.randn_like(std)
+        return mu + eps * std
 
+    def forward(self, x):
+        h = self.encoder(x)
+        mu, log_var = h.chunk(2, dim=-1)
+        z = self.reparameterize(mu, log_var)
+        return self.decoder(z), mu, log_var
+
+    def loss_function(self, recon_x, x, mu, log_var):
+        BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')
+        KLD = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
+        return BCE + self.beta * KLD
+
+#this tunes batch size and epochs
 class CustomBayesianTunerCellPainting(BayesianOptimization):
     # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
     def run_trial(self, trial, *args, **kwargs):
@@ -80,17 +53,6 @@ class CustomBayesianTunerCellPainting(BayesianOptimization):
         return super(CustomBayesianTunerCellPainting, self).run_trial(
             trial, *args, **kwargs
         )  # added the return argument here
-
-
-class CustomBayesianTunerL1000(BayesianOptimization):
-    # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
-    def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int(
-            "batch_size", 256, 768, step=128
-        )
-        kwargs["epochs"] = trial.hyperparameters.Int("epochs", 10, 11, step=2)
-
-        super(CustomBayesianTunerL1000, self).run_trial(trial, *args, **kwargs)
 
 
 def get_optimize_args():
