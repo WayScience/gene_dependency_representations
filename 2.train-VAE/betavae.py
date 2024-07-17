@@ -18,7 +18,6 @@ class BetaVAE(nn.Module):
     def __init__(
         self, 
         input_dim, 
-        #hidden_dim,
         latent_dim, 
         beta):
         super(BetaVAE, self).__init__()
@@ -71,6 +70,7 @@ class BetaVAE(nn.Module):
         KLD = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
         return BCE + self.beta * KLD
     
+
 def train_vae(model, train_loader, optimizer, epochs=5):
     """
     Train the VAE model.
@@ -93,6 +93,7 @@ def train_vae(model, train_loader, optimizer, epochs=5):
             train_loss += loss.item()
             optimizer.step()
         print(f'Epoch {epoch}, Loss: {train_loss / len(train_loader.dataset)}')
+
 
 def evaluate_vae(model, test_loader):
     """
