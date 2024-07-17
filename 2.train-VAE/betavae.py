@@ -1,4 +1,4 @@
-#Code based on https://github.com/1Konny/Beta-VAE/blob/master/model.py
+# Code based on https://github.com/1Konny/Beta-VAE/blob/master/model.py
 
 import torch
 import torch.nn as nn
@@ -15,16 +15,16 @@ class BetaVAE(nn.Module):
         latent_dim (int): Dimension of the latent space.
         beta (float): Weight for the Kullback-Leibler divergence term in the loss function.
     """
-    def __init__(
-        self, 
-        input_dim, 
-        latent_dim, 
-        beta):
+
+    def __init__(self, input_dim, latent_dim, beta):
         super(BetaVAE, self).__init__()
-        self.encoder = nn.Linear(input_dim, latent_dim * 2)
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, latent_dim * 2),
+            nn.BatchNorm1d(latent_dim * 2),
+            nn.ReLU(),
+        )
         self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, input_dim),
-            nn.Sigmoid()
+            nn.Linear(latent_dim, input_dim), nn.BatchNorm1d(input_dim), nn.Sigmoid()
         )
         self.latent_dim = latent_dim
         self.beta = beta
@@ -42,7 +42,7 @@ class BetaVAE(nn.Module):
         Forward pass through the VAE.
 
         Args:
-           
+
             x (Tensor): Input data.
 
         Returns:
@@ -55,7 +55,7 @@ class BetaVAE(nn.Module):
 
     def loss_function(self, recon_x, x, mu, log_var):
         """
-        Compute the VAE loss function.
+        Compute the VAE loss function (Mean squared error).
 
         Args:
             recon_x (Tensor): Reconstructed data.
@@ -66,10 +66,10 @@ class BetaVAE(nn.Module):
         Returns:
             Computed loss.
         """
-        BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')
+        MSE = F.mse_loss(recon_x, x, reduction="sum")
         KLD = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
-        return BCE + self.beta * KLD
-    
+        return MSE + self.beta * KLD
+
 
 def train_vae(model, train_loader, optimizer, epochs=5):
     """
@@ -92,7 +92,7 @@ def train_vae(model, train_loader, optimizer, epochs=5):
             loss.backward()
             train_loss += loss.item()
             optimizer.step()
-        print(f'Epoch {epoch}, Loss: {train_loss / len(train_loader.dataset)}')
+        print(f"Epoch {epoch}, Loss: {train_loss / len(train_loader.dataset)}")
 
 
 def evaluate_vae(model, test_loader):
