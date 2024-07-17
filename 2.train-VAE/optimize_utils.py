@@ -1,98 +1,3 @@
-# THIS CODE WAS SOURCED FROM THE FOLLOWING URL: https://github.com/broadinstitute/cell-painting-vae/blob/master/scripts/optimize_utils.py
-
-from pyexpat import model
-from keras import backend as K
-from keras_tuner import HyperModel
-from keras_tuner.tuners import BayesianOptimization
-import sys
-from vae import VAE
-import random
-
-random.seed(18)
-
-
-class HyperVAE(HyperModel):
-    def __init__(
-        self,
-        input_dim,
-        min_latent_dim,
-        max_latent_dim,
-        epochs=5,
-        batch_size=16,
-        optimizer="adam",
-        learning_rate=[1e-2, 1e-3, 1e-4, 1e-5],
-        epsilon_std=1.0,
-        min_beta=1,
-        max_beta=10,
-        loss="binary_crossentropy",
-        encoder_batch_norm=True,
-        encoder_architecture=[100],
-        decoder_architecture=[100],
-        verbose=True,
-    ):
-        self.input_dim = input_dim
-        self.min_latent_dim = min_latent_dim
-        self.max_latent_dim = max_latent_dim
-        self.epochs = epochs
-        self.batch_size = batch_size
-        self.optimizer = optimizer
-        self.learning_rate = learning_rate
-        self.epsilon_std = epsilon_std
-        self.min_beta = min_beta
-        self.max_beta = max_beta
-        self.loss = loss
-        self.encoder_batch_norm = encoder_batch_norm
-        self.encoder_architecture = encoder_architecture
-        self.decoder_architecture = decoder_architecture
-
-    def build(self, hp):
-        model = VAE(
-            input_dim=self.input_dim,
-            latent_dim=hp.Int(
-                "latent_dim", self.min_latent_dim, self.max_latent_dim, step=1
-            ),
-            epochs=self.epochs,
-            batch_size=self.batch_size,  # self.batch_size,
-            optimizer=self.optimizer,
-            learning_rate=hp.Choice(
-                "learning_rate", values=self.learning_rate
-            ),  # learning_rate=self.learning_rate,
-            epsilon_std=self.epsilon_std,
-            beta=hp.Float("beta", self.min_beta, self.max_beta, step=0.1),
-            #            beta = 1,
-            loss=self.loss,
-            encoder_batch_norm=hp.Boolean(
-                "encoder_batch_norm", default=self.encoder_batch_norm
-            ),
-            encoder_architecture=self.encoder_architecture,
-            decoder_architecture=self.decoder_architecture,
-        )
-        model.compile_vae()
-        return model.vae
-
-
-class CustomBayesianTunerCellPainting(BayesianOptimization):
-    # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
-    def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int("batch_size", 16, 128, step=32)
-        kwargs["epochs"] = trial.hyperparameters.Int("epochs", 5, 1000, step=100)
-
-        return super(CustomBayesianTunerCellPainting, self).run_trial(
-            trial, *args, **kwargs
-        )  # added the return argument here
-
-
-class CustomBayesianTunerL1000(BayesianOptimization):
-    # from https://github.com/keras-team/keras-tuner/issues/122#issuecomment-544648268
-    def run_trial(self, trial, *args, **kwargs):
-        kwargs["batch_size"] = trial.hyperparameters.Int(
-            "batch_size", 256, 768, step=128
-        )
-        kwargs["epochs"] = trial.hyperparameters.Int("epochs", 10, 11, step=2)
-
-        super(CustomBayesianTunerL1000, self).run_trial(trial, *args, **kwargs)
-
-
 def get_optimize_args():
     """
     Get arguments for the hyperparameter optimization procedure
@@ -100,6 +5,8 @@ def get_optimize_args():
     import argparse
 
     parser = argparse.ArgumentParser()
+    #dummy arguments for ipykernel error
+    parser.add_argument("-f","--fff", help="dummy argument", default="1")
     parser.add_argument("--project_name", type=str, help="The name of the project")
     parser.add_argument(
         "--directory",

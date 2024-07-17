@@ -184,13 +184,14 @@ variance_df.head(3)
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold
 n = variance_df["variance"].nlargest(1000)
-variance_theshold = n.astype(float).min()
+variance_threshold = n.astype(float).min()
 
 # plotting variance density chart and marking the 1000 largest gene variation cutoff
 variance_density_plot = (
     p9.ggplot(variance_df, p9.aes(x="variance"))
     + p9.geom_density()
-    + p9.geom_vline(xintercept=variance_theshold, linetype="dashed", color="red")
+    + p9.geom_vline(xintercept=variance_threshold, linetype="dashed", color="red")
+    + p9.annotate(geom="text", x=variance_threshold + 0.13, y = 10, label="Top 1000 Gene Variances Threshold", color="red") 
     + p9.theme(figure_size=(10, 6))
 )
 
