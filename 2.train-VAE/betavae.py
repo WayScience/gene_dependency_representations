@@ -1,3 +1,5 @@
+#Code based on https://github.com/1Konny/Beta-VAE/blob/master/model.py
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
