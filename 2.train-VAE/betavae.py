@@ -24,7 +24,9 @@ class BetaVAE(nn.Module):
             nn.ReLU(),
         )
         self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, input_dim), nn.BatchNorm1d(input_dim), nn.Sigmoid()
+            nn.Linear(latent_dim, input_dim), 
+            nn.BatchNorm1d(input_dim), 
+            nn.Sigmoid()
         )
         self.latent_dim = latent_dim
         self.beta = beta
