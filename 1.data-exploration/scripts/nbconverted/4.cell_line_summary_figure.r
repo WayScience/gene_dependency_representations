@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(cowplot))
 
 # Set i/o paths and files
-data_dir <- file.path("0.data-download/data")
+data_dir <- file.path("../0.data-download/data")
 fig_dir <- file.path("figures")
 
 model_input_file <- file.path(data_dir, "Model.csv")
