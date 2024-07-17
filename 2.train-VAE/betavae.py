@@ -9,26 +9,20 @@ class BetaVAE(nn.Module):
 
     Args:
         input_dim (int): Dimension of the input data.
-        hidden_dim (int): Dimension of the hidden layer.
+        hidden_dim (int): Dimension of the hidden layer. (this is utilized if two layers)
         latent_dim (int): Dimension of the latent space.
         beta (float): Weight for the Kullback-Leibler divergence term in the loss function.
     """
     def __init__(
         self, 
         input_dim, 
-        hidden_dim,
+        #hidden_dim,
         latent_dim, 
         beta):
         super(BetaVAE, self).__init__()
-        self.encoder = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, latent_dim * 2)
-        )
+        self.encoder = nn.Linear(input_dim, latent_dim * 2)
         self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, input_dim),
+            nn.Linear(latent_dim, input_dim),
             nn.Sigmoid()
         )
         self.latent_dim = latent_dim
