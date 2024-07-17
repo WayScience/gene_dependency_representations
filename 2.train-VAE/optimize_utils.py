@@ -5,6 +5,7 @@ def get_optimize_args():
     import argparse
 
     parser = argparse.ArgumentParser()
+    #dummy arguments for ipykernel error
     parser.add_argument("-f","--fff", help="dummy argument", default="1")
     parser.add_argument("--project_name", type=str, help="The name of the project")
     parser.add_argument(
