@@ -50,6 +50,42 @@ def get_optimize_args():
         nargs="+",
         help="learning rates to use in hyperparameter sweep",
     )
+    parser.add_argument(
+        "--min_epochs",
+        default=5,
+        type=int,
+        help="Minimum epochs",
+    )
+    parser.add_argument(
+        "--max_epochs",
+        default=905,
+        type=int,
+        help="Maximum epochs",
+    )
+    parser.add_argument(
+        "--epoch_step",
+        default = 100,
+        type=int,
+        help="Epoch step size"
+    )
+    parser.add_argument(
+        "--min_batch_size",
+        default=16,
+        type=int,
+        help="Minimum batch size",
+    )
+    parser.add_argument(
+        "--max_epochs",
+        default=112,
+        type=int,
+        help="Maximum batch size",
+    )
+    parser.add_argument(
+        "--batch_size_step",
+        default = 32,
+        type=int,
+        help="Batch size step size"
+    )
     parser.add_argument("--architecture", default="onelayer", help="VAE architecture")
 
     parser.add_argument(
