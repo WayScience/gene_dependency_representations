@@ -58,7 +58,7 @@ def get_optimize_args():
     )
     parser.add_argument(
         "--max_epochs",
-        default=905,
+        default=1000,
         type=int,
         help="Maximum epochs",
     )
@@ -66,7 +66,7 @@ def get_optimize_args():
         "--epoch_step",
         default = 100,
         type=int,
-        help="Epoch step size"
+        help="Epoch step size",
     )
     parser.add_argument(
         "--min_batch_size",
@@ -75,7 +75,7 @@ def get_optimize_args():
         help="Minimum batch size",
     )
     parser.add_argument(
-        "--max_epochs",
+        "--max_batch_size",
         default=112,
         type=int,
         help="Maximum batch size",
@@ -84,7 +84,7 @@ def get_optimize_args():
         "--batch_size_step",
         default = 32,
         type=int,
-        help="Batch size step size"
+        help="Batch size step size",
     )
     parser.add_argument("--architecture", default="onelayer", help="VAE architecture")
 
