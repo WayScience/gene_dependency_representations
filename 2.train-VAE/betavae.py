@@ -73,7 +73,7 @@ class BetaVAE(nn.Module):
         return MSE + self.beta * KLD
 
 
-def train_vae(model, train_loader, optimizer, epochs=5):
+def train_vae(model, train_loader, optimizer):
     """
     Train the VAE model.
 
