@@ -1,10 +1,11 @@
+import pathlib
 from cgi import test
 from copy import deepcopy
-import pathlib
 from random import sample
-from matplotlib import testing
+
+import numpy as np
 import pandas as pd
-import numpy
+from matplotlib import testing
 from numpy import ndarray
 
 
@@ -17,7 +18,7 @@ def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
 
     # Load data
     model_df = pd.read_csv(model_file)
-    effect_df = (pd.read_csv(effect_data_file).dropna(axis=1))
+    effect_df = pd.read_csv(effect_data_file).dropna(axis=1)
 
     # rearrange model info and gene effect dataframe indices so id_column is in alphabetical order
     model_df = model_df.sort_index(ascending=True)
@@ -44,10 +45,12 @@ def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
         model_df = model_df.query("age_categories == @adult_or_pediatric").reset_index(
             drop=True
         )
-        model_to_keep = model_df.reset_index(drop=True).ast.literal_eval(id_column).tolist()
-        effect_df = effect_df.query(
-            id_column + " == @samples_to_keep"
-        ).reset_index(drop=True)
+        model_to_keep = (
+            model_df.reset_index(drop=True).ast.literal_eval(id_column).tolist()
+        )
+        effect_df = effect_df.query(id_column + " == @samples_to_keep").reset_index(
+            drop=True
+        )
 
     model_df = model_df.set_index(id_column)
     model_df = model_df.reindex(index=list(mod_vs_eff_ids)).reset_index()
@@ -64,6 +67,7 @@ def load_train_test_data(
     test_file="VAE_test_df.csv",
     train_or_test="all",
     load_gene_stats=False,
+    zero_one_normalize=False,
 ):
 
     # define directory paths
@@ -71,8 +75,8 @@ def load_train_test_data(
     testing_data_file = pathlib.Path(data_directory, test_file)
 
     # load in the data
-    train_df = pd.read_csv(training_data_file)
-    test_df = pd.read_csv(testing_data_file)
+    train_file = pd.read_csv(training_data_file)
+    test_file = pd.read_csv(testing_data_file)
 
     # overwrite if load_gene_stats is set to true
     if load_gene_stats is True:
@@ -83,15 +87,43 @@ def load_train_test_data(
     else:
         load_gene_stats = None
 
+    # Prepare data for training
+    train_features_df = train_file.drop(columns=["ModelID", "age_and_sex"])
+    test_features_df = test_file.drop(columns=["ModelID", "age_and_sex"])
+
+    # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+    gene_dict_df = pd.read_csv(
+        "../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter="\t"
+    )
+    gene_list_passed_qc = gene_dict_df.loc[
+        gene_dict_df["qc_pass"], "dependency_column"
+    ].tolist()
+
+    # create new training and testing dataframes that contain only the corresponding genes
+    train_df = train_features_df.filter(gene_list_passed_qc, axis=1)
+    test_df = test_features_df.filter(gene_list_passed_qc, axis=1)
+
+    # Normalize data
+    train_data = train_df.values.astype(np.float32)
+    test_data = test_df.values.astype(np.float32)
+
+    # Normalize based on data distribution
+    train_data = (train_data - np.min(train_data, axis=0)) / (
+        np.max(train_data, axis=0) - np.min(train_data, axis=0)
+    )
+    test_data = (test_data - np.min(test_data, axis=0)) / (
+        np.max(test_data, axis=0) - np.min(test_data, axis=0)
+    )
+
     # return data based on what user wants
     if train_or_test == "test":
 
-        return test_df
+        return test_data
 
     elif train_or_test == "train":
 
-        return train_df
+        return train_data
 
     elif train_or_test == "all":
 
-        return train_df, test_df, load_gene_stats
+        return train_data, test_data, load_gene_stats
