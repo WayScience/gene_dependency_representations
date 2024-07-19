@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import testing
 from numpy import ndarray
+from sklearn.preprocessing import MinMaxScaler
 
 
 def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
@@ -108,12 +109,10 @@ def load_train_test_data(
     test_data = test_df.values.astype(np.float32)
 
     # Normalize based on data distribution
-    train_data = (train_data - np.min(train_data, axis=0)) / (
-        np.max(train_data, axis=0) - np.min(train_data, axis=0)
-    )
-    test_data = (test_data - np.min(test_data, axis=0)) / (
-        np.max(test_data, axis=0) - np.min(test_data, axis=0)
-    )
+
+    scaler = MinMaxScaler()
+    train_data = scaler.fit_transform(train_data)
+    test_data = scaler.transform(test_data)
 
     # return data based on what user wants
     if train_or_test == "test":
