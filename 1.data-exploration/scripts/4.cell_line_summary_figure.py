@@ -1,6 +1,23 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# ## Create a single, two-panel figure summarizing the DepMap dataset
+# 
+# | Panel | Description | Importance | Plot type |
+# | :---: | :---------: | :--------: | :-------: |
+# | A     | Distribution of ages | How many pediatric vs adult cancers | Histogram |
+# | B     | Distribution of pediatric cancer types by sex | View how many pediatric cancer types of each | Bar |
+
+# In[1]:
+
+
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(cowplot))
+
+
+# In[2]:
+
 
 # Set i/o paths and files
 data_dir <- file.path("../0.data-download/data")
@@ -11,8 +28,16 @@ crispr_input_file <- file.path(data_dir, "CRISPRGeneEffect.csv")
 
 figure_output_file <- file.path(fig_dir, "age_and_ped_model_distributions.png")
 
+
+# In[3]:
+
+
 # Set figure sizes
 text_size = 9
+
+
+# In[4]:
+
 
 # Process dataset
 model_df <- readr::read_csv(
@@ -48,7 +73,17 @@ print(dim(model_df))
 # Show model_df
 head(model_df, 3)
 
+
+# In[5]:
+
+
 colnames(model_df)
+
+
+# ## Age distribution
+
+# In[6]:
+
 
 age_distrib_gg = (
     ggplot(model_df, aes(x = Age))
@@ -62,11 +97,23 @@ age_distrib_gg = (
 
 age_distrib_gg
 
+
+# In[7]:
+
+
 # Subset to pediatric cancers only
 ped_model_df <- model_df %>%
     dplyr::filter(AgeCategory == "Pediatric")
 
+
+# In[8]:
+
+
 rev(sort(table(ped_model_df$OncotreePrimaryDisease)))
+
+
+# In[9]:
+
 
 disease_type_recode <- ped_model_df$OncotreePrimaryDisease %>%
     dplyr::recode(
@@ -93,6 +140,10 @@ ped_model_df$disease_type_recoded <- factor(
     ped_model_df$disease_type_recoded,
     levels = names(sort(rev(table(ped_model_df$disease_type_recoded))))
 )
+
+
+# In[10]:
+
 
 cancer_type_distrib_gg = (
     ggplot(ped_model_df, aes(x = disease_type_recoded))
@@ -128,6 +179,10 @@ cancer_type_distrib_gg = (
 
 cancer_type_distrib_gg
 
+
+# In[11]:
+
+
 full_gg <- cowplot::plot_grid(
     age_distrib_gg,
     cancer_type_distrib_gg,
@@ -139,3 +194,4 @@ full_gg <- cowplot::plot_grid(
 ggsave(figure_output_file, full_gg, width = 4.75, height = 1.75, dpi = 500)
 
 full_gg
+

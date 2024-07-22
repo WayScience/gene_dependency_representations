@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[30]:
+# In[3]:
 
 
 import pathlib
@@ -20,7 +20,7 @@ from sklearn.model_selection import train_test_split
 # In[31]:
 
 
-def scale_dataframe(df):
+def scale_dataframe(df: pd.DataFrame):
     """
     Scales the gene effect data columns of a DataFrame to a 0-1 range.
     The first column (ID) and the last two columns (age and sex) are not scaled.
@@ -48,7 +48,7 @@ def scale_dataframe(df):
 # In[32]:
 
 
-def save_dataframe(df, file_path):
+def save_dataframe(df, file_path: pathlib.Path):
     """
     Saves a DataFrame to a specified file path.
 

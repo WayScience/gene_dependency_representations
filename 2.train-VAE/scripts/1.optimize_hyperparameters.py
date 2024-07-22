@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[1]:
 
 
 import logging
@@ -13,13 +13,12 @@ import optuna
 import pandas as pd
 import torch
 from optimize_utils import get_optimize_args, objective
-from torch.utils.data import DataLoader, TensorDataset
 
-script_directory = pathlib.Path("../0.data-download/scripts/").resolve()
+script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data
 
-# In[12]:
+# In[2]:
 
 
 # Load command line arguments
@@ -34,7 +33,7 @@ train_data, test_data, val_data, load_gene_stats = load_train_test_data(
 )
 
 
-# In[9]:
+# In[3]:
 
 
 # Convert dataframes to tensors
@@ -43,7 +42,7 @@ test_tensor = torch.tensor(test_data, dtype=torch.float32)
 val_tensor = torch.tensor(val_data, dtype=torch.float32)
 
 
-# In[13]:
+# In[4]:
 
 
 # Run Optuna optimization and save study

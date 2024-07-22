@@ -15,7 +15,7 @@ import plotnine as p9
 from scipy.stats import ttest_ind
 
 warnings.filterwarnings("ignore")
-sys.path.insert(0, "../0.data-download/scripts/")
+sys.path.insert(0, ".../utils/")
 from data_loader import load_data, load_train_test_data
 
 # In[2]:

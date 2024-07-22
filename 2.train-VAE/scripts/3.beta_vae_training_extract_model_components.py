@@ -4,27 +4,28 @@
 # In[1]:
 
 
-import sys
 import pathlib
+import random as python_random
+import sys
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import random as python_random
-import tensorflow as tf
 import seaborn as sns
+import tensorflow as tf
 
 sns.set_theme(color_codes=True)
 import random
+
 import joblib
 
 sys.path.insert(0, ".././0.data-download/scripts/")
-from data_loader import load_train_test_data, load_data
+from data_loader import load_data, load_train_test_data
+from keras.models import Model, Sequential
 from matplotlib.pyplot import figure, gcf
 from sklearn.decomposition import PCA
 from tensorflow import keras
 from vae import VAE
-from keras.models import Model, Sequential
-
 
 # In[2]:
 

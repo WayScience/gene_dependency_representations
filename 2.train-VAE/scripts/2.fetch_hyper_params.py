@@ -4,10 +4,10 @@
 # In[1]:
 
 
-import os
 import json
-import hiplot as hip
+import os
 
+import hiplot as hip
 
 # In[2]:
 
