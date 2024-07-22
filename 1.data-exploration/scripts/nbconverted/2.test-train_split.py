@@ -1,29 +1,75 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[30]:
 
 
-import sys
 import pathlib
+import sys
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 sys.path.insert(0, "../0.data-download/scripts/")
-from data_loader import load_data
-from sklearn.model_selection import train_test_split
 import random
 
+from data_loader import load_data
+from sklearn.model_selection import train_test_split
 
-# In[2]:
+# In[31]:
+
+
+def scale_dataframe(df):
+    """
+    Scales the gene effect data columns of a DataFrame to a 0-1 range.
+    The first column (ID) and the last two columns (age and sex) are not scaled.
+
+    Parameters:
+    df (pd.DataFrame): The input DataFrame.
+
+    Returns:
+    pd.DataFrame: The scaled DataFrame.
+    """
+    col_num = df.shape[1]
+    df_to_scale = df.iloc[:, 1:col_num-1]
+    
+    scaler = MinMaxScaler(feature_range=(0,1))
+    scaled_df = scaler.fit_transform(df_to_scale)
+    
+    scaled_df = pd.DataFrame(scaled_df)
+    scaled_df.insert(0, df.columns[0], df[df.columns[0]])
+    scaled_df.insert(col_num-1, df.columns[col_num-1], df[df.columns[col_num-1]])
+    scaled_df.columns = df.columns
+    
+    return scaled_df
+
+
+# In[32]:
+
+
+def save_dataframe(df, file_path):
+    """
+    Saves a DataFrame to a specified file path.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame to save.
+    file_path (str): The file path to save the DataFrame.
+    """
+    df = df.reset_index(drop=True)
+    df.to_csv(file_path, index=False)
+    print(f"DataFrame saved to {file_path}. Shape: {df.shape}")
+    print(df.head(3))
+
+
+# In[33]:
 
 
 random.seed(18)
 print(random.random())
 
 
-# In[3]:
+# In[34]:
 
 
 # load all of the data
@@ -31,7 +77,7 @@ data_directory = "../0.data-download/data/"
 model_df, effect_df = load_data(data_directory, adult_or_pediatric="all")
 
 
-# In[4]:
+# In[35]:
 
 
 # verifying that the ModelIDs in model_df and effect_df are alligned
@@ -45,7 +91,7 @@ print(
 )
 
 
-# In[5]:
+# In[36]:
 
 
 # assign 'AgeCategory' and 'Sex' columns to the effect dataframe as a single column
@@ -55,7 +101,7 @@ presplit_effect_df = effect_df.assign(
 presplit_effect_df
 
 
-# In[6]:
+# In[37]:
 
 
 groups = model_df.groupby("AgeCategory")
@@ -73,7 +119,7 @@ new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
 
-# In[7]:
+# In[38]:
 
 
 # creating a list of ModelIDs that correlate to pediatric and adult samples
@@ -87,73 +133,36 @@ PA_effect_df = presplit_effect_df.loc[
 ].reset_index(drop=True)
 
 
-# In[8]:
+# In[39]:
 
 
 # split the data based on age category and sex
-train_df, test_df = train_test_split(
-    PA_effect_df, test_size=0.15, stratify=PA_effect_df.age_and_sex
+train_df, testandvalidation_df = train_test_split(
+    PA_effect_df, test_size=0.3, stratify=PA_effect_df.age_and_sex
 )
 train_df.reset_index(drop=True,inplace=True)
+testandvalidation_df.reset_index(drop=True,inplace=True)
+test_df, val_df = train_test_split(
+    testandvalidation_df, test_size=0.5
+)
 test_df.reset_index(drop=True,inplace=True)
+val_df.reset_index(drop=True,inplace=True)
 
 
-# In[9]:
+# In[40]:
 
 
-# preparing train dataframe to be scaled
-col_num = train_df.shape[1]
-train_scaled_df = train_df.iloc[:, 1:col_num-1]
-
-# scaling gene effect data to 0-1 range
-scaler = MinMaxScaler(feature_range=(0,1))
-train_scaled_df = scaler.fit_transform(train_scaled_df)
-
-# adding id column and age and sex column back
-train_scaled_df = pd.DataFrame(train_scaled_df)
-train_scaled_df.insert(0, train_df.columns[0], train_df[train_df.columns[0]])
-train_scaled_df.insert(col_num-1, train_df.columns[col_num-1], train_df[train_df.columns[col_num-1]])
-train_scaled_df.columns = train_df.columns
-train_scaled_df
+#scale each dataframe
+train_scaled_df = scale_dataframe(train_df)
+test_scaled_df = scale_dataframe(test_df)
+val_scaled_df = scale_dataframe(val_df)
 
 
-# In[10]:
+# In[41]:
 
 
-# preparing test dataframe to be scaled
-col_num = test_df.shape[1]
-test_scaled_df = test_df.iloc[:, 1:col_num-1]
-
-# scaling gene effect data to 0-1 range
-scaler = MinMaxScaler(feature_range=(0,1))
-test_scaled_df = scaler.fit_transform(test_scaled_df)
-
-# adding id column and age and sex column back
-test_scaled_df = pd.DataFrame(test_scaled_df)
-test_scaled_df.insert(0, test_df.columns[0], test_df[test_df.columns[0]])
-test_scaled_df.insert(col_num-1, test_df.columns[col_num-1], test_df[test_df.columns[col_num-1]])
-test_scaled_df.columns = test_df.columns
-test_scaled_df
-
-
-# In[11]:
-
-
-# save the TESTING dataframe
-test_df = test_df.reset_index(drop=True)
-testing_df_output = pathlib.Path("../0.data-download/data/VAE_test_df.csv")
-test_df.to_csv(testing_df_output, index=False)
-print(test_df.shape)
-test_df.head(3)
-
-
-# In[12]:
-
-
-# save the TRAINING dataframe
-train_df = train_df.reset_index(drop=True)
-training_df_output = pathlib.Path("../0.data-download/data/VAE_train_df.csv")
-train_df.to_csv(training_df_output, index=False)
-print(train_df.shape)
-train_df.head(3)
+#save each dataframe
+save_dataframe(train_scaled_df, "../0.data-download/data/VAE_train_df.csv")
+save_dataframe(test_scaled_df, "../0.data-download/data/VAE_test_df.csv")
+save_dataframe(val_scaled_df, "../0.data-download/data/VAE_val_df.csv")
 
