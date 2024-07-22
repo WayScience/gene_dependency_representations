@@ -103,7 +103,7 @@ def train_vae(model, train_loader, optimizer, epochs):
     return train_loss_history
 
 
-def evaluate_vae(model, test_loader):
+def evaluate_vae(model, val_loader):
     """
     Evaluate the VAE model.
 
@@ -115,10 +115,10 @@ def evaluate_vae(model, test_loader):
         Average loss over the test dataset.
     """
     model.eval()
-    test_loss = 0
+    val_loss = 0
     with torch.no_grad():
-        for batch in test_loader:
+        for batch in val_loader:
             data = batch[0]
             recon, mu, log_var = model(data)
-            test_loss += model.loss_function(recon, data, mu, log_var).item()
-    return test_loss / len(test_loader.dataset)
+            val_loss += model.loss_function(recon, data, mu, log_var).item()
+    return val_loss / len(val_loader.dataset)
