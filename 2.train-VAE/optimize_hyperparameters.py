@@ -15,7 +15,7 @@ import torch
 from optimize_utils import get_optimize_args, objective
 from torch.utils.data import DataLoader, TensorDataset
 
-script_directory = pathlib.Path("../0.data-download/scripts/").resolve()
+script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data
 

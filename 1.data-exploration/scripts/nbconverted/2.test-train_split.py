@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-sys.path.insert(0, "../0.data-download/scripts/")
+sys.path.insert(0, "../utils/")
 import random
 
 from data_loader import load_data
