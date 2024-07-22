@@ -24,7 +24,9 @@ class BetaVAE(nn.Module):
             nn.ReLU(),
         )
         self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, input_dim), nn.BatchNorm1d(input_dim), nn.Sigmoid()
+            nn.Linear(latent_dim, input_dim),
+            nn.BatchNorm1d(input_dim),
+            nn.Sigmoid(),
         )
         self.latent_dim = latent_dim
         self.beta = beta
@@ -82,8 +84,10 @@ def train_vae(model, train_loader, optimizer, epochs):
         epochs (int, optional): Number of training epochs. Defaults to 5.
     """
     model.train()
+    train_loss_history = []
     for epoch in range(epochs):
         train_loss = 0
+
         for batch in train_loader:
             data = batch[0]
             optimizer.zero_grad()
@@ -92,7 +96,11 @@ def train_vae(model, train_loader, optimizer, epochs):
             loss.backward()
             train_loss += loss.item()
             optimizer.step()
-        print(f"Epoch {epoch}, Loss: {train_loss / len(train_loader.dataset)}")
+        avg_train_loss = train_loss / len(train_loader.dataset)
+        train_loss_history.append(avg_train_loss)
+        print(f"Epoch {epoch}, Loss: {avg_train_loss}")
+
+    return train_loss_history
 
 
 def evaluate_vae(model, test_loader):
