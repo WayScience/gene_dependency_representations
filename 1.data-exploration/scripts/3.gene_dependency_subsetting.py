@@ -4,19 +4,19 @@
 # In[1]:
 
 
-import sys
 import pathlib
+import sys
+import warnings
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotnine as p9
-import matplotlib.pyplot as plt
 from scipy.stats import ttest_ind
-import warnings
 
 warnings.filterwarnings("ignore")
-sys.path.insert(0, "../0.data-download/scripts/")
+sys.path.insert(0, ".../utils/")
 from data_loader import load_data, load_train_test_data
-
 
 # In[2]:
 
@@ -179,7 +179,7 @@ print(variance_df.shape)
 variance_df.head(3)
 
 
-# In[15]:
+# In[21]:
 
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold

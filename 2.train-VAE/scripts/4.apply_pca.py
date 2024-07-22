@@ -10,15 +10,15 @@
 # In[1]:
 
 
-import sys
 import pathlib
+import sys
+
 import pandas as pd
 import plotnine as gg
 from sklearn.decomposition import PCA
 
 sys.path.insert(0, "../0.data-download/scripts/")
 from data_loader import load_train_test_data
-
 
 # In[2]:
 

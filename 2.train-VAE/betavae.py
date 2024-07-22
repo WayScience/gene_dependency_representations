@@ -24,9 +24,9 @@ class BetaVAE(nn.Module):
             nn.ReLU(),
         )
         self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, input_dim), 
-            nn.BatchNorm1d(input_dim), 
-            nn.Sigmoid()
+            nn.Linear(latent_dim, input_dim),
+            nn.BatchNorm1d(input_dim),
+            nn.Sigmoid(),
         )
         self.latent_dim = latent_dim
         self.beta = beta
@@ -73,7 +73,7 @@ class BetaVAE(nn.Module):
         return MSE + self.beta * KLD
 
 
-def train_vae(model, train_loader, optimizer, epochs=5):
+def train_vae(model, train_loader, optimizer, epochs):
     """
     Train the VAE model.
 
@@ -84,8 +84,10 @@ def train_vae(model, train_loader, optimizer, epochs=5):
         epochs (int, optional): Number of training epochs. Defaults to 5.
     """
     model.train()
+    train_loss_history = []
     for epoch in range(epochs):
         train_loss = 0
+
         for batch in train_loader:
             data = batch[0]
             optimizer.zero_grad()
@@ -94,10 +96,14 @@ def train_vae(model, train_loader, optimizer, epochs=5):
             loss.backward()
             train_loss += loss.item()
             optimizer.step()
-        print(f"Epoch {epoch}, Loss: {train_loss / len(train_loader.dataset)}")
+        avg_train_loss = train_loss / len(train_loader.dataset)
+        train_loss_history.append(avg_train_loss)
+        print(f"Epoch {epoch}, Loss: {avg_train_loss}")
+
+    return train_loss_history
 
 
-def evaluate_vae(model, test_loader):
+def evaluate_vae(model, val_loader):
     """
     Evaluate the VAE model.
 
@@ -109,10 +115,10 @@ def evaluate_vae(model, test_loader):
         Average loss over the test dataset.
     """
     model.eval()
-    test_loss = 0
+    val_loss = 0
     with torch.no_grad():
-        for batch in test_loader:
+        for batch in val_loader:
             data = batch[0]
             recon, mu, log_var = model(data)
-            test_loss += model.loss_function(recon, data, mu, log_var).item()
-    return test_loss / len(test_loader.dataset)
+            val_loss += model.loss_function(recon, data, mu, log_var).item()
+    return val_loss / len(val_loader.dataset)
