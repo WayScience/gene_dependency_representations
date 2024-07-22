@@ -66,18 +66,21 @@ def load_train_test_data(
     data_directory,
     train_file="VAE_train_df.csv",
     test_file="VAE_test_df.csv",
+    val_file="VAE_val_df.csv",
     train_or_test="all",
     load_gene_stats=False,
     zero_one_normalize=False,
-):
+    ):
 
     # define directory paths
     training_data_file = pathlib.Path(data_directory, train_file)
     testing_data_file = pathlib.Path(data_directory, test_file)
+    validation_data_file = pathlib.Path(data_directory, val_file)
 
     # load in the data
     train_file = pd.read_csv(training_data_file)
     test_file = pd.read_csv(testing_data_file)
+    val_file = pd.read_csv(validation_data_file)
 
     # overwrite if load_gene_stats is set to true
     if load_gene_stats is True:
@@ -91,6 +94,7 @@ def load_train_test_data(
     # Prepare data for training
     train_features_df = train_file.drop(columns=["ModelID", "age_and_sex"])
     test_features_df = test_file.drop(columns=["ModelID", "age_and_sex"])
+    val_features_df = val_file.drop(columns=["ModelID", "age_and_sex"])
 
     # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
     gene_dict_df = pd.read_csv(
@@ -103,16 +107,20 @@ def load_train_test_data(
     # create new training and testing dataframes that contain only the corresponding genes
     train_df = train_features_df.filter(gene_list_passed_qc, axis=1)
     test_df = test_features_df.filter(gene_list_passed_qc, axis=1)
+    val_df = val_features_df.filter(gene_list_passed_qc, axis=1)
 
     # Normalize data
     train_data = train_df.values.astype(np.float32)
     test_data = test_df.values.astype(np.float32)
+    val_data = val_df.values.astype(np.float32)
+    
+    if zero_one_normalize == True:
 
-    # Normalize based on data distribution
-
-    scaler = MinMaxScaler()
-    train_data = scaler.fit_transform(train_data)
-    test_data = scaler.transform(test_data)
+        # Normalize based on data distribution
+        scaler = MinMaxScaler()
+        train_data = scaler.fit_transform(train_data)
+        test_data = scaler.transform(test_data)
+        val_data = scaler.transform(val_data)
 
     # return data based on what user wants
     if train_or_test == "test":
@@ -122,7 +130,10 @@ def load_train_test_data(
     elif train_or_test == "train":
 
         return train_data
+    
+    elif train_or_test == "validation":
+        return val_data
 
     elif train_or_test == "all":
 
-        return train_data, test_data, load_gene_stats
+        return train_data, test_data, val_data, load_gene_stats

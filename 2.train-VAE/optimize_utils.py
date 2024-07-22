@@ -93,6 +93,18 @@ def get_optimize_args():
         help="Batch size step size",
     )
     parser.add_argument(
+        "--min_lr",
+        default=1e-6,
+        type=float,
+        help="Minimum learning rate",
+    )
+    parser.add_argument(
+        "--max_lr",
+        default=5e-3,
+        type=float,
+        help="Maximum learning rate",
+    )
+    parser.add_argument(
         "--architecture", 
         default="onelayer", 
         help="VAE architecture")
@@ -107,7 +119,7 @@ def get_optimize_args():
     return args
 
 
-def objective(trial, train_tensor, test_tensor, train_df):
+def objective(trial, train_tensor, val_tensor, train_df):
     args = get_optimize_args()
     """
     Optuna objective function: optimized by study
@@ -116,23 +128,25 @@ def objective(trial, train_tensor, test_tensor, train_df):
     latent_dim = trial.suggest_int(
         "latent_dim", args.min_latent_dim, args.max_latent_dim
     )
-    beta = trial.suggest_float("beta", args.min_beta, args.max_beta)
-    learning_rate = trial.suggest_categorical(
-        "learning_rate", [5e-3, 1e-3, 1e-4, 1e-5, 1e-6]
+    beta = trial.suggest_float(
+        "beta", args.min_beta, args.max_beta
+    )
+    learning_rate = trial.suggest_float(
+        "learning_rate", args.min_lr, args.max_lr
     )
     batch_size = trial.suggest_int(
-        "batch_size", args.min_batch_size, args.max_batch_size, args.batch_size_step
+        "batch_size", args.min_batch_size, args.max_batch_size
     )
     epochs = trial.suggest_int(
-        "epochs", args.min_epochs, args.max_epochs, args.epoch_step
+        "epochs", args.min_epochs, args.max_epochs
     )
 
     # Create DataLoader
     train_loader = DataLoader(
         TensorDataset(train_tensor), batch_size=batch_size, shuffle=True
     )
-    test_loader = DataLoader(
-        TensorDataset(test_tensor), batch_size=batch_size, shuffle=False
+    val_loader = DataLoader(
+        TensorDataset(val_tensor), batch_size=batch_size, shuffle=False
     )
 
     model = BetaVAE(input_dim=train_df.shape[1], latent_dim=latent_dim, beta=beta)
@@ -141,6 +155,6 @@ def objective(trial, train_tensor, test_tensor, train_df):
     train_vae(model, train_loader, optimizer, epochs=epochs)
 
     # Evaluate VAE
-    val_loss = evaluate_vae(model, test_loader)
+    val_loss = evaluate_vae(model, val_loader)
 
     return val_loss
