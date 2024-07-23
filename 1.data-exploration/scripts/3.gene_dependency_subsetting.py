@@ -1,44 +1,44 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[111]:
 
 
-import pathlib
 import sys
-import warnings
-
-import matplotlib.pyplot as plt
+import pathlib
 import numpy as np
 import pandas as pd
 import plotnine as p9
+import matplotlib.pyplot as plt
 from scipy.stats import ttest_ind
+import warnings
 
 warnings.filterwarnings("ignore")
-sys.path.insert(0, ".../utils/")
+sys.path.insert(0, "../utils/")
 from data_loader import load_data, load_train_test_data
 
-# In[2]:
+
+# In[112]:
 
 
 # data path
 data_directory = "../0.data-download/data/"
 
 
-# In[3]:
+# In[113]:
 
 
 # load the training data
-dfs_test, dfs, data = load_train_test_data(
-    data_directory, train_or_test="all", load_gene_stats=False
+train_data = load_train_test_data(
+    data_directory, train_or_test="train", load_gene_stats=False
 )
 
 
-# In[4]:
+# In[114]:
 
 
 # set a unique dataframe that can be appended from
-training_df_age = dfs
+training_df_age = train_data
 
 # group by age and create new dataframes that can be appended to
 groups = training_df_age.groupby("age_and_sex")
@@ -57,11 +57,11 @@ for name, training_df_age in groups:
         ped_effect_df = ped_effect_df.reset_index(drop=True)
 
 
-# In[5]:
+# In[115]:
 
 
 # set a unique dataframe that can be appended from
-training_df_sex = dfs
+training_df_sex = train_data
 
 # group by sex and create new dataframes to be appended to
 groups_sex = training_df_sex.groupby("age_and_sex")
@@ -90,35 +90,35 @@ for name, training_df_sex in groups_sex:
         female_effect_df = female_effect_df.reset_index(drop=True)
 
 
-# In[6]:
+# In[116]:
 
 
 print(adult_effect_df.shape)
 adult_effect_df.head(3)
 
 
-# In[7]:
+# In[117]:
 
 
 print(ped_effect_df.shape)
 ped_effect_df.head(3)
 
 
-# In[8]:
+# In[118]:
 
 
 print(male_effect_df.shape)
 male_effect_df.head(3)
 
 
-# In[9]:
+# In[119]:
 
 
 print(female_effect_df.shape)
 female_effect_df.head(3)
 
 
-# In[10]:
+# In[120]:
 
 
 # drop the string values from all dataframes
@@ -132,11 +132,11 @@ female_effect_df_float = female_effect_df.drop(
     columns=["ModelID", "age_and_sex"]
 )
 
-effect_df = dfs.drop(columns="age_and_sex")
+effect_df = train_data.drop(columns="age_and_sex")
 effect_df = effect_df.set_index("ModelID")
 
 
-# In[11]:
+# In[121]:
 
 
 # t_test comparing gene dependencies in adult vs pediatric samples
@@ -147,7 +147,7 @@ print(t_test.shape)
 t_test.head(3)
 
 
-# In[12]:
+# In[122]:
 
 
 # t_test comparing gene dependencies in male vs female samples
@@ -158,14 +158,14 @@ print(t_test_sex.shape)
 t_test_sex.head(3)
 
 
-# In[13]:
+# In[123]:
 
 
 print(effect_df.shape)
 effect_df.head(3)
 
 
-# In[14]:
+# In[124]:
 
 
 # calculate variance of each gene then send the results plus the gene info into a new dataframe
@@ -179,7 +179,7 @@ print(variance_df.shape)
 variance_df.head(3)
 
 
-# In[21]:
+# In[125]:
 
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold
@@ -201,7 +201,7 @@ variance_density_plot.save(density_path)
 variance_density_plot
 
 
-# In[16]:
+# In[126]:
 
 
 # first create new dataframe containing gene info as well as both adult-pediatric and male-female t-test results and variance results
@@ -219,7 +219,7 @@ print(df.shape)
 df.head(3)
 
 
-# In[17]:
+# In[127]:
 
 
 # plot adult-pediatric ttest versus variance
@@ -227,6 +227,8 @@ A_vs_P_by_variance_plot = (
     p9.ggplot(data=df, mapping=p9.aes(x="variance", y="ttest_A_vs_P"))
     + p9.geom_point(size=0.4, alpha=0.1, color="blue")
     + p9.theme(figure_size=(10, 7))
+    + p9.xlim(0.00, 0.08)
+    + p9.ylim(-8,8)
 )
 
 # save the figure
@@ -237,7 +239,7 @@ A_vs_P_by_variance_plot.save(adult_vs_pediatric_path)
 A_vs_P_by_variance_plot
 
 
-# In[18]:
+# In[128]:
 
 
 # plot male-female ttest versus gene variance
@@ -245,6 +247,8 @@ M_vs_F_by_variance_plot = (
     p9.ggplot(data=df, mapping=p9.aes(x="variance", y="ttest_M_vs_F"))
     + p9.geom_point(size=0.4, alpha=0.1, color="blue")
     + p9.theme(figure_size=(10, 7))
+    + p9.xlim(0.00, 0.08)
+    + p9.ylim(-8,8)
 )
 
 # save the figure
