@@ -216,6 +216,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 284325	ACTMAP	ACTMAP (284325)	False	True	False
 87	ACTN1	ACTN1 (87)	False	True	False
 88	ACTN2	ACTN2 (88)	False	True	False
+89	ACTN3	ACTN3 (89)	False	True	False
 81	ACTN4	ACTN4 (81)	False	True	False
 55860	ACTR10	ACTR10 (55860)	True	True	True
 10121	ACTR1A	ACTR1A (10121)	True	True	True
@@ -323,6 +324,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 576	ADGRB2	ADGRB2 (576)	False	True	False
 577	ADGRB3	ADGRB3 (577)	False	True	False
 283383	ADGRD1	ADGRD1 (283383)	False	True	False
+347088	ADGRD2	ADGRD2 (347088)	False	True	False
 2015	ADGRE1	ADGRE1 (2015)	False	True	False
 30817	ADGRE2	ADGRE2 (30817)	False	True	False
 84658	ADGRE3	ADGRE3 (84658)	False	True	False
@@ -345,6 +347,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84059	ADGRV1	ADGRV1 (84059)	False	True	False
 124	ADH1A	ADH1A (124)	False	True	False
 125	ADH1B	ADH1B (125)	False	True	False
+126	ADH1C	ADH1C (126)	False	True	False
 127	ADH4	ADH4 (127)	False	True	False
 128	ADH5	ADH5 (128)	False	True	False
 130	ADH6	ADH6 (130)	False	True	False
@@ -490,6 +493,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9590	AKAP12	AKAP12 (9590)	False	True	False
 11214	AKAP13	AKAP13 (11214)	False	True	False
 158798	AKAP14	AKAP14 (158798)	False	True	False
+8227	AKAP17A	AKAP17A (8227)	False	True	False
 10566	AKAP3	AKAP3 (10566)	False	True	False
 8852	AKAP4	AKAP4 (8852)	False	True	False
 9495	AKAP5	AKAP5 (9495)	False	True	False
@@ -535,6 +539,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 217	ALDH2	ALDH2 (217)	False	True	False
 218	ALDH3A1	ALDH3A1 (218)	False	True	False
 224	ALDH3A2	ALDH3A2 (224)	False	True	False
+221	ALDH3B1	ALDH3B1 (221)	False	True	False
 222	ALDH3B2	ALDH3B2 (222)	False	True	False
 8659	ALDH4A1	ALDH4A1 (8659)	False	True	False
 7915	ALDH5A1	ALDH5A1 (7915)	False	True	False
@@ -679,6 +684,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54522	ANKRD16	ANKRD16 (54522)	False	True	False
 26057	ANKRD17	ANKRD17 (26057)	True	True	True
 253650	ANKRD18A	ANKRD18A (253650)	False	True	False
+441459	ANKRD18B	ANKRD18B (441459)	False	True	False
 26287	ANKRD2	ANKRD2 (26287)	False	True	False
 118932	ANKRD22	ANKRD22 (118932)	False	True	False
 200539	ANKRD23	ANKRD23 (200539)	False	True	False
@@ -689,6 +695,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 147463	ANKRD29	ANKRD29 (147463)	False	True	False
 91074	ANKRD30A	ANKRD30A (91074)	False	True	False
 374860	ANKRD30B	ANKRD30B (374860)	False	True	False
+554226	ANKRD30BL	ANKRD30BL (554226)	False	True	False
 256006	ANKRD31	ANKRD31 (256006)	False	True	False
 341405	ANKRD33	ANKRD33 (341405)	False	True	False
 651746	ANKRD33B	ANKRD33B (651746)	False	True	False
@@ -697,9 +704,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 390616	ANKRD34C	ANKRD34C (390616)	False	True	False
 148741	ANKRD35	ANKRD35 (148741)	False	True	False
 375248	ANKRD36	ANKRD36 (375248)	False	True	False
+57730	ANKRD36B	ANKRD36B (57730)	False	True	False
+400986	ANKRD36C	ANKRD36C (400986)	False	True	False
 353322	ANKRD37	ANKRD37 (353322)	False	True	False
 51239	ANKRD39	ANKRD39 (51239)	False	True	False
 91369	ANKRD40	ANKRD40 (91369)	False	True	False
+55018	ANKRD40CL	ANKRD40CL (55018)	False	True	False
 338699	ANKRD42	ANKRD42 (338699)	False	True	False
 91526	ANKRD44	ANKRD44 (91526)	False	True	False
 339416	ANKRD45	ANKRD45 (339416)	False	True	False
@@ -711,8 +721,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 129138	ANKRD54	ANKRD54 (129138)	False	True	False
 79722	ANKRD55	ANKRD55 (79722)	False	True	False
 22881	ANKRD6	ANKRD6 (22881)	False	True	False
+140731	ANKRD60	ANKRD60 (140731)	False	True	False
 100310846	ANKRD61	ANKRD61 (100310846)	False	True	False
 342850	ANKRD62	ANKRD62 (342850)	False	True	False
+100131244	ANKRD63	ANKRD63 (100131244)	False	True	False
 441869	ANKRD65	ANKRD65 (441869)	False	True	False
 100287718	ANKRD66	ANKRD66 (100287718)	False	True	False
 56311	ANKRD7	ANKRD7 (56311)	False	True	False
@@ -722,6 +734,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 124401	ANKS3	ANKS3 (124401)	False	True	False
 257629	ANKS4B	ANKS4B (257629)	False	True	False
 203286	ANKS6	ANKS6 (203286)	False	True	False
+389161	ANKUB1	ANKUB1 (389161)	False	True	False
 55139	ANKZF1	ANKZF1 (55139)	False	True	False
 54443	ANLN	ANLN (54443)	False	True	False
 55107	ANO1	ANO1 (55107)	False	True	False
@@ -807,6 +820,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 164284	APCDD1L	APCDD1L (164284)	False	True	False
 325	APCS	APCS (325)	False	True	False
 327	APEH	APEH (327)	False	True	False
+100506013	APELA	APELA (100506013)	False	True	False
 328	APEX1	APEX1 (328)	False	True	False
 27301	APEX2	APEX2 (27301)	False	True	False
 51107	APH1A	APH1A (51107)	True	True	True
@@ -846,6 +860,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8542	APOL1	APOL1 (8542)	False	True	False
 23780	APOL2	APOL2 (23780)	False	True	False
 80833	APOL3	APOL3 (80833)	False	True	False
+80832	APOL4	APOL4 (80832)	False	True	False
 80831	APOL5	APOL5 (80831)	False	True	False
 80830	APOL6	APOL6 (80830)	False	True	False
 81575	APOLD1	APOLD1 (81575)	False	True	False
@@ -868,6 +883,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 362	AQP5	AQP5 (362)	False	True	False
 363	AQP6	AQP6 (363)	False	True	False
 364	AQP7	AQP7 (364)	False	True	False
+100509620	AQP7B	AQP7B (100509620)	False	True	False
 343	AQP8	AQP8 (343)	False	True	False
 366	AQP9	AQP9 (366)	False	True	False
 9716	AQR	AQR (9716)	True	True	True
@@ -1090,6 +1106,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56676	ASCL3	ASCL3 (56676)	False	True	False
 121549	ASCL4	ASCL4 (121549)	False	True	False
 647219	ASCL5	ASCL5 (647219)	False	True	False
+110599588	ASDURF	ASDURF (110599588)	False	True	False
 25842	ASF1A	ASF1A (25842)	True	True	True
 55723	ASF1B	ASF1B (55723)	False	True	False
 432	ASGR1	ASGR1 (432)	False	True	False
@@ -1103,6 +1120,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51802	ASIC5	ASIC5 (51802)	False	True	False
 434	ASIP	ASIP (434)	False	True	False
 435	ASL	ASL (435)	False	True	False
+438	ASMT	ASMT (438)	False	True	False
+8623	ASMTL	ASMTL (8623)	False	True	False
 440	ASNS	ASNS (440)	True	True	True
 54529	ASNSD1	ASNSD1 (54529)	False	True	False
 443	ASPA	ASPA (443)	False	True	False
@@ -1121,6 +1140,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 460	ASTN1	ASTN1 (460)	False	True	False
 23245	ASTN2	ASTN2 (23245)	False	True	False
 171023	ASXL1	ASXL1 (171023)	False	True	False
+55252	ASXL2	ASXL2 (55252)	False	True	False
 80816	ASXL3	ASXL3 (80816)	False	True	False
 136991	ASZ1	ASZ1 (136991)	False	True	False
 84896	ATAD1	ATAD1 (84896)	False	True	False
@@ -1160,6 +1180,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9474	ATG5	ATG5 (9474)	False	True	False
 10533	ATG7	ATG7 (10533)	True	True	True
 79065	ATG9A	ATG9A (79065)	True	True	True
+285973	ATG9B	ATG9B (285973)	False	True	False
 471	ATIC	ATIC (471)	True	True	True
 51062	ATL1	ATL1 (51062)	False	True	False
 64225	ATL2	ATL2 (64225)	False	True	False
@@ -1244,6 +1265,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 529	ATP6V1E1	ATP6V1E1 (529)	True	True	True
 90423	ATP6V1E2	ATP6V1E2 (90423)	False	True	False
 9296	ATP6V1F	ATP6V1F (9296)	True	True	True
+100130705	ATP6V1FNB	ATP6V1FNB (100130705)	False	True	False
 9550	ATP6V1G1	ATP6V1G1 (9550)	True	True	True
 534	ATP6V1G2	ATP6V1G2 (534)	False	True	False
 127124	ATP6V1G3	ATP6V1G3 (127124)	False	True	False
@@ -1356,6 +1378,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9530	BAG4	BAG4 (9530)	False	True	False
 9529	BAG5	BAG5 (9529)	False	True	False
 7917	BAG6	BAG6 (7917)	True	True	True
+57597	BAHCC1	BAHCC1 (57597)	False	True	False
 22893	BAHD1	BAHD1 (22893)	False	True	False
 10458	BAIAP2	BAIAP2 (10458)	False	True	False
 55971	BAIAP2L1	BAIAP2L1 (55971)	False	True	False
@@ -1451,6 +1474,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55814	BDP1	BDP1 (55814)	False	True	False
 146227	BEAN1	BEAN1 (146227)	False	True	False
 8678	BECN1	BECN1 (8678)	True	True	True
+441925	BECN2	BECN2 (441925)	False	True	False
 57596	BEGAIN	BEGAIN (57596)	False	True	False
 139105	BEND2	BEND2 (139105)	False	True	False
 57673	BEND3	BEND3 (57673)	False	True	False
@@ -1589,6 +1613,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23774	BRD1	BRD1 (23774)	True	True	True
 6046	BRD2	BRD2 (6046)	True	True	True
 8019	BRD3	BRD3 (8019)	False	True	False
+266655	BRD3OS	BRD3OS (266655)	False	True	False
 23476	BRD4	BRD4 (23476)	True	True	True
 29117	BRD7	BRD7 (29117)	True	True	True
 10902	BRD8	BRD8 (10902)	True	True	True
@@ -1632,6 +1657,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 118663	BTBD16	BTBD16 (118663)	False	True	False
 388419	BTBD17	BTBD17 (388419)	False	True	False
 643376	BTBD18	BTBD18 (643376)	False	True	False
+149478	BTBD19	BTBD19 (149478)	False	True	False
 55643	BTBD2	BTBD2 (55643)	False	True	False
 22903	BTBD3	BTBD3 (22903)	False	True	False
 90135	BTBD6	BTBD6 (90135)	False	True	False
@@ -1654,6 +1680,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 11119	BTN3A1	BTN3A1 (11119)	False	True	False
 11118	BTN3A2	BTN3A2 (11118)	False	True	False
 10384	BTN3A3	BTN3A3 (10384)	False	True	False
+56244	BTNL2	BTNL2 (56244)	False	True	False
 10917	BTNL3	BTNL3 (10917)	False	True	False
 79908	BTNL8	BTNL8 (79908)	False	True	False
 153579	BTNL9	BTNL9 (153579)	False	True	False
@@ -1670,6 +1697,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 28969	BZW2	BZW2 (28969)	False	True	False
 414152	C10orf105	C10orf105 (414152)	False	True	False
 399814	C10orf120	C10orf120 (399814)	False	True	False
+387723	C10orf143	C10orf143 (387723)	False	True	False
 282966	C10orf53	C10orf53 (282966)	False	True	False
 414157	C10orf62	C10orf62 (414157)	False	True	False
 256815	C10orf67	C10orf67 (256815)	False	True	False
@@ -1692,6 +1720,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 254439	C11orf86	C11orf86 (254439)	False	True	False
 399947	C11orf87	C11orf87 (399947)	False	True	False
 100131378	C11orf91	C11orf91 (100131378)	False	True	False
+387763	C11orf96	C11orf96 (387763)	False	True	False
+643037	C11orf97	C11orf97 (643037)	False	True	False
 91298	C12orf29	C12orf29 (91298)	False	True	False
 57102	C12orf4	C12orf4 (57102)	False	True	False
 283461	C12orf40	C12orf40 (283461)	False	True	False
@@ -1704,7 +1734,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 144608	C12orf60	C12orf60 (144608)	False	True	False
 728858	C12orf71	C12orf71 (728858)	False	True	False
 387882	C12orf75	C12orf75 (387882)	False	True	False
+647166	C13orf42	C13orf42 (647166)	False	True	False
 55017	C14orf119	C14orf119 (55017)	False	True	False
+56967	C14orf132	C14orf132 (56967)	False	True	False
 400258	C14orf180	C14orf180 (400258)	False	True	False
 122525	C14orf28	C14orf28 (122525)	False	True	False
 317761	C14orf39	C14orf39 (317761)	False	True	False
@@ -1725,7 +1757,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 146378	C16orf92	C16orf92 (146378)	False	True	False
 100506581	C16orf95	C16orf95 (100506581)	False	True	False
 342346	C16orf96	C16orf96 (342346)	False	True	False
+388327	C17orf100	C17orf100 (388327)	False	True	False
 100130311	C17orf107	C17orf107 (100130311)	False	True	False
+110806298	C17orf113	C17orf113 (110806298)	False	True	False
 124944	C17orf49	C17orf49 (124944)	False	True	False
 146853	C17orf50	C17orf50 (146853)	False	True	False
 284018	C17orf58	C17orf58 (284018)	True	True	True
@@ -1756,6 +1790,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10438	C1D	C1D (10438)	True	True	True
 56913	C1GALT1	C1GALT1 (56913)	False	True	False
 29071	C1GALT1C1	C1GALT1C1 (29071)	False	True	False
+728819	C1GALT1C1L	C1GALT1C1L (728819)	False	True	False
 712	C1QA	C1QA (712)	False	True	False
 713	C1QB	C1QB (713)	False	True	False
 708	C1QBP	C1QBP (708)	True	True	True
@@ -1775,6 +1810,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 390664	C1QTNF8	C1QTNF8 (390664)	False	True	False
 338872	C1QTNF9	C1QTNF9 (338872)	False	True	False
 387911	C1QTNF9B	C1QTNF9B (387911)	False	True	False
+715	C1R	C1R (715)	False	True	False
 51279	C1RL	C1RL (51279)	False	True	False
 716	C1S	C1S (716)	False	True	False
 200159	C1orf100	C1orf100 (200159)	False	True	False
@@ -1790,6 +1826,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 388649	C1orf146	C1orf146 (388649)	False	True	False
 54991	C1orf159	C1orf159 (54991)	False	True	False
 128346	C1orf162	C1orf162 (128346)	False	True	False
+284498	C1orf167	C1orf167 (284498)	False	True	False
 339448	C1orf174	C1orf174 (339448)	False	True	False
 284546	C1orf185	C1orf185 (284546)	False	True	False
 84886	C1orf198	C1orf198 (84886)	False	True	False
@@ -1797,6 +1834,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 149466	C1orf210	C1orf210 (149466)	False	True	False
 127703	C1orf216	C1orf216 (127703)	False	True	False
 400793	C1orf226	C1orf226 (400793)	False	True	False
+110806296	C1orf232	C1orf232 (110806296)	False	True	False
 79169	C1orf35	C1orf35 (79169)	False	True	False
 25912	C1orf43	C1orf43 (25912)	False	True	False
 79078	C1orf50	C1orf50 (79078)	False	True	False
@@ -1813,6 +1851,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 128864	C20orf144	C20orf144 (128864)	False	True	False
 140873	C20orf173	C20orf173 (140873)	False	True	False
 400831	C20orf202	C20orf202 (400831)	False	True	False
+284805	C20orf203	C20orf203 (284805)	False	True	False
+284739	C20orf204	C20orf204 (284739)	False	True	False
 54976	C20orf27	C20orf27 (54976)	False	True	False
 128602	C20orf85	C20orf85 (128602)	False	True	False
 140680	C20orf96	C20orf96 (140680)	False	True	False
@@ -1843,10 +1883,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 205327	C2orf69	C2orf69 (205327)	False	True	False
 257407	C2orf72	C2orf72 (257407)	False	True	False
 129852	C2orf73	C2orf73 (129852)	False	True	False
+339804	C2orf74	C2orf74 (339804)	False	True	False
 130355	C2orf76	C2orf76 (130355)	False	True	False
 388960	C2orf78	C2orf78 (388960)	False	True	False
 389073	C2orf80	C2orf80 (389073)	False	True	False
+388963	C2orf81	C2orf81 (388963)	False	True	False
 84281	C2orf88	C2orf88 (84281)	False	True	False
+728537	C2orf92	C2orf92 (728537)	False	True	False
 718	C3	C3 (718)	False	True	False
 719	C3AR1	C3AR1 (719)	False	True	False
 57415	C3orf14	C3orf14 (57415)	False	True	False
@@ -1855,11 +1898,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 152065	C3orf22	C3orf22 (152065)	False	True	False
 285315	C3orf33	C3orf33 (285315)	False	True	False
 285237	C3orf38	C3orf38 (285237)	False	True	False
+132200	C3orf49	C3orf49 (132200)	False	True	False
 79669	C3orf52	C3orf52 (79669)	False	True	False
 375341	C3orf62	C3orf62 (375341)	False	True	False
 285382	C3orf70	C3orf70 (285382)	False	True	False
 401097	C3orf80	C3orf80 (401097)	False	True	False
 646498	C3orf84	C3orf84 (646498)	False	True	False
+401081	C3orf85	C3orf85 (401081)	False	True	False
 721	C4B	C4B (721)	False	True	False
 722	C4BPA	C4BPA (722)	False	True	False
 725	C4BPB	C4BPB (725)	False	True	False
@@ -1872,7 +1917,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 201725	C4orf46	C4orf46 (201725)	False	True	False
 441054	C4orf47	C4orf47 (441054)	False	True	False
 401115	C4orf48	C4orf48 (401115)	False	True	False
+389197	C4orf50	C4orf50 (389197)	False	True	False
 646603	C4orf51	C4orf51 (646603)	False	True	False
+285556	C4orf54	C4orf54 (285556)	False	True	False
 727	C5	C5 (727)	False	True	False
 728	C5AR1	C5AR1 (728)	False	True	False
 27202	C5AR2	C5AR2 (27202)	False	True	False
@@ -1916,6 +1963,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84933	C8orf76	C8orf76 (84933)	False	True	False
 414919	C8orf82	C8orf82 (414919)	False	True	False
 100127983	C8orf88	C8orf88 (100127983)	False	True	False
+100130301	C8orf89	C8orf89 (100130301)	False	True	False
 735	C9	C9 (735)	False	True	False
 138724	C9orf131	C9orf131 (138724)	False	True	False
 401546	C9orf152	C9orf152 (401546)	False	True	False
@@ -2064,6 +2112,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 726	CAPN5	CAPN5 (726)	False	True	False
 827	CAPN6	CAPN6 (827)	False	True	False
 23473	CAPN7	CAPN7 (23473)	False	True	False
+388743	CAPN8	CAPN8 (388743)	False	True	False
 10753	CAPN9	CAPN9 (10753)	False	True	False
 826	CAPNS1	CAPNS1 (826)	False	True	False
 84290	CAPNS2	CAPNS2 (84290)	False	True	False
@@ -2208,12 +2257,15 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 284992	CCDC150	CCDC150 (284992)	False	True	False
 100129792	CCDC152	CCDC152 (100129792)	False	True	False
 283152	CCDC153	CCDC153 (283152)	False	True	False
+645811	CCDC154	CCDC154 (645811)	False	True	False
 550631	CCDC157	CCDC157 (550631)	False	True	False
 339965	CCDC158	CCDC158 (339965)	False	True	False
 126075	CCDC159	CCDC159 (126075)	False	True	False
 347475	CCDC160	CCDC160 (347475)	False	True	False
+126661	CCDC163	CCDC163 (126661)	False	True	False
 100130274	CCDC166	CCDC166 (100130274)	False	True	False
 154467	CCDC167	CCDC167 (154467)	False	True	False
+643677	CCDC168	CCDC168 (643677)	False	True	False
 728591	CCDC169	CCDC169 (728591)	False	True	False
 149483	CCDC17	CCDC17 (149483)	False	True	False
 80129	CCDC170	CCDC170 (80129)	False	True	False
@@ -2224,6 +2276,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56936	CCDC177	CCDC177 (56936)	False	True	False
 374864	CCDC178	CCDC178 (374864)	False	True	False
 100500938	CCDC179	CCDC179 (100500938)	False	True	False
+343099	CCDC18	CCDC18 (343099)	False	True	False
 100499483	CCDC180	CCDC180 (100499483)	False	True	False
 57821	CCDC181	CCDC181 (57821)	False	True	False
 101927581	CCDC182	CCDC182 (101927581)	False	True	False
@@ -2231,9 +2284,16 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 387856	CCDC184	CCDC184 (387856)	False	True	False
 164127	CCDC185	CCDC185 (164127)	False	True	False
 55088	CCDC186	CCDC186 (55088)	False	True	False
+399693	CCDC187	CCDC187 (399693)	False	True	False
+388849	CCDC188	CCDC188 (388849)	False	True	False
 339512	CCDC190	CCDC190 (339512)	False	True	False
 57577	CCDC191	CCDC191 (57577)	False	True	False
+728586	CCDC192	CCDC192 (728586)	False	True	False
+110806280	CCDC194	CCDC194 (110806280)	False	True	False
+440184	CCDC196	CCDC196 (440184)	False	True	False
+256369	CCDC197	CCDC197 (256369)	False	True	False
 55195	CCDC198	CCDC198 (55195)	False	True	False
+100874261	CCDC200	CCDC200 (100874261)	False	True	False
 28952	CCDC22	CCDC22 (28952)	False	True	False
 149473	CCDC24	CCDC24 (149473)	False	True	False
 55246	CCDC25	CCDC25 (55246)	False	True	False
@@ -2254,6 +2314,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 152137	CCDC50	CCDC50 (152137)	False	True	False
 79714	CCDC51	CCDC51 (79714)	True	True	True
 84692	CCDC54	CCDC54 (84692)	False	True	False
+284001	CCDC57	CCDC57 (284001)	False	True	False
 29080	CCDC59	CCDC59 (29080)	True	True	True
 8030	CCDC6	CCDC6 (8030)	True	True	True
 160777	CCDC60	CCDC60 (160777)	False	True	False
@@ -2291,6 +2352,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 60492	CCDC90B	CCDC90B (60492)	False	True	False
 55297	CCDC91	CCDC91 (55297)	False	True	False
 80212	CCDC92	CCDC92 (80212)	False	True	False
+101928991	CCDC92B	CCDC92B (101928991)	False	True	False
 54520	CCDC93	CCDC93 (54520)	False	True	False
 257236	CCDC96	CCDC96 (257236)	False	True	False
 90324	CCDC97	CCDC97 (90324)	False	True	False
@@ -2361,6 +2423,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 81669	CCNL2	CCNL2 (81669)	False	True	False
 10309	CCNO	CCNO (10309)	False	True	False
 79935	CCNP	CCNP (79935)	False	True	False
+92002	CCNQ	CCNQ (92002)	False	True	False
 904	CCNT1	CCNT1 (904)	True	True	True
 905	CCNT2	CCNT2 (905)	False	True	False
 219771	CCNY	CCNY (219771)	False	True	False
@@ -2412,9 +2475,11 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4345	CD200	CD200 (4345)	False	True	False
 131450	CD200R1	CD200R1 (131450)	False	True	False
 344807	CD200R1L	CD200R1L (344807)	False	True	False
+50489	CD207	CD207 (50489)	False	True	False
 30835	CD209	CD209 (30835)	False	True	False
 933	CD22	CD22 (933)	False	True	False
 10666	CD226	CD226 (10666)	False	True	False
+100133941	CD24	CD24 (100133941)	False	True	False
 51744	CD244	CD244 (51744)	False	True	False
 919	CD247	CD247 (919)	False	True	False
 57124	CD248	CD248 (57124)	False	True	False
@@ -2427,6 +2492,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 11314	CD300A	CD300A (11314)	False	True	False
 10871	CD300C	CD300C (10871)	False	True	False
 342510	CD300E	CD300E (342510)	False	True	False
+100130520	CD300H	CD300H (100130520)	False	True	False
 124599	CD300LB	CD300LB (124599)	False	True	False
 100131439	CD300LD	CD300LD (100131439)	False	True	False
 146722	CD300LF	CD300LF (146722)	False	True	False
@@ -2472,9 +2538,11 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8832	CD84	CD84 (8832)	False	True	False
 942	CD86	CD86 (942)	False	True	False
 925	CD8A	CD8A (925)	False	True	False
+926	CD8B	CD8B (926)	False	True	False
 928	CD9	CD9 (928)	False	True	False
 22918	CD93	CD93 (22918)	False	True	False
 10225	CD96	CD96 (10225)	False	True	False
+4267	CD99	CD99 (4267)	False	True	False
 83692	CD99L2	CD99L2 (83692)	False	True	False
 978	CDA	CDA (978)	False	True	False
 81602	CDADC1	CDADC1 (81602)	False	True	False
@@ -2482,6 +2550,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8872	CDC123	CDC123 (8872)	False	True	False
 8556	CDC14A	CDC14A (8556)	False	True	False
 8555	CDC14B	CDC14B (8555)	False	True	False
+168448	CDC14C	CDC14C (168448)	False	True	False
 8881	CDC16	CDC16 (8881)	True	True	True
 991	CDC20	CDC20 (991)	True	True	True
 166979	CDC20B	CDC20B (166979)	False	True	False
@@ -2601,6 +2670,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 30850	CDR2L	CDR2L (30850)	False	True	False
 146822	CDRT15	CDRT15 (146822)	False	True	False
 256223	CDRT15L2	CDRT15L2 (256223)	False	True	False
+284040	CDRT4	CDRT4 (284040)	False	True	False
 1040	CDS1	CDS1 (1040)	False	True	False
 8760	CDS2	CDS2 (8760)	True	True	True
 1041	CDSN	CDSN (1041)	False	True	False
@@ -2614,6 +2684,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 634	CEACAM1	CEACAM1 (634)	False	True	False
 388551	CEACAM16	CEACAM16 (388551)	False	True	False
 56971	CEACAM19	CEACAM19 (56971)	False	True	False
+125931	CEACAM20	CEACAM20 (125931)	False	True	False
 90273	CEACAM21	CEACAM21 (90273)	False	True	False
 1084	CEACAM3	CEACAM3 (1084)	False	True	False
 1089	CEACAM4	CEACAM4 (1089)	False	True	False
@@ -2627,6 +2698,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1053	CEBPE	CEBPE (1053)	False	True	False
 1054	CEBPG	CEBPG (1054)	False	True	False
 10153	CEBPZ	CEBPZ (10153)	False	True	False
+100505876	CEBPZOS	CEBPZOS (100505876)	False	True	False
+27443	CECR2	CECR2 (27443)	False	True	False
 1056	CEL	CEL (1056)	False	True	False
 1990	CELA1	CELA1 (1990)	False	True	False
 63036	CELA2A	CELA2A (63036)	False	True	False
@@ -2753,6 +2826,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 286464	CFAP47	CFAP47 (286464)	False	True	False
 146845	CFAP52	CFAP52 (146845)	False	True	False
 220136	CFAP53	CFAP53 (220136)	False	True	False
+144535	CFAP54	CFAP54 (144535)	False	True	False
 149465	CFAP57	CFAP57 (149465)	False	True	False
 159686	CFAP58	CFAP58 (159686)	False	True	False
 26074	CFAP61	CFAP61 (26074)	False	True	False
@@ -2761,6 +2835,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79846	CFAP69	CFAP69 (79846)	False	True	False
 118491	CFAP70	CFAP70 (118491)	False	True	False
 387885	CFAP73	CFAP73 (387885)	False	True	False
+85452	CFAP74	CFAP74 (85452)	False	True	False
 389799	CFAP77	CFAP77 (389799)	False	True	False
 134121	CFAP90	CFAP90 (134121)	False	True	False
 89876	CFAP91	CFAP91 (89876)	False	True	False
@@ -2768,6 +2843,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 138255	CFAP95	CFAP95 (138255)	False	True	False
 57587	CFAP97	CFAP97 (57587)	False	True	False
 284067	CFAP97D1	CFAP97D1 (284067)	False	True	False
+101929355	CFAP97D2	CFAP97D2 (101929355)	False	True	False
 629	CFB	CFB (629)	False	True	False
 55997	CFC1	CFC1 (55997)	False	True	False
 653275	CFC1B	CFC1B (653275)	False	True	False
@@ -2933,6 +3009,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 85457	CIPC	CIPC (85457)	False	True	False
 9541	CIR1	CIR1 (9541)	True	True	True
 1153	CIRBP	CIRBP (1153)	False	True	False
+100128908	CIROP	CIROP (100128908)	False	True	False
 55847	CISD1	CISD1 (55847)	False	True	False
 493856	CISD2	CISD2 (493856)	False	True	False
 284106	CISD3	CISD3 (284106)	False	True	False
@@ -2952,6 +3029,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1160	CKMT2	CKMT2 (1160)	False	True	False
 1163	CKS1B	CKS1B (1163)	True	True	True
 1164	CKS2	CKS2 (1164)	False	True	False
+23332	CLASP1	CLASP1 (23332)	False	True	False
+23122	CLASP2	CLASP2 (23122)	False	True	False
 11129	CLASRP	CLASRP (11129)	True	True	True
 122616	CLBA1	CLBA1 (122616)	False	True	False
 1178	CLC	CLC (1178)	False	True	False
@@ -2983,8 +3062,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 49861	CLDN20	CLDN20 (49861)	False	True	False
 53842	CLDN22	CLDN22 (53842)	False	True	False
 137075	CLDN23	CLDN23 (137075)	False	True	False
+100132463	CLDN24	CLDN24 (100132463)	False	True	False
 644672	CLDN25	CLDN25 (644672)	False	True	False
 1365	CLDN3	CLDN3 (1365)	False	True	False
+100288814	CLDN34	CLDN34 (100288814)	False	True	False
 1364	CLDN4	CLDN4 (1364)	False	True	False
 7122	CLDN5	CLDN5 (7122)	False	True	False
 9074	CLDN6	CLDN6 (9074)	False	True	False
@@ -3002,8 +3083,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 388512	CLEC17A	CLEC17A (388512)	False	True	False
 348174	CLEC18A	CLEC18A (348174)	False	True	False
 497190	CLEC18B	CLEC18B (497190)	False	True	False
+728276	CLEC19A	CLEC19A (728276)	False	True	False
 51267	CLEC1A	CLEC1A (51267)	False	True	False
 51266	CLEC1B	CLEC1B (51266)	False	True	False
+400797	CLEC20A	CLEC20A (400797)	False	True	False
 387836	CLEC2A	CLEC2A (387836)	False	True	False
 9976	CLEC2B	CLEC2B (9976)	False	True	False
 29121	CLEC2D	CLEC2D (29121)	False	True	False
@@ -3222,6 +3305,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1291	COL6A1	COL6A1 (1291)	False	True	False
 1292	COL6A2	COL6A2 (1292)	False	True	False
 1293	COL6A3	COL6A3 (1293)	False	True	False
+256076	COL6A5	COL6A5 (256076)	False	True	False
 131873	COL6A6	COL6A6 (131873)	False	True	False
 1294	COL7A1	COL7A1 (1294)	False	True	False
 1295	COL8A1	COL8A1 (1295)	False	True	False
@@ -3254,6 +3338,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9276	COPB2	COPB2 (9276)	True	True	True
 11316	COPE	COPE (11316)	True	True	True
 22820	COPG1	COPG1 (22820)	True	True	True
+26958	COPG2	COPG2 (26958)	False	True	False
 55352	COPRS	COPRS (55352)	False	True	False
 9318	COPS2	COPS2 (9318)	True	True	True
 8533	COPS3	COPS3 (8533)	True	True	True
@@ -3265,6 +3350,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10920	COPS8	COPS8 (10920)	True	True	True
 150678	COPS9	COPS9 (150678)	True	True	True
 22818	COPZ1	COPZ1 (22818)	True	True	True
+51226	COPZ2	COPZ2 (51226)	False	True	False
 93058	COQ10A	COQ10A (93058)	False	True	False
 80219	COQ10B	COQ10B (80219)	False	True	False
 27235	COQ2	COQ2 (27235)	True	True	True
@@ -3329,6 +3415,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 22849	CPEB3	CPEB3 (22849)	False	True	False
 80315	CPEB4	CPEB4 (80315)	False	True	False
 79974	CPED1	CPED1 (79974)	False	True	False
+105371346	CPHXL	CPHXL (105371346)	False	True	False
 65250	CPLANE1	CPLANE1 (65250)	False	True	False
 79363	CPLANE2	CPLANE2 (79363)	False	True	False
 10815	CPLX1	CPLX1 (10815)	False	True	False
@@ -3420,12 +3507,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1398	CRK	CRK (1398)	True	True	True
 1399	CRKL	CRKL (1399)	True	True	True
 9244	CRLF1	CRLF1 (9244)	False	True	False
+64109	CRLF2	CRLF2 (64109)	False	True	False
 51379	CRLF3	CRLF3 (51379)	False	True	False
 54675	CRLS1	CRLS1 (54675)	True	True	True
 1400	CRMP1	CRMP1 (1400)	False	True	False
 51340	CRNKL1	CRNKL1 (51340)	True	True	True
 49860	CRNN	CRNN (49860)	False	True	False
 9696	CROCC	CROCC (9696)	False	True	False
+728763	CROCC2	CROCC2 (728763)	False	True	False
 54677	CROT	CROT (54677)	False	True	False
 1401	CRP	CRP (1401)	False	True	False
 55118	CRTAC1	CRTAC1 (55118)	False	True	False
@@ -3446,6 +3535,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1415	CRYBB2	CRYBB2 (1415)	False	True	False
 1417	CRYBB3	CRYBB3 (1417)	False	True	False
 202	CRYBG1	CRYBG1 (202)	False	True	False
+131544	CRYBG3	CRYBG3 (131544)	False	True	False
 1418	CRYGA	CRYGA (1418)	False	True	False
 1419	CRYGB	CRYGB (1419)	False	True	False
 1420	CRYGC	CRYGC (1420)	False	True	False
@@ -3459,12 +3549,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1431	CS	CS (1431)	True	True	True
 51380	CSAD	CSAD (51380)	False	True	False
 158511	CSAG1	CSAG1 (158511)	False	True	False
+102723547	CSAG2	CSAG2 (102723547)	False	True	False
 27254	CSDC2	CSDC2 (27254)	False	True	False
 7812	CSDE1	CSDE1 (7812)	True	True	True
 1434	CSE1L	CSE1L (1434)	True	True	True
 1435	CSF1	CSF1 (1435)	False	True	False
 1436	CSF1R	CSF1R (1436)	False	True	False
 1437	CSF2	CSF2 (1437)	False	True	False
+1438	CSF2RA	CSF2RA (1438)	False	True	False
 1439	CSF2RB	CSF2RB (1439)	False	True	False
 1440	CSF3	CSF3 (1440)	False	True	False
 1441	CSF3R	CSF3R (1441)	False	True	False
@@ -3490,6 +3582,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1459	CSNK2A2	CSNK2A2 (1459)	True	True	True
 283106	CSNK2A3	CSNK2A3 (283106)	False	True	False
 1460	CSNK2B	CSNK2B (1460)	True	True	True
+111064647	CSNKA2IP	CSNKA2IP (111064647)	False	True	False
 1464	CSPG4	CSPG4 (1464)	False	True	False
 10675	CSPG5	CSPG5 (10675)	False	True	False
 79848	CSPP1	CSPP1 (79848)	False	True	False
@@ -3581,6 +3674,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 404217	CTXN1	CTXN1 (404217)	False	True	False
 399697	CTXN2	CTXN2 (399697)	False	True	False
 613212	CTXN3	CTXN3 (613212)	False	True	False
+100996492	CTXND1	CTXND1 (100996492)	False	True	False
 8029	CUBN	CUBN (8029)	False	True	False
 404093	CUEDC1	CUEDC1 (404093)	False	True	False
 79004	CUEDC2	CUEDC2 (79004)	False	True	False
@@ -3597,6 +3691,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1523	CUX1	CUX1 (1523)	False	True	False
 23316	CUX2	CUX2 (23316)	False	True	False
 50624	CUZD1	CUZD1 (50624)	False	True	False
+51503	CWC15	CWC15 (51503)	False	True	False
 57703	CWC22	CWC22 (57703)	True	True	True
 54883	CWC25	CWC25 (54883)	False	True	False
 10283	CWC27	CWC27 (10283)	False	True	False
@@ -3653,6 +3748,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1537	CYC1	CYC1 (1537)	True	True	True
 54205	CYCS	CYCS (54205)	True	True	True
 23191	CYFIP1	CYFIP1 (23191)	False	True	False
+26999	CYFIP2	CYFIP2 (26999)	False	True	False
 114757	CYGB	CYGB (114757)	False	True	False
 1538	CYLC1	CYLC1 (1538)	False	True	False
 1539	CYLC2	CYLC2 (1539)	False	True	False
@@ -3704,6 +3800,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8529	CYP4F2	CYP4F2 (8529)	False	True	False
 126410	CYP4F22	CYP4F22 (126410)	False	True	False
 4051	CYP4F3	CYP4F3 (4051)	False	True	False
+11283	CYP4F8	CYP4F8 (11283)	False	True	False
 285440	CYP4V2	CYP4V2 (285440)	False	True	False
 260293	CYP4X1	CYP4X1 (260293)	False	True	False
 199974	CYP4Z1	CYP4Z1 (199974)	False	True	False
@@ -3771,12 +3868,15 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1628	DBP	DBP (1628)	False	True	False
 51163	DBR1	DBR1 (51163)	True	True	True
 1629	DBT	DBT (1629)	False	True	False
+120237	DBX1	DBX1 (120237)	False	True	False
 440097	DBX2	DBX2 (440097)	False	True	False
+9730	DCAF1	DCAF1 (9730)	False	True	False
 79269	DCAF10	DCAF10 (79269)	False	True	False
 80344	DCAF11	DCAF11 (80344)	False	True	False
 25853	DCAF12	DCAF12 (25853)	False	True	False
 139170	DCAF12L1	DCAF12L1 (139170)	False	True	False
 340578	DCAF12L2	DCAF12L2 (340578)	False	True	False
+25879	DCAF13	DCAF13 (25879)	False	True	False
 90379	DCAF15	DCAF15 (90379)	False	True	False
 54876	DCAF16	DCAF16 (54876)	False	True	False
 80067	DCAF17	DCAF17 (80067)	False	True	False
@@ -3785,6 +3885,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 138009	DCAF4L2	DCAF4L2 (138009)	False	True	False
 8816	DCAF5	DCAF5 (8816)	False	True	False
 55827	DCAF6	DCAF6 (55827)	False	True	False
+10238	DCAF7	DCAF7 (10238)	False	True	False
 50717	DCAF8	DCAF8 (50717)	False	True	False
 139425	DCAF8L1	DCAF8L1 (139425)	False	True	False
 347442	DCAF8L2	DCAF8L2 (347442)	False	True	False
@@ -3797,6 +3898,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 341019	DCDC1	DCDC1 (341019)	False	True	False
 51473	DCDC2	DCDC2 (51473)	False	True	False
 149069	DCDC2B	DCDC2B (149069)	False	True	False
+728597	DCDC2C	DCDC2C (728597)	False	True	False
 8642	DCHS1	DCHS1 (8642)	False	True	False
 54798	DCHS2	DCHS2 (54798)	False	True	False
 1633	DCK	DCK (1633)	False	True	False
@@ -3807,6 +3909,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 64858	DCLRE1B	DCLRE1B (64858)	True	True	True
 64421	DCLRE1C	DCLRE1C (64421)	False	True	False
 1634	DCN	DCN (1634)	False	True	False
+55802	DCP1A	DCP1A (55802)	False	True	False
 196513	DCP1B	DCP1B (196513)	False	True	False
 167227	DCP2	DCP2 (167227)	True	True	True
 28960	DCPS	DCPS (28960)	True	True	True
@@ -3953,11 +4056,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79139	DERL1	DERL1 (79139)	True	True	True
 51009	DERL2	DERL2 (51009)	True	True	True
 91319	DERL3	DERL3 (91319)	False	True	False
+113455421	DERPC	DERPC (113455421)	False	True	False
 1674	DES	DES (1674)	False	True	False
 27351	DESI1	DESI1 (27351)	False	True	False
 51029	DESI2	DESI2 (51029)	False	True	False
 55070	DET1	DET1 (55070)	True	True	True
 159989	DEUP1	DEUP1 (159989)	False	True	False
+28955	DEXI	DEXI (28955)	False	True	False
 1676	DFFA	DFFA (1676)	False	True	False
 1677	DFFB	DFFB (1677)	False	True	False
 8694	DGAT1	DGAT1 (8694)	False	True	False
@@ -3974,6 +4079,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1608	DGKG	DGKG (1608)	False	True	False
 160851	DGKH	DGKH (160851)	False	True	False
 9162	DGKI	DGKI (9162)	False	True	False
+139189	DGKK	DGKK (139189)	False	True	False
 1609	DGKQ	DGKQ (1609)	False	True	False
 8525	DGKZ	DGKZ (8525)	False	True	False
 80017	DGLUCY	DGLUCY (80017)	False	True	False
@@ -3999,6 +4105,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 25979	DHRS7B	DHRS7B (25979)	True	True	True
 201140	DHRS7C	DHRS7C (201140)	False	True	False
 10170	DHRS9	DHRS9 (10170)	False	True	False
+207063	DHRSX	DHRSX (207063)	False	True	False
 55526	DHTKD1	DHTKD1 (55526)	False	True	False
 1665	DHX15	DHX15 (1665)	True	True	True
 8449	DHX16	DHX16 (8449)	False	True	False
@@ -4102,6 +4209,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1762	DMWD	DMWD (1762)	False	True	False
 1657	DMXL1	DMXL1 (1657)	True	True	True
 23312	DMXL2	DMXL2 (23312)	False	True	False
+1763	DNA2	DNA2 (1763)	False	True	False
 123872	DNAAF1	DNAAF1 (123872)	False	True	False
 116143	DNAAF10	DNAAF10 (116143)	True	True	True
 23639	DNAAF11	DNAAF11 (23639)	False	True	False
@@ -4117,11 +4225,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8701	DNAH11	DNAH11 (8701)	False	True	False
 201625	DNAH12	DNAH12 (201625)	False	True	False
 127602	DNAH14	DNAH14 (127602)	False	True	False
+8632	DNAH17	DNAH17 (8632)	False	True	False
 146754	DNAH2	DNAH2 (146754)	False	True	False
 55567	DNAH3	DNAH3 (55567)	False	True	False
 1767	DNAH5	DNAH5 (1767)	False	True	False
 1768	DNAH6	DNAH6 (1768)	False	True	False
 56171	DNAH7	DNAH7 (56171)	False	True	False
+1769	DNAH8	DNAH8 (1769)	False	True	False
 1770	DNAH9	DNAH9 (1770)	False	True	False
 27019	DNAI1	DNAI1 (27019)	False	True	False
 64446	DNAI2	DNAI2 (64446)	False	True	False
@@ -4200,6 +4310,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 116092	DNTTIP1	DNTTIP1 (116092)	True	True	True
 30836	DNTTIP2	DNTTIP2 (30836)	True	True	True
 8448	DOC2A	DOC2A (8448)	False	True	False
+8447	DOC2B	DOC2B (8447)	False	True	False
+1793	DOCK1	DOCK1 (1793)	False	True	False
 55619	DOCK10	DOCK10 (55619)	False	True	False
 139818	DOCK11	DOCK11 (139818)	False	True	False
 1794	DOCK2	DOCK2 (1794)	False	True	False
@@ -4228,6 +4340,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 25911	DPCD	DPCD (25911)	False	True	False
 1800	DPEP1	DPEP1 (1800)	False	True	False
 64174	DPEP2	DPEP2 (64174)	False	True	False
+100131303	DPEP2NB	DPEP2NB (100131303)	False	True	False
 64180	DPEP3	DPEP3 (64180)	False	True	False
 8193	DPF1	DPF1 (8193)	False	True	False
 5977	DPF2	DPF2 (5977)	True	True	True
@@ -4244,6 +4357,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57628	DPP10	DPP10 (57628)	False	True	False
 10072	DPP3	DPP3 (10072)	False	True	False
 1803	DPP4	DPP4 (1803)	False	True	False
+1804	DPP6	DPP6 (1804)	False	True	False
 29952	DPP7	DPP7 (29952)	False	True	False
 54878	DPP8	DPP8 (54878)	False	True	False
 91039	DPP9	DPP9 (91039)	False	True	False
@@ -4350,6 +4464,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1852	DUSP9	DUSP9 (1852)	False	True	False
 1854	DUT	DUT (1854)	True	True	True
 503835	DUXA	DUXA (503835)	False	True	False
+100033411	DUXB	DUXB (100033411)	False	True	False
 1855	DVL1	DVL1 (1855)	False	True	False
 1856	DVL2	DVL2 (1856)	False	True	False
 1857	DVL3	DVL3 (1857)	False	True	False
@@ -4427,6 +4542,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1842	ECM2	ECM2 (1842)	False	True	False
 23392	ECPAS	ECPAS (23392)	False	True	False
 84417	ECRG4	ECRG4 (84417)	False	True	False
+641700	ECSCR	ECSCR (641700)	False	True	False
 51295	ECSIT	ECSIT (51295)	True	True	True
 1894	ECT2	ECT2 (1894)	True	True	True
 345930	ECT2L	ECT2L (345930)	False	True	False
@@ -4436,6 +4552,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 128178	EDARADD	EDARADD (128178)	False	True	False
 80153	EDC3	EDC3 (80153)	False	True	False
 23644	EDC4	EDC4 (23644)	True	True	True
+100506374	EDDM13	EDDM13 (100506374)	False	True	False
 10876	EDDM3A	EDDM3A (10876)	False	True	False
 64184	EDDM3B	EDDM3B (64184)	False	True	False
 9695	EDEM1	EDEM1 (9695)	False	True	False
@@ -4468,6 +4585,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 399665	EEIG1	EEIG1 (399665)	False	True	False
 284611	EEIG2	EEIG2 (284611)	False	True	False
 80820	EEPD1	EEPD1 (80820)	False	True	False
+100130771	EFCAB10	EFCAB10 (100130771)	False	True	False
 90141	EFCAB11	EFCAB11 (90141)	False	True	False
 90288	EFCAB12	EFCAB12 (90288)	False	True	False
 124989	EFCAB13	EFCAB13 (124989)	False	True	False
@@ -4522,6 +4640,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1962	EHHADH	EHHADH (1962)	False	True	False
 79813	EHMT1	EHMT1 (79813)	True	True	True
 10919	EHMT2	EHMT2 (10919)	True	True	True
+9538	EI24	EI24 (9538)	False	True	False
 23741	EID1	EID1 (23741)	False	True	False
 163126	EID2	EID2 (163126)	False	True	False
 126272	EID2B	EID2B (126272)	False	True	False
@@ -4545,6 +4664,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1965	EIF2S1	EIF2S1 (1965)	True	True	True
 8894	EIF2S2	EIF2S2 (8894)	False	True	False
 1968	EIF2S3	EIF2S3 (1968)	False	True	False
+255308	EIF2S3B	EIF2S3B (255308)	False	True	False
 8661	EIF3A	EIF3A (8661)	True	True	True
 8662	EIF3B	EIF3B (8662)	False	True	False
 8664	EIF3D	EIF3D (8664)	False	True	False
@@ -4642,6 +4762,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2010	EMD	EMD (2010)	False	True	False
 146956	EME1	EME1 (146956)	False	True	False
 197342	EME2	EME2 (197342)	False	True	False
+10436	EMG1	EMG1 (10436)	False	True	False
 129080	EMID1	EMID1 (129080)	False	True	False
 11117	EMILIN1	EMILIN1 (11117)	False	True	False
 84034	EMILIN2	EMILIN2 (84034)	False	True	False
@@ -4675,6 +4796,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2023	ENO1	ENO1 (2023)	True	True	True
 2026	ENO2	ENO2 (2026)	False	True	False
 2027	ENO3	ENO3 (2027)	False	True	False
+387712	ENO4	ENO4 (387712)	False	True	False
 58478	ENOPH1	ENOPH1 (58478)	False	True	False
 55556	ENOSF1	ENOSF1 (55556)	False	True	False
 55068	ENOX1	ENOX1 (55068)	False	True	False
@@ -4782,6 +4904,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1161	ERCC8	ERCC8 (1161)	False	True	False
 2069	EREG	EREG (2069)	False	True	False
 2077	ERF	ERF (2077)	False	True	False
+151176	ERFE	ERFE (151176)	False	True	False
+390937	ERFL	ERFL (390937)	False	True	False
 2078	ERG	ERG (2078)	False	True	False
 11161	ERG28	ERG28 (11161)	False	True	False
 57222	ERGIC1	ERGIC1 (57222)	False	True	False
@@ -4792,6 +4916,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 112479	ERI2	ERI2 (112479)	False	True	False
 79033	ERI3	ERI3 (79033)	False	True	False
 157697	ERICH1	ERICH1 (157697)	False	True	False
+285141	ERICH2	ERICH2 (285141)	False	True	False
 127254	ERICH3	ERICH3 (127254)	False	True	False
 100170765	ERICH4	ERICH4 (100170765)	False	True	False
 203111	ERICH5	ERICH5 (203111)	False	True	False
@@ -4814,6 +4939,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54206	ERRFI1	ERRFI1 (54206)	True	True	True
 2086	ERV3-1	ERV3-1 (2086)	False	True	False
 405754	ERVFRD-1	ERVFRD-1 (405754)	False	True	False
+90625	ERVH48-1	ERVH48-1 (90625)	False	True	False
 30816	ERVW-1	ERVW-1 (30816)	False	True	False
 90952	ESAM	ESAM (90952)	False	True	False
 114799	ESCO1	ESCO1 (114799)	False	True	False
@@ -4837,6 +4963,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57488	ESYT2	ESYT2 (57488)	False	True	False
 83850	ESYT3	ESYT3 (83850)	False	True	False
 54465	ETAA1	ETAA1 (54465)	True	True	True
+110806299	ETDC	ETDC (110806299)	False	True	False
 2107	ETF1	ETF1 (2107)	True	True	True
 2108	ETFA	ETFA (2108)	False	True	False
 2109	ETFB	ETFB (2109)	False	True	False
@@ -4878,6 +5005,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9156	EXO1	EXO1 (9156)	True	True	True
 64789	EXO5	EXO5 (64789)	False	True	False
 55763	EXOC1	EXOC1 (55763)	True	True	True
+644145	EXOC1L	EXOC1L (644145)	False	True	False
 55770	EXOC2	EXOC2 (55770)	True	True	True
 11336	EXOC3	EXOC3 (11336)	True	True	True
 283849	EXOC3L1	EXOC3L1 (283849)	False	True	False
@@ -4913,6 +5041,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 346007	EYS	EYS (346007)	False	True	False
 2145	EZH1	EZH1 (2145)	False	True	False
 2146	EZH2	EZH2 (2146)	True	True	True
+340602	EZHIP	EZHIP (340602)	False	True	False
 7430	EZR	EZR (7430)	False	True	False
 2159	F10	F10 (2159)	False	True	False
 2160	F11	F11 (2160)	False	True	False
@@ -5021,6 +5150,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 400823	FAM177B	FAM177B (400823)	False	True	False
 51252	FAM178B	FAM178B (51252)	False	True	False
 389558	FAM180A	FAM180A (389558)	False	True	False
+399888	FAM180B	FAM180B (399888)	False	True	False
 90050	FAM181A	FAM181A (90050)	False	True	False
 220382	FAM181B	FAM181B (220382)	False	True	False
 440585	FAM183A	FAM183A (440585)	False	True	False
@@ -5029,6 +5159,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 222234	FAM185A	FAM185A (222234)	False	True	False
 121006	FAM186A	FAM186A (121006)	False	True	False
 84070	FAM186B	FAM186B (84070)	False	True	False
+100528020	FAM187A	FAM187A (100528020)	False	True	False
 148109	FAM187B	FAM187B (148109)	False	True	False
 8603	FAM193A	FAM193A (8603)	True	True	True
 54540	FAM193B	FAM193B (54540)	False	True	False
@@ -5037,6 +5168,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 285550	FAM200B	FAM200B (285550)	False	True	False
 63877	FAM204A	FAM204A (63877)	False	True	False
 259308	FAM205A	FAM205A (259308)	False	True	False
+100129969	FAM205C	FAM205C (100129969)	False	True	False
 200232	FAM209A	FAM209A (200232)	False	True	False
 388799	FAM209B	FAM209B (388799)	False	True	False
 54757	FAM20A	FAM20A (54757)	False	True	False
@@ -5055,12 +5187,16 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 392307	FAM221B	FAM221B (392307)	False	True	False
 84915	FAM222A	FAM222A (84915)	False	True	False
 55731	FAM222B	FAM222B (55731)	False	True	False
+646851	FAM227A	FAM227A (646851)	False	True	False
 196951	FAM227B	FAM227B (196951)	False	True	False
 653140	FAM228A	FAM228A (653140)	False	True	False
+375190	FAM228B	FAM228B (375190)	False	True	False
 100128071	FAM229A	FAM229A (100128071)	False	True	False
 619208	FAM229B	FAM229B (619208)	False	True	False
 83986	FAM234A	FAM234A (83986)	False	True	False
 57613	FAM234B	FAM234B (57613)	False	True	False
+200726	FAM237A	FAM237A (200726)	False	True	False
+100132146	FAM240A	FAM240A (100132146)	False	True	False
 132720	FAM241A	FAM241A (132720)	False	True	False
 219738	FAM241B	FAM241B (219738)	False	True	False
 118670	FAM24A	FAM24A (118670)	False	True	False
@@ -5139,6 +5275,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 60493	FASTKD5	FASTKD5 (60493)	True	True	True
 2195	FAT1	FAT1 (2195)	False	True	False
 2196	FAT2	FAT2 (2196)	False	True	False
+120114	FAT3	FAT3 (120114)	False	True	False
 79633	FAT4	FAT4 (79633)	False	True	False
 89885	FATE1	FATE1 (89885)	False	True	False
 2197	FAU	FAU (2197)	True	True	True
@@ -5148,6 +5285,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84893	FBH1	FBH1 (84893)	False	True	False
 2091	FBL	FBL (2091)	True	True	True
 54751	FBLIM1	FBLIM1 (54751)	False	True	False
+345630	FBLL1	FBLL1 (345630)	False	True	False
 2192	FBLN1	FBLN1 (2192)	False	True	False
 2199	FBLN2	FBLN2 (2199)	False	True	False
 10516	FBLN5	FBLN5 (10516)	False	True	False
@@ -5157,6 +5295,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84467	FBN3	FBN3 (84467)	False	True	False
 2203	FBP1	FBP1 (2203)	False	True	False
 8789	FBP2	FBP2 (8789)	False	True	False
+64319	FBRS	FBRS (64319)	False	True	False
 57666	FBRSL1	FBRSL1 (57666)	False	True	False
 54850	FBXL12	FBXL12 (54850)	False	True	False
 222235	FBXL13	FBXL13 (222235)	False	True	False
@@ -5263,6 +5402,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56929	FEM1C	FEM1C (56929)	False	True	False
 2237	FEN1	FEN1 (2237)	True	True	True
 2241	FER	FER (2241)	False	True	False
+90342	FER1L5	FER1L5 (90342)	False	True	False
 654463	FER1L6	FER1L6 (654463)	False	True	False
 222894	FERD3L	FERD3L (222894)	False	True	False
 55612	FERMT1	FERMT1 (55612)	True	True	True
@@ -5292,6 +5432,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2257	FGF12	FGF12 (2257)	False	True	False
 2258	FGF13	FGF13 (2258)	False	True	False
 2259	FGF14	FGF14 (2259)	False	True	False
+8823	FGF16	FGF16 (8823)	False	True	False
 8822	FGF17	FGF17 (8822)	False	True	False
 8817	FGF18	FGF18 (8817)	False	True	False
 9965	FGF19	FGF19 (9965)	False	True	False
@@ -5322,6 +5463,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10875	FGL2	FGL2 (10875)	False	True	False
 2268	FGR	FGR (2268)	False	True	False
 2271	FH	FH (2271)	True	True	True
+114827	FHAD1	FHAD1 (114827)	False	True	False
 85462	FHDC1	FHDC1 (85462)	False	True	False
 729830	FHIP1A	FHIP1A (729830)	False	True	False
 84067	FHIP1B	FHIP1B (84067)	False	True	False
@@ -5342,6 +5484,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 344018	FIGLA	FIGLA (344018)	False	True	False
 55137	FIGN	FIGN (55137)	False	True	False
 63979	FIGNL1	FIGNL1 (63979)	True	True	True
+401720	FIGNL2	FIGNL2 (401720)	False	True	False
 27145	FILIP1	FILIP1 (27145)	False	True	False
 11259	FILIP1L	FILIP1L (11259)	False	True	False
 81608	FIP1L1	FIP1L1 (81608)	True	True	True
@@ -5428,6 +5571,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2346	FOLH1	FOLH1 (2346)	False	True	False
 2348	FOLR1	FOLR1 (2348)	False	True	False
 2350	FOLR2	FOLR2 (2350)	False	True	False
+2352	FOLR3	FOLR3 (2352)	False	True	False
 2353	FOS	FOS (2353)	False	True	False
 2354	FOSB	FOSB (2354)	False	True	False
 8061	FOSL1	FOSL1 (8061)	True	True	True
@@ -5439,6 +5583,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 442425	FOXB2	FOXB2 (442425)	False	True	False
 2296	FOXC1	FOXC1 (2296)	False	True	False
 2303	FOXC2	FOXC2 (2303)	False	True	False
+2297	FOXD1	FOXD1 (2297)	False	True	False
 2306	FOXD2	FOXD2 (2306)	False	True	False
 27022	FOXD3	FOXD3 (27022)	False	True	False
 2298	FOXD4	FOXD4 (2298)	False	True	False
@@ -5451,6 +5596,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8928	FOXH1	FOXH1 (8928)	False	True	False
 2299	FOXI1	FOXI1 (2299)	False	True	False
 399823	FOXI2	FOXI2 (399823)	False	True	False
+344167	FOXI3	FOXI3 (344167)	False	True	False
 2302	FOXJ1	FOXJ1 (2302)	False	True	False
 55810	FOXJ2	FOXJ2 (55810)	False	True	False
 22887	FOXJ3	FOXJ3 (22887)	False	True	False
@@ -5459,6 +5605,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2300	FOXL1	FOXL1 (2300)	False	True	False
 668	FOXL2	FOXL2 (668)	False	True	False
 401089	FOXL2NB	FOXL2NB (401089)	False	True	False
+116033993	FOXL3	FOXL3 (116033993)	False	True	False
 2305	FOXM1	FOXM1 (2305)	True	True	True
 8456	FOXN1	FOXN1 (8456)	False	True	False
 3344	FOXN2	FOXN2 (3344)	False	True	False
@@ -5505,6 +5652,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 83786	FRMD8	FRMD8 (83786)	False	True	False
 22844	FRMPD1	FRMPD1 (22844)	False	True	False
 143162	FRMPD2	FRMPD2 (143162)	False	True	False
+84443	FRMPD3	FRMPD3 (84443)	False	True	False
 9758	FRMPD4	FRMPD4 (9758)	False	True	False
 391059	FRRS1	FRRS1 (391059)	False	True	False
 23732	FRRS1L	FRRS1L (23732)	False	True	False
@@ -5531,6 +5679,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23105	FSTL4	FSTL4 (23105)	False	True	False
 56884	FSTL5	FSTL5 (56884)	False	True	False
 10841	FTCD	FTCD (10841)	False	True	False
+348751	FTCDNL1	FTCDNL1 (348751)	False	True	False
 2495	FTH1	FTH1 (2495)	False	True	False
 53940	FTHL17	FTHL17 (53940)	False	True	False
 2512	FTL	FTL (2512)	False	True	False
@@ -5624,6 +5773,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55879	GABRQ	GABRQ (55879)	False	True	False
 2569	GABRR1	GABRR1 (2569)	False	True	False
 2570	GABRR2	GABRR2 (2570)	False	True	False
+200959	GABRR3	GABRR3 (200959)	False	True	False
 2571	GAD1	GAD1 (2571)	False	True	False
 2572	GAD2	GAD2 (2572)	False	True	False
 1647	GADD45A	GADD45A (1647)	False	True	False
@@ -5845,6 +5995,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 474344	GIMAP6	GIMAP6 (474344)	False	True	False
 168537	GIMAP7	GIMAP7 (168537)	False	True	False
 155038	GIMAP8	GIMAP8 (155038)	False	True	False
+100507096	GIMD1	GIMD1 (100507096)	False	True	False
 54826	GIN1	GIN1 (54826)	False	True	False
 116254	GINM1	GINM1 (116254)	False	True	False
 9837	GINS1	GINS1 (9837)	True	True	True
@@ -5878,6 +6029,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57369	GJD2	GJD2 (57369)	False	True	False
 125111	GJD3	GJD3 (125111)	False	True	False
 219770	GJD4	GJD4 (219770)	False	True	False
+100126572	GJE1	GJE1 (100126572)	False	True	False
 2710	GK	GK (2710)	False	True	False
 2712	GK2	GK2 (2712)	False	True	False
 256356	GK5	GK5 (256356)	False	True	False
@@ -5934,12 +6086,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2752	GLUL	GLUL (2752)	True	True	True
 10249	GLYAT	GLYAT (10249)	False	True	False
 92292	GLYATL1	GLYATL1 (92292)	False	True	False
+100287520	GLYATL1B	GLYATL1B (100287520)	False	True	False
 219970	GLYATL2	GLYATL2 (219970)	False	True	False
 389396	GLYATL3	GLYATL3 (389396)	False	True	False
 132158	GLYCTK	GLYCTK (132158)	False	True	False
 84656	GLYR1	GLYR1 (84656)	False	True	False
 2760	GM2A	GM2A (2760)	False	True	False
 64395	GMCL1	GMCL1 (64395)	False	True	False
+64396	GMCL2	GMCL2 (64396)	False	True	False
 2762	GMDS	GMDS (2762)	False	True	False
 10691	GMEB1	GMEB1 (10691)	True	True	True
 26205	GMEB2	GMEB2 (26205)	False	True	False
@@ -5981,6 +6135,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2791	GNG11	GNG11 (2791)	False	True	False
 55970	GNG12	GNG12 (55970)	False	True	False
 51764	GNG13	GNG13 (51764)	False	True	False
+105372280	GNG14	GNG14 (105372280)	False	True	False
 54331	GNG2	GNG2 (54331)	False	True	False
 2785	GNG3	GNG3 (2785)	False	True	False
 2786	GNG4	GNG4 (2786)	False	True	False
@@ -6012,7 +6167,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9950	GOLGA5	GOLGA5 (9950)	False	True	False
 55889	GOLGA6B	GOLGA6B (55889)	False	True	False
 653643	GOLGA6D	GOLGA6D (653643)	False	True	False
+283685	GOLGA6L2	GOLGA6L2 (283685)	False	True	False
 727832	GOLGA6L6	GOLGA6L6 (727832)	False	True	False
+728310	GOLGA6L7	GOLGA6L7 (728310)	False	True	False
 51125	GOLGA7	GOLGA7 (51125)	True	True	True
 401647	GOLGA7B	GOLGA7B (401647)	False	True	False
 653720	GOLGA8M	GOLGA8M (653720)	False	True	False
@@ -6072,6 +6229,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2820	GPD2	GPD2 (2820)	False	True	False
 2852	GPER1	GPER1 (2852)	False	True	False
 170589	GPHA2	GPHA2 (170589)	False	True	False
+122876	GPHB5	GPHB5 (122876)	False	True	False
 10243	GPHN	GPHN (10243)	False	True	False
 2821	GPI	GPI (2821)	True	True	True
 338328	GPIHBP1	GPIHBP1 (338328)	False	True	False
@@ -6133,6 +6291,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2827	GPR3	GPR3 (2827)	False	True	False
 2853	GPR31	GPR31 (2853)	False	True	False
 2854	GPR32	GPR32 (2854)	False	True	False
+2856	GPR33	GPR33 (2856)	False	True	False
 2857	GPR34	GPR34 (2857)	False	True	False
 2859	GPR35	GPR35 (2859)	False	True	False
 2861	GPR37	GPR37 (2861)	False	True	False
@@ -6208,6 +6367,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2894	GRID1	GRID1 (2894)	False	True	False
 2895	GRID2	GRID2 (2895)	False	True	False
 392862	GRID2IP	GRID2IP (392862)	False	True	False
+402635	GRIFIN	GRIFIN (402635)	False	True	False
 2897	GRIK1	GRIK1 (2897)	False	True	False
 2898	GRIK2	GRIK2 (2898)	False	True	False
 2899	GRIK3	GRIK3 (2899)	False	True	False
@@ -6222,7 +6382,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 116444	GRIN3B	GRIN3B (116444)	False	True	False
 2907	GRINA	GRINA (2907)	False	True	False
 23426	GRIP1	GRIP1 (23426)	False	True	False
+80852	GRIP2	GRIP2 (80852)	False	True	False
 56850	GRIPAP1	GRIPAP1 (56850)	False	True	False
+6011	GRK1	GRK1 (6011)	False	True	False
 156	GRK2	GRK2 (156)	True	True	True
 157	GRK3	GRK3 (157)	False	True	False
 2868	GRK4	GRK4 (2868)	False	True	False
@@ -6258,6 +6420,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23199	GSE1	GSE1 (23199)	True	True	True
 83445	GSG1	GSG1 (83445)	False	True	False
 146395	GSG1L	GSG1L (146395)	False	True	False
+644070	GSG1L2	GSG1L2 (644070)	False	True	False
 2931	GSK3A	GSK3A (2931)	True	True	True
 2932	GSK3B	GSK3B (2932)	True	True	True
 51527	GSKIP	GSKIP (51527)	False	True	False
@@ -6282,6 +6445,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 119391	GSTO2	GSTO2 (119391)	False	True	False
 2950	GSTP1	GSTP1 (2950)	False	True	False
 653689	GSTT2B	GSTT2B (653689)	True	True	True
+25774	GSTT4	GSTT4 (25774)	False	True	False
 2954	GSTZ1	GSTZ1 (2954)	False	True	False
 219409	GSX1	GSX1 (219409)	False	True	False
 170825	GSX2	GSX2 (170825)	False	True	False
@@ -6312,10 +6476,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54676	GTPBP2	GTPBP2 (54676)	True	True	True
 84705	GTPBP3	GTPBP3 (84705)	False	True	False
 23560	GTPBP4	GTPBP4 (23560)	False	True	False
+8225	GTPBP6	GTPBP6 (8225)	False	True	False
 29083	GTPBP8	GTPBP8 (29083)	True	True	True
 51512	GTSE1	GTSE1 (51512)	True	True	True
 121355	GTSF1	GTSF1 (121355)	False	True	False
 149699	GTSF1L	GTSF1L (149699)	False	True	False
+114841037	GUCA1ANB	GUCA1ANB (114841037)	False	True	False
 2979	GUCA1B	GUCA1B (2979)	False	True	False
 9626	GUCA1C	GUCA1C (9626)	False	True	False
 2980	GUCA2A	GUCA2A (2980)	False	True	False
@@ -6331,6 +6497,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2987	GUK1	GUK1 (2987)	True	True	True
 51454	GULP1	GULP1 (51454)	False	True	False
 2990	GUSB	GUSB (2990)	False	True	False
+100506127	GVQW3	GVQW3 (100506127)	False	True	False
 283464	GXYLT1	GXYLT1 (283464)	False	True	False
 727936	GXYLT2	GXYLT2 (727936)	False	True	False
 2992	GYG1	GYG1 (2992)	False	True	False
@@ -6378,6 +6545,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 255626	H2BC1	H2BC1 (255626)	False	True	False
 8346	H2BC10	H2BC10 (8346)	True	True	True
 8970	H2BC11	H2BC11 (8970)	True	True	True
+85236	H2BC12	H2BC12 (85236)	False	True	False
 8340	H2BC13	H2BC13 (8340)	False	True	False
 8342	H2BC14	H2BC14 (8342)	False	True	False
 8341	H2BC15	H2BC15 (8341)	True	True	True
@@ -6392,6 +6560,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8343	H2BC7	H2BC7 (8343)	False	True	False
 8339	H2BC8	H2BC8 (8339)	False	True	False
 8345	H2BC9	H2BC9 (8345)	False	True	False
+114483833	H2BK1	H2BK1 (114483833)	False	True	False
 158983	H2BW1	H2BW1 (158983)	False	True	False
 286436	H2BW2	H2BW2 (286436)	False	True	False
 3020	H3-3A	H3-3A (3020)	False	True	False
@@ -6517,6 +6686,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55127	HEATR1	HEATR1 (55127)	True	True	True
 55027	HEATR3	HEATR3 (55027)	False	True	False
 399671	HEATR4	HEATR4 (399671)	False	True	False
+25938	HEATR5A	HEATR5A (25938)	False	True	False
 54497	HEATR5B	HEATR5B (54497)	False	True	False
 63897	HEATR6	HEATR6 (63897)	False	True	False
 256957	HEATR9	HEATR9 (256957)	False	True	False
@@ -6526,6 +6696,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 25831	HECTD1	HECTD1 (25831)	True	True	True
 143279	HECTD2	HECTD2 (143279)	False	True	False
 79654	HECTD3	HECTD3 (79654)	False	True	False
+283450	HECTD4	HECTD4 (283450)	False	True	False
 23072	HECW1	HECW1 (23072)	False	True	False
 57520	HECW2	HECW2 (57520)	False	True	False
 57493	HEG1	HEG1 (57493)	False	True	False
@@ -6593,6 +6764,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51751	HIGD1B	HIGD1B (51751)	False	True	False
 613227	HIGD1C	HIGD1C (613227)	False	True	False
 192286	HIGD2A	HIGD2A (192286)	False	True	False
+123346	HIGD2B	HIGD2B (123346)	False	True	False
 51501	HIKESHI	HIKESHI (51501)	False	True	False
 29923	HILPDA	HILPDA (29923)	False	True	False
 25988	HINFP	HINFP (25988)	False	True	False
@@ -6602,6 +6774,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3092	HIP1	HIP1 (3092)	False	True	False
 9026	HIP1R	HIP1R (9026)	False	True	False
 204851	HIPK1	HIPK1 (204851)	False	True	False
+28996	HIPK2	HIPK2 (28996)	False	True	False
 10114	HIPK3	HIPK3 (10114)	False	True	False
 147746	HIPK4	HIPK4 (147746)	False	True	False
 7290	HIRA	HIRA (7290)	True	True	True
@@ -6643,6 +6816,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3145	HMBS	HMBS (3145)	True	True	True
 56941	HMCES	HMCES (56941)	False	True	False
 83872	HMCN1	HMCN1 (83872)	False	True	False
+256158	HMCN2	HMCN2 (256158)	False	True	False
 10363	HMG20A	HMG20A (10363)	False	True	False
 10362	HMG20B	HMG20B (10362)	False	True	False
 3159	HMGA1	HMGA1 (3159)	False	True	False
@@ -6821,6 +6995,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 11077	HSF2BP	HSF2BP (11077)	False	True	False
 3299	HSF4	HSF4 (3299)	False	True	False
 124535	HSF5	HSF5 (124535)	False	True	False
+84941	HSH2D	HSH2D (84941)	False	True	False
 3320	HSP90AA1	HSP90AA1 (3320)	False	True	False
 3326	HSP90AB1	HSP90AB1 (3326)	True	True	True
 7184	HSP90B1	HSP90B1 (7184)	True	True	True
@@ -6852,6 +7027,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10808	HSPH1	HSPH1 (10808)	False	True	False
 10553	HTATIP2	HTATIP2 (10553)	False	True	False
 27336	HTATSF1	HTATSF1 (27336)	False	True	False
+109703458	HTD2	HTD2 (109703458)	False	True	False
 3346	HTN1	HTN1 (3346)	False	True	False
 3347	HTN3	HTN3 (3347)	False	True	False
 3350	HTR1A	HTR1A (3350)	False	True	False
@@ -7123,6 +7299,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56300	IL36G	IL36G (56300)	False	True	False
 26525	IL36RN	IL36RN (26525)	False	True	False
 27178	IL37	IL37 (27178)	False	True	False
+3563	IL3RA	IL3RA (3563)	False	True	False
 3565	IL4	IL4 (3565)	False	True	False
 259307	IL4I1	IL4I1 (259307)	False	True	False
 3566	IL4R	IL4R (3566)	False	True	False
@@ -7157,6 +7334,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 50939	IMPG2	IMPG2 (50939)	False	True	False
 9118	INA	INA (9118)	False	True	False
 255783	INAFM1	INAFM1 (255783)	False	True	False
+100505573	INAFM2	INAFM2 (100505573)	False	True	False
 55765	INAVA	INAVA (55765)	False	True	False
 388324	INCA1	INCA1 (388324)	False	True	False
 3619	INCENP	INCENP (3619)	True	True	True
@@ -7185,6 +7363,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8821	INPP4B	INPP4B (8821)	False	True	False
 3632	INPP5A	INPP5A (3632)	True	True	True
 3633	INPP5B	INPP5B (3633)	False	True	False
+3635	INPP5D	INPP5D (3635)	False	True	False
 56623	INPP5E	INPP5E (56623)	False	True	False
 22876	INPP5F	INPP5F (22876)	False	True	False
 27124	INPP5J	INPP5J (27124)	False	True	False
@@ -7237,7 +7416,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55705	IPO9	IPO9 (55705)	True	True	True
 3652	IPP	IPP (3652)	False	True	False
 64768	IPPK	IPPK (64768)	True	True	True
+642574	IQANK1	IQANK1 (642574)	False	True	False
 79781	IQCA1	IQCA1 (79781)	False	True	False
+392843	IQCA1L	IQCA1L (392843)	False	True	False
 9657	IQCB1	IQCB1 (9657)	False	True	False
 55721	IQCC	IQCC (55721)	False	True	False
 115811	IQCD	IQCD (115811)	False	True	False
@@ -7251,6 +7432,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 64799	IQCH	IQCH (64799)	False	True	False
 654502	IQCJ	IQCJ (654502)	False	True	False
 124152	IQCK	IQCK (124152)	False	True	False
+285423	IQCM	IQCM (285423)	False	True	False
 80726	IQCN	IQCN (80726)	False	True	False
 8826	IQGAP1	IQGAP1 (8826)	True	True	True
 10788	IQGAP2	IQGAP2 (10788)	False	True	False
@@ -7346,6 +7528,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3698	ITIH2	ITIH2 (3698)	False	True	False
 3699	ITIH3	ITIH3 (3699)	False	True	False
 3700	ITIH4	ITIH4 (3700)	False	True	False
+80760	ITIH5	ITIH5 (80760)	False	True	False
 347365	ITIH6	ITIH6 (347365)	False	True	False
 3702	ITK	ITK (3702)	False	True	False
 55600	ITLN1	ITLN1 (55600)	False	True	False
@@ -7374,6 +7557,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55677	IWS1	IWS1 (55677)	True	True	True
 389434	IYD	IYD (389434)	False	True	False
 284359	IZUMO1	IZUMO1 (284359)	False	True	False
+390243	IZUMO1R	IZUMO1R (390243)	False	True	False
 126123	IZUMO2	IZUMO2 (126123)	False	True	False
 100129669	IZUMO3	IZUMO3 (100129669)	False	True	False
 113177	IZUMO4	IZUMO4 (113177)	False	True	False
@@ -7413,6 +7597,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84502	JPH4	JPH4 (84502)	False	True	False
 51155	JPT1	JPT1 (51155)	False	True	False
 90861	JPT2	JPT2 (90861)	False	True	False
+8629	JRK	JRK (8629)	False	True	False
 8690	JRKL	JRKL (8690)	False	True	False
 126306	JSRP1	JSRP1 (126306)	False	True	False
 10899	JTB	JTB (10899)	True	True	True
@@ -7502,6 +7687,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3758	KCNJ1	KCNJ1 (3758)	False	True	False
 3766	KCNJ10	KCNJ10 (3766)	False	True	False
 3767	KCNJ11	KCNJ11 (3767)	False	True	False
+3768	KCNJ12	KCNJ12 (3768)	False	True	False
 3769	KCNJ13	KCNJ13 (3769)	False	True	False
 3770	KCNJ14	KCNJ14 (3770)	False	True	False
 3772	KCNJ15	KCNJ15 (3772)	False	True	False
@@ -7551,6 +7737,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 157855	KCNU1	KCNU1 (157855)	False	True	False
 27012	KCNV1	KCNV1 (27012)	False	True	False
 169522	KCNV2	KCNV2 (169522)	False	True	False
+375616	KCP	KCP (375616)	False	True	False
 284252	KCTD1	KCTD1 (284252)	False	True	False
 83892	KCTD10	KCTD10 (83892)	True	True	True
 147040	KCTD11	KCTD11 (147040)	False	True	False
@@ -7610,6 +7797,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3795	KHK	KHK (3795)	False	True	False
 23351	KHNYN	KHNYN (23351)	False	True	False
 8570	KHSRP	KHSRP (8570)	False	True	False
+9674	KIAA0040	KIAA0040 (9674)	False	True	False
 9778	KIAA0232	KIAA0232 (9778)	False	True	False
 9856	KIAA0319	KIAA0319 (9856)	False	True	False
 79932	KIAA0319L	KIAA0319L (79932)	False	True	False
@@ -7632,6 +7820,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 85379	KIAA1671	KIAA1671 (85379)	False	True	False
 85449	KIAA1755	KIAA1755 (85449)	False	True	False
 158405	KIAA1958	KIAA1958 (158405)	False	True	False
+100652824	KIAA2012	KIAA2012 (100652824)	False	True	False
 90231	KIAA2013	KIAA2013 (90231)	True	True	True
 144577	KICS2	KICS2 (144577)	True	True	True
 57498	KIDINS220	KIDINS220 (57498)	True	True	True
@@ -7670,6 +7859,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 285643	KIF4B	KIF4B (285643)	False	True	False
 3798	KIF5A	KIF5A (3798)	False	True	False
 3799	KIF5B	KIF5B (3799)	False	True	False
+3800	KIF5C	KIF5C (3800)	False	True	False
 221458	KIF6	KIF6 (221458)	False	True	False
 374654	KIF7	KIF7 (374654)	False	True	False
 64147	KIF9	KIF9 (64147)	False	True	False
@@ -7692,6 +7882,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84634	KISS1R	KISS1R (84634)	False	True	False
 3815	KIT	KIT (3815)	False	True	False
 4254	KITLG	KITLG (4254)	False	True	False
+55857	KIZ	KIZ (55857)	False	True	False
 9365	KL	KL (9365)	False	True	False
 152831	KLB	KLB (152831)	False	True	False
 3831	KLC1	KLC1 (3831)	False	True	False
@@ -7707,6 +7898,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 28999	KLF15	KLF15 (28999)	False	True	False
 83855	KLF16	KLF16 (83855)	False	True	False
 128209	KLF17	KLF17 (128209)	False	True	False
+105378952	KLF18	KLF18 (105378952)	False	True	False
 10365	KLF2	KLF2 (10365)	False	True	False
 51274	KLF3	KLF3 (51274)	False	True	False
 9314	KLF4	KLF4 (9314)	False	True	False
@@ -7815,8 +8007,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 448834	KPRP	KPRP (448834)	False	True	False
 11133	KPTN	KPTN (11133)	False	True	False
 3845	KRAS	KRAS (3845)	True	True	True
+84626	KRBA1	KRBA1 (84626)	False	True	False
 124751	KRBA2	KRBA2 (124751)	False	True	False
 100506243	KRBOX1	KRBOX1 (100506243)	False	True	False
+55634	KRBOX4	KRBOX4 (55634)	False	True	False
 124411	KRBOX5	KRBOX5 (124411)	False	True	False
 51315	KRCC1	KRCC1 (51315)	False	True	False
 83999	KREMEN1	KREMEN1 (83999)	False	True	False
@@ -7831,6 +8025,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3861	KRT14	KRT14 (3861)	False	True	False
 3866	KRT15	KRT15 (3866)	False	True	False
 3868	KRT16	KRT16 (3868)	False	True	False
+3872	KRT17	KRT17 (3872)	False	True	False
 3875	KRT18	KRT18 (3875)	False	True	False
 3880	KRT19	KRT19 (3880)	False	True	False
 3849	KRT2	KRT2 (3849)	False	True	False
@@ -7879,6 +8074,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3892	KRT86	KRT86 (3892)	False	True	False
 3857	KRT9	KRT9 (3857)	False	True	False
 81851	KRTAP1-1	KRTAP1-1 (81851)	False	True	False
+81850	KRTAP1-3	KRTAP1-3 (81850)	False	True	False
 728255	KRTAP1-4	KRTAP1-4 (728255)	False	True	False
 83895	KRTAP1-5	KRTAP1-5 (83895)	False	True	False
 386677	KRTAP10-1	KRTAP10-1 (386677)	False	True	False
@@ -7912,6 +8108,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 337975	KRTAP20-1	KRTAP20-1 (337975)	False	True	False
 337976	KRTAP20-2	KRTAP20-2 (337976)	False	True	False
 337985	KRTAP20-3	KRTAP20-3 (337985)	False	True	False
+100151643	KRTAP20-4	KRTAP20-4 (100151643)	False	True	False
 337977	KRTAP21-1	KRTAP21-1 (337977)	False	True	False
 337978	KRTAP21-2	KRTAP21-2 (337978)	False	True	False
 100288323	KRTAP21-3	KRTAP21-3 (100288323)	False	True	False
@@ -7926,6 +8123,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 83896	KRTAP3-1	KRTAP3-1 (83896)	False	True	False
 83897	KRTAP3-2	KRTAP3-2 (83897)	False	True	False
 85293	KRTAP3-3	KRTAP3-3 (85293)	False	True	False
+85285	KRTAP4-1	KRTAP4-1 (85285)	False	True	False
 653240	KRTAP4-11	KRTAP4-11 (653240)	False	True	False
 85291	KRTAP4-2	KRTAP4-2 (85291)	False	True	False
 85290	KRTAP4-3	KRTAP4-3 (85290)	False	True	False
@@ -7942,9 +8140,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 439915	KRTAP5-5	KRTAP5-5 (439915)	False	True	False
 440023	KRTAP5-6	KRTAP5-6 (440023)	False	True	False
 440050	KRTAP5-7	KRTAP5-7 (440050)	False	True	False
+57830	KRTAP5-8	KRTAP5-8 (57830)	False	True	False
 3846	KRTAP5-9	KRTAP5-9 (3846)	False	True	False
 337966	KRTAP6-1	KRTAP6-1 (337966)	False	True	False
 337967	KRTAP6-2	KRTAP6-2 (337967)	False	True	False
+337968	KRTAP6-3	KRTAP6-3 (337968)	False	True	False
+337878	KRTAP7-1	KRTAP7-1 (337878)	False	True	False
 337879	KRTAP8-1	KRTAP8-1 (337879)	False	True	False
 728318	KRTAP9-1	KRTAP9-1 (728318)	False	True	False
 83900	KRTAP9-3	KRTAP9-3 (83900)	False	True	False
@@ -7975,6 +8176,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 90070	LACRT	LACRT (90070)	False	True	False
 114294	LACTB	LACTB (114294)	False	True	False
 51110	LACTB2	LACTB2 (51110)	False	True	False
+646262	LACTBL1	LACTBL1 (646262)	False	True	False
 3898	LAD1	LAD1 (3898)	False	True	False
 3902	LAG3	LAG3 (3902)	False	True	False
 8270	LAGE3	LAGE3 (8270)	False	True	False
@@ -8029,6 +8231,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 143903	LAYN	LAYN (143903)	False	True	False
 81606	LBH	LBH (81606)	False	True	False
 79081	LBHD1	LBHD1 (79081)	False	True	False
+107984640	LBHD2	LBHD2 (107984640)	False	True	False
 3929	LBP	LBP (3929)	False	True	False
 3930	LBR	LBR (3930)	False	True	False
 10660	LBX1	LBX1 (10660)	False	True	False
@@ -8110,6 +8313,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3954	LETM1	LETM1 (3954)	True	True	True
 137994	LETM2	LETM2 (137994)	False	True	False
 25875	LETMD1	LETMD1 (25875)	False	True	False
+342900	LEUTX	LEUTX (342900)	False	True	False
 163747	LEXM	LEXM (163747)	False	True	False
 3955	LFNG	LFNG (3955)	False	True	False
 3956	LGALS1	LGALS1 (3956)	False	True	False
@@ -8141,6 +8345,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 3973	LHCGR	LHCGR (3973)	False	True	False
 340596	LHFPL1	LHFPL1 (340596)	False	True	False
 10184	LHFPL2	LHFPL2 (10184)	False	True	False
+375612	LHFPL3	LHFPL3 (375612)	False	True	False
 375323	LHFPL4	LHFPL4 (375323)	False	True	False
 222662	LHFPL5	LHFPL5 (222662)	False	True	False
 10186	LHFPL6	LHFPL6 (10186)	False	True	False
@@ -8164,6 +8369,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 11027	LILRA2	LILRA2 (11027)	False	True	False
 23547	LILRA4	LILRA4 (23547)	False	True	False
 353514	LILRA5	LILRA5 (353514)	False	True	False
+79168	LILRA6	LILRA6 (79168)	False	True	False
 10859	LILRB1	LILRB1 (10859)	False	True	False
 10288	LILRB2	LILRB2 (10288)	False	True	False
 11025	LILRB3	LILRB3 (11025)	False	True	False
@@ -8247,7 +8453,16 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 80856	LNPK	LNPK (80856)	False	True	False
 84708	LNX1	LNX1 (84708)	False	True	False
 222484	LNX2	LNX2 (222484)	False	True	False
+101059915	LOC101059915	LOC101059915 (101059915)	False	True	False
+102723971	LOC102723971	LOC102723971 (102723971)	False	True	False
+112267897	LOC112267897	LOC112267897 (112267897)	False	True	False
+112694756	LOC112694756	LOC112694756 (112694756)	False	True	False
+114841035	LOC114841035	LOC114841035 (114841035)	False	True	False
 118142757	LOC118142757	LOC118142757 (118142757)	False	True	False
+389895	LOC389895	LOC389895 (389895)	False	True	False
+400499	LOC400499	LOC400499 (400499)	False	True	False
+728392	LOC728392	LOC728392 (728392)	False	True	False
+730098	LOC730098	LOC730098 (730098)	False	True	False
 9361	LONP1	LONP1 (9361)	True	True	True
 83752	LONP2	LONP2 (83752)	False	True	False
 91694	LONRF1	LONRF1 (91694)	False	True	False
@@ -8286,6 +8501,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57631	LRCH2	LRCH2 (57631)	False	True	False
 84859	LRCH3	LRCH3 (84859)	False	True	False
 4034	LRCH4	LRCH4 (4034)	False	True	False
+100507055	LRCOL1	LRCOL1 (100507055)	False	True	False
 57622	LRFN1	LRFN1 (57622)	False	True	False
 57497	LRFN2	LRFN2 (57497)	False	True	False
 79414	LRFN3	LRFN3 (79414)	False	True	False
@@ -8359,6 +8575,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57689	LRRC4C	LRRC4C (57689)	False	True	False
 120356739	LRRC51	LRRC51 (120356739)	False	True	False
 440699	LRRC52	LRRC52 (440699)	False	True	False
+105378803	LRRC53	LRRC53 (105378803)	False	True	False
 219527	LRRC55	LRRC55 (219527)	False	True	False
 115399	LRRC56	LRRC56 (115399)	False	True	False
 255252	LRRC57	LRRC57 (255252)	False	True	False
@@ -8373,6 +8590,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 100506049	LRRC72	LRRC72 (100506049)	False	True	False
 221424	LRRC73	LRRC73 (221424)	False	True	False
 145497	LRRC74A	LRRC74A (145497)	False	True	False
+400891	LRRC74B	LRRC74B (400891)	False	True	False
 388341	LRRC75A	LRRC75A (388341)	False	True	False
 388886	LRRC75B	LRRC75B (388886)	False	True	False
 56262	LRRC8A	LRRC8A (56262)	False	True	False
@@ -8380,6 +8598,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84230	LRRC8C	LRRC8C (84230)	False	True	False
 55144	LRRC8D	LRRC8D (55144)	False	True	False
 80131	LRRC8E	LRRC8E (80131)	False	True	False
+341883	LRRC9	LRRC9 (341883)	False	True	False
 85444	LRRCC1	LRRCC1 (85444)	False	True	False
 401387	LRRD1	LRRD1 (401387)	False	True	False
 9208	LRRFIP1	LRRFIP1 (9208)	False	True	False
@@ -8431,6 +8650,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4052	LTBP1	LTBP1 (4052)	False	True	False
 4053	LTBP2	LTBP2 (4053)	False	True	False
 4054	LTBP3	LTBP3 (4054)	False	True	False
+8425	LTBP4	LTBP4 (8425)	False	True	False
 4055	LTBR	LTBR (4055)	False	True	False
 4056	LTC4S	LTC4S (4056)	False	True	False
 4057	LTF	LTF (4057)	False	True	False
@@ -8456,6 +8676,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 80740	LY6G6C	LY6G6C (80740)	False	True	False
 4062	LY6H	LY6H (4062)	False	True	False
 54742	LY6K	LY6K (54742)	False	True	False
+101928108	LY6L	LY6L (101928108)	False	True	False
 4065	LY75	LY75 (4065)	False	True	False
 9450	LY86	LY86 (9450)	False	True	False
 4063	LY9	LY9 (4063)	False	True	False
@@ -8473,6 +8694,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 284348	LYPD5	LYPD5 (284348)	False	True	False
 130574	LYPD6	LYPD6 (130574)	False	True	False
 130576	LYPD6B	LYPD6B (130576)	False	True	False
+646627	LYPD8	LYPD8 (646627)	False	True	False
 10434	LYPLA1	LYPLA1 (10434)	False	True	False
 11313	LYPLA2	LYPLA2 (11313)	False	True	False
 127018	LYPLAL1	LYPLAL1 (127018)	False	True	False
@@ -8553,6 +8775,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 139599	MAGEE2	MAGEE2 (139599)	False	True	False
 64110	MAGEF1	MAGEF1 (64110)	False	True	False
 28986	MAGEH1	MAGEH1 (28986)	False	True	False
+54551	MAGEL2	MAGEL2 (54551)	False	True	False
 9223	MAGI1	MAGI1 (9223)	False	True	False
 9863	MAGI2	MAGI2 (9863)	False	True	False
 260425	MAGI3	MAGI3 (260425)	False	True	False
@@ -8565,7 +8788,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4117	MAK	MAK (4117)	False	True	False
 84549	MAK16	MAK16 (84549)	True	True	True
 4118	MAL	MAL (4118)	False	True	False
+114569	MAL2	MAL2 (114569)	False	True	False
 7851	MALL	MALL (7851)	False	True	False
+340895	MALRD1	MALRD1 (340895)	False	True	False
 115416	MALSU1	MALSU1 (115416)	True	True	True
 10892	MALT1	MALT1 (10892)	False	True	False
 256691	MAMDC2	MAMDC2 (256691)	False	True	False
@@ -8614,6 +8839,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4296	MAP3K11	MAP3K11 (4296)	False	True	False
 7786	MAP3K12	MAP3K12 (7786)	False	True	False
 9175	MAP3K13	MAP3K13 (9175)	False	True	False
+9020	MAP3K14	MAP3K14 (9020)	False	True	False
+389840	MAP3K15	MAP3K15 (389840)	False	True	False
 80122	MAP3K19	MAP3K19 (80122)	False	True	False
 10746	MAP3K2	MAP3K2 (10746)	True	True	True
 51776	MAP3K20	MAP3K20 (51776)	False	True	False
@@ -8631,6 +8858,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5871	MAP4K2	MAP4K2 (5871)	False	True	False
 8491	MAP4K3	MAP4K3 (8491)	False	True	False
 9448	MAP4K4	MAP4K4 (9448)	True	True	True
+11183	MAP4K5	MAP4K5 (11183)	False	True	False
 4135	MAP6	MAP6 (4135)	False	True	False
 79929	MAP6D1	MAP6D1 (79929)	False	True	False
 9053	MAP7	MAP7 (9053)	False	True	False
@@ -8652,6 +8880,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5598	MAPK7	MAPK7 (5598)	False	True	False
 5599	MAPK8	MAPK8 (5599)	False	True	False
 9479	MAPK8IP1	MAPK8IP1 (9479)	False	True	False
+23542	MAPK8IP2	MAPK8IP2 (23542)	False	True	False
 23162	MAPK8IP3	MAPK8IP3 (23162)	False	True	False
 5601	MAPK9	MAPK9 (5601)	False	True	False
 79109	MAPKAP1	MAPKAP1 (79109)	True	True	True
@@ -8677,6 +8906,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4082	MARCKS	MARCKS (4082)	False	True	False
 65108	MARCKSL1	MARCKSL1 (65108)	False	True	False
 8685	MARCO	MARCO (8685)	False	True	False
+105378220	MARCOL	MARCOL (105378220)	False	True	False
 9665	MARF1	MARF1 (9665)	False	True	False
 4139	MARK1	MARK1 (4139)	False	True	False
 2011	MARK2	MARK2 (2011)	True	True	True
@@ -8783,6 +9013,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9656	MDC1	MDC1 (9656)	True	True	True
 4188	MDFI	MDFI (4188)	False	True	False
 29969	MDFIC	MDFIC (29969)	False	True	False
+107986096	MDFIC2	MDFIC2 (107986096)	False	True	False
 266727	MDGA1	MDGA1 (266727)	False	True	False
 161357	MDGA2	MDGA2 (161357)	False	True	False
 4190	MDH1	MDH1 (4190)	False	True	False
@@ -8847,8 +9078,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 150365	MEI1	MEI1 (150365)	False	True	False
 101928601	MEI4	MEI4 (101928601)	False	True	False
 644890	MEIG1	MEIG1 (644890)	False	True	False
+728637	MEIKIN	MEIKIN (728637)	False	True	False
 254528	MEIOB	MEIOB (254528)	False	True	False
 284071	MEIOC	MEIOC (284071)	False	True	False
+388553	MEIOSIN	MEIOSIN (388553)	False	True	False
 4211	MEIS1	MEIS1 (4211)	False	True	False
 4212	MEIS2	MEIS2 (4212)	True	True	True
 56917	MEIS3	MEIS3 (56917)	False	True	False
@@ -8935,6 +9168,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84804	MFSD9	MFSD9 (84804)	False	True	False
 23269	MGA	MGA (23269)	False	True	False
 8972	MGAM	MGAM (8972)	False	True	False
+93432	MGAM2	MGAM2 (93432)	False	True	False
 84709	MGARP	MGARP (84709)	False	True	False
 4245	MGAT1	MGAT1 (4245)	True	True	True
 4247	MGAT2	MGAT2 (4247)	True	True	True
@@ -8986,12 +9220,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 374986	MIGA1	MIGA1 (374986)	False	True	False
 84895	MIGA2	MIGA2 (84895)	False	True	False
 60672	MIIP	MIIP (60672)	True	True	True
+284021	MILR1	MILR1 (284021)	False	True	False
 23251	MINAR1	MINAR1 (23251)	False	True	False
 100127206	MINAR2	MINAR2 (100127206)	False	True	False
 55793	MINDY1	MINDY1 (55793)	False	True	False
 54629	MINDY2	MINDY2 (54629)	False	True	False
 80013	MINDY3	MINDY3 (80013)	False	True	False
 84182	MINDY4	MINDY4 (84182)	False	True	False
+646951	MINDY4B	MINDY4B (646951)	False	True	False
 50488	MINK1	MINK1 (50488)	False	True	False
 9562	MINPP1	MINPP1 (9562)	False	True	False
 54468	MIOS	MIOS (54468)	True	True	True
@@ -9002,7 +9238,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79003	MIS12	MIS12 (79003)	True	True	True
 54069	MIS18A	MIS18A (54069)	True	True	True
 55320	MIS18BP1	MIS18BP1 (55320)	False	True	False
+100506540	MISFA	MISFA (100506540)	False	True	False
 126353	MISP	MISP (126353)	False	True	False
+113230	MISP3	MISP3 (113230)	False	True	False
 129531	MITD1	MITD1 (129531)	False	True	False
 4286	MITF	MITF (4286)	True	True	True
 131076	MIX23	MIX23 (131076)	False	True	False
@@ -9037,6 +9275,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79083	MLPH	MLPH (79083)	False	True	False
 64223	MLST8	MLST8 (64223)	True	True	True
 6945	MLX	MLX (6945)	False	True	False
+22877	MLXIP	MLXIP (22877)	False	True	False
 51085	MLXIPL	MLXIPL (51085)	False	True	False
 23417	MLYCD	MLYCD (23417)	False	True	False
 166785	MMAA	MMAA (166785)	False	True	False
@@ -9051,6 +9290,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4312	MMP1	MMP1 (4312)	False	True	False
 4319	MMP10	MMP10 (4319)	False	True	False
 4320	MMP11	MMP11 (4320)	False	True	False
+4321	MMP12	MMP12 (4321)	False	True	False
 4322	MMP13	MMP13 (4322)	False	True	False
 4323	MMP14	MMP14 (4323)	False	True	False
 4324	MMP15	MMP15 (4324)	False	True	False
@@ -9062,6 +9302,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 118856	MMP21	MMP21 (118856)	False	True	False
 8510	MMP23B	MMP23B (8510)	False	True	False
 10893	MMP24	MMP24 (10893)	False	True	False
+101410538	MMP24OS	MMP24OS (101410538)	False	True	False
 64386	MMP25	MMP25 (64386)	False	True	False
 56547	MMP26	MMP26 (56547)	False	True	False
 64066	MMP27	MMP27 (64066)	False	True	False
@@ -9124,6 +9365,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54456	MOV10L1	MOV10L1 (54456)	False	True	False
 26002	MOXD1	MOXD1 (26002)	False	True	False
 51660	MPC1	MPC1 (51660)	True	True	True
+347411	MPC1L	MPC1L (347411)	False	True	False
 25874	MPC2	MPC2 (25874)	True	True	True
 9526	MPDU1	MPDU1 (9526)	True	True	True
 8777	MPDZ	MPDZ (8777)	False	True	False
@@ -9176,12 +9418,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 117195	MRGPRX3	MRGPRX3 (117195)	False	True	False
 117196	MRGPRX4	MRGPRX4 (117196)	False	True	False
 84245	MRI1	MRI1 (84245)	False	True	False
+100507027	MRLN	MRLN (100507027)	False	True	False
 79922	MRM1	MRM1 (79922)	False	True	False
 29960	MRM2	MRM2 (29960)	True	True	True
 55178	MRM3	MRM3 (55178)	True	True	True
 51149	MRNIP	MRNIP (51149)	False	True	False
 83876	MRO	MRO (83876)	False	True	False
 727957	MROH1	MROH1 (727957)	False	True	False
+339766	MROH2A	MROH2A (339766)	False	True	False
 133558	MROH2B	MROH2B (133558)	False	True	False
 642475	MROH6	MROH6 (642475)	False	True	False
 374977	MROH7	MROH7 (374977)	False	True	False
@@ -9278,6 +9522,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 2206	MS4A2	MS4A2 (2206)	False	True	False
 932	MS4A3	MS4A3 (932)	False	True	False
 51338	MS4A4A	MS4A4A (51338)	False	True	False
+643680	MS4A4E	MS4A4E (643680)	False	True	False
 64232	MS4A5	MS4A5 (64232)	False	True	False
 64231	MS4A6A	MS4A6A (64231)	False	True	False
 245802	MS4A6E	MS4A6E (245802)	False	True	False
@@ -9287,6 +9532,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79684	MSANTD2	MSANTD2 (79684)	False	True	False
 91283	MSANTD3	MSANTD3 (91283)	False	True	False
 84437	MSANTD4	MSANTD4 (84437)	False	True	False
+102724657	MSANTD5	MSANTD5 (102724657)	False	True	False
 9242	MSC	MSC (9242)	False	True	False
 343930	MSGN1	MSGN1 (343930)	False	True	False
 4436	MSH2	MSH2 (4436)	False	True	False
@@ -9399,13 +9645,16 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 345778	MTX3	MTX3 (345778)	False	True	False
 4582	MUC1	MUC1 (4582)	False	True	False
 10071	MUC12	MUC12 (10071)	False	True	False
+56667	MUC13	MUC13 (56667)	False	True	False
 143662	MUC15	MUC15 (143662)	False	True	False
 94025	MUC16	MUC16 (94025)	False	True	False
 140453	MUC17	MUC17 (140453)	False	True	False
 200958	MUC20	MUC20 (200958)	True	True	True
 394263	MUC21	MUC21 (394263)	False	True	False
 100507679	MUC22	MUC22 (100507679)	False	True	False
+4584	MUC3A	MUC3A (4584)	False	True	False
 4585	MUC4	MUC4 (4585)	False	True	False
+4586	MUC5AC	MUC5AC (4586)	False	True	False
 727897	MUC5B	MUC5B (727897)	False	True	False
 4588	MUC6	MUC6 (4588)	False	True	False
 4589	MUC7	MUC7 (4589)	False	True	False
@@ -9486,9 +9735,11 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 91807	MYLK3	MYLK3 (91807)	False	True	False
 340156	MYLK4	MYLK4 (340156)	False	True	False
 389827	MYMK	MYMK (389827)	False	True	False
+101929726	MYMX	MYMX (101929726)	False	True	False
 55892	MYNN	MYNN (55892)	False	True	False
 4651	MYO10	MYO10 (4651)	True	True	True
 51168	MYO15A	MYO15A (51168)	False	True	False
+80022	MYO15B	MYO15B (80022)	False	True	False
 23026	MYO16	MYO16 (23026)	False	True	False
 399687	MYO18A	MYO18A (399687)	False	True	False
 84700	MYO18B	MYO18B (84700)	False	True	False
@@ -9513,12 +9764,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4650	MYO9B	MYO9B (4650)	True	True	True
 4653	MYOC	MYOC (4653)	False	True	False
 93649	MYOCD	MYOCD (93649)	False	True	False
+110806290	MYOCOS	MYOCOS (110806290)	False	True	False
 4654	MYOD1	MYOD1 (4654)	True	True	True
 26509	MYOF	MYOF (26509)	False	True	False
 4656	MYOG	MYOG (4656)	True	True	True
 8736	MYOM1	MYOM1 (8736)	False	True	False
 9172	MYOM2	MYOM2 (9172)	False	True	False
 127294	MYOM3	MYOM3 (127294)	False	True	False
+57462	MYORG	MYORG (57462)	False	True	False
 9499	MYOT	MYOT (9499)	False	True	False
 58529	MYOZ1	MYOZ1 (58529)	False	True	False
 51778	MYOZ2	MYOZ2 (51778)	False	True	False
@@ -9526,6 +9779,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84665	MYPN	MYPN (84665)	False	True	False
 339344	MYPOP	MYPOP (339344)	False	True	False
 745	MYRF	MYRF (745)	False	True	False
+196446	MYRFL	MYRFL (196446)	False	True	False
 25924	MYRIP	MYRIP (25924)	False	True	False
 114803	MYSM1	MYSM1 (114803)	False	True	False
 4661	MYT1	MYT1 (4661)	False	True	False
@@ -9579,6 +9833,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51172	NAGPA	NAGPA (51172)	False	True	False
 162417	NAGS	NAGS (162417)	False	True	False
 203245	NAIF1	NAIF1 (203245)	False	True	False
+4671	NAIP	NAIP (4671)	True	True	True
 259232	NALCN	NALCN (259232)	False	True	False
 728215	NALF1	NALF1 (728215)	False	True	False
 27112	NALF2	NALF2 (27112)	False	True	False
@@ -9619,6 +9874,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55739	NAXD	NAXD (55739)	False	True	False
 128240	NAXE	NAXE (128240)	False	True	False
 51594	NBAS	NBAS (51594)	True	True	True
+550643	NBDY	NBDY (550643)	False	True	False
 26960	NBEA	NBEA (26960)	False	True	False
 65065	NBEAL1	NBEAL1 (65065)	False	True	False
 23218	NBEAL2	NBEAL2 (23218)	False	True	False
@@ -9627,6 +9883,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84224	NBPF3	NBPF3 (84224)	False	True	False
 4077	NBR1	NBR1 (4077)	False	True	False
 83988	NCALD	NCALD (83988)	False	True	False
+4684	NCAM1	NCAM1 (4684)	False	True	False
 4685	NCAM2	NCAM2 (4685)	False	True	False
 1463	NCAN	NCAN (1463)	False	True	False
 9918	NCAPD2	NCAPD2 (9918)	True	True	True
@@ -9637,6 +9894,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 29781	NCAPH2	NCAPH2 (29781)	True	True	True
 4686	NCBP1	NCBP1 (4686)	True	True	True
 22916	NCBP2	NCBP2 (22916)	True	True	True
+152217	NCBP2AS2	NCBP2AS2 (152217)	False	True	False
+392517	NCBP2L	NCBP2L (392517)	False	True	False
 55421	NCBP3	NCBP3 (55421)	False	True	False
 342897	NCCRP1	NCCRP1 (342897)	False	True	False
 23154	NCDN	NCDN (23154)	True	True	True
@@ -9751,6 +10010,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4738	NEDD8	NEDD8 (4738)	True	True	True
 4739	NEDD9	NEDD9 (4739)	False	True	False
 4744	NEFH	NEFH (4744)	False	True	False
+4747	NEFL	NEFL (4747)	False	True	False
 4741	NEFM	NEFM (4741)	False	True	False
 257194	NEGR1	NEGR1 (257194)	False	True	False
 79661	NEIL1	NEIL1 (79661)	False	True	False
@@ -9790,6 +10050,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9148	NEURL1	NEURL1 (9148)	False	True	False
 54492	NEURL1B	NEURL1B (54492)	False	True	False
 140825	NEURL2	NEURL2 (140825)	False	True	False
+93082	NEURL3	NEURL3 (93082)	False	True	False
 84461	NEURL4	NEURL4 (84461)	False	True	False
 4760	NEUROD1	NEUROD1 (4760)	True	True	True
 4761	NEUROD2	NEUROD2 (4761)	False	True	False
@@ -9818,6 +10079,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4781	NFIB	NFIB (4781)	False	True	False
 4782	NFIC	NFIC (4782)	False	True	False
 4783	NFIL3	NFIL3 (4783)	False	True	False
+105372267	NFILZ	NFILZ (105372267)	False	True	False
 4784	NFIX	NFIX (4784)	False	True	False
 4790	NFKB1	NFKB1 (4790)	True	True	True
 4791	NFKB2	NFKB2 (4791)	True	True	True
@@ -9852,6 +10114,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55651	NHP2	NHP2 (55651)	True	True	True
 4810	NHS	NHS (4810)	False	True	False
 57224	NHSL1	NHSL1 (57224)	False	True	False
+340527	NHSL2	NHSL2 (340527)	False	True	False
 116496	NIBAN1	NIBAN1 (116496)	False	True	False
 64855	NIBAN2	NIBAN2 (64855)	True	True	True
 199786	NIBAN3	NIBAN3 (199786)	False	True	False
@@ -9893,6 +10156,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 28512	NKIRAS1	NKIRAS1 (28512)	False	True	False
 28511	NKIRAS2	NKIRAS2 (28511)	False	True	False
 4820	NKTR	NKTR (4820)	True	True	True
+54729	NKX1-1	NKX1-1 (54729)	False	True	False
 390010	NKX1-2	NKX1-2 (390010)	False	True	False
 7080	NKX2-1	NKX2-1 (7080)	False	True	False
 4821	NKX2-2	NKX2-2 (4821)	False	True	False
@@ -9913,6 +10177,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 22829	NLGN4Y	NLGN4Y (22829)	False	True	False
 51701	NLK	NLK (51701)	False	True	False
 57486	NLN	NLN (57486)	False	True	False
+197358	NLRC3	NLRC3 (197358)	False	True	False
 58484	NLRC4	NLRC4 (58484)	False	True	False
 84166	NLRC5	NLRC5 (84166)	False	True	False
 22861	NLRP1	NLRP1 (22861)	False	True	False
@@ -9922,6 +10187,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 126204	NLRP13	NLRP13 (126204)	False	True	False
 338323	NLRP14	NLRP14 (338323)	False	True	False
 55655	NLRP2	NLRP2 (55655)	False	True	False
+286430	NLRP2B	NLRP2B (286430)	False	True	False
 114548	NLRP3	NLRP3 (114548)	False	True	False
 147945	NLRP4	NLRP4 (147945)	False	True	False
 126206	NLRP5	NLRP5 (126206)	False	True	False
@@ -9960,6 +10226,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23530	NNT	NNT (23530)	False	True	False
 84273	NOA1	NOA1 (84273)	True	True	True
 28987	NOB1	NOB1 (28987)	True	True	True
+135935	NOBOX	NOBOX (135935)	False	True	False
 26155	NOC2L	NOC2L (26155)	False	True	False
 64318	NOC3L	NOC3L (64318)	True	True	True
 79050	NOC4L	NOC4L (79050)	True	True	True
@@ -10036,6 +10303,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 261734	NPHP4	NPHP4 (261734)	False	True	False
 4868	NPHS1	NPHS1 (4868)	False	True	False
 7827	NPHS2	NPHS2 (7827)	False	True	False
+728888	NPIPB11	NPIPB11 (728888)	False	True	False
 80896	NPL	NPL (80896)	False	True	False
 55666	NPLOC4	NPLOC4 (55666)	True	True	True
 4869	NPM1	NPM1 (4869)	True	True	True
@@ -10049,6 +10317,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4882	NPR2	NPR2 (4882)	False	True	False
 4883	NPR3	NPR3 (4883)	False	True	False
 10641	NPRL2	NPRL2 (10641)	True	True	True
+8131	NPRL3	NPRL3 (8131)	False	True	False
 594857	NPS	NPS (594857)	False	True	False
 387129	NPSR1	NPSR1 (387129)	False	True	False
 27020	NPTN	NPTN (27020)	False	True	False
@@ -10076,6 +10345,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7182	NR2C2	NR2C2 (7182)	False	True	False
 126382	NR2C2AP	NR2C2AP (126382)	True	True	True
 7101	NR2E1	NR2E1 (7101)	False	True	False
+10002	NR2E3	NR2E3 (10002)	False	True	False
 7025	NR2F1	NR2F1 (7025)	False	True	False
 7026	NR2F2	NR2F2 (7026)	False	True	False
 2063	NR2F6	NR2F6 (2063)	False	True	False
@@ -10152,6 +10422,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 221294	NT5DC1	NT5DC1 (221294)	False	True	False
 64943	NT5DC2	NT5DC2 (64943)	False	True	False
 51559	NT5DC3	NT5DC3 (51559)	False	True	False
+284958	NT5DC4	NT5DC4 (284958)	False	True	False
 4907	NT5E	NT5E (4907)	False	True	False
 56953	NT5M	NT5M (56953)	False	True	False
 123803	NTAN1	NTAN1 (123803)	False	True	False
@@ -10198,11 +10469,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 131870	NUDT16	NUDT16 (131870)	False	True	False
 84309	NUDT16L1	NUDT16L1 (84309)	False	True	False
 200035	NUDT17	NUDT17 (200035)	False	True	False
+79873	NUDT18	NUDT18 (79873)	False	True	False
 390916	NUDT19	NUDT19 (390916)	False	True	False
 318	NUDT2	NUDT2 (318)	False	True	False
 11051	NUDT21	NUDT21 (11051)	True	True	True
 84304	NUDT22	NUDT22 (84304)	False	True	False
 11165	NUDT3	NUDT3 (11165)	False	True	False
+11163	NUDT4	NUDT4 (11163)	False	True	False
 11164	NUDT5	NUDT5 (11164)	False	True	False
 11162	NUDT6	NUDT6 (11162)	False	True	False
 283927	NUDT7	NUDT7 (283927)	False	True	False
@@ -10245,6 +10518,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10204	NUTF2	NUTF2 (10204)	True	True	True
 256646	NUTM1	NUTM1 (256646)	False	True	False
 728118	NUTM2A	NUTM2A (728118)	False	True	False
+728130	NUTM2D	NUTM2D (728130)	False	True	False
 54754	NUTM2F	NUTM2F (54754)	False	True	False
 441457	NUTM2G	NUTM2G (441457)	False	True	False
 4931	NVL	NVL (4931)	False	True	False
@@ -10281,6 +10555,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51686	OAZ3	OAZ3 (51686)	False	True	False
 79596	OBI1	OBI1 (79596)	False	True	False
 29991	OBP2A	OBP2A (29991)	False	True	False
+29989	OBP2B	OBP2B (29989)	False	True	False
 84033	OBSCN	OBSCN (84033)	False	True	False
 23363	OBSL1	OBSL1 (23363)	False	True	False
 729330	OC90	OC90 (729330)	False	True	False
@@ -10296,6 +10571,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 93233	ODAD1	ODAD1 (93233)	False	True	False
 55130	ODAD2	ODAD2 (55130)	False	True	False
 115948	ODAD3	ODAD3 (115948)	False	True	False
+83538	ODAD4	ODAD4 (83538)	False	True	False
 54959	ODAM	ODAM (54959)	False	True	False
 152816	ODAPH	ODAPH (152816)	False	True	False
 4953	ODC1	ODC1 (4953)	False	True	False
@@ -10345,11 +10621,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 390874	ONECUT3	ONECUT3 (390874)	False	True	False
 441161	OOEP	OOEP (441161)	False	True	False
 219990	OOSP2	OOSP2 (219990)	False	True	False
+112577461	OOSP3	OOSP3 (112577461)	False	True	False
 4976	OPA1	OPA1 (4976)	True	True	True
 80207	OPA3	OPA3 (80207)	False	True	False
 93377	OPALIN	OPALIN (93377)	False	True	False
 4978	OPCML	OPCML (4978)	False	True	False
 4983	OPHN1	OPHN1 (4983)	False	True	False
+26873	OPLAH	OPLAH (26873)	False	True	False
 5956	OPN1LW	OPN1LW (5956)	False	True	False
 611	OPN1SW	OPN1SW (611)	False	True	False
 23596	OPN3	OPN3 (23596)	False	True	False
@@ -10370,9 +10648,11 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 121275	OR10AD1	OR10AD1 (121275)	False	True	False
 282770	OR10AG1	OR10AG1 (282770)	False	True	False
 442194	OR10C1	OR10C1 (442194)	False	True	False
+26497	OR10D3	OR10D3 (26497)	False	True	False
 26534	OR10G2	OR10G2 (26534)	False	True	False
 26533	OR10G3	OR10G3 (26533)	False	True	False
 390264	OR10G4	OR10G4 (390264)	False	True	False
+79490	OR10G6	OR10G6 (79490)	False	True	False
 390265	OR10G7	OR10G7 (390265)	False	True	False
 219869	OR10G8	OR10G8 (219869)	False	True	False
 219870	OR10G9	OR10G9 (219870)	False	True	False
@@ -10410,9 +10690,11 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 347468	OR13H1	OR13H1 (347468)	False	True	False
 392309	OR13J1	OR13J1 (392309)	False	True	False
 284532	OR14A16	OR14A16 (284532)	False	True	False
+388761	OR14A2	OR14A2 (388761)	False	True	False
 127066	OR14C36	OR14C36 (127066)	False	True	False
 401994	OR14I1	OR14I1 (401994)	False	True	False
 442191	OR14J1	OR14J1 (442191)	False	True	False
+343170	OR14K1	OR14K1 (343170)	False	True	False
 8383	OR1A1	OR1A1 (8383)	False	True	False
 26189	OR1A2	OR1A2 (26189)	False	True	False
 26188	OR1C1	OR1C1 (26188)	False	True	False
@@ -10444,6 +10726,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 81392	OR2AE1	OR2AE1 (81392)	False	True	False
 144125	OR2AG1	OR2AG1 (144125)	False	True	False
 338755	OR2AG2	OR2AG2 (338755)	False	True	False
+127608	OR2AJ1	OR2AJ1 (127608)	False	True	False
 121129	OR2AP1	OR2AP1 (121129)	False	True	False
 341152	OR2AT4	OR2AT4 (341152)	False	True	False
 127623	OR2B11	OR2B11 (127623)	False	True	False
@@ -10460,6 +10743,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 391211	OR2G6	OR2G6 (391211)	False	True	False
 26716	OR2H1	OR2H1 (26716)	False	True	False
 7932	OR2H2	OR2H2 (7932)	False	True	False
+442185	OR2J1	OR2J1 (442185)	False	True	False
 26707	OR2J2	OR2J2 (26707)	False	True	False
 442186	OR2J3	OR2J3 (442186)	False	True	False
 26248	OR2K2	OR2K2 (26248)	False	True	False
@@ -10500,6 +10784,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 81309	OR4C15	OR4C15 (81309)	False	True	False
 256144	OR4C3	OR4C3 (256144)	False	True	False
 119749	OR4C46	OR4C46 (119749)	False	True	False
+79346	OR4C5	OR4C5 (79346)	False	True	False
 219432	OR4C6	OR4C6 (219432)	False	True	False
 26689	OR4D1	OR4D1 (26689)	False	True	False
 390197	OR4D10	OR4D10 (390197)	False	True	False
@@ -10508,6 +10793,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 219875	OR4D5	OR4D5 (219875)	False	True	False
 219983	OR4D6	OR4D6 (219983)	False	True	False
 390199	OR4D9	OR4D9 (390199)	False	True	False
+26687	OR4E1	OR4E1 (26687)	False	True	False
 26686	OR4E2	OR4E2 (26686)	False	True	False
 390649	OR4F15	OR4F15 (390649)	False	True	False
 390648	OR4F6	OR4F6 (390648)	False	True	False
@@ -10535,6 +10821,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 390038	OR51D1	OR51D1 (390038)	False	True	False
 143503	OR51E1	OR51E1 (143503)	False	True	False
 81285	OR51E2	OR51E2 (81285)	False	True	False
+256892	OR51F1	OR51F1 (256892)	False	True	False
 119694	OR51F2	OR51F2 (119694)	False	True	False
 81282	OR51G2	OR51G2 (81282)	False	True	False
 390063	OR51I1	OR51I1 (390063)	False	True	False
@@ -10552,6 +10839,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 390066	OR52D1	OR52D1 (390066)	False	True	False
 119678	OR52E2	OR52E2 (119678)	False	True	False
 390081	OR52E4	OR52E4 (390081)	False	True	False
+390082	OR52E5	OR52E5 (390082)	False	True	False
 390078	OR52E6	OR52E6 (390078)	False	True	False
 390079	OR52E8	OR52E8 (390079)	False	True	False
 390067	OR52H1	OR52H1 (390067)	False	True	False
@@ -10568,6 +10856,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 120787	OR52W1	OR52W1 (120787)	False	True	False
 120796	OR56A1	OR56A1 (120796)	False	True	False
 390083	OR56A3	OR56A3 (390083)	False	True	False
+120793	OR56A4	OR56A4 (120793)	False	True	False
+390084	OR56A5	OR56A5 (390084)	False	True	False
 387748	OR56B1	OR56B1 (387748)	False	True	False
 196335	OR56B4	OR56B4 (196335)	False	True	False
 219982	OR5A1	OR5A1 (219982)	False	True	False
@@ -10627,6 +10917,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 390323	OR6C75	OR6C75 (390323)	False	True	False
 390326	OR6C76	OR6C76 (390326)	False	True	False
 343169	OR6F1	OR6F1 (343169)	False	True	False
+79549	OR6J1	OR6J1 (79549)	False	True	False
 81448	OR6K2	OR6K2 (81448)	False	True	False
 391114	OR6K3	OR6K3 (391114)	False	True	False
 390261	OR6M1	OR6M1 (390261)	False	True	False
@@ -10658,6 +10949,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 26493	OR8B8	OR8B8 (26493)	False	True	False
 283159	OR8D1	OR8D1 (283159)	False	True	False
 338662	OR8D4	OR8D4 (338662)	False	True	False
+26494	OR8G1	OR8G1 (26494)	False	True	False
 219865	OR8G5	OR8G5 (219865)	False	True	False
 219469	OR8H1	OR8H1 (219469)	False	True	False
 390151	OR8H2	OR8H2 (390151)	False	True	False
@@ -10723,6 +11015,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 146183	OTOA	OTOA (146183)	False	True	False
 9381	OTOF	OTOF (9381)	False	True	False
 340990	OTOG	OTOG (340990)	False	True	False
+283310	OTOGL	OTOGL (283310)	False	True	False
 131149	OTOL1	OTOL1 (131149)	False	True	False
 133060	OTOP1	OTOP1 (133060)	False	True	False
 92736	OTOP2	OTOP2 (92736)	False	True	False
@@ -10745,9 +11038,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5013	OTX1	OTX1 (5013)	False	True	False
 5015	OTX2	OTX2 (5015)	False	True	False
 124641	OVCA2	OVCA2 (124641)	False	True	False
+341350	OVCH1	OVCH1 (341350)	False	True	False
+341277	OVCH2	OVCH2 (341277)	False	True	False
 5016	OVGP1	OVGP1 (5016)	False	True	False
 5017	OVOL1	OVOL1 (5017)	False	True	False
 58495	OVOL2	OVOL2 (58495)	False	True	False
+728361	OVOL3	OVOL3 (728361)	False	True	False
 5018	OXA1L	OXA1L (5018)	True	True	True
 5019	OXCT1	OXCT1 (5019)	False	True	False
 64064	OXCT2	OXCT2 (64064)	False	True	False
@@ -10776,10 +11072,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5029	P2RY2	P2RY2 (5029)	False	True	False
 5030	P2RY4	P2RY4 (5030)	False	True	False
 5031	P2RY6	P2RY6 (5031)	False	True	False
+286530	P2RY8	P2RY8 (286530)	False	True	False
 64175	P3H1	P3H1 (64175)	False	True	False
 55214	P3H2	P3H2 (55214)	False	True	False
 10536	P3H3	P3H3 (10536)	False	True	False
 10609	P3H4	P3H4 (10609)	False	True	False
+110117498	P3R3URF	P3R3URF (110117498)	False	True	False
 5033	P4HA1	P4HA1 (5033)	False	True	False
 8974	P4HA2	P4HA2 (8974)	False	True	False
 283208	P4HA3	P4HA3 (283208)	False	True	False
@@ -10794,6 +11092,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 80336	PABPC1L	PABPC1L (80336)	False	True	False
 5042	PABPC3	PABPC3 (5042)	False	True	False
 8761	PABPC4	PABPC4 (8761)	False	True	False
+132430	PABPC4L	PABPC4L (132430)	False	True	False
 140886	PABPC5	PABPC5 (140886)	False	True	False
 8106	PABPN1	PABPN1 (8106)	True	True	True
 390748	PABPN1L	PABPN1L (390748)	False	True	False
@@ -10809,6 +11108,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 11240	PADI2	PADI2 (11240)	False	True	False
 51702	PADI3	PADI3 (51702)	False	True	False
 23569	PADI4	PADI4 (23569)	False	True	False
+353238	PADI6	PADI6 (353238)	False	True	False
 5047	PAEP	PAEP (5047)	False	True	False
 54623	PAF1	PAF1 (54623)	True	True	True
 5048	PAFAH1B1	PAFAH1B1 (5048)	True	True	True
@@ -10819,6 +11119,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8712	PAGE1	PAGE1 (8712)	False	True	False
 203569	PAGE2	PAGE2 (203569)	False	True	False
 389860	PAGE2B	PAGE2B (389860)	False	True	False
+139793	PAGE3	PAGE3 (139793)	False	True	False
 9506	PAGE4	PAGE4 (9506)	False	True	False
 90737	PAGE5	PAGE5 (90737)	False	True	False
 79447	PAGR1	PAGR1 (79447)	True	True	True
@@ -10858,6 +11159,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 196743	PAOX	PAOX (196743)	False	True	False
 89932	PAPLN	PAPLN (89932)	False	True	False
 10914	PAPOLA	PAPOLA (10914)	True	True	True
+56903	PAPOLB	PAPOLB (56903)	False	True	False
 64895	PAPOLG	PAPOLG (64895)	False	True	False
 5069	PAPPA	PAPPA (5069)	False	True	False
 60676	PAPPA2	PAPPA2 (60676)	False	True	False
@@ -10875,6 +11177,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 50855	PARD6A	PARD6A (50855)	False	True	False
 84612	PARD6B	PARD6B (84612)	True	True	True
 84552	PARD6G	PARD6G (84552)	False	True	False
+8505	PARG	PARG (8505)	False	True	False
 11315	PARK7	PARK7 (11315)	False	True	False
 55486	PARL	PARL (55486)	True	True	True
 25849	PARM1	PARM1 (25849)	False	True	False
@@ -10943,6 +11246,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5097	PCDH1	PCDH1 (5097)	False	True	False
 57575	PCDH10	PCDH10 (57575)	False	True	False
 27328	PCDH11X	PCDH11X (27328)	False	True	False
+83259	PCDH11Y	PCDH11Y (83259)	False	True	False
 51294	PCDH12	PCDH12 (51294)	False	True	False
 65217	PCDH15	PCDH15 (65217)	False	True	False
 27253	PCDH17	PCDH17 (27253)	False	True	False
@@ -10982,6 +11286,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56130	PCDHB6	PCDHB6 (56130)	False	True	False
 56129	PCDHB7	PCDHB7 (56129)	False	True	False
 56128	PCDHB8	PCDHB8 (56128)	False	True	False
+56127	PCDHB9	PCDHB9 (56127)	False	True	False
 56114	PCDHGA1	PCDHGA1 (56114)	False	True	False
 56106	PCDHGA10	PCDHGA10 (56106)	False	True	False
 56105	PCDHGA11	PCDHGA11 (56105)	False	True	False
@@ -10998,6 +11303,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56103	PCDHGB2	PCDHGB2 (56103)	False	True	False
 56102	PCDHGB3	PCDHGB3 (56102)	False	True	False
 8641	PCDHGB4	PCDHGB4 (8641)	False	True	False
+56101	PCDHGB5	PCDHGB5 (56101)	False	True	False
 56100	PCDHGB6	PCDHGB6 (56100)	False	True	False
 56099	PCDHGB7	PCDHGB7 (56099)	False	True	False
 5098	PCDHGC3	PCDHGC3 (5098)	False	True	False
@@ -11027,6 +11333,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 22990	PCNX1	PCNX1 (22990)	False	True	False
 80003	PCNX2	PCNX2 (80003)	False	True	False
 399909	PCNX3	PCNX3 (399909)	True	True	True
+64430	PCNX4	PCNX4 (64430)	False	True	False
 5118	PCOLCE	PCOLCE (5118)	False	True	False
 26577	PCOLCE2	PCOLCE2 (26577)	False	True	False
 126006	PCP2	PCP2 (126006)	False	True	False
@@ -11037,6 +11344,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5126	PCSK2	PCSK2 (5126)	False	True	False
 54760	PCSK4	PCSK4 (54760)	False	True	False
 5125	PCSK5	PCSK5 (5125)	False	True	False
+5046	PCSK6	PCSK6 (5046)	False	True	False
 9159	PCSK7	PCSK7 (9159)	False	True	False
 255738	PCSK9	PCSK9 (255738)	False	True	False
 58488	PCTP	PCTP (58488)	False	True	False
@@ -11148,6 +11456,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 375033	PEAR1	PEAR1 (375033)	False	True	False
 5037	PEBP1	PEBP1 (5037)	False	True	False
 157310	PEBP4	PEBP4 (157310)	False	True	False
+5175	PECAM1	PECAM1 (5175)	False	True	False
 55825	PECR	PECR (55825)	False	True	False
 387521	PEDS1	PEDS1 (387521)	True	True	True
 553115	PEF1	PEF1 (553115)	False	True	False
@@ -11164,6 +11473,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5187	PER1	PER1 (5187)	False	True	False
 8864	PER2	PER2 (8864)	False	True	False
 8863	PER3	PER3 (8863)	False	True	False
+105371045	PERCC1	PERCC1 (105371045)	False	True	False
+84808	PERM1	PERM1 (84808)	False	True	False
 64065	PERP	PERP (64065)	False	True	False
 23481	PES1	PES1 (23481)	True	True	True
 100131801	PET100	PET100 (100131801)	False	True	False
@@ -11204,6 +11515,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5217	PFN2	PFN2 (5217)	False	True	False
 345456	PFN3	PFN3 (345456)	False	True	False
 375189	PFN4	PFN4 (375189)	False	True	False
+5223	PGAM1	PGAM1 (5223)	True	True	True
 5224	PGAM2	PGAM2 (5224)	False	True	False
 441531	PGAM4	PGAM4 (441531)	False	True	False
 192111	PGAM5	PGAM5 (192111)	False	True	False
@@ -11215,6 +11527,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84547	PGBD1	PGBD1 (84547)	False	True	False
 267002	PGBD2	PGBD2 (267002)	True	True	True
 161779	PGBD4	PGBD4 (161779)	False	True	False
+79605	PGBD5	PGBD5 (79605)	False	True	False
 5225	PGC	PGC (5225)	False	True	False
 5226	PGD	PGD (5226)	True	True	True
 5228	PGF	PGF (5228)	False	True	False
@@ -11239,6 +11552,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10857	PGRMC1	PGRMC1 (10857)	False	True	False
 10424	PGRMC2	PGRMC2 (10424)	False	True	False
 9489	PGS1	PGS1 (9489)	True	True	True
+221692	PHACTR1	PHACTR1 (221692)	False	True	False
 9749	PHACTR2	PHACTR2 (9749)	False	True	False
 116154	PHACTR3	PHACTR3 (116154)	False	True	False
 65979	PHACTR4	PHACTR4 (65979)	False	True	False
@@ -11320,10 +11634,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 138162	PIERCE1	PIERCE1 (138162)	False	True	False
 145788	PIERCE2	PIERCE2 (145788)	False	True	False
 9780	PIEZO1	PIEZO1 (9780)	False	True	False
+63895	PIEZO2	PIEZO2 (63895)	False	True	False
 80119	PIF1	PIF1 (80119)	False	True	False
 128344	PIFO	PIFO (128344)	False	True	False
 5277	PIGA	PIGA (5277)	False	True	False
 9488	PIGB	PIGB (9488)	False	True	False
+101928527	PIGBOS1	PIGBOS1 (101928527)	False	True	False
 5279	PIGC	PIGC (5279)	False	True	False
 5281	PIGF	PIGF (5281)	False	True	False
 54872	PIGG	PIGG (54872)	False	True	False
@@ -11361,6 +11677,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8503	PIK3R3	PIK3R3 (8503)	False	True	False
 30849	PIK3R4	PIK3R4 (30849)	True	True	True
 23533	PIK3R5	PIK3R5 (23533)	False	True	False
+146850	PIK3R6	PIK3R6 (146850)	False	True	False
 200576	PIKFYVE	PIKFYVE (200576)	False	True	False
 29992	PILRA	PILRA (29992)	False	True	False
 29990	PILRB	PILRB (29990)	False	True	False
@@ -11408,6 +11725,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5310	PKD1	PKD1 (5310)	False	True	False
 168507	PKD1L1	PKD1L1 (168507)	False	True	False
 114780	PKD1L2	PKD1L2 (114780)	False	True	False
+342372	PKD1L3	PKD1L3 (342372)	False	True	False
 5311	PKD2	PKD2 (5311)	False	True	False
 9033	PKD2L1	PKD2L1 (9033)	False	True	False
 27039	PKD2L2	PKD2L2 (27039)	False	True	False
@@ -11436,6 +11754,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23659	PLA2G15	PLA2G15 (23659)	False	True	False
 5319	PLA2G1B	PLA2G1B (5319)	False	True	False
 5320	PLA2G2A	PLA2G2A (5320)	False	True	False
+391013	PLA2G2C	PLA2G2C (391013)	False	True	False
 26279	PLA2G2D	PLA2G2D (26279)	False	True	False
 30814	PLA2G2E	PLA2G2E (30814)	False	True	False
 64600	PLA2G2F	PLA2G2F (64600)	False	True	False
@@ -11474,6 +11793,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5331	PLCB3	PLCB3 (5331)	False	True	False
 5332	PLCB4	PLCB4 (5332)	False	True	False
 5333	PLCD1	PLCD1 (5333)	False	True	False
+113026	PLCD3	PLCD3 (113026)	False	True	False
 84812	PLCD4	PLCD4 (84812)	False	True	False
 51196	PLCE1	PLCE1 (51196)	False	True	False
 5335	PLCG1	PLCG1 (5335)	False	True	False
@@ -11482,6 +11802,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9651	PLCH2	PLCH2 (9651)	False	True	False
 5334	PLCL1	PLCL1 (5334)	False	True	False
 23228	PLCL2	PLCL2 (23228)	False	True	False
+55344	PLCXD1	PLCXD1 (55344)	False	True	False
 257068	PLCXD2	PLCXD2 (257068)	False	True	False
 345557	PLCXD3	PLCXD3 (345557)	False	True	False
 89869	PLCZ1	PLCZ1 (89869)	False	True	False
@@ -11495,6 +11816,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5341	PLEK	PLEK (5341)	False	True	False
 26499	PLEK2	PLEK2 (26499)	False	True	False
 59338	PLEKHA1	PLEKHA1 (59338)	True	True	True
+59339	PLEKHA2	PLEKHA2 (59339)	False	True	False
 65977	PLEKHA3	PLEKHA3 (65977)	False	True	False
 57664	PLEKHA4	PLEKHA4 (57664)	False	True	False
 54477	PLEKHA5	PLEKHA5 (54477)	False	True	False
@@ -11525,6 +11847,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51177	PLEKHO1	PLEKHO1 (51177)	False	True	False
 80301	PLEKHO2	PLEKHO2 (80301)	False	True	False
 79949	PLEKHS1	PLEKHS1 (79949)	False	True	False
+349633	PLET1	PLET1 (349633)	False	True	False
 5340	PLG	PLG (5340)	False	True	False
 55848	PLGRKT	PLGRKT (55848)	False	True	False
 5346	PLIN1	PLIN1 (5346)	False	True	False
@@ -11609,6 +11932,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 29944	PNMA3	PNMA3 (29944)	False	True	False
 114824	PNMA5	PNMA5 (114824)	False	True	False
 84968	PNMA6A	PNMA6A (84968)	False	True	False
+649238	PNMA6E	PNMA6E (649238)	False	True	False
+105373377	PNMA6F	PNMA6F (105373377)	False	True	False
 55228	PNMA8A	PNMA8A (55228)	False	True	False
 57469	PNMA8B	PNMA8B (57469)	False	True	False
 5409	PNMT	PNMT (5409)	False	True	False
@@ -11650,6 +11975,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5425	POLD2	POLD2 (5425)	False	True	False
 10714	POLD3	POLD3 (10714)	True	True	True
 57804	POLD4	POLD4 (57804)	False	True	False
+26073	POLDIP2	POLDIP2 (26073)	False	True	False
 84271	POLDIP3	POLDIP3 (84271)	False	True	False
 5426	POLE	POLE (5426)	True	True	True
 5427	POLE2	POLE2 (5427)	True	True	True
@@ -11827,6 +12153,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 129285	PPP1R21	PPP1R21 (129285)	False	True	False
 9858	PPP1R26	PPP1R26 (9858)	False	True	False
 116729	PPP1R27	PPP1R27 (116729)	False	True	False
+153743	PPP1R2B	PPP1R2B (153743)	False	True	False
+80316	PPP1R2C	PPP1R2C (80316)	False	True	False
 220004	PPP1R32	PPP1R32 (220004)	False	True	False
 221908	PPP1R35	PPP1R35 (221908)	True	True	True
 145376	PPP1R36	PPP1R36 (145376)	False	True	False
@@ -11842,6 +12170,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5510	PPP1R7	PPP1R7 (5510)	True	True	True
 5511	PPP1R8	PPP1R8 (5511)	False	True	False
 55607	PPP1R9A	PPP1R9A (55607)	False	True	False
+84687	PPP1R9B	PPP1R9B (84687)	False	True	False
 5515	PPP2CA	PPP2CA (5515)	True	True	True
 5516	PPP2CB	PPP2CB (5516)	False	True	False
 5518	PPP2R1A	PPP2R1A (5518)	True	True	True
@@ -11849,7 +12178,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5520	PPP2R2A	PPP2R2A (5520)	True	True	True
 5521	PPP2R2B	PPP2R2B (5521)	False	True	False
 5522	PPP2R2C	PPP2R2C (5522)	False	True	False
+55844	PPP2R2D	PPP2R2D (55844)	False	True	False
 5523	PPP2R3A	PPP2R3A (5523)	False	True	False
+28227	PPP2R3B	PPP2R3B (28227)	False	True	False
 55012	PPP2R3C	PPP2R3C (55012)	True	True	True
 5525	PPP2R5A	PPP2R5A (5525)	False	True	False
 5526	PPP2R5B	PPP2R5B (5526)	False	True	False
@@ -11866,6 +12197,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 151987	PPP4R2	PPP4R2 (151987)	True	True	True
 55671	PPP4R3A	PPP4R3A (55671)	True	True	True
 57223	PPP4R3B	PPP4R3B (57223)	False	True	False
+139420	PPP4R3C	PPP4R3C (139420)	False	True	False
 57718	PPP4R4	PPP4R4 (57718)	False	True	False
 5536	PPP5C	PPP5C (5536)	False	True	False
 5537	PPP6C	PPP6C (5537)	True	True	True
@@ -11880,6 +12212,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5539	PPY	PPY (5539)	False	True	False
 10084	PQBP1	PQBP1 (10084)	False	True	False
 84366	PRAC1	PRAC1 (84366)	False	True	False
+360205	PRAC2	PRAC2 (360205)	False	True	False
 84279	PRADC1	PRADC1 (84279)	False	True	False
 11230	PRAF2	PRAF2 (11230)	False	True	False
 157285	PRAG1	PRAG1 (157285)	False	True	False
@@ -11889,6 +12222,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 440560	PRAMEF11	PRAMEF11 (440560)	False	True	False
 390999	PRAMEF12	PRAMEF12 (390999)	False	True	False
 729528	PRAMEF14	PRAMEF14 (729528)	False	True	False
+391004	PRAMEF17	PRAMEF17 (391004)	False	True	False
 391003	PRAMEF18	PRAMEF18 (391003)	False	True	False
 645414	PRAMEF19	PRAMEF19 (645414)	False	True	False
 65122	PRAMEF2	PRAMEF2 (65122)	False	True	False
@@ -11896,6 +12230,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 400735	PRAMEF4	PRAMEF4 (400735)	False	True	False
 118471	PRAP1	PRAP1 (118471)	False	True	False
 653247	PRB2	PRB2 (653247)	False	True	False
+5544	PRB3	PRB3 (5544)	False	True	False
 5545	PRB4	PRB4 (5545)	False	True	False
 9055	PRC1	PRC1 (9055)	True	True	True
 5546	PRCC	PRCC (5546)	False	True	False
@@ -11942,6 +12277,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4007	PRICKLE3	PRICKLE3 (4007)	False	True	False
 29964	PRICKLE4	PRICKLE4 (29964)	False	True	False
 5557	PRIM1	PRIM1 (5557)	True	True	True
+5558	PRIM2	PRIM2 (5558)	False	True	False
 145270	PRIMA1	PRIMA1 (145270)	False	True	False
 201973	PRIMPOL	PRIMPOL (201973)	False	True	False
 5562	PRKAA1	PRKAA1 (5562)	True	True	True
@@ -11971,6 +12307,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5587	PRKD1	PRKD1 (5587)	False	True	False
 25865	PRKD2	PRKD2 (25865)	False	True	False
 23683	PRKD3	PRKD3 (23683)	False	True	False
+5591	PRKDC	PRKDC (5591)	False	True	False
 5592	PRKG1	PRKG1 (5592)	False	True	False
 5593	PRKG2	PRKG2 (5593)	False	True	False
 5071	PRKN	PRKN (5071)	False	True	False
@@ -11983,6 +12320,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5618	PRLR	PRLR (5618)	False	True	False
 5619	PRM1	PRM1 (5619)	False	True	False
 5620	PRM2	PRM2 (5620)	False	True	False
+58531	PRM3	PRM3 (58531)	False	True	False
 3276	PRMT1	PRMT1 (3276)	True	True	True
 3275	PRMT2	PRMT2 (3275)	False	True	False
 10196	PRMT3	PRMT3 (10196)	False	True	False
@@ -12010,6 +12348,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5627	PROS1	PROS1 (5627)	False	True	False
 80209	PROSER1	PROSER1 (80209)	False	True	False
 254427	PROSER2	PROSER2 (254427)	False	True	False
+148137	PROSER3	PROSER3 (148137)	False	True	False
 5629	PROX1	PROX1 (5629)	False	True	False
 283571	PROX2	PROX2 (283571)	False	True	False
 8858	PROZ	PROZ (8858)	False	True	False
@@ -12043,6 +12382,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51334	PRR16	PRR16 (51334)	False	True	False
 285800	PRR18	PRR18 (285800)	False	True	False
 284338	PRR19	PRR19 (284338)	False	True	False
+100419008	PRR20G	PRR20G (100419008)	False	True	False
 163154	PRR22	PRR22 (163154)	False	True	False
 729627	PRR23A	PRR23A (729627)	False	True	False
 389151	PRR23B	PRR23B (389151)	False	True	False
@@ -12053,6 +12393,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 339779	PRR30	PRR30 (339779)	False	True	False
 100130613	PRR32	PRR32 (100130613)	False	True	False
 146325	PRR35	PRR35 (146325)	False	True	False
+80164	PRR36	PRR36 (80164)	False	True	False
 11272	PRR4	PRR4 (11272)	False	True	False
 55615	PRR5	PRR5 (55615)	False	True	False
 79899	PRR5L	PRR5L (79899)	False	True	False
@@ -12067,6 +12408,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79057	PRRG3	PRRG3 (79057)	False	True	False
 79056	PRRG4	PRRG4 (79056)	False	True	False
 80863	PRRT1	PRRT1 (80863)	False	True	False
+642515	PRRT1B	PRRT1B (642515)	False	True	False
 112476	PRRT2	PRRT2 (112476)	False	True	False
 285368	PRRT3	PRRT3 (285368)	False	True	False
 401399	PRRT4	PRRT4 (401399)	False	True	False
@@ -12075,6 +12417,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5644	PRSS1	PRSS1 (5644)	False	True	False
 8492	PRSS12	PRSS12 (8492)	False	True	False
 10279	PRSS16	PRSS16 (10279)	False	True	False
+5645	PRSS2	PRSS2 (5645)	False	True	False
 10942	PRSS21	PRSS21 (10942)	False	True	False
 64063	PRSS22	PRSS22 (64063)	False	True	False
 11098	PRSS23	PRSS23 (11098)	False	True	False
@@ -12085,11 +12428,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 146547	PRSS36	PRSS36 (146547)	False	True	False
 136242	PRSS37	PRSS37 (136242)	False	True	False
 339501	PRSS38	PRSS38 (339501)	False	True	False
+360226	PRSS41	PRSS41 (360226)	False	True	False
 345062	PRSS48	PRSS48 (345062)	False	True	False
 29122	PRSS50	PRSS50 (29122)	False	True	False
 339105	PRSS53	PRSS53 (339105)	False	True	False
 221191	PRSS54	PRSS54 (221191)	False	True	False
 203074	PRSS55	PRSS55 (203074)	False	True	False
+646960	PRSS56	PRSS56 (646960)	False	True	False
 400668	PRSS57	PRSS57 (400668)	False	True	False
 136541	PRSS58	PRSS58 (136541)	False	True	False
 5652	PRSS8	PRSS8 (5652)	False	True	False
@@ -12273,6 +12618,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5798	PTPRN	PTPRN (5798)	False	True	False
 5799	PTPRN2	PTPRN2 (5799)	False	True	False
 5800	PTPRO	PTPRO (5800)	False	True	False
+374462	PTPRQ	PTPRQ (374462)	False	True	False
 5801	PTPRR	PTPRR (5801)	False	True	False
 5802	PTPRS	PTPRS (5802)	False	True	False
 11122	PTPRT	PTPRT (11122)	False	True	False
@@ -12284,6 +12630,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5805	PTS	PTS (5805)	False	True	False
 9232	PTTG1	PTTG1 (9232)	False	True	False
 754	PTTG1IP	PTTG1IP (754)	False	True	False
+102723899	PTTG1IP2	PTTG1IP2 (102723899)	False	True	False
 10744	PTTG2	PTTG2 (10744)	False	True	False
 5806	PTX3	PTX3 (5806)	False	True	False
 390667	PTX4	PTX4 (390667)	False	True	False
@@ -12302,6 +12649,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 83448	PUS7L	PUS7L (83448)	False	True	False
 126789	PUSL1	PUSL1 (126789)	False	True	False
 5816	PVALB	PVALB (5816)	False	True	False
+388428	PVALEF	PVALEF (388428)	False	True	False
 5817	PVR	PVR (5817)	False	True	False
 79037	PVRIG	PVRIG (79037)	False	True	False
 11137	PWP1	PWP1 (11137)	True	True	True
@@ -12324,6 +12672,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 29920	PYCR2	PYCR2 (29920)	False	True	False
 65263	PYCR3	PYCR3 (65263)	False	True	False
 260434	PYDC1	PYDC1 (260434)	False	True	False
+107181291	PYDC5	PYDC5 (107181291)	False	True	False
 5834	PYGB	PYGB (5834)	False	True	False
 5836	PYGL	PYGL (5836)	False	True	False
 5837	PYGM	PYGM (5837)	False	True	False
@@ -12415,6 +12764,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 347517	RAB41	RAB41 (347517)	False	True	False
 115273	RAB42	RAB42 (115273)	False	True	False
 339122	RAB43	RAB43 (339122)	False	True	False
+401258	RAB44	RAB44 (401258)	False	True	False
 5867	RAB4A	RAB4A (5867)	False	True	False
 53916	RAB4B	RAB4B (53916)	False	True	False
 5868	RAB5A	RAB5A (5868)	False	True	False
@@ -12424,6 +12774,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5870	RAB6A	RAB6A (5870)	True	True	True
 51560	RAB6B	RAB6B (51560)	False	True	False
 7879	RAB7A	RAB7A (7879)	True	True	True
+338382	RAB7B	RAB7B (338382)	False	True	False
 4218	RAB8A	RAB8A (4218)	False	True	False
 51762	RAB8B	RAB8B (51762)	False	True	False
 9367	RAB9A	RAB9A (9367)	False	True	False
@@ -12555,6 +12906,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 65997	RASL11B	RASL11B (65997)	False	True	False
 51285	RASL12	RASL12 (51285)	False	True	False
 11186	RASSF1	RASSF1 (11186)	False	True	False
+644943	RASSF10	RASSF10 (644943)	False	True	False
 9770	RASSF2	RASSF2 (9770)	False	True	False
 283349	RASSF3	RASSF3 (283349)	False	True	False
 83937	RASSF4	RASSF4 (83937)	False	True	False
@@ -12681,7 +13033,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9985	REC8	REC8 (9985)	False	True	False
 8434	RECK	RECK (8434)	False	True	False
 5965	RECQL	RECQL (5965)	False	True	False
+9401	RECQL4	RECQL4 (9401)	False	True	False
 9400	RECQL5	RECQL5 (9400)	False	True	False
+345051	REELD1	REELD1 (345051)	False	True	False
 65055	REEP1	REEP1 (65055)	False	True	False
 51308	REEP2	REEP2 (51308)	False	True	False
 221035	REEP3	REEP3 (221035)	False	True	False
@@ -12754,6 +13108,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5992	RFX4	RFX4 (5992)	False	True	False
 5993	RFX5	RFX5 (5993)	False	True	False
 222546	RFX6	RFX6 (222546)	False	True	False
+64864	RFX7	RFX7 (64864)	False	True	False
 731220	RFX8	RFX8 (731220)	False	True	False
 8625	RFXANK	RFXANK (8625)	False	True	False
 5994	RFXAP	RFXAP (5994)	False	True	False
@@ -12801,6 +13156,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9028	RHBDL1	RHBDL1 (9028)	False	True	False
 54933	RHBDL2	RHBDL2 (54933)	False	True	False
 162494	RHBDL3	RHBDL3 (162494)	False	True	False
+57127	RHBG	RHBG (57127)	False	True	False
 6006	RHCE	RHCE (6006)	False	True	False
 51458	RHCG	RHCG (51458)	False	True	False
 6007	RHD	RHD (6007)	False	True	False
@@ -12831,6 +13187,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 114822	RHPN1	RHPN1 (114822)	True	True	True
 85415	RHPN2	RHPN2 (85415)	False	True	False
 158787	RIBC1	RIBC1 (158787)	False	True	False
+26150	RIBC2	RIBC2 (26150)	False	True	False
 57589	RIC1	RIC1 (57589)	True	True	True
 79608	RIC3	RIC3 (79608)	False	True	False
 60626	RIC8A	RIC8A (60626)	True	True	True
@@ -12861,6 +13218,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 83732	RIOK1	RIOK1 (83732)	True	True	True
 55781	RIOK2	RIOK2 (55781)	False	True	False
 8780	RIOK3	RIOK3 (8780)	False	True	False
+79697	RIOX1	RIOX1 (79697)	False	True	False
 84864	RIOX2	RIOX2 (84864)	False	True	False
 8737	RIPK1	RIPK1 (8737)	False	True	False
 8767	RIPK2	RIPK2 (8767)	False	True	False
@@ -12959,6 +13317,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 138065	RNF183	RNF183 (138065)	False	True	False
 91445	RNF185	RNF185 (91445)	False	True	False
 54546	RNF186	RNF186 (54546)	False	True	False
+149603	RNF187	RNF187 (149603)	False	True	False
 25897	RNF19A	RNF19A (25897)	False	True	False
 127544	RNF19B	RNF19B (127544)	False	True	False
 6045	RNF2	RNF2 (6045)	False	True	False
@@ -12976,6 +13335,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 643904	RNF222	RNF222 (643904)	False	True	False
 401934	RNF223	RNF223 (401934)	False	True	False
 643596	RNF224	RNF224 (643596)	False	True	False
+646862	RNF225	RNF225 (646862)	False	True	False
+284023	RNF227	RNF227 (284023)	False	True	False
 11237	RNF24	RNF24 (11237)	False	True	False
 64320	RNF25	RNF25 (64320)	True	True	True
 79102	RNF26	RNF26 (79102)	False	True	False
@@ -13072,6 +13433,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6156	RPL30	RPL30 (6156)	True	False	False
 6160	RPL31	RPL31 (6160)	True	False	False
 6161	RPL32	RPL32 (6161)	True	False	False
+6164	RPL34	RPL34 (6164)	False	False	False
 11224	RPL35	RPL35 (11224)	True	False	False
 6165	RPL35A	RPL35A (6165)	True	False	False
 25873	RPL36	RPL36 (25873)	True	False	False
@@ -13268,6 +13630,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6257	RXRB	RXRB (6257)	False	True	False
 6258	RXRG	RXRG (6258)	False	True	False
 10329	RXYLT1	RXYLT1 (10329)	False	True	False
+6259	RYK	RYK (6259)	False	True	False
 6261	RYR1	RYR1 (6261)	False	True	False
 6262	RYR2	RYR2 (6262)	False	True	False
 6263	RYR3	RYR3 (6263)	False	True	False
@@ -13284,6 +13647,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6276	S100A5	S100A5 (6276)	False	True	False
 6277	S100A6	S100A6 (6277)	False	True	False
 6278	S100A7	S100A7 (6278)	False	True	False
+338324	S100A7A	S100A7A (338324)	False	True	False
 6279	S100A8	S100A8 (6279)	False	True	False
 6280	S100A9	S100A9 (6280)	False	True	False
 6285	S100B	S100B (6285)	False	True	False
@@ -13296,6 +13660,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 1903	S1PR3	S1PR3 (1903)	False	True	False
 8698	S1PR4	S1PR4 (8698)	False	True	False
 53637	S1PR5	S1PR5 (53637)	False	True	False
+6289	SAA2	SAA2 (6289)	False	True	False
 6291	SAA4	SAA4 (6291)	False	True	False
 113174	SAAL1	SAAL1 (113174)	False	True	False
 29901	SAC3D1	SAC3D1 (29901)	False	True	False
@@ -13340,6 +13705,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51128	SAR1B	SAR1B (51128)	False	True	False
 51669	SARAF	SARAF (51669)	False	True	False
 1757	SARDH	SARDH (1757)	False	True	False
+23098	SARM1	SARM1 (23098)	False	True	False
 84324	SARNP	SARNP (84324)	True	True	True
 6301	SARS1	SARS1 (6301)	True	True	True
 54938	SARS2	SARS2 (54938)	True	True	True
@@ -13362,6 +13728,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 81846	SBF2	SBF2 (81846)	False	True	False
 388228	SBK1	SBK1 (388228)	False	True	False
 646643	SBK2	SBK2 (646643)	False	True	False
+100130827	SBK3	SBK3 (100130827)	False	True	False
 55206	SBNO1	SBNO1 (55206)	True	True	True
 22904	SBNO2	SBNO2 (22904)	True	True	True
 374897	SBSN	SBSN (374897)	False	True	False
@@ -13372,6 +13739,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57466	SCAF4	SCAF4 (57466)	False	True	False
 22828	SCAF8	SCAF8 (22828)	True	True	True
 286205	SCAI	SCAI (286205)	False	True	False
+9522	SCAMP1	SCAMP1 (9522)	False	True	False
 10066	SCAMP2	SCAMP2 (10066)	False	True	False
 10067	SCAMP3	SCAMP3 (10067)	False	True	False
 113178	SCAMP4	SCAMP4 (113178)	False	True	False
@@ -13480,6 +13848,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 195814	SDR16C5	SDR16C5 (195814)	False	True	False
 56948	SDR39U1	SDR39U1 (56948)	False	True	False
 93517	SDR42E1	SDR42E1 (93517)	False	True	False
+100288072	SDR42E2	SDR42E2 (100288072)	False	True	False
 121214	SDR9C7	SDR9C7 (121214)	False	True	False
 10993	SDS	SDS (10993)	False	True	False
 113675	SDSL	SDSL (113675)	False	True	False
@@ -13496,6 +13865,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9919	SEC16A	SEC16A (9919)	True	True	True
 89866	SEC16B	SEC16B (89866)	False	True	False
 26984	SEC22A	SEC22A (26984)	False	True	False
+9554	SEC22B	SEC22B (9554)	False	True	False
 9117	SEC22C	SEC22C (9117)	False	True	False
 10484	SEC23A	SEC23A (10484)	False	True	False
 10483	SEC23B	SEC23B (10483)	True	True	True
@@ -13521,6 +13891,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23231	SEL1L3	SEL1L3 (23231)	False	True	False
 6401	SELE	SELE (6401)	False	True	False
 8991	SELENBP1	SELENBP1 (8991)	False	True	False
+9403	SELENOF	SELENOF (9403)	False	True	False
 280636	SELENOH	SELENOH (280636)	False	True	False
 85465	SELENOI	SELENOI (85465)	True	True	True
 58515	SELENOK	SELENOK (58515)	False	True	False
@@ -13537,6 +13908,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6404	SELPLG	SELPLG (6404)	False	True	False
 7979	SEM1	SEM1 (7979)	True	True	True
 10371	SEMA3A	SEMA3A (10371)	False	True	False
+7869	SEMA3B	SEMA3B (7869)	False	True	False
 10512	SEMA3C	SEMA3C (10512)	False	True	False
 223117	SEMA3D	SEMA3D (223117)	False	True	False
 9723	SEMA3E	SEMA3E (9723)	False	True	False
@@ -13559,6 +13931,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6407	SEMG2	SEMG2 (6407)	False	True	False
 29843	SENP1	SENP1 (29843)	False	True	False
 59343	SENP2	SENP2 (59343)	False	True	False
+26168	SENP3	SENP3 (26168)	False	True	False
 205564	SENP5	SENP5 (205564)	False	True	False
 26054	SENP6	SENP6 (26054)	False	True	False
 57337	SENP7	SENP7 (57337)	False	True	False
@@ -13575,6 +13948,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5414	SEPTIN4	SEPTIN4 (5414)	False	True	False
 5413	SEPTIN5	SEPTIN5 (5413)	False	True	False
 23157	SEPTIN6	SEPTIN6 (23157)	False	True	False
+989	SEPTIN7	SEPTIN7 (989)	False	True	False
 23176	SEPTIN8	SEPTIN8 (23176)	False	True	False
 10801	SEPTIN9	SEPTIN9 (10801)	False	True	False
 84947	SERAC1	SERAC1 (84947)	False	True	False
@@ -13601,6 +13975,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 327657	SERPINA9	SERPINA9 (327657)	False	True	False
 1992	SERPINB1	SERPINB1 (1992)	False	True	False
 5273	SERPINB10	SERPINB10 (5273)	False	True	False
+89778	SERPINB11	SERPINB11 (89778)	False	True	False
 89777	SERPINB12	SERPINB12 (89777)	False	True	False
 5275	SERPINB13	SERPINB13 (5275)	False	True	False
 5055	SERPINB2	SERPINB2 (5055)	False	True	False
@@ -13627,6 +14002,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 29946	SERTAD3	SERTAD3 (29946)	False	True	False
 56256	SERTAD4	SERTAD4 (56256)	False	True	False
 400120	SERTM1	SERTM1 (400120)	False	True	False
+401613	SERTM2	SERTM2 (401613)	False	True	False
 27244	SESN1	SESN1 (27244)	False	True	False
 83667	SESN2	SESN2 (83667)	False	True	False
 143686	SESN3	SESN3 (143686)	False	True	False
@@ -13709,6 +14085,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6449	SGTA	SGTA (6449)	False	True	False
 54557	SGTB	SGTB (54557)	False	True	False
 25970	SH2B1	SH2B1 (25970)	False	True	False
+10603	SH2B2	SH2B2 (10603)	False	True	False
 10019	SH2B3	SH2B3 (10019)	False	True	False
 4068	SH2D1A	SH2D1A (4068)	False	True	False
 117157	SH2D1B	SH2D1B (117157)	False	True	False
@@ -13741,10 +14118,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 285590	SH3PXD2B	SH3PXD2B (285590)	False	True	False
 57630	SH3RF1	SH3RF1 (57630)	False	True	False
 153769	SH3RF2	SH3RF2 (153769)	False	True	False
+344558	SH3RF3	SH3RF3 (344558)	False	True	False
 54436	SH3TC1	SH3TC1 (54436)	False	True	False
 79628	SH3TC2	SH3TC2 (79628)	False	True	False
 26751	SH3YL1	SH3YL1 (26751)	False	True	False
 50944	SHANK1	SHANK1 (50944)	False	True	False
+22941	SHANK2	SHANK2 (22941)	False	True	False
 81858	SHARPIN	SHARPIN (81858)	False	True	False
 6461	SHB	SHB (6461)	False	True	False
 6462	SHBG	SHBG (6462)	False	True	False
@@ -13765,6 +14144,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51246	SHISA5	SHISA5 (51246)	False	True	False
 388336	SHISA6	SHISA6 (388336)	False	True	False
 729956	SHISA7	SHISA7 (729956)	False	True	False
+440829	SHISA8	SHISA8 (440829)	False	True	False
 729993	SHISA9	SHISA9 (729993)	False	True	False
 85352	SHISAL1	SHISAL1 (85352)	False	True	False
 348378	SHISAL2A	SHISAL2A (348378)	False	True	False
@@ -13772,10 +14152,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 92799	SHKBP1	SHKBP1 (92799)	False	True	False
 149840	SHLD1	SHLD1 (149840)	False	True	False
 54537	SHLD2	SHLD2 (54537)	False	True	False
+112441434	SHLD3	SHLD3 (112441434)	False	True	False
 6470	SHMT1	SHMT1 (6470)	False	True	False
 6472	SHMT2	SHMT2 (6472)	True	True	True
 158401	SHOC1	SHOC1 (158401)	False	True	False
 8036	SHOC2	SHOC2 (8036)	True	True	True
+6473	SHOX	SHOX (6473)	False	True	False
 6474	SHOX2	SHOX2 (6474)	False	True	False
 23729	SHPK	SHPK (23729)	False	True	False
 257218	SHPRH	SHPRH (257218)	False	True	False
@@ -13946,8 +14328,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 5002	SLC22A18	SLC22A18 (5002)	False	True	False
 6582	SLC22A2	SLC22A2 (6582)	False	True	False
 63027	SLC22A23	SLC22A23 (63027)	False	True	False
+283238	SLC22A24	SLC22A24 (283238)	False	True	False
 387601	SLC22A25	SLC22A25 (387601)	False	True	False
 6581	SLC22A3	SLC22A3 (6581)	False	True	False
+146429	SLC22A31	SLC22A31 (146429)	False	True	False
 6583	SLC22A4	SLC22A4 (6583)	False	True	False
 6584	SLC22A5	SLC22A5 (6584)	False	True	False
 9356	SLC22A6	SLC22A6 (9356)	False	True	False
@@ -14009,6 +14393,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 92014	SLC25A51	SLC25A51 (92014)	True	True	True
 147407	SLC25A52	SLC25A52 (147407)	False	True	False
 401612	SLC25A53	SLC25A53 (401612)	False	True	False
+293	SLC25A6	SLC25A6 (293)	False	True	False
 10861	SLC26A1	SLC26A1 (10861)	False	True	False
 284129	SLC26A11	SLC26A11 (284129)	False	True	False
 1836	SLC26A2	SLC26A2 (1836)	False	True	False
@@ -14085,11 +14470,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 222553	SLC35F1	SLC35F1 (222553)	False	True	False
 54733	SLC35F2	SLC35F2 (54733)	False	True	False
 148641	SLC35F3	SLC35F3 (148641)	False	True	False
+341880	SLC35F4	SLC35F4 (341880)	False	True	False
 80255	SLC35F5	SLC35F5 (80255)	False	True	False
 54978	SLC35F6	SLC35F6 (54978)	False	True	False
 159371	SLC35G1	SLC35G1 (159371)	False	True	False
 80723	SLC35G2	SLC35G2 (80723)	False	True	False
 146861	SLC35G3	SLC35G3 (146861)	False	True	False
+646000	SLC35G4	SLC35G4 (646000)	False	True	False
 83650	SLC35G5	SLC35G5 (83650)	False	True	False
 643664	SLC35G6	SLC35G6 (643664)	False	True	False
 206358	SLC36A1	SLC36A1 (206358)	False	True	False
@@ -14103,6 +14490,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 124565	SLC38A10	SLC38A10 (124565)	False	True	False
 151258	SLC38A11	SLC38A11 (151258)	False	True	False
 54407	SLC38A2	SLC38A2 (54407)	True	True	True
+10991	SLC38A3	SLC38A3 (10991)	False	True	False
 55089	SLC38A4	SLC38A4 (55089)	False	True	False
 92745	SLC38A5	SLC38A5 (92745)	False	True	False
 145389	SLC38A6	SLC38A6 (145389)	False	True	False
@@ -14141,6 +14529,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51151	SLC45A2	SLC45A2 (51151)	False	True	False
 85414	SLC45A3	SLC45A3 (85414)	False	True	False
 57210	SLC45A4	SLC45A4 (57210)	False	True	False
+113235	SLC46A1	SLC46A1 (113235)	False	True	False
 57864	SLC46A2	SLC46A2 (57864)	False	True	False
 283537	SLC46A3	SLC46A3 (283537)	False	True	False
 55244	SLC47A1	SLC47A1 (55244)	False	True	False
@@ -14277,6 +14666,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 4087	SMAD2	SMAD2 (4087)	False	True	False
 4088	SMAD3	SMAD3 (4088)	False	True	False
 4089	SMAD4	SMAD4 (4089)	True	True	True
+4090	SMAD5	SMAD5 (4090)	False	True	False
 4091	SMAD6	SMAD6 (4091)	False	True	False
 4092	SMAD7	SMAD7 (4092)	True	True	True
 4093	SMAD9	SMAD9 (4093)	False	True	False
@@ -14319,6 +14709,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56006	SMG9	SMG9 (56006)	False	True	False
 388588	SMIM1	SMIM1 (388588)	False	True	False
 644538	SMIM10	SMIM10 (644538)	False	True	False
+100129361	SMIM10L1	SMIM10L1 (100129361)	False	True	False
+644596	SMIM10L2B	SMIM10L2B (644596)	False	True	False
 54065	SMIM11	SMIM11 (54065)	False	True	False
 113444	SMIM12	SMIM12 (113444)	False	True	False
 221710	SMIM13	SMIM13 (221710)	False	True	False
@@ -14331,9 +14723,20 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 389203	SMIM20	SMIM20 (389203)	False	True	False
 284274	SMIM21	SMIM21 (284274)	False	True	False
 440335	SMIM22	SMIM22 (440335)	False	True	False
+644994	SMIM23	SMIM23 (644994)	False	True	False
 284422	SMIM24	SMIM24 (284422)	False	True	False
+388789	SMIM26	SMIM26 (388789)	False	True	False
+100129250	SMIM27	SMIM27 (100129250)	False	True	False
+110806279	SMIM28	SMIM28 (110806279)	False	True	False
 221491	SMIM29	SMIM29 (221491)	False	True	False
 85027	SMIM3	SMIM3 (85027)	False	True	False
+100505989	SMIM31	SMIM31 (100505989)	False	True	False
+389332	SMIM32	SMIM32 (389332)	False	True	False
+111064649	SMIM33	SMIM33 (111064649)	False	True	False
+388820	SMIM34	SMIM34 (388820)	False	True	False
+107984345	SMIM38	SMIM38 (107984345)	False	True	False
+113523636	SMIM40	SMIM40 (113523636)	False	True	False
+113523638	SMIM41	SMIM41 (113523638)	False	True	False
 643008	SMIM5	SMIM5 (643008)	False	True	False
 100130933	SMIM6	SMIM6 (100130933)	False	True	False
 79086	SMIM7	SMIM7 (79086)	False	True	False
@@ -14357,6 +14760,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10879	SMR3B	SMR3B (10879)	False	True	False
 6611	SMS	SMS (6611)	False	True	False
 6525	SMTN	SMTN (6525)	False	True	False
+219537	SMTNL1	SMTNL1 (219537)	False	True	False
 342527	SMTNL2	SMTNL2 (342527)	False	True	False
 55234	SMU1	SMU1 (55234)	True	True	True
 23583	SMUG1	SMUG1 (23583)	False	True	False
@@ -14519,12 +14923,15 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 221833	SP8	SP8 (221833)	False	True	False
 100131390	SP9	SP9 (100131390)	False	True	False
 53340	SPA17	SPA17 (53340)	False	True	False
+158376	SPAAR	SPAAR (158376)	False	True	False
 81833	SPACA1	SPACA1 (81833)	False	True	False
 124912	SPACA3	SPACA3 (124912)	False	True	False
 171169	SPACA4	SPACA4 (171169)	False	True	False
+147650	SPACA6	SPACA6 (147650)	False	True	False
 122258	SPACA7	SPACA7 (122258)	False	True	False
 11092	SPACA9	SPACA9 (11092)	False	True	False
 402573	SPACDR	SPACDR (402573)	False	True	False
+112577516	SPADH	SPADH (112577516)	False	True	False
 6674	SPAG1	SPAG1 (6674)	False	True	False
 79582	SPAG16	SPAG16 (79582)	False	True	False
 200162	SPAG17	SPAG17 (200162)	False	True	False
@@ -14545,6 +14952,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8404	SPARCL1	SPARCL1 (8404)	False	True	False
 23111	SPART	SPART (23111)	False	True	False
 6683	SPAST	SPAST (6683)	False	True	False
+100505741	SPATA1	SPATA1 (100505741)	False	True	False
 353324	SPATA12	SPATA12 (353324)	False	True	False
 221178	SPATA13	SPATA13 (221178)	False	True	False
 83893	SPATA16	SPATA16 (83893)	False	True	False
@@ -14563,6 +14971,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 727830	SPATA31A3	SPATA31A3 (727830)	False	True	False
 389730	SPATA31A6	SPATA31A6 (389730)	False	True	False
 26165	SPATA31A7	SPATA31A7 (26165)	True	True	True
+645961	SPATA31C2	SPATA31C2 (645961)	False	True	False
 389763	SPATA31D1	SPATA31D1 (389763)	False	True	False
 286234	SPATA31E1	SPATA31E1 (286234)	False	True	False
 124783	SPATA32	SPATA32 (124783)	False	True	False
@@ -14591,6 +15000,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54908	SPDL1	SPDL1 (54908)	False	True	False
 245711	SPDYA	SPDYA (245711)	False	True	False
 285955	SPDYE1	SPDYE1 (285955)	True	True	True
+441272	SPDYE3	SPDYE3 (441272)	False	True	False
 388333	SPDYE4	SPDYE4 (388333)	False	True	False
 92521	SPECC1	SPECC1 (92521)	False	True	False
 23384	SPECC1L	SPECC1L (23384)	True	True	True
@@ -14599,6 +15009,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10290	SPEG	SPEG (10290)	False	True	False
 374768	SPEM1	SPEM1 (374768)	False	True	False
 201243	SPEM2	SPEM2 (201243)	False	True	False
+107983988	SPEM3	SPEM3 (107983988)	False	True	False
 23013	SPEN	SPEN (23013)	False	True	False
 246777	SPESP1	SPESP1 (246777)	False	True	False
 80208	SPG11	SPG11 (80208)	False	True	False
@@ -14641,12 +15052,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6695	SPOCK1	SPOCK1 (6695)	False	True	False
 9806	SPOCK2	SPOCK2 (9806)	False	True	False
 50859	SPOCK3	SPOCK3 (50859)	False	True	False
+10418	SPON1	SPON1 (10418)	False	True	False
 8405	SPOP	SPOP (8405)	False	True	False
 339745	SPOPL	SPOPL (339745)	False	True	False
 51490	SPOUT1	SPOUT1 (51490)	True	True	True
 6696	SPP1	SPP1 (6696)	False	True	False
 6694	SPP2	SPP2 (6694)	False	True	False
 84888	SPPL2A	SPPL2A (84888)	False	True	False
+56928	SPPL2B	SPPL2B (56928)	False	True	False
 162540	SPPL2C	SPPL2C (162540)	False	True	False
 121665	SPPL3	SPPL3 (121665)	True	True	True
 6697	SPR	SPR (6697)	False	True	False
@@ -14698,6 +15111,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10847	SRCAP	SRCAP (10847)	True	True	True
 80725	SRCIN1	SRCIN1 (80725)	False	True	False
 6715	SRD5A1	SRD5A1 (6715)	False	True	False
+6716	SRD5A2	SRD5A2 (6716)	False	True	False
 79644	SRD5A3	SRD5A3 (79644)	False	True	False
 6720	SREBF1	SREBF1 (6720)	True	True	True
 6721	SREBF2	SREBF2 (6721)	True	True	True
@@ -14706,6 +15120,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6722	SRF	SRF (6722)	True	True	True
 153443	SRFBP1	SRFBP1 (153443)	True	True	True
 57522	SRGAP1	SRGAP1 (57522)	False	True	False
+23380	SRGAP2	SRGAP2 (23380)	False	True	False
 9901	SRGAP3	SRGAP3 (9901)	False	True	False
 5552	SRGN	SRGN (5552)	False	True	False
 6717	SRI	SRI (6717)	False	True	False
@@ -14742,6 +15157,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6430	SRSF5	SRSF5 (6430)	False	True	False
 6431	SRSF6	SRSF6 (6431)	False	True	False
 6432	SRSF7	SRSF7 (6432)	True	True	True
+10929	SRSF8	SRSF8 (10929)	False	True	False
 8683	SRSF9	SRSF9 (8683)	False	True	False
 140809	SRXN1	SRXN1 (140809)	False	True	False
 6736	SRY	SRY (6736)	False	True	False
@@ -14907,6 +15323,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 161497	STRC	STRC (161497)	False	True	False
 85369	STRIP1	STRIP1 (85369)	True	True	True
 57464	STRIP2	STRIP2 (57464)	False	True	False
+100507537	STRIT1	STRIT1 (100507537)	False	True	False
 6801	STRN	STRN (6801)	False	True	False
 29966	STRN3	STRN3 (29966)	False	True	False
 29888	STRN4	STRN4 (29888)	False	True	False
@@ -14980,6 +15397,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6821	SUOX	SUOX (6821)	False	True	False
 11198	SUPT16H	SUPT16H (11198)	True	True	True
 55578	SUPT20H	SUPT20H (55578)	True	True	True
+100130302	SUPT20HL1	SUPT20HL1 (100130302)	False	True	False
+170067	SUPT20HL2	SUPT20HL2 (170067)	False	True	False
 8464	SUPT3H	SUPT3H (8464)	True	True	True
 6827	SUPT4H1	SUPT4H1 (6827)	True	True	True
 6829	SUPT5H	SUPT5H (6829)	True	True	True
@@ -15006,6 +15425,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 79987	SVEP1	SVEP1 (79987)	False	True	False
 6840	SVIL	SVIL (6840)	False	True	False
 258010	SVIP	SVIP (258010)	False	True	False
+55530	SVOP	SVOP (55530)	False	True	False
 136306	SVOPL	SVOPL (136306)	False	True	False
 23075	SWAP70	SWAP70 (23075)	False	True	False
 375757	SWI5	SWI5 (375757)	False	True	False
@@ -15028,6 +15448,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6850	SYK	SYK (6850)	False	True	False
 8189	SYMPK	SYMPK (8189)	False	True	False
 6853	SYN1	SYN1 (6853)	False	True	False
+6854	SYN2	SYN2 (6854)	False	True	False
 8224	SYN3	SYN3 (8224)	False	True	False
 81493	SYNC	SYNC (81493)	False	True	False
 10492	SYNCRIP	SYNCRIP (10492)	False	True	False
@@ -15045,6 +15466,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8867	SYNJ1	SYNJ1 (8867)	False	True	False
 8871	SYNJ2	SYNJ2 (8871)	False	True	False
 55333	SYNJ2BP	SYNJ2BP (55333)	False	True	False
+23336	SYNM	SYNM (23336)	False	True	False
 11346	SYNPO	SYNPO (11346)	False	True	False
 171024	SYNPO2	SYNPO2 (171024)	False	True	False
 79933	SYNPO2L	SYNPO2L (79933)	False	True	False
@@ -15083,6 +15505,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9038	TAAR5	TAAR5 (9038)	False	True	False
 319100	TAAR6	TAAR6 (319100)	False	True	False
 83551	TAAR8	TAAR8 (83551)	False	True	False
+134860	TAAR9	TAAR9 (134860)	False	True	False
 10454	TAB1	TAB1 (10454)	False	True	False
 23118	TAB2	TAB2 (23118)	True	True	True
 257397	TAB3	TAB3 (257397)	False	True	False
@@ -15268,6 +15691,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 6862	TBXT	TBXT (6862)	False	True	False
 123036	TC2N	TC2N (123036)	False	True	False
 9747	TCAF1	TCAF1 (9747)	False	True	False
+285966	TCAF2	TCAF2 (285966)	False	True	False
 285343	TCAIM	TCAIM (285343)	False	True	False
 8557	TCAP	TCAP (8557)	False	True	False
 6917	TCEA1	TCEA1 (6917)	False	True	False
@@ -15327,6 +15751,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 56165	TDRD1	TDRD1 (56165)	False	True	False
 126668	TDRD10	TDRD10 (126668)	False	True	False
 91646	TDRD12	TDRD12 (91646)	False	True	False
+100129278	TDRD15	TDRD15 (100129278)	False	True	False
 81550	TDRD3	TDRD3 (81550)	False	True	False
 163589	TDRD5	TDRD5 (163589)	False	True	False
 221400	TDRD6	TDRD6 (221400)	False	True	False
@@ -15360,6 +15785,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9894	TELO2	TELO2 (9894)	True	True	True
 100134934	TEN1	TEN1 (100134934)	True	True	True
 10178	TENM1	TENM1 (10178)	False	True	False
+57451	TENM2	TENM2 (57451)	False	True	False
 55714	TENM3	TENM3 (55714)	False	True	False
 26011	TENM4	TENM4 (26011)	False	True	False
 167153	TENT2	TENT2 (167153)	False	True	False
@@ -15373,6 +15799,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 374739	TEPP	TEPP (374739)	False	True	False
 146705	TEPSIN	TEPSIN (146705)	False	True	False
 145645	TERB2	TERB2 (145645)	False	True	False
+7013	TERF1	TERF1 (7013)	True	True	True
 7014	TERF2	TERF2 (7014)	True	True	True
 54386	TERF2IP	TERF2IP (54386)	False	True	False
 7015	TERT	TERT (7015)	False	True	False
@@ -15389,7 +15816,10 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 83639	TEX101	TEX101 (83639)	False	True	False
 56159	TEX11	TEX11 (56159)	False	True	False
 56158	TEX12	TEX12 (56158)	False	True	False
+56157	TEX13A	TEX13A (56157)	False	True	False
 56156	TEX13B	TEX13B (56156)	False	True	False
+100129520	TEX13C	TEX13C (100129520)	False	True	False
+100132015	TEX13D	TEX13D (100132015)	False	True	False
 56155	TEX14	TEX14 (56155)	False	True	False
 56154	TEX15	TEX15 (56154)	False	True	False
 400629	TEX19	TEX19 (400629)	False	True	False
@@ -15398,6 +15828,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 122046	TEX26	TEX26 (122046)	False	True	False
 113419	TEX261	TEX261 (113419)	False	True	False
 51368	TEX264	TEX264 (51368)	False	True	False
+1527	TEX28	TEX28 (1527)	False	True	False
 121793	TEX29	TEX29 (121793)	False	True	False
 93081	TEX30	TEX30 (93081)	False	True	False
 339669	TEX33	TEX33 (339669)	False	True	False
@@ -15410,6 +15841,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 374877	TEX45	TEX45 (374877)	False	True	False
 729059	TEX46	TEX46 (729059)	False	True	False
 219557	TEX47	TEX47 (219557)	False	True	False
+100505478	TEX48	TEX48 (100505478)	False	True	False
+255411	TEX49	TEX49 (255411)	False	True	False
+730159	TEX50	TEX50 (730159)	False	True	False
+101929926	TEX51	TEX51 (101929926)	False	True	False
+101929469	TEX52	TEX52 (101929469)	False	True	False
+105376230	TEX53	TEX53 (105376230)	False	True	False
 152405	TEX55	TEX55 (152405)	False	True	False
 374618	TEX9	TEX9 (374618)	False	True	False
 7018	TF	TF (7018)	False	True	False
@@ -15509,6 +15946,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55901	THSD1	THSD1 (55901)	False	True	False
 79875	THSD4	THSD4 (79875)	False	True	False
 221981	THSD7A	THSD7A (221981)	False	True	False
+80731	THSD7B	THSD7B (80731)	False	True	False
 79178	THTPA	THTPA (79178)	False	True	False
 55623	THUMPD1	THUMPD1 (55623)	False	True	False
 80745	THUMPD2	THUMPD2 (80745)	False	True	False
@@ -15585,6 +16023,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7091	TLE4	TLE4 (7091)	False	True	False
 166	TLE5	TLE5 (166)	False	True	False
 79816	TLE6	TLE6 (79816)	False	True	False
+102723796	TLE7	TLE7 (102723796)	False	True	False
 9874	TLK1	TLK1 (9874)	False	True	False
 11011	TLK2	TLK2 (11011)	True	True	True
 7092	TLL1	TLL1 (7092)	False	True	False
@@ -15667,6 +16106,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 66000	TMEM108	TMEM108 (66000)	False	True	False
 79073	TMEM109	TMEM109 (79073)	False	True	False
 8834	TMEM11	TMEM11 (8834)	False	True	False
+283953	TMEM114	TMEM114 (283953)	False	True	False
 11070	TMEM115	TMEM115 (11070)	False	True	False
 89894	TMEM116	TMEM116 (89894)	False	True	False
 84216	TMEM117	TMEM117 (84216)	False	True	False
@@ -15687,6 +16127,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23240	TMEM131L	TMEM131L (23240)	False	True	False
 54972	TMEM132A	TMEM132A (54972)	False	True	False
 114795	TMEM132B	TMEM132B (114795)	False	True	False
+92293	TMEM132C	TMEM132C (92293)	False	True	False
 121256	TMEM132D	TMEM132D (121256)	False	True	False
 124842	TMEM132E	TMEM132E (124842)	False	True	False
 80194	TMEM134	TMEM134 (80194)	False	True	False
@@ -15775,6 +16216,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 84065	TMEM222	TMEM222 (84065)	False	True	False
 79064	TMEM223	TMEM223 (79064)	False	True	False
 338661	TMEM225	TMEM225 (338661)	False	True	False
+100289187	TMEM225B	TMEM225B (100289187)	False	True	False
 730130	TMEM229A	TMEM229A (730130)	False	True	False
 161145	TMEM229B	TMEM229B (161145)	False	True	False
 29058	TMEM230	TMEM230 (29058)	False	True	False
@@ -15810,11 +16252,16 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54916	TMEM260	TMEM260 (54916)	False	True	False
 100130348	TMEM262	TMEM262 (100130348)	False	True	False
 90488	TMEM263	TMEM263 (90488)	False	True	False
+100862671	TMEM265	TMEM265 (100862671)	False	True	False
 123591	TMEM266	TMEM266 (123591)	False	True	False
 64417	TMEM267	TMEM267 (64417)	False	True	False
 203197	TMEM268	TMEM268 (203197)	False	True	False
+100129924	TMEM269	TMEM269 (100129924)	False	True	False
 135886	TMEM270	TMEM270 (135886)	False	True	False
+112441426	TMEM271	TMEM271 (112441426)	False	True	False
+283521	TMEM272	TMEM272 (283521)	False	True	False
 170371	TMEM273	TMEM273 (170371)	False	True	False
+105378696	TMEM275	TMEM275 (105378696)	False	True	False
 84773	TMEM276	TMEM276 (84773)	False	True	False
 55754	TMEM30A	TMEM30A (55754)	False	True	False
 161291	TMEM30B	TMEM30B (161291)	False	True	False
@@ -15911,6 +16358,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9168	TMSB10	TMSB10 (9168)	False	True	False
 11013	TMSB15A	TMSB15A (11013)	False	True	False
 7114	TMSB4X	TMSB4X (7114)	False	True	False
+9087	TMSB4Y	TMSB4Y (9087)	False	True	False
 83857	TMTC1	TMTC1 (83857)	False	True	False
 160335	TMTC2	TMTC2 (160335)	False	True	False
 160418	TMTC3	TMTC3 (160418)	False	True	False
@@ -16122,6 +16570,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 51112	TRAPPC12	TRAPPC12 (51112)	False	True	False
 80006	TRAPPC13	TRAPPC13 (80006)	True	True	True
 55262	TRAPPC14	TRAPPC14 (55262)	False	True	False
+6399	TRAPPC2	TRAPPC2 (6399)	False	True	False
 51693	TRAPPC2L	TRAPPC2L (51693)	True	True	True
 27095	TRAPPC3	TRAPPC3 (27095)	False	True	False
 100128327	TRAPPC3L	TRAPPC3L (100128327)	False	True	False
@@ -16135,6 +16584,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 50852	TRAT1	TRAT1 (50852)	False	True	False
 1787	TRDMT1	TRDMT1 (1787)	False	True	False
 10345	TRDN	TRDN (10345)	False	True	False
+11181	TREH	TREH (11181)	False	True	False
 54210	TREM1	TREM1 (54210)	False	True	False
 54209	TREM2	TREM2 (54209)	False	True	False
 340205	TREML1	TREML1 (340205)	False	True	False
@@ -16150,6 +16600,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10221	TRIB1	TRIB1 (10221)	True	True	True
 28951	TRIB2	TRIB2 (28951)	False	True	False
 57761	TRIB3	TRIB3 (57761)	False	True	False
+9865	TRIL	TRIL (9865)	False	True	False
 10107	TRIM10	TRIM10 (10107)	False	True	False
 81559	TRIM11	TRIM11 (81559)	False	True	False
 10206	TRIM13	TRIM13 (10206)	False	True	False
@@ -16186,6 +16637,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 80263	TRIM45	TRIM45 (80263)	False	True	False
 80128	TRIM46	TRIM46 (80128)	False	True	False
 91107	TRIM47	TRIM47 (91107)	False	True	False
+79097	TRIM48	TRIM48 (79097)	False	True	False
 283116	TRIM49B	TRIM49B (283116)	False	True	False
 399939	TRIM49D1	TRIM49D1 (399939)	False	True	False
 85363	TRIM5	TRIM5 (85363)	False	True	False
@@ -16201,7 +16653,9 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 391712	TRIM61	TRIM61 (391712)	False	True	False
 55223	TRIM62	TRIM62 (55223)	False	True	False
 84676	TRIM63	TRIM63 (84676)	False	True	False
+646754	TRIM64C	TRIM64C (646754)	False	True	False
 201292	TRIM65	TRIM65 (201292)	False	True	False
+9866	TRIM66	TRIM66 (9866)	False	True	False
 440730	TRIM67	TRIM67 (440730)	False	True	False
 55128	TRIM68	TRIM68 (55128)	False	True	False
 140691	TRIM69	TRIM69 (140691)	False	True	False
@@ -16254,6 +16708,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7223	TRPC4	TRPC4 (7223)	False	True	False
 26133	TRPC4AP	TRPC4AP (26133)	False	True	False
 7224	TRPC5	TRPC5 (7224)	False	True	False
+100329135	TRPC5OS	TRPC5OS (100329135)	False	True	False
 7225	TRPC6	TRPC6 (7225)	False	True	False
 57113	TRPC7	TRPC7 (57113)	False	True	False
 4308	TRPM1	TRPM1 (4308)	False	True	False
@@ -16305,6 +16760,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7257	TSNAX	TSNAX (7257)	False	True	False
 55815	TSNAXIP1	TSNAXIP1 (55815)	False	True	False
 10103	TSPAN1	TSPAN1 (10103)	False	True	False
+83882	TSPAN10	TSPAN10 (83882)	False	True	False
 441631	TSPAN11	TSPAN11 (441631)	False	True	False
 23554	TSPAN12	TSPAN12 (23554)	False	True	False
 27075	TSPAN13	TSPAN13 (27075)	False	True	False
@@ -16346,6 +16802,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7263	TST	TST (7263)	False	True	False
 100131187	TSTD1	TSTD1 (100131187)	False	True	False
 158427	TSTD2	TSTD2 (158427)	False	True	False
+100130890	TSTD3	TSTD3 (100130890)	False	True	False
 84630	TTBK1	TTBK1 (84630)	False	True	False
 146057	TTBK2	TTBK2 (146057)	False	True	False
 7265	TTC1	TTC1 (7265)	True	True	True
@@ -16379,6 +16836,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 125488	TTC39C	TTC39C (125488)	False	True	False
 7268	TTC4	TTC4 (7268)	True	True	True
 91875	TTC5	TTC5 (91875)	False	True	False
+319089	TTC6	TTC6 (319089)	False	True	False
 57217	TTC7A	TTC7A (57217)	True	True	True
 145567	TTC7B	TTC7B (145567)	False	True	False
 123016	TTC8	TTC8 (123016)	False	True	False
@@ -16401,6 +16859,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23093	TTLL5	TTLL5 (23093)	False	True	False
 284076	TTLL6	TTLL6 (284076)	False	True	False
 79739	TTLL7	TTLL7 (79739)	False	True	False
+164714	TTLL8	TTLL8 (164714)	False	True	False
 164395	TTLL9	TTLL9 (164395)	False	True	False
 7273	TTN	TTN (7273)	False	True	False
 7274	TTPA	TTPA (7274)	False	True	False
@@ -16417,6 +16876,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 113457	TUBA3D	TUBA3D (113457)	False	True	False
 112714	TUBA3E	TUBA3E (112714)	False	True	False
 7277	TUBA4A	TUBA4A (7277)	False	True	False
+80086	TUBA4B	TUBA4B (80086)	False	True	False
 51807	TUBA8	TUBA8 (51807)	False	True	False
 79861	TUBAL3	TUBAL3 (79861)	False	True	False
 203068	TUBB	TUBB (203068)	True	True	True
@@ -16427,6 +16887,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10382	TUBB4A	TUBB4A (10382)	False	True	False
 10383	TUBB4B	TUBB4B (10383)	True	True	True
 84617	TUBB6	TUBB6 (84617)	False	True	False
+347688	TUBB8	TUBB8 (347688)	False	True	False
 51174	TUBD1	TUBD1 (51174)	True	True	True
 51175	TUBE1	TUBE1 (51175)	True	True	True
 7283	TUBG1	TUBG1 (7283)	False	True	False
@@ -16449,6 +16910,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23318	TUT4	TUT4 (23318)	False	True	False
 79670	TUT7	TUT7 (79670)	False	True	False
 780776	TVP23A	TVP23A (780776)	False	True	False
+201158	TVP23C	TVP23C (201158)	False	True	False
 5756	TWF1	TWF1 (5756)	False	True	False
 11344	TWF2	TWF2 (11344)	False	True	False
 7291	TWIST1	TWIST1 (7291)	False	True	False
@@ -16476,6 +16938,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54957	TXNL4B	TXNL4B (54957)	True	True	True
 7296	TXNRD1	TXNRD1 (7296)	True	True	True
 10587	TXNRD2	TXNRD2 (10587)	False	True	False
+114112	TXNRD3	TXNRD3 (114112)	False	True	False
 7297	TYK2	TYK2 (7297)	True	True	True
 1890	TYMP	TYMP (1890)	False	True	False
 7298	TYMS	TYMS (7298)	True	True	True
@@ -16534,6 +16997,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 118424	UBE2J2	UBE2J2 (118424)	True	True	True
 3093	UBE2K	UBE2K (3093)	True	True	True
 7332	UBE2L3	UBE2L3 (7332)	True	True	True
+171222	UBE2L5	UBE2L5 (171222)	False	True	False
 9246	UBE2L6	UBE2L6 (9246)	False	True	False
 9040	UBE2M	UBE2M (9040)	True	True	True
 7334	UBE2N	UBE2N (7334)	True	True	True
@@ -16581,6 +17045,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 80019	UBTD1	UBTD1 (80019)	False	True	False
 92181	UBTD2	UBTD2 (92181)	False	True	False
 7343	UBTF	UBTF (7343)	True	True	True
+642623	UBTFL1	UBTFL1 (642623)	False	True	False
 51035	UBXN1	UBXN1 (51035)	False	True	False
 127733	UBXN10	UBXN10 (127733)	False	True	False
 91544	UBXN11	UBXN11 (91544)	False	True	False
@@ -16589,6 +17054,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23190	UBXN4	UBXN4 (23190)	False	True	False
 80700	UBXN6	UBXN6 (80700)	False	True	False
 26043	UBXN7	UBXN7 (26043)	False	True	False
+7993	UBXN8	UBXN8 (7993)	False	True	False
 7345	UCHL1	UCHL1 (7345)	False	True	False
 7347	UCHL3	UCHL3 (7347)	False	True	False
 51377	UCHL5	UCHL5 (51377)	True	True	True
@@ -16619,11 +17085,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54659	UGT1A3	UGT1A3 (54659)	False	True	False
 54657	UGT1A4	UGT1A4 (54657)	False	True	False
 54579	UGT1A5	UGT1A5 (54579)	False	True	False
+54578	UGT1A6	UGT1A6 (54578)	False	True	False
 54577	UGT1A7	UGT1A7 (54577)	False	True	False
 54576	UGT1A8	UGT1A8 (54576)	False	True	False
 54600	UGT1A9	UGT1A9 (54600)	False	True	False
 10941	UGT2A1	UGT2A1 (10941)	False	True	False
 79799	UGT2A3	UGT2A3 (79799)	False	True	False
+7365	UGT2B10	UGT2B10 (7365)	False	True	False
 10720	UGT2B11	UGT2B11 (10720)	False	True	False
 7366	UGT2B15	UGT2B15 (7366)	False	True	False
 7367	UGT2B17	UGT2B17 (7367)	False	True	False
@@ -16634,6 +17102,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 167127	UGT3A2	UGT3A2 (167127)	False	True	False
 7368	UGT8	UGT8 (7368)	False	True	False
 127933	UHMK1	UHMK1 (127933)	False	True	False
+29128	UHRF1	UHRF1 (29128)	False	True	False
 115426	UHRF2	UHRF2 (115426)	False	True	False
 51720	UIMC1	UIMC1 (51720)	False	True	False
 80329	ULBP1	ULBP1 (80329)	False	True	False
@@ -16643,6 +17112,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9706	ULK2	ULK2 (9706)	False	True	False
 25989	ULK3	ULK3 (25989)	False	True	False
 54986	ULK4	ULK4 (54986)	False	True	False
+729852	UMAD1	UMAD1 (729852)	False	True	False
 7369	UMOD	UMOD (7369)	False	True	False
 89766	UMODL1	UMODL1 (89766)	False	True	False
 7372	UMPS	UMPS (7372)	True	True	True
@@ -16663,6 +17133,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57578	UNC79	UNC79 (57578)	False	True	False
 285175	UNC80	UNC80 (285175)	False	True	False
 54346	UNC93A	UNC93A (54346)	False	True	False
+81622	UNC93B1	UNC93B1 (81622)	False	True	False
 340260	UNCX	UNCX (340260)	False	True	False
 7374	UNG	UNG (7374)	False	True	False
 85451	UNK	UNK (85451)	False	True	False
@@ -16692,6 +17163,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7384	UQCRC1	UQCRC1 (7384)	True	True	True
 7385	UQCRC2	UQCRC2 (7385)	True	True	True
 7386	UQCRFS1	UQCRFS1 (7386)	True	True	True
+440567	UQCRHL	UQCRHL (440567)	False	True	False
 27089	UQCRQ	UQCRQ (27089)	True	True	True
 646625	URAD	URAD (646625)	False	True	False
 9875	URB1	URB1 (9875)	True	True	True
@@ -16711,6 +17183,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 124590	USH1G	USH1G (124590)	False	True	False
 7399	USH2A	USH2A (7399)	False	True	False
 83878	USHBP1	USHBP1 (83878)	False	True	False
+8615	USO1	USO1 (8615)	False	True	False
 7398	USP1	USP1 (7398)	True	True	True
 9100	USP10	USP10 (9100)	False	True	False
 8237	USP11	USP11 (8237)	False	True	False
@@ -16721,6 +17194,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10600	USP16	USP16 (10600)	False	True	False
 100287144	USP17L10	USP17L10 (100287144)	True	True	True
 100287238	USP17L13	USP17L13 (100287238)	False	True	False
+392197	USP17L7	USP17L7 (392197)	False	True	False
 11274	USP18	USP18 (11274)	True	True	True
 10869	USP19	USP19 (10869)	False	True	False
 9099	USP2	USP2 (9099)	False	True	False
@@ -16862,6 +17336,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 81552	VOPP1	VOPP1 (81552)	False	True	False
 7441	VPREB1	VPREB1 (7441)	False	True	False
 29802	VPREB3	VPREB3 (29802)	False	True	False
+55823	VPS11	VPS11 (55823)	False	True	False
 23230	VPS13A	VPS13A (23230)	False	True	False
 157680	VPS13B	VPS13B (157680)	False	True	False
 54832	VPS13C	VPS13C (54832)	False	True	False
@@ -16903,6 +17378,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 340547	VSIG1	VSIG1 (340547)	False	True	False
 54621	VSIG10	VSIG10 (54621)	False	True	False
 147645	VSIG10L	VSIG10L (147645)	False	True	False
+338667	VSIG10L2	VSIG10L2 (338667)	False	True	False
 23584	VSIG2	VSIG2 (23584)	False	True	False
 11326	VSIG4	VSIG4 (11326)	False	True	False
 391123	VSIG8	VSIG8 (391123)	False	True	False
@@ -16999,6 +17475,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 54554	WDR5B	WDR5B (54554)	False	True	False
 11180	WDR6	WDR6 (11180)	False	True	False
 284403	WDR62	WDR62 (284403)	True	True	True
+128025	WDR64	WDR64 (128025)	False	True	False
 23335	WDR7	WDR7 (23335)	True	True	True
 55100	WDR70	WDR70 (55100)	True	True	True
 256764	WDR72	WDR72 (256764)	False	True	False
@@ -17018,6 +17495,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 197335	WDR90	WDR90 (197335)	False	True	False
 29062	WDR91	WDR91 (29062)	True	True	True
 56964	WDR93	WDR93 (56964)	False	True	False
+340390	WDR97	WDR97 (340390)	False	True	False
 151525	WDSUB1	WDSUB1 (151525)	False	True	False
 23038	WDTC1	WDTC1 (23038)	False	True	False
 7465	WEE1	WEE1 (7465)	True	True	True
@@ -17048,6 +17526,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 58525	WIZ	WIZ (58525)	True	True	True
 79971	WLS	WLS (79971)	False	True	False
 65125	WNK1	WNK1 (65125)	True	True	True
+65268	WNK2	WNK2 (65268)	False	True	False
 65267	WNK3	WNK3 (65267)	False	True	False
 65266	WNK4	WNK4 (65266)	False	True	False
 7471	WNT1	WNT1 (7471)	False	True	False
@@ -17103,11 +17582,13 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 7504	XK	XK (7504)	False	True	False
 150165	XKR3	XKR3 (150165)	False	True	False
 114786	XKR4	XKR4 (114786)	False	True	False
+389610	XKR5	XKR5 (389610)	False	True	False
 286046	XKR6	XKR6 (286046)	False	True	False
 343702	XKR7	XKR7 (343702)	False	True	False
 55113	XKR8	XKR8 (55113)	False	True	False
 389668	XKR9	XKR9 (389668)	False	True	False
 402415	XKRX	XKRX (402415)	False	True	False
+100133315	XNDC1N	XNDC1N (100133315)	False	True	False
 7507	XPA	XPA (7507)	False	True	False
 7508	XPC	XPC (7508)	False	True	False
 7511	XPNPEP1	XPNPEP1 (7511)	False	True	False
@@ -17172,6 +17653,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 64848	YTHDC2	YTHDC2 (64848)	False	True	False
 54915	YTHDF1	YTHDF1 (54915)	False	True	False
 51441	YTHDF2	YTHDF2 (51441)	True	True	True
+253943	YTHDF3	YTHDF3 (253943)	False	True	False
 7529	YWHAB	YWHAB (7529)	False	True	False
 7531	YWHAE	YWHAE (7531)	True	True	True
 7532	YWHAG	YWHAG (7532)	False	True	False
@@ -17182,10 +17664,12 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55249	YY1AP1	YY1AP1 (55249)	False	True	False
 404281	YY2	YY2 (404281)	False	True	False
 353174	ZACN	ZACN (353174)	False	True	False
+7455	ZAN	ZAN (7455)	False	True	False
 7535	ZAP70	ZAP70 (7535)	False	True	False
 326340	ZAR1	ZAR1 (326340)	False	True	False
 646799	ZAR1L	ZAR1L (646799)	False	True	False
 79740	ZBBX	ZBBX (79740)	False	True	False
+9189	ZBED1	ZBED1 (9189)	False	True	False
 79413	ZBED2	ZBED2 (79413)	False	True	False
 84327	ZBED3	ZBED3 (84327)	False	True	False
 9889	ZBED4	ZBED4 (9889)	False	True	False
@@ -17242,6 +17726,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 80149	ZC3H12A	ZC3H12A (80149)	False	True	False
 340554	ZC3H12B	ZC3H12B (340554)	False	True	False
 85463	ZC3H12C	ZC3H12C (85463)	False	True	False
+340152	ZC3H12D	ZC3H12D (340152)	False	True	False
 23091	ZC3H13	ZC3H13 (23091)	True	True	True
 79882	ZC3H14	ZC3H14 (79882)	False	True	False
 55854	ZC3H15	ZC3H15 (55854)	True	True	True
@@ -17267,6 +17752,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 85364	ZCCHC3	ZCCHC3 (85364)	False	True	False
 29063	ZCCHC4	ZCCHC4 (29063)	False	True	False
 84186	ZCCHC7	ZCCHC7 (84186)	True	True	True
+55596	ZCCHC8	ZCCHC8 (55596)	False	True	False
 84240	ZCCHC9	ZCCHC9 (84240)	False	True	False
 85437	ZCRB1	ZCRB1 (85437)	True	True	True
 55063	ZCWPW1	ZCWPW1 (55063)	False	True	False
@@ -17274,6 +17760,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57683	ZDBF2	ZDBF2 (57683)	False	True	False
 29800	ZDHHC1	ZDHHC1 (29800)	False	True	False
 79844	ZDHHC11	ZDHHC11 (79844)	False	True	False
+653082	ZDHHC11B	ZDHHC11B (653082)	False	True	False
 84885	ZDHHC12	ZDHHC12 (84885)	False	True	False
 54503	ZDHHC13	ZDHHC13 (54503)	False	True	False
 79683	ZDHHC14	ZDHHC14 (79683)	False	True	False
@@ -17336,6 +17823,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 23414	ZFPM2	ZFPM2 (23414)	False	True	False
 51663	ZFR	ZFR (51663)	True	True	True
 23217	ZFR2	ZFR2 (23217)	False	True	False
+65998	ZFTA	ZFTA (65998)	False	True	False
+50626	ZFTRAF1	ZFTRAF1 (50626)	True	True	True
 7543	ZFX	ZFX (7543)	False	True	False
 7544	ZFY	ZFY (7544)	False	True	False
 53349	ZFYVE1	ZFYVE1 (53349)	False	True	False
@@ -17481,6 +17970,8 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 10308	ZNF267	ZNF267 (10308)	False	True	False
 10795	ZNF268	ZNF268 (10795)	False	True	False
 10793	ZNF273	ZNF273 (10793)	True	True	True
+10782	ZNF274	ZNF274 (10782)	False	True	False
+10838	ZNF275	ZNF275 (10838)	False	True	False
 92822	ZNF276	ZNF276 (92822)	False	True	False
 11179	ZNF277	ZNF277 (11179)	False	True	False
 7576	ZNF28	ZNF28 (7576)	False	True	False
@@ -17503,6 +17994,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55900	ZNF302	ZNF302 (55900)	False	True	False
 57343	ZNF304	ZNF304 (57343)	False	True	False
 282890	ZNF311	ZNF311 (282890)	False	True	False
+100131017	ZNF316	ZNF316 (100131017)	False	True	False
 57693	ZNF317	ZNF317 (57693)	False	True	False
 24149	ZNF318	ZNF318 (24149)	False	True	False
 57567	ZNF319	ZNF319 (57567)	False	True	False
@@ -17543,6 +18035,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 171017	ZNF384	ZNF384 (171017)	False	True	False
 25946	ZNF385A	ZNF385A (25946)	False	True	False
 151126	ZNF385B	ZNF385B (151126)	False	True	False
+201181	ZNF385C	ZNF385C (201181)	False	True	False
 79750	ZNF385D	ZNF385D (79750)	False	True	False
 346157	ZNF391	ZNF391 (346157)	False	True	False
 84124	ZNF394	ZNF394 (84124)	False	True	False
@@ -17569,6 +18062,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 353088	ZNF429	ZNF429 (353088)	False	True	False
 7594	ZNF43	ZNF43 (7594)	False	True	False
 80264	ZNF430	ZNF430 (80264)	False	True	False
+170959	ZNF431	ZNF431 (170959)	False	True	False
 9668	ZNF432	ZNF432 (9668)	False	True	False
 163059	ZNF433	ZNF433 (163059)	False	True	False
 80818	ZNF436	ZNF436 (80818)	False	True	False
@@ -17603,6 +18097,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 83744	ZNF484	ZNF484 (83744)	False	True	False
 220992	ZNF485	ZNF485 (220992)	False	True	False
 90649	ZNF486	ZNF486 (90649)	False	True	False
+642819	ZNF487	ZNF487 (642819)	False	True	False
 118738	ZNF488	ZNF488 (118738)	False	True	False
 57474	ZNF490	ZNF490 (57474)	False	True	False
 126069	ZNF491	ZNF491 (126069)	False	True	False
@@ -17622,11 +18117,14 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57473	ZNF512B	ZNF512B (57473)	False	True	False
 130557	ZNF513	ZNF513 (130557)	False	True	False
 84874	ZNF514	ZNF514 (84874)	False	True	False
+9658	ZNF516	ZNF516 (9658)	False	True	False
 340385	ZNF517	ZNF517 (340385)	False	True	False
+9849	ZNF518A	ZNF518A (9849)	False	True	False
 85460	ZNF518B	ZNF518B (85460)	False	True	False
 162655	ZNF519	ZNF519 (162655)	False	True	False
 25925	ZNF521	ZNF521 (25925)	False	True	False
 147807	ZNF524	ZNF524 (147807)	False	True	False
+170958	ZNF525	ZNF525 (170958)	False	True	False
 116115	ZNF526	ZNF526 (116115)	False	True	False
 84503	ZNF527	ZNF527 (84503)	False	True	False
 84436	ZNF528	ZNF528 (84436)	False	True	False
@@ -17687,6 +18185,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 9640	ZNF592	ZNF592 (9640)	True	True	True
 51042	ZNF593	ZNF593 (51042)	True	True	True
 84622	ZNF594	ZNF594 (84622)	False	True	False
+152687	ZNF595	ZNF595 (152687)	False	True	False
 169270	ZNF596	ZNF596 (169270)	False	True	False
 146434	ZNF597	ZNF597 (146434)	False	True	False
 148103	ZNF599	ZNF599 (148103)	False	True	False
@@ -17727,6 +18226,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 55279	ZNF654	ZNF654 (55279)	False	True	False
 79027	ZNF655	ZNF655 (79027)	False	True	False
 26149	ZNF658	ZNF658 (26149)	True	True	True
+7617	ZNF66	ZNF66 (7617)	False	True	False
 285349	ZNF660	ZNF660 (285349)	False	True	False
 389114	ZNF662	ZNF662 (389114)	False	True	False
 144348	ZNF664	ZNF664 (144348)	False	True	False
@@ -17741,6 +18241,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 171392	ZNF675	ZNF675 (171392)	False	True	False
 163223	ZNF676	ZNF676 (163223)	False	True	False
 342926	ZNF677	ZNF677 (342926)	False	True	False
+339500	ZNF678	ZNF678 (339500)	False	True	False
 168417	ZNF679	ZNF679 (168417)	False	True	False
 340252	ZNF680	ZNF680 (340252)	False	True	False
 148213	ZNF681	ZNF681 (148213)	False	True	False
@@ -17775,15 +18276,21 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 349075	ZNF713	ZNF713 (349075)	False	True	False
 148206	ZNF714	ZNF714 (148206)	False	True	False
 441234	ZNF716	ZNF716 (441234)	False	True	False
+100131827	ZNF717	ZNF717 (100131827)	False	True	False
+255403	ZNF718	ZNF718 (255403)	False	True	False
 170960	ZNF721	ZNF721 (170960)	False	True	False
+646864	ZNF723	ZNF723 (646864)	False	True	False
+440519	ZNF724	ZNF724 (440519)	False	True	False
 730087	ZNF726	ZNF726 (730087)	False	True	False
 442319	ZNF727	ZNF727 (442319)	False	True	False
 388523	ZNF728	ZNF728 (388523)	False	True	False
 100287226	ZNF729	ZNF729 (100287226)	False	True	False
 100129543	ZNF730	ZNF730 (100129543)	False	True	False
 654254	ZNF732	ZNF732 (654254)	False	True	False
+730291	ZNF735	ZNF735 (730291)	False	True	False
 728927	ZNF736	ZNF736 (728927)	False	True	False
 100129842	ZNF737	ZNF737 (100129842)	False	True	False
+148203	ZNF738	ZNF738 (148203)	False	True	False
 7625	ZNF74	ZNF74 (7625)	False	True	False
 283337	ZNF740	ZNF740 (283337)	False	True	False
 155061	ZNF746	ZNF746 (155061)	False	True	False
@@ -17861,6 +18368,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 729747	ZNF878	ZNF878 (729747)	False	True	False
 345462	ZNF879	ZNF879 (345462)	False	True	False
 400713	ZNF880	ZNF880 (400713)	False	True	False
+388559	ZNF888	ZNF888 (388559)	False	True	False
 101060200	ZNF891	ZNF891 (101060200)	False	True	False
 7643	ZNF90	ZNF90 (7643)	False	True	False
 7644	ZNF91	ZNF91 (7644)	False	True	False
@@ -17894,6 +18402,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 8233	ZRSR2	ZRSR2 (8233)	False	True	False
 284312	ZSCAN1	ZSCAN1 (284312)	False	True	False
 84891	ZSCAN10	ZSCAN10 (84891)	False	True	False
+9753	ZSCAN12	ZSCAN12 (9753)	False	True	False
 80345	ZSCAN16	ZSCAN16 (80345)	False	True	False
 65982	ZSCAN18	ZSCAN18 (65982)	False	True	False
 54993	ZSCAN2	ZSCAN2 (54993)	False	True	False
@@ -17902,6 +18411,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 342945	ZSCAN22	ZSCAN22 (342945)	False	True	False
 222696	ZSCAN23	ZSCAN23 (222696)	False	True	False
 221785	ZSCAN25	ZSCAN25 (221785)	False	True	False
+7741	ZSCAN26	ZSCAN26 (7741)	False	True	False
 146050	ZSCAN29	ZSCAN29 (146050)	False	True	False
 100101467	ZSCAN30	ZSCAN30 (100101467)	False	True	False
 64288	ZSCAN31	ZSCAN31 (64288)	False	True	False
@@ -17909,6 +18419,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 201516	ZSCAN4	ZSCAN4 (201516)	False	True	False
 79149	ZSCAN5A	ZSCAN5A (79149)	False	True	False
 342933	ZSCAN5B	ZSCAN5B (342933)	False	True	False
+649137	ZSCAN5C	ZSCAN5C (649137)	False	True	False
 7746	ZSCAN9	ZSCAN9 (7746)	False	True	False
 90204	ZSWIM1	ZSWIM1 (90204)	False	True	False
 151112	ZSWIM2	ZSWIM2 (151112)	False	True	False
@@ -17918,6 +18429,7 @@ entrez_id	symbol_id	dependency_column	qc_pass_pan	qc_pass_other	qc_pass
 57688	ZSWIM6	ZSWIM6 (57688)	True	True	True
 125150	ZSWIM7	ZSWIM7 (125150)	False	True	False
 23053	ZSWIM8	ZSWIM8 (23053)	False	True	False
+374920	ZSWIM9	ZSWIM9 (374920)	False	True	False
 221302	ZUP1	ZUP1 (221302)	False	True	False
 9183	ZW10	ZW10 (9183)	True	True	True
 55055	ZWILCH	ZWILCH (55055)	True	True	True

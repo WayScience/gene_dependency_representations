@@ -125,14 +125,14 @@ def load_train_test_data(
     # return data based on what user wants
     if train_or_test == "test":
 
-        return test_data
+        return test_file
 
     elif train_or_test == "train":
 
-        return train_data
+        return train_file
     
     elif train_or_test == "validation":
-        return val_data
+        return val_file
 
     elif train_or_test == "all":
 
