@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[13]:
+# In[1]:
 
 
 import sys
@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 import random
 
 
-# In[14]:
+# In[2]:
 
 
 def scale_dataframe(df: pd.DataFrame):
@@ -44,7 +44,7 @@ def scale_dataframe(df: pd.DataFrame):
     return scaled_df
 
 
-# In[15]:
+# In[3]:
 
 
 def save_dataframe(df, file_path: pathlib.Path):
@@ -61,14 +61,14 @@ def save_dataframe(df, file_path: pathlib.Path):
     print(df.head(3))
 
 
-# In[16]:
+# In[4]:
 
 
 random.seed(18)
 print(random.random())
 
 
-# In[17]:
+# In[5]:
 
 
 # load all of the data
@@ -76,7 +76,7 @@ data_directory = "../0.data-download/data/"
 model_df, effect_df = load_data(data_directory, adult_or_pediatric="all")
 
 
-# In[18]:
+# In[6]:
 
 
 # verifying that the ModelIDs in model_df and effect_df are alligned
@@ -90,7 +90,7 @@ print(
 )
 
 
-# In[19]:
+# In[7]:
 
 
 # assign 'AgeCategory' and 'Sex' columns to the effect dataframe as a single column
@@ -100,7 +100,7 @@ presplit_effect_df = effect_df.assign(
 presplit_effect_df
 
 
-# In[20]:
+# In[8]:
 
 
 groups = model_df.groupby("AgeCategory")
@@ -118,7 +118,7 @@ new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
 
-# In[21]:
+# In[9]:
 
 
 # creating a list of ModelIDs that correlate to pediatric and adult samples
@@ -132,7 +132,7 @@ PA_effect_df = presplit_effect_df.loc[
 ].reset_index(drop=True)
 
 
-# In[22]:
+# In[10]:
 
 
 # split the data based on age category and sex
@@ -148,7 +148,7 @@ test_df.reset_index(drop=True,inplace=True)
 val_df.reset_index(drop=True,inplace=True)
 
 
-# In[27]:
+# In[11]:
 
 
 #save each dataframe

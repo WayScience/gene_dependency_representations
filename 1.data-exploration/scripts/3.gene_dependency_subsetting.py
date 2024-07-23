@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[111]:
+# In[1]:
 
 
 import sys
@@ -18,14 +18,14 @@ sys.path.insert(0, "../utils/")
 from data_loader import load_data, load_train_test_data
 
 
-# In[112]:
+# In[2]:
 
 
 # data path
 data_directory = "../0.data-download/data/"
 
 
-# In[113]:
+# In[3]:
 
 
 # load the training data
@@ -34,7 +34,7 @@ train_data = load_train_test_data(
 )
 
 
-# In[114]:
+# In[4]:
 
 
 # set a unique dataframe that can be appended from
@@ -57,7 +57,7 @@ for name, training_df_age in groups:
         ped_effect_df = ped_effect_df.reset_index(drop=True)
 
 
-# In[115]:
+# In[5]:
 
 
 # set a unique dataframe that can be appended from
@@ -90,35 +90,35 @@ for name, training_df_sex in groups_sex:
         female_effect_df = female_effect_df.reset_index(drop=True)
 
 
-# In[116]:
+# In[6]:
 
 
 print(adult_effect_df.shape)
 adult_effect_df.head(3)
 
 
-# In[117]:
+# In[7]:
 
 
 print(ped_effect_df.shape)
 ped_effect_df.head(3)
 
 
-# In[118]:
+# In[8]:
 
 
 print(male_effect_df.shape)
 male_effect_df.head(3)
 
 
-# In[119]:
+# In[9]:
 
 
 print(female_effect_df.shape)
 female_effect_df.head(3)
 
 
-# In[120]:
+# In[10]:
 
 
 # drop the string values from all dataframes
@@ -136,7 +136,7 @@ effect_df = train_data.drop(columns="age_and_sex")
 effect_df = effect_df.set_index("ModelID")
 
 
-# In[121]:
+# In[11]:
 
 
 # t_test comparing gene dependencies in adult vs pediatric samples
@@ -147,7 +147,7 @@ print(t_test.shape)
 t_test.head(3)
 
 
-# In[122]:
+# In[12]:
 
 
 # t_test comparing gene dependencies in male vs female samples
@@ -158,14 +158,14 @@ print(t_test_sex.shape)
 t_test_sex.head(3)
 
 
-# In[123]:
+# In[13]:
 
 
 print(effect_df.shape)
 effect_df.head(3)
 
 
-# In[124]:
+# In[14]:
 
 
 # calculate variance of each gene then send the results plus the gene info into a new dataframe
@@ -179,7 +179,7 @@ print(variance_df.shape)
 variance_df.head(3)
 
 
-# In[125]:
+# In[15]:
 
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold
@@ -201,7 +201,7 @@ variance_density_plot.save(density_path)
 variance_density_plot
 
 
-# In[126]:
+# In[16]:
 
 
 # first create new dataframe containing gene info as well as both adult-pediatric and male-female t-test results and variance results
@@ -219,7 +219,7 @@ print(df.shape)
 df.head(3)
 
 
-# In[127]:
+# In[17]:
 
 
 # plot adult-pediatric ttest versus variance
@@ -239,7 +239,7 @@ A_vs_P_by_variance_plot.save(adult_vs_pediatric_path)
 A_vs_P_by_variance_plot
 
 
-# In[128]:
+# In[18]:
 
 
 # plot male-female ttest versus gene variance
