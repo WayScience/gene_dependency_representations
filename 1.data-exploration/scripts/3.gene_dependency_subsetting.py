@@ -4,19 +4,19 @@
 # In[1]:
 
 
-import pathlib
 import sys
-import warnings
-
-import matplotlib.pyplot as plt
+import pathlib
 import numpy as np
 import pandas as pd
 import plotnine as p9
+import matplotlib.pyplot as plt
 from scipy.stats import ttest_ind
+import warnings
 
 warnings.filterwarnings("ignore")
-sys.path.insert(0, ".../utils/")
+sys.path.insert(0, "../utils/")
 from data_loader import load_data, load_train_test_data
+
 
 # In[2]:
 
@@ -29,8 +29,8 @@ data_directory = "../0.data-download/data/"
 
 
 # load the training data
-dfs_test, dfs, data = load_train_test_data(
-    data_directory, train_or_test="all", load_gene_stats=False
+train_data = load_train_test_data(
+    data_directory, train_or_test="train", load_gene_stats=False
 )
 
 
@@ -38,7 +38,7 @@ dfs_test, dfs, data = load_train_test_data(
 
 
 # set a unique dataframe that can be appended from
-training_df_age = dfs
+training_df_age = train_data
 
 # group by age and create new dataframes that can be appended to
 groups = training_df_age.groupby("age_and_sex")
@@ -61,7 +61,7 @@ for name, training_df_age in groups:
 
 
 # set a unique dataframe that can be appended from
-training_df_sex = dfs
+training_df_sex = train_data
 
 # group by sex and create new dataframes to be appended to
 groups_sex = training_df_sex.groupby("age_and_sex")
@@ -132,7 +132,7 @@ female_effect_df_float = female_effect_df.drop(
     columns=["ModelID", "age_and_sex"]
 )
 
-effect_df = dfs.drop(columns="age_and_sex")
+effect_df = train_data.drop(columns="age_and_sex")
 effect_df = effect_df.set_index("ModelID")
 
 
@@ -179,7 +179,7 @@ print(variance_df.shape)
 variance_df.head(3)
 
 
-# In[21]:
+# In[15]:
 
 
 # finding the smallest gene variation out of the 1000 largest gene variations to set the top 1000 gene variances threshold
@@ -227,6 +227,8 @@ A_vs_P_by_variance_plot = (
     p9.ggplot(data=df, mapping=p9.aes(x="variance", y="ttest_A_vs_P"))
     + p9.geom_point(size=0.4, alpha=0.1, color="blue")
     + p9.theme(figure_size=(10, 7))
+    + p9.xlim(0.00, 0.08)
+    + p9.ylim(-8,8)
 )
 
 # save the figure
@@ -245,6 +247,8 @@ M_vs_F_by_variance_plot = (
     p9.ggplot(data=df, mapping=p9.aes(x="variance", y="ttest_M_vs_F"))
     + p9.geom_point(size=0.4, alpha=0.1, color="blue")
     + p9.theme(figure_size=(10, 7))
+    + p9.xlim(0.00, 0.08)
+    + p9.ylim(-8,8)
 )
 
 # save the figure

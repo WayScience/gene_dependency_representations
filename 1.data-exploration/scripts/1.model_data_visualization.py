@@ -26,7 +26,7 @@ adult_threshold = 18
 liquid_tumors = ["Leukemia", "Lymphoma"]
 
 
-# In[4]:
+# In[3]:
 
 
 # Set i/o paths and files
@@ -54,7 +54,7 @@ adult_cancer_type_output_figure = pathlib.Path(
 )
 
 
-# In[5]:
+# In[4]:
 
 
 # Load model data
@@ -64,7 +64,7 @@ print(model_df.shape)
 model_df.head(3)
 
 
-# In[6]:
+# In[5]:
 
 
 # Load gene effect data
@@ -74,7 +74,7 @@ print(gene_dependency_df.shape)
 gene_dependency_df.head(3)
 
 
-# In[7]:
+# In[6]:
 
 
 # Load gene data for subsetting
@@ -86,7 +86,7 @@ gene_meta_df.head(3)
 
 # ## Describe input data
 
-# In[9]:
+# In[7]:
 
 
 # Model.csv visualization
@@ -114,13 +114,13 @@ n_cancer_types = model_df.query("ModelID in @sample_overlap")[
 print(f"Number of Cancer Types: \n {n_cancer_types} \n")
 
 
-# In[10]:
+# In[8]:
 
 
 # Visualize cancer type distribution
 cancer_types_bar = (
     gg.ggplot(model_df, gg.aes(x="OncotreePrimaryDisease"))
-    + gg.geom_bar(width = 0.5, position = position_dodge2(padding = 0.5))
+    + gg.geom_bar(width = 0.5, position = gg.position_dodge2(padding = 0.5))
     + gg.coord_flip()
     + gg.xlab("Primary Disease")
     + gg.ylab("Count")
@@ -137,7 +137,7 @@ cancer_types_bar
 
 # ## Visualize age categories and distribution
 
-# In[11]:
+# In[9]:
 
 
 age_categories_bar = (
@@ -154,14 +154,14 @@ age_categories_bar.save(age_category_output_figure, dpi=500)
 age_categories_bar
 
 
-# In[12]:
+# In[10]:
 
 
 age_distribution_plot = (
     gg.ggplot(model_df, gg.aes(x="Age"))
     + gg.geom_density()
     + gg.geom_vline(xintercept=adult_threshold, linetype="dashed", color="red")
-    + annotate(geom="text", x=30, y = 0.0045, label="Adult Threshold", color="red")    
+    + gg.annotate(geom="text", x=30, y = 0.0045, label="Adult Threshold", color="red")    
     + gg.ggtitle(
         f"Age distribution of derived cell lines"
     )
@@ -173,13 +173,13 @@ age_distribution_plot.save(age_distribution_output_figure, dpi=500)
 age_distribution_plot
 
 
-# In[13]:
+# In[11]:
 
 
 model_df['AgeCategory'].value_counts()
 
 
-# In[14]:
+# In[12]:
 
 
 gendersamp_plot = (
@@ -196,7 +196,7 @@ gendersamp_plot
 
 # ## What cell lines are pediatric cancer?
 
-# In[15]:
+# In[13]:
 
 
 pediatric_model_df = (
@@ -209,7 +209,7 @@ print(pediatric_model_df.shape)
 pediatric_model_df.head(3)
 
 
-# In[16]:
+# In[14]:
 
 
 # What are the neuroblastoma models?
@@ -218,7 +218,7 @@ pediatric_model_df.query(
 ).StrippedCellLineName
 
 
-# In[17]:
+# In[15]:
 
 
 # What is the distribution of pediatric tumor types
@@ -226,7 +226,7 @@ pediatric_cancer_counts = pediatric_model_df.OncotreePrimaryDisease.value_counts
 pediatric_cancer_counts
 
 
-# In[18]:
+# In[16]:
 
 
 # What is the distribution of pediatric tumor types
@@ -240,7 +240,7 @@ pediatric_cancer_counts = (
 pediatric_cancer_counts
 
 
-# In[19]:
+# In[17]:
 
 
 # Visualize pediatric cancer type distribution
@@ -262,7 +262,7 @@ ped_cancer_types_bar.save(pediatric_cancer_type_output_figure, dpi=500, height=6
 ped_cancer_types_bar
 
 
-# In[20]:
+# In[18]:
 
 
 # Pediatric solid vs liquid tumors
@@ -286,7 +286,7 @@ print(len(ped_liquid))
 
 # ## What cell lines are adult cancer?
 
-# In[21]:
+# In[19]:
 
 
 adult_model_df = (
@@ -299,7 +299,7 @@ print(adult_model_df.shape)
 adult_model_df.head(3)
 
 
-# In[22]:
+# In[20]:
 
 
 # What is the distribution of adult tumor types
@@ -307,7 +307,7 @@ adult_cancer_counts = adult_model_df.OncotreePrimaryDisease.value_counts()
 adult_cancer_counts
 
 
-# In[23]:
+# In[21]:
 
 
 # What is the distribution of adult tumor types
@@ -322,7 +322,7 @@ adult_cancer_counts = (
 adult_cancer_counts
 
 
-# In[24]:
+# In[22]:
 
 
 # Visualize adult cancer type distribution

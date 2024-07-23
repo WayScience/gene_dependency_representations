@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 
-import pathlib
 import sys
-
+import pathlib
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 sys.path.insert(0, "../utils/")
-import random
-
 from data_loader import load_data
 from sklearn.model_selection import train_test_split
+import random
 
-# In[31]:
+
+# In[2]:
 
 
 def scale_dataframe(df: pd.DataFrame):
@@ -45,7 +44,7 @@ def scale_dataframe(df: pd.DataFrame):
     return scaled_df
 
 
-# In[32]:
+# In[3]:
 
 
 def save_dataframe(df, file_path: pathlib.Path):
@@ -62,14 +61,14 @@ def save_dataframe(df, file_path: pathlib.Path):
     print(df.head(3))
 
 
-# In[33]:
+# In[4]:
 
 
 random.seed(18)
 print(random.random())
 
 
-# In[34]:
+# In[5]:
 
 
 # load all of the data
@@ -77,7 +76,7 @@ data_directory = "../0.data-download/data/"
 model_df, effect_df = load_data(data_directory, adult_or_pediatric="all")
 
 
-# In[35]:
+# In[6]:
 
 
 # verifying that the ModelIDs in model_df and effect_df are alligned
@@ -91,7 +90,7 @@ print(
 )
 
 
-# In[36]:
+# In[7]:
 
 
 # assign 'AgeCategory' and 'Sex' columns to the effect dataframe as a single column
@@ -101,7 +100,7 @@ presplit_effect_df = effect_df.assign(
 presplit_effect_df
 
 
-# In[37]:
+# In[8]:
 
 
 groups = model_df.groupby("AgeCategory")
@@ -119,7 +118,7 @@ new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
 
-# In[38]:
+# In[9]:
 
 
 # creating a list of ModelIDs that correlate to pediatric and adult samples
@@ -133,7 +132,7 @@ PA_effect_df = presplit_effect_df.loc[
 ].reset_index(drop=True)
 
 
-# In[39]:
+# In[10]:
 
 
 # split the data based on age category and sex
@@ -149,20 +148,11 @@ test_df.reset_index(drop=True,inplace=True)
 val_df.reset_index(drop=True,inplace=True)
 
 
-# In[40]:
-
-
-#scale each dataframe
-train_scaled_df = scale_dataframe(train_df)
-test_scaled_df = scale_dataframe(test_df)
-val_scaled_df = scale_dataframe(val_df)
-
-
-# In[41]:
+# In[11]:
 
 
 #save each dataframe
-save_dataframe(train_scaled_df, "../0.data-download/data/VAE_train_df.csv")
-save_dataframe(test_scaled_df, "../0.data-download/data/VAE_test_df.csv")
-save_dataframe(val_scaled_df, "../0.data-download/data/VAE_val_df.csv")
+save_dataframe(train_df, pathlib.Path("../0.data-download/data/VAE_train_df.csv").resolve())
+save_dataframe(test_df, pathlib.Path("../0.data-download/data/VAE_test_df.csv").resolve())
+save_dataframe(val_df, pathlib.Path("../0.data-download/data/VAE_val_df.csv").resolve())
 
