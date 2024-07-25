@@ -8,6 +8,7 @@ import pandas as pd
 from matplotlib import testing
 from numpy import ndarray
 from sklearn.preprocessing import MinMaxScaler
+import torch
 
 
 def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
@@ -105,17 +106,17 @@ def load_train_test_data(
     ].tolist()
 
     # create new training and testing dataframes that contain only the corresponding genes
-    train_df = train_features_df.filter(gene_list_passed_qc, axis=1)
-    test_df = test_features_df.filter(gene_list_passed_qc, axis=1)
-    val_df = val_features_df.filter(gene_list_passed_qc, axis=1)
+    train_data = train_features_df.filter(gene_list_passed_qc, axis=1)
+    test_data = test_features_df.filter(gene_list_passed_qc, axis=1)
+    val_data = val_features_df.filter(gene_list_passed_qc, axis=1)
 
     # Normalize data
-    train_data = train_df.values.astype(np.float32)
-    test_data = test_df.values.astype(np.float32)
-    val_data = val_df.values.astype(np.float32)
     
     if zero_one_normalize == True:
-
+        train_data = train_data.values.astype(np.float32)
+        test_data = test_data.values.astype(np.float32)
+        val_data = val_data.values.astype(np.float32)
+        
         # Normalize based on data distribution
         scaler = MinMaxScaler()
         train_data = scaler.fit_transform(train_data)
@@ -137,3 +138,4 @@ def load_train_test_data(
     elif train_or_test == "all":
 
         return train_data, test_data, val_data, load_gene_stats
+    

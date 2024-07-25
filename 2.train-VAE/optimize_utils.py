@@ -1,7 +1,7 @@
 import argparse
 
 import torch
-from betavae import BetaVAE, evaluate_vae, train_vae
+from betavae import BetaVAE, train_vae, evaluate_vae
 from torch.utils.data import DataLoader, TensorDataset
 
 
@@ -120,6 +120,18 @@ def get_optimize_args():
 
 
 def objective(trial, train_tensor, val_tensor, train_df):
+    """
+    Optuna objective function
+    Args:
+        trial: Optuna trial
+        train_tensor: Training data tensor
+        val_tensor: Validation data tensor
+        train_df: Training dataframe
+
+    Returns:
+        Validation loss
+    """
+    val_loss = []
     args = get_optimize_args()
     """
     Optuna objective function: optimized by study
@@ -140,6 +152,15 @@ def objective(trial, train_tensor, val_tensor, train_df):
     epochs = trial.suggest_int(
         "epochs", args.min_epochs, args.max_epochs
     )
+    optimizer_type = trial.suggest_categorical(
+        "optimizer_type", ["adam", "sgd" ,"rmsprop"]
+    )
+    num_layers = trial.suggest_categorical(
+        "num_layers", [1, 2, 3]
+    )
+    hidden_dim = trial.suggest_int(
+        "hidden_dim", args.min_latent_dim, args.max_latent_dim
+    )
 
     # Create DataLoader
     train_loader = DataLoader(
@@ -149,12 +170,20 @@ def objective(trial, train_tensor, val_tensor, train_df):
         TensorDataset(val_tensor), batch_size=batch_size, shuffle=False
     )
 
-    model = BetaVAE(input_dim=train_df.shape[1], latent_dim=latent_dim, beta=beta)
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    model = BetaVAE(input_dim=train_df.shape[1], latent_dim=latent_dim, beta=beta, hidden_dim=hidden_dim, num_layers=num_layers)
+    optimizer = get_optimizer(optimizer_type, model.parameters(), learning_rate)
 
     train_vae(model, train_loader, optimizer, epochs=epochs)
 
-    # Evaluate VAE
     val_loss = evaluate_vae(model, val_loader)
 
+
     return val_loss
+
+def get_optimizer(optimizer_type, model_parameters, learning_rate):
+    if optimizer_type == 'adam':
+        return torch.optim.Adam(model_parameters, lr=learning_rate)
+    elif optimizer_type == 'sgd':
+        return torch.optim.SGD(model_parameters, lr=learning_rate)
+    elif optimizer_type == 'rmsprop':
+        return torch.optim.RMSprop(model_parameters, lr=learning_rate)
