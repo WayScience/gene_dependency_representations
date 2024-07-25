@@ -4,264 +4,175 @@
 # In[1]:
 
 
-import pathlib
-import random as python_random
+import torch
 import sys
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import tensorflow as tf
-
-sns.set_theme(color_codes=True)
-import random
-
+import pathlib 
 import joblib
+import pandas as pd
+import numpy as np
+import json
+import optuna
+import matplotlib.pyplot as plt
+from torch.utils.data import DataLoader, TensorDataset
+from pathlib import Path
+from betavae import BetaVAE, compile_vae, extract_latent_dimensions, weights
 
-sys.path.insert(0, ".././0.data-download/scripts/")
-from data_loader import load_data, load_train_test_data
-from keras.models import Model, Sequential
-from matplotlib.pyplot import figure, gcf
-from sklearn.decomposition import PCA
-from tensorflow import keras
-from vae import VAE
+script_directory = pathlib.Path("../utils/").resolve()
+sys.path.insert(0, str(script_directory))
+from data_loader import load_train_test_data
+
 
 # In[2]:
 
 
-random.seed(18)
-print(random.random())
+# Load data
+data_directory = pathlib.Path("../0.data-download/data").resolve()
+train_data, test_data, val_data, load_gene_stats = load_train_test_data(
+    data_directory, train_or_test="all", load_gene_stats=True, zero_one_normalize=True
+)
+
+train_tensor = torch.tensor(train_data, dtype=torch.float32)
+val_tensor = torch.tensor(val_data, dtype=torch.float32)
+test_tensor = torch.tensor(test_data, dtype=torch.float32)
 
 
 # In[3]:
 
 
-# load the data
-data_directory = pathlib.Path("../0.data-download/data")
-train_init, test_init, gene_stats = load_train_test_data(
-    data_directory, train_or_test="all", load_gene_stats=True
-)
+# Load the best hyperparameters
+study_name = "BetaVAE-Optimization"
+storage_name = f"sqlite:///./{study_name}.db"
+study = optuna.load_study(study_name=study_name, storage=storage_name)
+best_trial = study.best_trial
+
+latent_dim = best_trial.params['latent_dim']
+beta = best_trial.params['beta']
+learning_rate = best_trial.params['learning_rate']
+batch_size = best_trial.params['batch_size']
+epochs = best_trial.params['epochs']
+
+# Create DataLoader
+train_loader = DataLoader(TensorDataset(train_tensor), batch_size=batch_size, shuffle=True)
+val_loader = DataLoader(TensorDataset(val_tensor), batch_size=batch_size, shuffle=False)
+test_loader = DataLoader(TensorDataset(test_tensor), batch_size=batch_size, shuffle=False)
 
 
 # In[4]:
 
 
-# drop the string values
-train_df = train_init.drop(columns=["ModelID", "age_and_sex"])
-test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
+#Initialize the model and optimizer
+model = BetaVAE(input_dim=train_data.shape[1], latent_dim=latent_dim, beta=beta)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+# Training model
+train_loss_history, val_loss_history, test_loss_history = compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
 
 
-# In[5]:
+# In[ ]:
 
 
-# subsetting the genes
-
-# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and a saturated signal qc, then extracting their corresponding gene label
-gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
-gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
-
-# create new training and testing dataframes that contain only the filtered genes
-subset_train_df = train_df.filter(gene_list_passed_qc, axis=1)
-subset_test_df = test_df.filter(gene_list_passed_qc, axis=1)
+# Save the model
+model_path = pathlib.Path("results/best_vae_model.pth")
+torch.save(model.state_dict(), model_path)
 
 
-# In[6]:
+# In[ ]:
 
 
-print(subset_train_df.shape)
-subset_train_df.head(3)
+# Save training history
+history = {
+    'loss' : train_loss_history,
+    'val_loss': val_loss_history,
+    'test_loss': test_loss_history
+}
+
+history_path = pathlib.Path("results/training_history.json")
+with open(history_path, 'w') as f:
+    json.dump(history, f)
 
 
-# In[7]:
-
-
-print(subset_test_df.shape)
-subset_test_df.head(3)
-
-
-# In[8]:
-
-
-encoder_architecture = []
-decoder_architecture = []
-
-
-# In[9]:
-
-
-# These optimal parameter values were fetched by running "optimize_hyperparameters.py" and then running "fetch_hyper_params.ipynb" to 
-# learn the best hyperparamaters to use in the VAE.
-trained_vae = VAE(
-    input_dim=subset_train_df.shape[1],
-    latent_dim=49,
-    batch_size=80,
-    encoder_batch_norm=True,
-    epochs=255, 
-    learning_rate=0.005,
-    encoder_architecture=encoder_architecture,
-    decoder_architecture=decoder_architecture,
-    beta=1,
-    lam=0,
-    verbose=True,
-)
-
-trained_vae.compile_vae()
-
-
-# In[10]:
-
-
-# training the beta VAE
-# ideally loss and val_loss are both small and similar in value
-# if validation appears to start increasing after reaching values near the trainging curve, try lowering the epochs to finish prior to the start of overfitting
-# a decreasing Kullback-Leibler divergence score suggests a better trained model
-trained_vae.train(x_train=subset_train_df, x_test=subset_test_df)
-
-
-# In[11]:
-
-
-#save the βVAE model
-trained_vae_dir = pathlib.Path("./results/bVAE_model.sav")
-joblib.dump(trained_vae.vae, trained_vae_dir)
-
-
-# In[12]:
-
-
-# display training history
-history_df = pd.DataFrame(trained_vae.vae.history.history)
-
-# save the training history as a .csv
-hist_dir = pathlib.Path("./results/beta_vae_training_history.csv")
-history_df.to_csv(hist_dir, index=False)
-
-
-# In[13]:
+# In[ ]:
 
 
 # plot and save the figure
 save_path = pathlib.Path("../1.data-exploration/figures/training_curve.png")
 
 plt.figure(figsize=(6, 5), dpi=500)
-plt.plot(history_df["loss"], label="Training data")
-plt.plot(history_df["val_loss"], label="Validation data")
+plt.plot(val_loss_history, label="Validation data")
+plt.plot(test_loss_history, label="Testing data")
+plt.plot(train_loss_history, label="Training data")
 plt.yscale("log")
 plt.ylabel("MSE + KL Divergence")
-plt.xlabel("Epoch")
+plt.xlabel("Epochs")
 plt.legend()
 plt.savefig(save_path)
 plt.show()
 
 
-# In[14]:
+# In[ ]:
 
 
-encoder = trained_vae.encoder_block["encoder"]
-decoder = trained_vae.decoder_block["decoder"]
+save_path = pathlib.Path("../1.data-exploration/figures/training_curve_elbow.png")
+
+plt.figure(figsize=(6, 5), dpi=500)
+plt.xlim(-10,75)
+plt.ylim(0,600)
+plt.plot(val_loss_history, label="Validation data")
+plt.plot(test_loss_history, label="Testing data")
+plt.plot(train_loss_history, label="Training data")
+plt.ylabel("MSE + KL Divergence")
+plt.xlabel("Epochs")
+plt.legend()
+plt.savefig(save_path)
+plt.show()
 
 
-# In[15]:
-
-
-data_dir = "../0.data-download/data/"
-model_df, effect_df = load_data(data_dir, adult_or_pediatric="all")
-
-
-# In[16]:
-
-
-train_init["train_or_test"] = train_init.apply(lambda _: "train", axis=1)
-test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
-
-
-# In[17]:
-
-
-# create a data frame of both test and train gene effect data with sex, AgeCategory, and ModelID for use in later t-tests
-concat_frames = [train_init, test_init]
-train_and_test = pd.concat(concat_frames).reset_index(drop=True)
-train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
-    pat="_", expand=True
-)
-train_and_test_subbed = train_and_test.filter(gene_list_passed_qc, axis=1)
-metadata_holder = []
-metadata_holder = pd.DataFrame(metadata_holder)
-metadata = metadata_holder.assign(
-    ModelID=train_and_test.ModelID.astype(str),
-    AgeCategory=train_and_test.AgeCategory.astype(str),
-    Sex=train_and_test.Sex.astype(str),
-    train_or_test=train_and_test.train_or_test.astype(str),
-)
-
-metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv")
-metadata.to_csv(metadata_df_dir, index=False)
-metadata
-
-
-# In[18]:
+# In[ ]:
 
 
 # Extract the latent space dimensions
-latent_complete = np.array(encoder.predict(train_and_test_subbed)[2])
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv")
+metadata = pd.read_csv(metadata_df_dir)
 
-latent_df = pd.DataFrame(latent_complete)
+train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.csv")
+train_and_test_subbed = pd.read_csv(train_and_test_subbed_dir)
 
-# Create df of the latent space dimensions with the Model IDs added back in
-extracted_col = metadata['ModelID']
 
-latent_df.insert(0, 'ModelID', extracted_col)
+# Convert DataFrame to NumPy and then Tensor
+train_test_array = train_and_test_subbed.to_numpy()
+train_test_tensor = torch.tensor(train_test_array, dtype=torch.float32)
 
-# Save as a csv
+#Create TensorDataset and DataLoader
+tensor_dataset = TensorDataset(train_test_tensor)
+train_and_test_subbed_loader = DataLoader(tensor_dataset, batch_size=32, shuffle=False)
+
+latent_df = extract_latent_dimensions(model, train_and_test_subbed_loader, metadata)
+print(latent_df.head())
+
+#Save as CSV
 latent_df_dir = pathlib.Path("./results/latent_df.csv")
 
 latent_df.to_csv(latent_df_dir, index=False)
 
-latent_df.head()
+
+# In[ ]:
 
 
-# In[19]:
+# Load data
+data_directory = pathlib.Path("../0.data-download/data").resolve()
+train_df = load_train_test_data(
+    data_directory, train_or_test="train"
+)
 
+# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+gene_dict_df = pd.read_csv(
+    "../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter="\t"
+)
+gene_list_passed_qc = gene_dict_df.loc[
+    gene_dict_df["qc_pass"], "dependency_column"
+].tolist()
 
-# Extract the weights learned from the model, tranpose
-weight_matrix = encoder.get_weights()[2]
-
-weight_df = pd.DataFrame(weight_matrix)
-
-# Save as csv to use for heatmap
-weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.csv")
-weight_df.to_csv(weight_df_dir, index=False)
-weight_df.head()
-
-
-# In[20]:
-
-
-# Transpose, add gene names back in, transpose again, reset the index, renumber the columns 
-weight_df_T_df = weight_df.T
-
-gene_weight_df = pd.DataFrame(data=weight_df_T_df.values, columns=subset_train_df.columns)
-
-gene_weight_T_df = gene_weight_df.T
-
-gw_reindex_df = gene_weight_T_df.reset_index()
-
-gw_renumber_df = gw_reindex_df.rename(columns={x:y for x,y in zip(gw_reindex_df.columns,range(0,len(gw_reindex_df.columns)))})
-
-# Remove numbers from gene name column
-split_data_df = gw_renumber_df[0].str.split(" ", expand = True)
-
-gene_name_df = split_data_df.iloc[:,:1]
-
-trimmed_gene_weight_df = gw_renumber_df.iloc[:,1:]
-
-final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
-
-# Save as csv to use for GSEA
-gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.csv")
-
-final_gene_weights_df.to_csv(gene_weight_dir, index=False)
-
-final_gene_weights_df.head()
+#Extract and process weights 
+train_data = train_df.filter(gene_list_passed_qc, axis=1)
+final_gene_weights_df = weights(model, train_data)
 

@@ -4,19 +4,24 @@
 # In[1]:
 
 
-import logging
-import pathlib
 import sys
-
+import pathlib
 import numpy as np
-import optuna
 import pandas as pd
+import optuna
 import torch
+import logging 
+
 from optimize_utils import get_optimize_args, objective
 
 script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data
+
+import hiplot
+from optuna.visualization import plot_param_importances
+import plotly.io as pio
+
 
 # In[2]:
 
@@ -55,7 +60,7 @@ study.optimize(
 )
 
 
-# In[ ]:
+# In[5]:
 
 
 # Save best hyperparameters
@@ -63,4 +68,20 @@ best_trial = study.best_trial
 print(best_trial)
 print(f"Best trial: {best_trial.values}")
 print(f"Best hyperparameters: {best_trial.params}")
+
+
+# In[6]:
+
+
+#Plot and save hyperparameter importance
+save_path = pathlib.Path("../1.data-exploration/figures/param_importance.png")
+figure = plot_param_importances(study)
+pio.write_image(figure, save_path)
+
+
+# In[7]:
+
+
+#Create a hiplot for the parameters 
+hiplot.Experiment.from_optuna(study).display()
 

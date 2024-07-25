@@ -1,7 +1,7 @@
 import argparse
 
 import torch
-from betavae import BetaVAE, evaluate_vae, train_vae
+from betavae import BetaVAE, train_vae, evaluate_vae
 from torch.utils.data import DataLoader, TensorDataset
 
 
@@ -120,6 +120,8 @@ def get_optimize_args():
 
 
 def objective(trial, train_tensor, val_tensor, train_df):
+    train_loss = []
+    val_loss = []
     args = get_optimize_args()
     """
     Optuna objective function: optimized by study
@@ -152,9 +154,10 @@ def objective(trial, train_tensor, val_tensor, train_df):
     model = BetaVAE(input_dim=train_df.shape[1], latent_dim=latent_dim, beta=beta)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
+
     train_vae(model, train_loader, optimizer, epochs=epochs)
 
-    # Evaluate VAE
     val_loss = evaluate_vae(model, val_loader)
+
 
     return val_loss
