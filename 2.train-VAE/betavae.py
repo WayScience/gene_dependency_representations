@@ -19,18 +19,35 @@ class BetaVAE(nn.Module):
         beta (float): Weight for the Kullback-Leibler divergence term in the loss function.
     """
 
-    def __init__(self, input_dim, latent_dim, beta):
+    def __init__(self, input_dim, latent_dim, beta, hidden_dim, num_layers):
         super(BetaVAE, self).__init__()
-        self.encoder = nn.Sequential(
-            nn.Linear(input_dim, latent_dim * 2),
-            nn.BatchNorm1d(latent_dim * 2),
-            nn.ReLU(),
-        )
-        self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, input_dim),
-            nn.BatchNorm1d(input_dim),
-            nn.Sigmoid(),
-        )
+        self.latent_dim = latent_dim
+        self.beta = beta
+
+        # Create encoder with variable number of layers
+        layers = []
+        in_dim = input_dim
+        for _ in range(num_layers):
+            layers.append(nn.Linear(in_dim, hidden_dim))
+            layers.append(nn.BatchNorm1d(hidden_dim))
+            layers.append(nn.ReLU())
+            in_dim = hidden_dim
+        # The final layer outputs mu and log_var
+        layers.append(nn.Linear(in_dim, latent_dim * 2))
+        self.encoder = nn.Sequential(*layers)
+
+        # Create decoder with variable number of layers
+        layers = []
+        in_dim = latent_dim
+        for _ in range(num_layers):
+            layers.append(nn.Linear(in_dim, hidden_dim))
+            layers.append(nn.BatchNorm1d(hidden_dim))
+            layers.append(nn.ReLU())
+            in_dim = hidden_dim
+        # The final layer outputs the reconstructed input
+        layers.append(nn.Linear(in_dim, input_dim))
+        layers.append(nn.Sigmoid())
+        self.decoder = nn.Sequential(*layers)
         self.latent_dim = latent_dim
         self.beta = beta
 
@@ -91,7 +108,13 @@ class BetaVAE(nn.Module):
 
 def train_model(model, train_loader, optimizer):
     """
-    Definition of the VAE training model 
+    Definition of the VAE training model for use in both training and compiling
+    Args:
+        model (VAE): VAE model to be trained.
+        train_loader (DataLoader): DataLoader for the training data.
+        optimizer (Optimizer): Optimizer for the model.
+    Returns:
+        The average training loss for the current epoch
     """
     model.train()
     train_loss = 0
@@ -115,6 +138,8 @@ def train_vae(model, train_loader, optimizer, epochs):
         train_loader (DataLoader): DataLoader for the training data.
         optimizer (Optimizer): Optimizer for the model.
         epochs (int, optional): Number of training epochs. Defaults to 5.
+    Returns:
+        Training history (loss)
     """
     train_loss_history = []
     model.train()
@@ -201,6 +226,16 @@ def extract_latent_dimensions(model, data_loader, metadata):
 
 
 def weights(model, subset_train_df):
+    """
+    Extract weight from the VAE model and save them with Model IDs.
+
+    Args:
+        model (VAE): Trained VAE model.
+        subset_train_df: the qc training dataframe
+
+    Returns:
+        Gene weight dataframe
+    """
     weight_matrix = model.encoder[0].weight.detach().cpu().numpy().T  # Transpose the weight matrix
     weight_df = pd.DataFrame(weight_matrix)
 

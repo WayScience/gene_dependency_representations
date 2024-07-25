@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 import sys
@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 import random
 
 
-# In[3]:
+# In[2]:
 
 
 def scale_dataframe(df: pd.DataFrame):
@@ -44,7 +44,7 @@ def scale_dataframe(df: pd.DataFrame):
     return scaled_df
 
 
-# In[4]:
+# In[3]:
 
 
 def save_dataframe(df, file_path: pathlib.Path):
@@ -61,14 +61,14 @@ def save_dataframe(df, file_path: pathlib.Path):
     print(df.head(3))
 
 
-# In[5]:
+# In[4]:
 
 
 random.seed(18)
 print(random.random())
 
 
-# In[6]:
+# In[5]:
 
 
 # load all of the data
@@ -76,7 +76,7 @@ data_directory = "../0.data-download/data/"
 model_df, effect_df = load_data(data_directory, adult_or_pediatric="all")
 
 
-# In[7]:
+# In[6]:
 
 
 # verifying that the ModelIDs in model_df and effect_df are alligned
@@ -90,7 +90,7 @@ print(
 )
 
 
-# In[8]:
+# In[7]:
 
 
 # assign 'AgeCategory' and 'Sex' columns to the effect dataframe as a single column
@@ -100,7 +100,7 @@ presplit_effect_df = effect_df.assign(
 presplit_effect_df
 
 
-# In[9]:
+# In[8]:
 
 
 groups = model_df.groupby("AgeCategory")
@@ -118,7 +118,7 @@ new_df = new_df.sort_index(ascending=True)
 new_df = new_df.reset_index()
 
 
-# In[10]:
+# In[9]:
 
 
 # creating a list of ModelIDs that correlate to pediatric and adult samples
@@ -132,7 +132,7 @@ PA_effect_df = presplit_effect_df.loc[
 ].reset_index(drop=True)
 
 
-# In[11]:
+# In[10]:
 
 
 # split the data based on age category and sex
@@ -148,7 +148,7 @@ test_df.reset_index(drop=True,inplace=True)
 val_df.reset_index(drop=True,inplace=True)
 
 
-# In[12]:
+# In[11]:
 
 
 #save each dataframe
@@ -165,27 +165,23 @@ save_dataframe(val_df, pathlib.Path("../0.data-download/data/VAE_val_df.csv").re
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and a saturated signal qc, then extracting their corresponding gene label
 gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
-gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
+gene_list_passed_qc = gene_dict_df.loc[gene_dict_df["qc_pass"], 'dependency_column'].tolist()
 concat_frames = [train_df, test_df, val_df]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
 train_and_test_subbed = train_and_test.filter(gene_list_passed_qc, axis=1)
-metadata_holder = []
-metadata_holder = pd.DataFrame(metadata_holder)
+metadata_holder = pd.DataFrame()
 metadata = metadata_holder.assign(
     ModelID=train_and_test.ModelID.astype(str),
     AgeCategory=train_and_test.AgeCategory.astype(str),
     Sex=train_and_test.Sex.astype(str),
-    #train_or_test=train_and_test.train_or_test.astype(str),
 )
 
-metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv")
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv").resolve()
 metadata.to_csv(metadata_df_dir, index=False)
-metadata
 
-train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.csv")
+train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.csv").resolve()
 train_and_test_subbed.to_csv(train_and_test_subbed_dir, index=False)
-train_and_test_subbed
 
