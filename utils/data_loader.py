@@ -15,12 +15,12 @@ def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
 
     # Define data paths
     data_directory = "../0.data-download/data/"
-    model_file = pathlib.Path(data_directory, "Model.csv")
-    effect_data_file = pathlib.Path(data_directory, "CRISPRGeneEffect.csv")
+    model_file = pathlib.Path(data_directory, "Model.parquet")
+    effect_data_file = pathlib.Path(data_directory, "CRISPRGeneEffect.parquet")
 
     # Load data
-    model_df = pd.read_csv(model_file)
-    effect_df = pd.read_csv(effect_data_file).dropna(axis=1)
+    model_df = pd.read_parquet(model_file)
+    effect_df = pd.read_parquet(effect_data_file).dropna(axis=1)
 
     # rearrange model info and gene effect dataframe indices so id_column is in alphabetical order
     model_df = model_df.sort_index(ascending=True)
@@ -65,9 +65,9 @@ def load_data(data_directory, adult_or_pediatric="all", id_column="ModelID"):
 
 def load_train_test_data(
     data_directory,
-    train_file="VAE_train_df.csv",
-    test_file="VAE_test_df.csv",
-    val_file="VAE_val_df.csv",
+    train_file="VAE_train_df.parquet",
+    test_file="VAE_test_df.parquet",
+    val_file="VAE_val_df.parquet",
     train_or_test="all",
     load_gene_stats=False,
     zero_one_normalize=False,
@@ -79,16 +79,16 @@ def load_train_test_data(
     validation_data_file = pathlib.Path(data_directory, val_file)
 
     # load in the data
-    train_file = pd.read_csv(training_data_file)
-    test_file = pd.read_csv(testing_data_file)
-    val_file = pd.read_csv(validation_data_file)
+    train_file = pd.read_parquet(training_data_file)
+    test_file = pd.read_parquet(testing_data_file)
+    val_file = pd.read_parquet(validation_data_file)
 
     # overwrite if load_gene_stats is set to true
     if load_gene_stats is True:
         gene_statistics_file = pathlib.Path(
-            data_directory, "genes_variances_and_t-tests_df.csv"
+            data_directory, "genes_variances_and_t-tests_df.parquet"
         )
-        load_gene_stats = pd.read_csv(gene_statistics_file)
+        load_gene_stats = pd.read_parquet(gene_statistics_file)
     else:
         load_gene_stats = None
 
@@ -98,8 +98,8 @@ def load_train_test_data(
     val_features_df = val_file.drop(columns=["ModelID", "age_and_sex"])
 
     # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
-    gene_dict_df = pd.read_csv(
-        "../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter="\t"
+    gene_dict_df = pd.read_parquet(
+        "../0.data-download/data/CRISPR_gene_dictionary.parquet"
     )
     gene_list_passed_qc = gene_dict_df.loc[
         gene_dict_df["qc_pass"], "dependency_column"

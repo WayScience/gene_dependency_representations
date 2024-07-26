@@ -3,11 +3,11 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(cowplot))
 
 # Set file paths
-training_file <- file.path("..", "results", "beta_vae_training_history.csv")
+training_file <- file.path("..", "results", "beta_vae_training_history.parquet")
 output_file <- file.path("figures", "optimal_beta_vae_training_curves.png")
 
 # Load and process training history (in preparation for plotting)
-train_df <- readr::read_csv(
+train_df <- readr::read_parquet(
     training_file, col_types = readr::cols(.default="d")
 ) %>%
     dplyr::mutate(epoch = dplyr::row_number()) %>%

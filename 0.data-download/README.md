@@ -13,7 +13,7 @@ The 23Q2 release notes are described here: https://forum.depmap.org/t/announcing
 
 See the following resource for more information: https://forum.depmap.org/t/depmap-genetic-dependencies-faq/131
 
-### CRISPRGeneEffect.csv
+### CRISPRGeneEffect.parquet
 
 Integrated dataset processed by a joint Chronos run for the Achilles dataset (Avana library) combined with the Sanger dataset (KY library).
 The two datasets were adjusted for by Chronos 2.0 and integrated using a ComBat-based algorithm called Harmonia.
@@ -24,7 +24,7 @@ Chronos adjusts for sgRNA efficacy, screen quality, differential cell growth rat
 
 The dataset is also adjusted for gene knockout effects that occur on the same chromosome arm.
 
-### CRISPRGeneDependency.csv
+### CRISPRGeneDependency.parquet
 
 This data comprises scores from individual CRISPR gene knockout screens in cancer cell lines for every gene across many different ages and cancer types.
 The values represent gene dependency probability estimates for cell survival and growth for all models in the integrated gene effect.
@@ -35,7 +35,7 @@ The probability estimate is derived from the CRISPRGeneEffect estimates.
 Columns (17,932): gene
 Rows (1,095): the ModelID
 
-### Model.csv
+### Model.parquet
 
 This file gives details on the cell lines, type of cancer, sex, age, and unique IDs of the patient.
 

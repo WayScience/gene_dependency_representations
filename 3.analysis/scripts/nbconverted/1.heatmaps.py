@@ -60,7 +60,7 @@ test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
 # subsetting the genes
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
-gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_dict_df = pd.read_parquet("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
 gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
 
 # create new training and testing dataframes that contain only the corresponding genes
@@ -80,7 +80,7 @@ test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
 
 # load the latent dimension dataframe
 
-latent_df = pd.read_csv("../2.train-VAE/results/latent_df.csv")
+latent_df = pd.read_parquet("../2.train-VAE/results/latent_df.parquet")
 
 print(latent_df.shape)
 
@@ -216,7 +216,7 @@ plt.savefig(heat_save_path, bbox_inches="tight", dpi=600)
 
 # load the weights dataframe
 
-gene_weights_df = pd.read_csv("../2.train-VAE/results/weight_matrix_encoder.csv")
+gene_weights_df = pd.read_parquet("../2.train-VAE/results/weight_matrix_encoder.parquet")
 
 gene_weights_df
 

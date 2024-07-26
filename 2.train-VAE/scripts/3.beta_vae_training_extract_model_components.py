@@ -131,11 +131,11 @@ plt.show()
 
 
 # Extract the latent space dimensions
-metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv")
-metadata = pd.read_csv(metadata_df_dir)
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.parquet")
+metadata = pd.read_parquet(metadata_df_dir)
 
-train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.csv")
-train_and_test_subbed = pd.read_csv(train_and_test_subbed_dir)
+train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.parquet")
+train_and_test_subbed = pd.read_parquet(train_and_test_subbed_dir)
 
 
 # Convert DataFrame to NumPy and then Tensor
@@ -149,10 +149,10 @@ train_and_test_subbed_loader = DataLoader(tensor_dataset, batch_size=32, shuffle
 latent_df = extract_latent_dimensions(model, train_and_test_subbed_loader, metadata)
 print(latent_df.head())
 
-#Save as CSV
-latent_df_dir = pathlib.Path("./results/latent_df.csv")
+#Save as parquet
+latent_df_dir = pathlib.Path("./results/latent_df.parquet")
 
-latent_df.to_csv(latent_df_dir, index=False)
+latent_df.to_parquet(latent_df_dir, index=False)
 
 
 # In[ ]:
@@ -165,7 +165,7 @@ train_df = load_train_test_data(
 )
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
-gene_dict_df = pd.read_csv(
+gene_dict_df = pd.read_parquet(
     "../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter="\t"
 )
 gene_list_passed_qc = gene_dict_df.loc[

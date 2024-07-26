@@ -39,7 +39,7 @@ import pandas as pd
 
 base_dir = "data/"
 
-dependency_file = pathlib.Path(f"{base_dir}/CRISPRGeneEffect.csv")
+dependency_file = pathlib.Path(f"{base_dir}/CRISPRGeneEffect.parquet")
 qc_gene_file = pathlib.Path(f"{base_dir}/depmap_gene_meta.tsv")
 
 output_gene_dict_file = pathlib.Path(f"{base_dir}/CRISPR_gene_dictionary.tsv")
@@ -49,7 +49,7 @@ output_gene_dict_file = pathlib.Path(f"{base_dir}/CRISPR_gene_dictionary.tsv")
 
 
 # Load gene dependency data
-dependency_df = pd.read_csv(dependency_file, index_col=0)
+dependency_df = pd.read_parquet(dependency_file, index_col=0)
 
 print(dependency_df.shape)
 dependency_df.head()
@@ -59,7 +59,7 @@ dependency_df.head()
 
 
 # Load depmap metadata
-gene_meta_df = pd.read_csv(qc_gene_file, sep="\t")
+gene_meta_df = pd.read_parquet(qc_gene_file, sep="\t")
 gene_meta_df.entrezgene = gene_meta_df.entrezgene.astype(str)
 
 print(gene_meta_df.shape)
@@ -168,7 +168,7 @@ gene_dictionary_qc_df = (
 )
 
 # Output file
-gene_dictionary_qc_df.to_csv(output_gene_dict_file, index=False, sep="\t")
+gene_dictionary_qc_df.to_parquet(output_gene_dict_file, index=False, sep="\t")
 
 print(gene_dictionary_qc_df.qc_pass.value_counts())
 print(gene_dictionary_qc_df.shape)
