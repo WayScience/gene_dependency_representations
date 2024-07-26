@@ -157,14 +157,14 @@ save_dataframe(test_df, pathlib.Path("../0.data-download/data/VAE_test_df.parque
 save_dataframe(val_df, pathlib.Path("../0.data-download/data/VAE_val_df.parquet").resolve())
 
 
-# In[13]:
+# In[16]:
 
 
 # create a data frame of both test and train gene effect data with sex, AgeCategory, and ModelID for use in later t-tests
 # load in the data
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and a saturated signal qc, then extracting their corresponding gene label
-gene_dict_df = pd.read_parquet("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_dict_df = pd.read_parquet("../0.data-download/data/CRISPR_gene_dictionary.parquet")
 gene_list_passed_qc = gene_dict_df.loc[gene_dict_df["qc_pass"], 'dependency_column'].tolist()
 concat_frames = [train_df, test_df, val_df]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
