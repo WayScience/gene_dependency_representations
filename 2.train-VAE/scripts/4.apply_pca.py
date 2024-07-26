@@ -24,12 +24,12 @@ from data_loader import load_train_test_data
 
 
 data_directory = pathlib.Path("../0.data-download/data")
-dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.csv")
+dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet")
 gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.tsv")
 
 output_dir = pathlib.Path("results")
-pca_output_file = pathlib.Path(f"{output_dir}/pca_latent.csv.gz")
-output_pca_weights_file = pathlib.Path(f"{output_dir}/PCA_weight_matrix_gsea.csv")
+pca_output_file = pathlib.Path(f"{output_dir}/pca_latent.parquet.gz")
+output_pca_weights_file = pathlib.Path(f"{output_dir}/PCA_weight_matrix_gsea.parquet")
 
 
 # In[3]:
@@ -42,7 +42,7 @@ pca_components = 50
 
 
 # Load gene dependency data
-dependency_df = pd.read_csv(dependency_file)
+dependency_df = pd.read_parquet(dependency_file)
 
 print(dependency_df.shape)
 dependency_df.head(3)
@@ -53,7 +53,7 @@ dependency_df.head(3)
 
 # Load gene dictionary (with QC columns)
 gene_dict_df = (
-    pd.read_csv(gene_dict_file, sep="\t")
+    pd.read_parquet(gene_dict_file, sep="\t")
     .query("qc_pass")
     .reset_index(drop=True)
 )
@@ -129,7 +129,7 @@ dependency_df_transformed = pd.DataFrame(
 dependency_df_transformed.columns = [f"PCA_{x}" for x in range(0, dependency_df_transformed.shape[1])]
 dependency_df_transformed = pd.concat([dependency_df.loc[:, "ModelID"], dependency_df_transformed], axis="columns")
 
-dependency_df_transformed.to_csv(pca_output_file, sep=",", index=False)
+dependency_df_transformed.to_parquet(pca_output_file, sep=",", index=False)
 
 print(dependency_df_transformed.shape)
 dependency_df_transformed.head(3)
@@ -144,7 +144,7 @@ pca_weights.columns = [f"PCA_{x}" for x in range(0, pca_weights.shape[1])]
 
 pca_weights = pca_weights.reset_index().rename(columns={"index": "genes"})
 
-pca_weights.to_csv(output_pca_weights_file, index=False)
+pca_weights.to_parquet(output_pca_weights_file, index=False)
 
 print(pca_weights.shape)
 pca_weights.head(3)

@@ -56,7 +56,7 @@ def save_dataframe(df, file_path: pathlib.Path):
     file_path (str): The file path to save the DataFrame.
     """
     df = df.reset_index(drop=True)
-    df.to_csv(file_path, index=False)
+    df.to_parquet(file_path, index=False)
     print(f"DataFrame saved to {file_path}. Shape: {df.shape}")
     print(df.head(3))
 
@@ -152,19 +152,19 @@ val_df.reset_index(drop=True,inplace=True)
 
 
 #save each dataframe
-save_dataframe(train_df, pathlib.Path("../0.data-download/data/VAE_train_df.csv").resolve())
-save_dataframe(test_df, pathlib.Path("../0.data-download/data/VAE_test_df.csv").resolve())
-save_dataframe(val_df, pathlib.Path("../0.data-download/data/VAE_val_df.csv").resolve())
+save_dataframe(train_df, pathlib.Path("../0.data-download/data/VAE_train_df.parquet").resolve())
+save_dataframe(test_df, pathlib.Path("../0.data-download/data/VAE_test_df.parquet").resolve())
+save_dataframe(val_df, pathlib.Path("../0.data-download/data/VAE_val_df.parquet").resolve())
 
 
-# In[13]:
+# In[16]:
 
 
 # create a data frame of both test and train gene effect data with sex, AgeCategory, and ModelID for use in later t-tests
 # load in the data
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and a saturated signal qc, then extracting their corresponding gene label
-gene_dict_df = pd.read_csv("../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter='\t')
+gene_dict_df = pd.read_parquet("../0.data-download/data/CRISPR_gene_dictionary.parquet")
 gene_list_passed_qc = gene_dict_df.loc[gene_dict_df["qc_pass"], 'dependency_column'].tolist()
 concat_frames = [train_df, test_df, val_df]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
@@ -179,9 +179,9 @@ metadata = metadata_holder.assign(
     Sex=train_and_test.Sex.astype(str),
 )
 
-metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.csv").resolve()
-metadata.to_csv(metadata_df_dir, index=False)
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.parquet").resolve()
+metadata.to_parquet(metadata_df_dir, index=False)
 
-train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.csv").resolve()
-train_and_test_subbed.to_csv(train_and_test_subbed_dir, index=False)
+train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.parquet").resolve()
+train_and_test_subbed.to_parquet(train_and_test_subbed_dir, index=False)
 

@@ -219,8 +219,8 @@ def extract_latent_dimensions(model, data_loader, metadata):
     latent_df = pd.DataFrame(latent_space)
     latent_df.insert(0, 'ModelID', metadata['ModelID'])
 
-    latent_df_dir = pathlib.Path("./results/latent_df.csv")
-    latent_df.to_csv(latent_df_dir, index=False)
+    latent_df_dir = pathlib.Path("./results/latent_df.parquet")
+    latent_df.to_parquet(latent_df_dir, index=False)
 
     return latent_df
 
@@ -239,9 +239,9 @@ def weights(model, subset_train_df):
     weight_matrix = model.encoder[0].weight.detach().cpu().numpy().T  # Transpose the weight matrix
     weight_df = pd.DataFrame(weight_matrix)
 
-    # Save as CSV to use for heatmap
-    weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.csv")
-    weight_df.to_csv(weight_df_dir, index=False)
+    # Save as parquet to use for heatmap
+    weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.parquet")
+    weight_df.to_parquet(weight_df_dir, index=False)
 
     # Transpose, add gene names back in, transpose again, reset the index, renumber the columns 
     weight_df_T_df = weight_df.T
@@ -259,8 +259,8 @@ def weights(model, subset_train_df):
 
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
 
-    # Save as CSV to use for GSEA
-    gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.csv")
-    final_gene_weights_df.to_csv(gene_weight_dir, index=False)
+    # Save as parquet to use for GSEA
+    gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.parquet")
+    final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
 
     return final_gene_weights_df

@@ -210,11 +210,11 @@ df = variance_df.assign(
     ttest_M_vs_F=t_test_sex.t_stat.astype(float),
 )
 
-# and save the new dataframe as a .csv
+# and save the new dataframe as a .parquet
 testing_df_output = pathlib.Path(
-    "../0.data-download/data/genes_variances_and_t-tests_df.csv"
+    "../0.data-download/data/genes_variances_and_t-tests_df.parquet"
 )
-df.to_csv(testing_df_output, index=False)
+df.to_parquet(testing_df_output, index=False)
 print(df.shape)
 df.head(3)
 

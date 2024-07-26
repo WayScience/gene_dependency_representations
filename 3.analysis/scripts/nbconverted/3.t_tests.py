@@ -16,8 +16,8 @@ import pathlib
 # In[2]:
 
 
-latent_df = pd.read_csv("../2.train-VAE/results/latent_df.csv")
-metadata_df = pd.read_csv(".././0.data-download/data/metadata_df.csv")
+latent_df = pd.read_parquet("../2.train-VAE/results/latent_df.parquet")
+metadata_df = pd.read_parquet(".././0.data-download/data/metadata_df.parquet")
 data_dir = "../0.data-download/data/"
 model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
 
@@ -203,7 +203,7 @@ t_test_results_df = pd.concat([
     t_test_adult_male_vs_adult_female
 ]).reset_index(drop=True)
 t_test_results_dir = pathlib.Path("./results/t_test_results.tsv")
-t_test_results_df.to_csv(t_test_results_dir, sep="\t")
+t_test_results_df.to_parquet(t_test_results_dir, sep="\t")
 
 # sort to show most significant p-values
 t_test_results_df.sort_values(by='p_value', ascending = True)

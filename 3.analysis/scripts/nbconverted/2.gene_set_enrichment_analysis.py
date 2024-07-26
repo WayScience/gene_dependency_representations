@@ -53,8 +53,8 @@ library = blitz.enrichr.get_library("Reactome_2022")
 
 
 # load the weight matrix 
-gene_weight_dir = pathlib.Path("../2.train-VAE/results/weight_matrix_gsea.csv")
-signature = pd.read_csv(gene_weight_dir)
+gene_weight_dir = pathlib.Path("../2.train-VAE/results/weight_matrix_gsea.parquet")
+signature = pd.read_parquet(gene_weight_dir)
 print(signature.shape)
 signature.head()
 
@@ -119,8 +119,8 @@ neg_GSEA_results['source'] = 'negative control'
 combo_gsea_df = pd.concat([all_GSEA_results, neg_GSEA_results])
 
 # saving gsea results as single output file
-combo_gsea_dir = pathlib.Path("./results/combined_gsea_results.csv.gz")
-combo_gsea_df.to_csv(combo_gsea_dir, compression = 'gzip')
+combo_gsea_dir = pathlib.Path("./results/combined_gsea_results.parquet.gz")
+combo_gsea_df.to_parquet(combo_gsea_dir, compression = 'gzip')
 
 
 # In[9]:
