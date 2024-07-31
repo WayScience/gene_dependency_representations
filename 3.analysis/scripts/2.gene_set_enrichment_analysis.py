@@ -4,7 +4,6 @@
 # In[1]:
 
 
-import sys
 import pathlib
 import numpy as np
 import pandas as pd
@@ -14,7 +13,6 @@ import random
 import matplotlib.backends.backend_pdf
 
 sns.set_theme(color_codes=True)
-#sys.path.insert(0, ".././0.data-download/scripts/")
 
 import blitzgsea as blitz
 
