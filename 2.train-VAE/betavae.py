@@ -14,44 +14,26 @@ class BetaVAE(nn.Module):
 
     Args:
         input_dim (int): Dimension of the input data.
-        hidden_dim (int): Dimension of the hidden layer. (this is utilized if two layers)
         latent_dim (int): Dimension of the latent space.
         beta (float): Weight for the Kullback-Leibler divergence term in the loss function.
     """
 
-    def __init__(self, input_dim, latent_dim, beta, hidden_dim, num_layers):
+    def __init__(self, input_dim: int, latent_dim: int, beta: float):
         super(BetaVAE, self).__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, latent_dim * 2),
+            nn.BatchNorm1d(latent_dim * 2),
+            nn.ReLU(),
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, input_dim),
+            nn.BatchNorm1d(input_dim),
+            nn.Sigmoid(),
+        )
         self.latent_dim = latent_dim
         self.beta = beta
 
-        # Create encoder with variable number of layers
-        layers = []
-        in_dim = input_dim
-        for _ in range(num_layers):
-            layers.append(nn.Linear(in_dim, hidden_dim))
-            layers.append(nn.BatchNorm1d(hidden_dim))
-            layers.append(nn.ReLU())
-            in_dim = hidden_dim
-        # The final layer outputs mu and log_var
-        layers.append(nn.Linear(in_dim, latent_dim * 2))
-        self.encoder = nn.Sequential(*layers)
-
-        # Create decoder with variable number of layers
-        layers = []
-        in_dim = latent_dim
-        for _ in range(num_layers):
-            layers.append(nn.Linear(in_dim, hidden_dim))
-            layers.append(nn.BatchNorm1d(hidden_dim))
-            layers.append(nn.ReLU())
-            in_dim = hidden_dim
-        # The final layer outputs the reconstructed input
-        layers.append(nn.Linear(in_dim, input_dim))
-        layers.append(nn.Sigmoid())
-        self.decoder = nn.Sequential(*layers)
-        self.latent_dim = latent_dim
-        self.beta = beta
-
-    def reparameterize(self, mu, log_var):
+    def reparameterize(self, mu: float, log_var: float):
         """
         Reparameterize from N(mu, var) to N(0,1)
         """
