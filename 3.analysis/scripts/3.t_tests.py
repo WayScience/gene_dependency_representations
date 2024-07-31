@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 import sys
@@ -13,7 +13,7 @@ from scipy.stats import f_oneway
 import pathlib
 
 
-# In[3]:
+# In[2]:
 
 
 latent_df = pd.read_parquet("../2.train-VAE/results/latent_df.parquet")
@@ -22,7 +22,7 @@ data_dir = "../0.data-download/data/"
 model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
 
 
-# In[4]:
+# In[3]:
 
 
 # Creating categorized lists of sample IDs used in BVAE training
@@ -38,7 +38,7 @@ ped_female_ids = metadata_df.query("AgeCategory == 'Pediatric'").query("Sex == '
 adult_female_ids = metadata_df.query("AgeCategory == 'Adult'").query("Sex == 'Female'").ModelID.tolist()
 
 
-# In[5]:
+# In[4]:
 
 
 # Generating latent dataframes for each category and dropping the id column to prep for t tests
@@ -100,7 +100,7 @@ adult_female_latent_df_float = adult_female_latent_df.drop(columns=["ModelID"])
 adult_female_latent_df_float.reset_index(drop=True, inplace=True)
 
 
-# In[6]:
+# In[5]:
 
 
 # t tests comparing adult vs ped for each latent dimension
@@ -115,7 +115,7 @@ print(t_test_adult_vs_ped.shape)
 t_test_adult_vs_ped.head(5)
 
 
-# In[7]:
+# In[6]:
 
 
 # t tests comparing male vs female for each latent dimension
@@ -130,7 +130,7 @@ print(t_test_male_vs_female.shape)
 t_test_male_vs_female.head(5)
 
 
-# In[8]:
+# In[7]:
 
 
 # t tests comparing adult male vs ped male for each latent dimension
@@ -145,7 +145,7 @@ print(t_test_adult_male_vs_ped_male.shape)
 t_test_adult_male_vs_ped_male.head(5)
 
 
-# In[9]:
+# In[8]:
 
 
 # t tests comparing adult female vs ped female for each latent dimension
@@ -160,7 +160,7 @@ print(t_test_adult_female_vs_ped_female.shape)
 t_test_adult_female_vs_ped_female.head(5)
 
 
-# In[10]:
+# In[9]:
 
 
 # t tests comparing ped male vs ped female for each latent dimension
@@ -175,7 +175,7 @@ print(t_test_ped_male_vs_ped_female.shape)
 t_test_ped_male_vs_ped_female.head(5)
 
 
-# In[11]:
+# In[10]:
 
 
 # t tests comparing adult male vs adult female for each latent dimension
@@ -190,7 +190,7 @@ print(t_test_adult_male_vs_adult_female.shape)
 t_test_adult_male_vs_adult_female.head(5)
 
 
-# In[13]:
+# In[11]:
 
 
 # Combining and saving t test results
@@ -209,7 +209,7 @@ t_test_results_df.to_parquet(t_test_results_dir)
 t_test_results_df.sort_values(by='p_value', ascending = True)
 
 
-# In[14]:
+# In[12]:
 
 
 # ANOVA Testing
