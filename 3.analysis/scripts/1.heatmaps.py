@@ -114,7 +114,7 @@ network_node_colors = pd.DataFrame(row_colors1).join(
     pd.DataFrame(row_colors2).join(pd.DataFrame(row_colors3))
 )
 
-sns.set(font_scale=4.0)
+sns.set(font_scale=2.0)
 g = sns.clustermap(
     latent_df.iloc[:,1:],
     method="ward",
@@ -123,7 +123,7 @@ g = sns.clustermap(
     yticklabels=False,
     dendrogram_ratio=(0.1, 0.04),
     cbar_pos=(1, 0.3, 0.02, 0.6),
-    cmap = "coolwarm",
+    cmap = "jet",
 )
 g.ax_row_dendrogram.set_visible(False)
 g.ax_col_dendrogram.set_visible(False)

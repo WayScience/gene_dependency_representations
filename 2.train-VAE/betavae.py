@@ -18,7 +18,7 @@ class BetaVAE(nn.Module):
         beta (float): Weight for the Kullback-Leibler divergence term in the loss function.
     """
 
-    def __init__(self, input_dim, latent_dim, beta):
+    def __init__(self, input_dim: int, latent_dim: int, beta: float):
         super(BetaVAE, self).__init__()
         self.encoder = nn.Sequential(
             nn.Linear(input_dim, latent_dim * 2),
@@ -33,7 +33,7 @@ class BetaVAE(nn.Module):
         self.latent_dim = latent_dim
         self.beta = beta
 
-    def reparameterize(self, mu, log_var):
+    def reparameterize(self, mu: float, log_var: float):
         """
         Reparameterize from N(mu, var) to N(0,1)
         """

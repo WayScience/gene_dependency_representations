@@ -112,6 +112,23 @@ neg_GSEA_results['source'] = 'negative control'
 
 combo_gsea_df = pd.concat([all_GSEA_results, neg_GSEA_results])
 
+# Define cut-offs
+lfc_cutoff = 0.584
+fdr_cutoff = 0.25
+
+# Filter data for significant results
+significant_gsea_df = all_GSEA_results[
+    (all_GSEA_results['es'].abs() > lfc_cutoff) & 
+    (all_GSEA_results['fdr'] < fdr_cutoff)
+]
+significant_negs = neg_GSEA_results[
+    (neg_GSEA_results['es'].abs() > lfc_cutoff) & 
+    (neg_GSEA_results['fdr'] < fdr_cutoff)
+]
+# saving significant gsea results as single output file
+significant_gsea_dir = pathlib.Path("./results/significant_gsea_results.parquet.gz")
+significant_gsea_df.to_parquet(significant_gsea_dir, compression = 'gzip')
+
 # saving gsea results as single output file
 combo_gsea_dir = pathlib.Path("./results/combined_gsea_results.parquet.gz")
 combo_gsea_df.to_parquet(combo_gsea_dir, compression = 'gzip')
@@ -127,20 +144,40 @@ combo_gsea_df.sort_values(by='nes', ascending = True)
 # In[10]:
 
 
+# Define cut-offs
+lfc_cutoff = 0.584
+fdr_cutoff = 0.25
+significant_results = all_GSEA_results[
+    (all_GSEA_results['es'].abs() > lfc_cutoff) & 
+    (all_GSEA_results['fdr'] < fdr_cutoff)
+]
 plt.figure()
-plt.scatter(x=all_GSEA_results['es'],y=all_GSEA_results['pval'].apply(lambda x:-np.log10(x)),s=10)
+plt.scatter(x=all_GSEA_results['es'],y=all_GSEA_results['fdr'].apply(lambda x:-np.log10(x)),s=10, color='grey')
+plt.scatter(x=significant_results['es'],y=significant_results['fdr'].apply(lambda x:-np.log10(x)),s=10)
+#LFC and FDR lines
+plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
+plt.axvline(x=lfc_cutoff, color='g', linestyle='--', linewidth=1)
+plt.axvline(x=-lfc_cutoff, color='g', linestyle='--', linewidth=1)
 plt.xlabel('log2 Fold Change (ES)')
-plt.ylabel('-log10(pvalue)')
+plt.ylabel('-log10(fdr)')
+plt.ylim(0,20)
 plt.title('Gene Set Enrichment Analysis')
 
 #save figure
 gsea_save_path = pathlib.Path("../1.data-exploration/figures/gsea.png")
 plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
 
+
 plt.figure()
-plt.scatter(x=neg_GSEA_results['es'],y=neg_GSEA_results['pval'].apply(lambda x:-np.log10(x)), s=10)
+plt.scatter(x=neg_GSEA_results['es'],y=neg_GSEA_results['fdr'].apply(lambda x:-np.log10(x)), s=10, color='grey')
+plt.scatter(x=significant_negs['es'],y=significant_negs['fdr'].apply(lambda x:-np.log10(x)),s=10)
+#LFC and FDR lines
+plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
+plt.axvline(x=lfc_cutoff, color='g', linestyle='--', linewidth=1)
+plt.axvline(x=-lfc_cutoff, color='g', linestyle='--', linewidth=1)
 plt.xlabel('log2 Fold Change (ES)')
-plt.ylabel('-log10(pvalue)')
+plt.ylabel('-log10(fdr)')
+plt.ylim(0,20)
 plt.title('Control Gene Set Enrichment Analysis')
 
 #save figure

@@ -20,7 +20,7 @@ class BetaVAEMulti(nn.Module):
         num_layers (int): Number of layers
     """
 
-    def __init__(self, input_dim, latent_dim, beta, hidden_dim, num_layers):
+    def __init__(self, input_dim: int, latent_dim:int, beta:float, hidden_dim:int, num_layers:int):
         super(BetaVAEMulti, self).__init__()
         self.latent_dim = latent_dim
         self.beta = beta
@@ -52,7 +52,7 @@ class BetaVAEMulti(nn.Module):
         self.latent_dim = latent_dim
         self.beta = beta
 
-    def reparameterize(self, mu, log_var):
+    def reparameterize(self, mu: float, log_var: float):
         """
         Reparameterize from N(mu, var) to N(0,1)
         """
