@@ -71,6 +71,7 @@ def load_train_test_data(
     train_or_test="all",
     load_gene_stats=False,
     zero_one_normalize=False,
+    drop_columns=True
     ):
 
     # define directory paths
@@ -92,36 +93,37 @@ def load_train_test_data(
     else:
         load_gene_stats = None
 
-    # Prepare data for training
-    train_features_df = train_file.drop(columns=["ModelID", "age_and_sex"])
-    test_features_df = test_file.drop(columns=["ModelID", "age_and_sex"])
-    val_features_df = val_file.drop(columns=["ModelID", "age_and_sex"])
+    if drop_columns == True:
+        # Prepare data for training
+        train_file = train_file.drop(columns=["ModelID", "age_and_sex"])
+        test_file = test_file.drop(columns=["ModelID", "age_and_sex"])
+        val_file = val_file.drop(columns=["ModelID", "age_and_sex"])
 
-    # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
-    gene_dict_df = pd.read_parquet(
-        "../0.data-download/data/CRISPR_gene_dictionary.parquet"
-    )
-    gene_list_passed_qc = gene_dict_df.loc[
-        gene_dict_df["qc_pass"], "dependency_column"
-    ].tolist()
+        # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
+        gene_dict_df = pd.read_parquet(
+            "../0.data-download/data/CRISPR_gene_dictionary.parquet"
+        )
+        gene_list_passed_qc = gene_dict_df.loc[
+            gene_dict_df["qc_pass"], "dependency_column"
+        ].tolist()
 
-    # create new training and testing dataframes that contain only the corresponding genes
-    train_data = train_features_df.filter(gene_list_passed_qc, axis=1)
-    test_data = test_features_df.filter(gene_list_passed_qc, axis=1)
-    val_data = val_features_df.filter(gene_list_passed_qc, axis=1)
+        # create new training and testing dataframes that contain only the corresponding genes
+        train_file = train_file.filter(gene_list_passed_qc, axis=1)
+        test_file = test_file.filter(gene_list_passed_qc, axis=1)
+        val_file = val_file.filter(gene_list_passed_qc, axis=1)
 
     # Normalize data
     
     if zero_one_normalize == True:
-        train_data = train_data.values.astype(np.float32)
-        test_data = test_data.values.astype(np.float32)
-        val_data = val_data.values.astype(np.float32)
+        train_file = train_file.values.astype(np.float32)
+        test_file = test_file.values.astype(np.float32)
+        val_file = val_file.values.astype(np.float32)
         
         # Normalize based on data distribution
         scaler = MinMaxScaler()
-        train_data = scaler.fit_transform(train_data)
-        test_data = scaler.transform(test_data)
-        val_data = scaler.transform(val_data)
+        train_file = scaler.fit_transform(train_file)
+        test_file = scaler.transform(test_file)
+        val_file = scaler.transform(val_file)
 
     # return data based on what user wants
     if train_or_test == "test":
@@ -137,5 +139,5 @@ def load_train_test_data(
 
     elif train_or_test == "all":
 
-        return train_data, test_data, val_data, load_gene_stats
+        return train_file, test_file, val_file, load_gene_stats
     
