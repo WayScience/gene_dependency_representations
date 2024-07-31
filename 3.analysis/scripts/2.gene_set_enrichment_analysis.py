@@ -9,20 +9,15 @@ import pathlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import tensorflow as tf
 import seaborn as sns
 import random
 import matplotlib.backends.backend_pdf
 
 sns.set_theme(color_codes=True)
-sys.path.insert(0, ".././0.data-download/scripts/")
-
-from matplotlib.pyplot import figure, gcf
-from sklearn.decomposition import PCA
-from tensorflow import keras
+#sys.path.insert(0, ".././0.data-download/scripts/")
 
 import blitzgsea as blitz
-import urllib.request
+
 
 # Download the gene set library here: https://github.com/MaayanLab/blitzgsea
 
@@ -31,6 +26,7 @@ import urllib.request
 
 
 random.seed(18)
+seed = random.random()
 print(random.random())
 
 
@@ -53,7 +49,7 @@ library = blitz.enrichr.get_library("Reactome_2022")
 
 
 # load the weight matrix 
-gene_weight_dir = pathlib.Path("../2.train-VAE/results/weight_matrix_gsea.parquet")
+gene_weight_dir = pathlib.Path("../2.train-VAE/results/weight_matrix_gsea.parquet").resolve()
 signature = pd.read_parquet(gene_weight_dir)
 print(signature.shape)
 signature.head()
@@ -72,7 +68,7 @@ range = signature.shape[1]
 
 for col in signature.iloc[:,1:range].columns:
     df = signature.iloc[:,[0,int(col)]]
-    result = blitz.gsea(df, library)
+    result = blitz.gsea(df, library, seed=seed)
     results.append(result)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
     all_signatures.append(df)
@@ -100,7 +96,7 @@ range = neg_signature.shape[1]
 
 for col in neg_signature.iloc[:,1:range].columns:
     neg_df = neg_signature.iloc[:,[0,int(col)]]
-    neg_result = blitz.gsea(neg_df, library)
+    neg_result = blitz.gsea(neg_df, library, seed=seed)
     neg_GSEA_results.append(neg_result.assign(z_dim=f"z_{col}"))
     negative_control.append(neg_df)
 
@@ -139,11 +135,19 @@ plt.xlabel('log2 Fold Change (ES)')
 plt.ylabel('-log10(pvalue)')
 plt.title('Gene Set Enrichment Analysis')
 
+#save figure
+gsea_save_path = pathlib.Path("../1.data-exploration/figures/gsea.png")
+plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
+
 plt.figure()
 plt.scatter(x=neg_GSEA_results['es'],y=neg_GSEA_results['pval'].apply(lambda x:-np.log10(x)), s=10)
 plt.xlabel('log2 Fold Change (ES)')
 plt.ylabel('-log10(pvalue)')
 plt.title('Control Gene Set Enrichment Analysis')
+
+#save figure
+cgsea_save_path = pathlib.Path("../1.data-exploration/figures/controlgsea.png")
+plt.savefig(cgsea_save_path, bbox_inches="tight", dpi=600)
 
 
 # In[11]:

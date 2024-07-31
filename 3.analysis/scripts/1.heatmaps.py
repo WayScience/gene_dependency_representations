@@ -6,24 +6,16 @@
 
 import sys
 import pathlib
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import random as python_random
-import tensorflow as tf
 import seaborn as sns
 
 sns.set_theme(color_codes=True)
 import random
-import joblib
 
-sys.path.insert(0, ".././0.data-download/scripts/")
+sys.path.insert(0, "../utils/")
 from data_loader import load_train_test_data, load_data
-from matplotlib.pyplot import figure, gcf
-from sklearn.decomposition import PCA
-from tensorflow import keras
-
-from keras.models import Model, Sequential
+from matplotlib.pyplot import gcf
 
 
 # In[2]:
@@ -37,45 +29,29 @@ print(random.random())
 
 
 # load the data
-data_directory = pathlib.Path("../0.data-download/data")
-train_init, test_init, gene_stats = load_train_test_data(
-    data_directory, train_or_test="all", load_gene_stats=True
+data_directory = pathlib.Path("../0.data-download/data").resolve()
+train_init, test_init, val_init, gene_stats = load_train_test_data(
+    data_directory, train_or_test="all", load_gene_stats=True, drop_columns=False
 )
 
-data_dir = "../0.data-download/data/"
-model_df, effect_df = load_data(data_dir, adult_or_pediatric="all")
+train_df, test_df, val_df, gene_stats = load_train_test_data(
+    data_directory, train_or_test="all", load_gene_stats=True, drop_columns=True
+)
+
+
+#data_dir = "../0.data-download/data/"
+model_df, effect_df = load_data(data_directory, adult_or_pediatric="all")
 
 
 # In[4]:
 
 
-# drop the string values
-train_df = train_init.drop(columns=["ModelID", "age_and_sex"])
-test_df = test_init.drop(columns=["ModelID", "age_and_sex"])
+train_init["train_test_val"] = train_init.apply(lambda _: "train", axis=1)
+test_init["train_test_val"] = test_init.apply(lambda _: "test", axis=1)
+val_init["train_test_val"] = val_init.apply(lambda _: "val", axis=1)
 
 
 # In[5]:
-
-
-# subsetting the genes
-
-# create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
-gene_dict_df = pd.read_parquet("../0.data-download/data/CRISPR_gene_dictionary.parquet", delimiter='\t')
-gene_list_passed_qc = gene_dict_df.query("qc_pass").dependency_column.tolist()
-
-# create new training and testing dataframes that contain only the corresponding genes
-subset_train_df = train_df.filter(gene_list_passed_qc, axis=1)
-subset_test_df = test_df.filter(gene_list_passed_qc, axis=1)
-
-
-# In[6]:
-
-
-train_init["train_or_test"] = train_init.apply(lambda _: "train", axis=1)
-test_init["train_or_test"] = test_init.apply(lambda _: "test", axis=1)
-
-
-# In[7]:
 
 
 # load the latent dimension dataframe
@@ -87,36 +63,36 @@ print(latent_df.shape)
 latent_df.head(5)
 
 
-# In[8]:
+# In[6]:
 
 
 # create a data frame of both test and train gene effect data sorted by top 1000 highest gene variances
-concat_frames = [train_init, test_init]
+concat_frames = [train_init, test_init, val_init]
 train_and_test = pd.concat(concat_frames).reset_index(drop=True)
 train_and_test[["AgeCategory", "Sex"]] = train_and_test.age_and_sex.str.split(
     pat="_", expand=True
 )
-train_and_test_subbed = train_and_test.filter(gene_list_passed_qc, axis=1)
+
 metadata_holder = []
 metadata_holder = pd.DataFrame(metadata_holder)
 metadata = metadata_holder.assign(
     ModelID=train_and_test.ModelID.astype(str),
     AgeCategory=train_and_test.AgeCategory.astype(str),
     Sex=train_and_test.Sex.astype(str),
-    train_or_test=train_and_test.train_or_test.astype(str),
+    train_test_val=train_and_test.train_test_val.astype(str),
 )
 metadata
 
 
-# In[9]:
+# In[7]:
 
 
 AgeCategory = metadata.pop("AgeCategory")
 Sex = metadata.pop("Sex")
-train_test = metadata.pop("train_or_test")
+train_test = metadata.pop("train_test_val")
 
 
-# In[10]:
+# In[8]:
 
 
 # display clustered heatmap of coefficients
@@ -197,7 +173,7 @@ legend5 = plt.legend(
     zz,
     train_test.unique(),
     loc="upper right",
-    title="train or test",
+    title="train, test, or val",
     ncol=1,
     bbox_to_anchor=(1.75, 0.6),
     bbox_transform=gcf().transFigure,
@@ -211,7 +187,7 @@ heat_save_path = pathlib.Path("../1.data-exploration/figures/heatmap.png")
 plt.savefig(heat_save_path, bbox_inches="tight", dpi=600)
 
 
-# In[11]:
+# In[9]:
 
 
 # load the weights dataframe
@@ -221,7 +197,7 @@ gene_weights_df = pd.read_parquet("../2.train-VAE/results/weight_matrix_encoder.
 gene_weights_df
 
 
-# In[12]:
+# In[10]:
 
 
 sns.clustermap(
