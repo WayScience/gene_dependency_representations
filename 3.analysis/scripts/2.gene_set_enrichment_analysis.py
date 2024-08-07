@@ -64,8 +64,8 @@ results = []
 
 range = signature.shape[1]
 
-for col in signature.iloc[:,1:range].columns:
-    df = signature.iloc[:,[0,int(col)]]
+for col in signature.iloc[:,1:range-1].columns:
+    df = signature.loc[:, [signature.columns[0], col]]
     result = blitz.gsea(df, library, seed=seed)
     results.append(result)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
@@ -92,8 +92,8 @@ negative_control = []
 
 range = neg_signature.shape[1]
 
-for col in neg_signature.iloc[:,1:range].columns:
-    neg_df = neg_signature.iloc[:,[0,int(col)]]
+for col in neg_signature.iloc[:,1:range-1].columns:
+    neg_df = neg_signature.loc[:, [neg_signature.columns[0], col]]
     neg_result = blitz.gsea(neg_df, library, seed=seed)
     neg_GSEA_results.append(neg_result.assign(z_dim=f"z_{col}"))
     negative_control.append(neg_df)
@@ -101,30 +101,61 @@ for col in neg_signature.iloc[:,1:range].columns:
 
 # In[8]:
 
+#GSEA with pediatric data
+pediatric_signature = signature[signature["AgeCategory"].isin(["Pediatric"])]
+pediatric_GSEA_results = []
+pediatric_signatures = []
+
+range = pediatric_signature.shape[1]
+
+for col in pediatric_signature.iloc[:,1:range-1].columns:
+    pediatric_df = pediatric_signature.loc[:, [pediatric_signature.columns[0], col]]
+    pediatric_result = blitz.gsea(pediatric_df, library, seed=seed)
+    pediatric_GSEA_results.append(pediatric_result.assign(z_dim=f"z_{col}"))
+    pediatric_signatures.append(pediatric_df)
+
+
+# In[9]:
+
 
 # stack up all of the results to be analyzed
-all_GSEA_results= pd.concat(all_GSEA_results)
-neg_GSEA_results = pd.concat(neg_GSEA_results)
+all_GSEA_results_df= pd.concat(all_GSEA_results)
+neg_GSEA_results_df = pd.concat(neg_GSEA_results)
+pediatric_GSEA_results_df = pd.concat(pediatric_GSEA_results)
 
 # merging real and negative control gsea results to single dataframe with column specifying source
-all_GSEA_results['source'] = 'real'
-neg_GSEA_results['source'] = 'negative control'
+all_GSEA_results_df['source'] = 'real'
+neg_GSEA_results_df['source'] = 'negative control'
 
-combo_gsea_df = pd.concat([all_GSEA_results, neg_GSEA_results])
+#Remove separate term row 
+all_GSEA_results_df = all_GSEA_results_df.reset_index()
+neg_GSEA_results_df = neg_GSEA_results_df.reset_index()
+pediatric_GSEA_results_df = pediatric_GSEA_results_df.reset_index()
+
+combo_gsea_df = pd.concat([all_GSEA_results_df, neg_GSEA_results_df])
 
 # Define cut-offs
 lfc_cutoff = 0.584
 fdr_cutoff = 0.25
 
 # Filter data for significant results
-significant_gsea_df = all_GSEA_results[
-    (all_GSEA_results['es'].abs() > lfc_cutoff) & 
-    (all_GSEA_results['fdr'] < fdr_cutoff)
+significant_gsea_df = all_GSEA_results_df[
+    (all_GSEA_results_df['es'].abs() > lfc_cutoff) & 
+    (all_GSEA_results_df['fdr'] < fdr_cutoff)
 ]
-significant_negs = neg_GSEA_results[
-    (neg_GSEA_results['es'].abs() > lfc_cutoff) & 
-    (neg_GSEA_results['fdr'] < fdr_cutoff)
+significant_negs = neg_GSEA_results_df[
+    (neg_GSEA_results_df['es'].abs() > lfc_cutoff) & 
+    (neg_GSEA_results_df['fdr'] < fdr_cutoff)
 ]
+significant_peds = pediatric_GSEA_results_df[
+    (pediatric_GSEA_results_df['es'].abs() > lfc_cutoff) & 
+    (pediatric_GSEA_results_df['fdr'] < fdr_cutoff)
+]
+
+
+# In[10]:
+
+
 # saving significant gsea results as single output file
 significant_gsea_dir = pathlib.Path("./results/significant_gsea_results.parquet.gz")
 significant_gsea_df.to_parquet(significant_gsea_dir, compression = 'gzip')
@@ -133,27 +164,42 @@ significant_gsea_df.to_parquet(significant_gsea_dir, compression = 'gzip')
 combo_gsea_dir = pathlib.Path("./results/combined_gsea_results.parquet.gz")
 combo_gsea_df.to_parquet(combo_gsea_dir, compression = 'gzip')
 
+#saving age separated gsea results as a single output file
+pediatric_gsea_dir = pathlib.Path("./results/pediatric_gsea_results.parquet.gz")
+pediatric_GSEA_results_df.to_parquet(pediatric_gsea_dir, compression = 'gzip')
 
-# In[9]:
+
+# In[11]:
 
 
 # sort by what you want to evaluate
 combo_gsea_df.sort_values(by='nes', ascending = True)
+significant_gsea_df.sort_values(by='nes', ascending = True)
 
 
-# In[10]:
+# In[12]:
+
+
+significant_peds.sort_values(by='nes', ascending = True)
+
+
+# In[13]:
 
 
 # Define cut-offs
 lfc_cutoff = 0.584
 fdr_cutoff = 0.25
-significant_results = all_GSEA_results[
-    (all_GSEA_results['es'].abs() > lfc_cutoff) & 
-    (all_GSEA_results['fdr'] < fdr_cutoff)
+
+pediatric_results = all_GSEA_results_df[
+    all_GSEA_results_df['Term'].isin(significant_peds['Term']) &
+    (all_GSEA_results_df['es'].abs() > lfc_cutoff) & 
+    (all_GSEA_results_df['fdr'] < fdr_cutoff)
 ]
+
 plt.figure()
-plt.scatter(x=all_GSEA_results['es'],y=all_GSEA_results['fdr'].apply(lambda x:-np.log10(x)),s=10, color='grey')
-plt.scatter(x=significant_results['es'],y=significant_results['fdr'].apply(lambda x:-np.log10(x)),s=10)
+plt.scatter(x=all_GSEA_results_df['es'],y=all_GSEA_results_df['fdr'].apply(lambda x:-np.log10(x)),s=10, color='grey')
+plt.scatter(x=significant_gsea_df['es'],y=significant_gsea_df['fdr'].apply(lambda x:-np.log10(x)),s=10)
+plt.scatter(x=pediatric_results['es'],y=pediatric_results['fdr'].apply(lambda x:-np.log10(x)) ,s=10, color='red')
 #LFC and FDR lines
 plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
 plt.axvline(x=lfc_cutoff, color='g', linestyle='--', linewidth=1)
@@ -169,7 +215,7 @@ plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
 
 
 plt.figure()
-plt.scatter(x=neg_GSEA_results['es'],y=neg_GSEA_results['fdr'].apply(lambda x:-np.log10(x)), s=10, color='grey')
+plt.scatter(x=neg_GSEA_results_df['es'],y=neg_GSEA_results_df['fdr'].apply(lambda x:-np.log10(x)), s=10, color='grey')
 plt.scatter(x=significant_negs['es'],y=significant_negs['fdr'].apply(lambda x:-np.log10(x)),s=10)
 #LFC and FDR lines
 plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
@@ -185,7 +231,24 @@ cgsea_save_path = pathlib.Path("../1.data-exploration/figures/controlgsea.png")
 plt.savefig(cgsea_save_path, bbox_inches="tight", dpi=600)
 
 
-# In[11]:
+plt.figure()
+plt.scatter(x=pediatric_GSEA_results_df['es'],y=pediatric_GSEA_results_df['fdr'].apply(lambda x:-np.log10(x)),s=10, color='grey')
+plt.scatter(x=significant_peds['es'],y=significant_peds['fdr'].apply(lambda x:-np.log10(x)),s=10, color='red')
+#LFC and FDR lines
+plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
+plt.axvline(x=lfc_cutoff, color='g', linestyle='--', linewidth=1)
+plt.axvline(x=-lfc_cutoff, color='g', linestyle='--', linewidth=1)
+plt.xlabel('log2 Fold Change (ES)')
+plt.ylabel('-log10(fdr)')
+plt.ylim(0,10)
+plt.title('Gene Set Enrichment Analysis')
+
+#save figure
+gsea_save_path = pathlib.Path("../1.data-exploration/figures/ped_gsea.png")
+plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
+
+
+# In[14]:
 
 
 # Using VAE generated data
@@ -200,7 +263,7 @@ for df in all_signatures:
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    geneset = "Signal Transduction R-HSA-162582"
+    geneset = "M Phase R-HSA-68886"
 
     text, ax = plt.subplots()
     ax.text(0.5, 0.5, 'The three following figures visualize the gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
@@ -238,7 +301,7 @@ for df in negative_control:
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    geneset = "Signal Transduction R-HSA-162582"
+    geneset = "M Phase R-HSA-68886"
 
     text, ax = plt.subplots()
     ax.text(0.5, 0.5, 'The three following figures visualize the negative control gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
