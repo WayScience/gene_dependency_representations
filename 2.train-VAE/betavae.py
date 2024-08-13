@@ -200,7 +200,7 @@ def extract_latent_dimensions(model, data_loader, metadata):
     latent_space = np.concatenate(latent_space, axis=0)
     latent_df = pd.DataFrame(latent_space)
     latent_df.insert(0, 'ModelID', metadata['ModelID'])
-    #Save as parquet
+
     latent_df_dir = pathlib.Path("./results/latent_df.parquet")
     latent_df.to_parquet(latent_df_dir, index=False)
 
@@ -240,5 +240,9 @@ def weights(model, subset_train_df):
     trimmed_gene_weight_df = gw_renumber_df.iloc[:, 1:]
 
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
+    
+    # Save as parquet to use for GSEA
+    gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.parquet")
+    final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
 
     return final_gene_weights_df
