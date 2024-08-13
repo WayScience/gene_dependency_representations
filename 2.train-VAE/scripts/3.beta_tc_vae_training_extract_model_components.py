@@ -15,8 +15,8 @@ import optuna
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader, TensorDataset
 from pathlib import Path
-from betavae import BetaVAE, compile_vae, extract_latent_dimensions, weights
-from optimize_utils import get_optimizer
+from betatcvae import BetaTCVAE, compile_vae, weights
+from optimize_utils_tcvae import get_optimizer
 
 script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
@@ -29,7 +29,7 @@ from data_loader import load_train_test_data
 # Load data
 data_directory = pathlib.Path("../0.data-download/data").resolve()
 train_data, test_data, val_data, load_gene_stats = load_train_test_data(
-    data_directory, train_or_test="all", load_gene_stats=True, zero_one_normalize=True
+    data_directory, train_or_test="all", load_gene_stats=True, zero_one_normalize=True, adult_or_ped="all"
 )
 
 train_tensor = torch.tensor(train_data, dtype=torch.float32)
@@ -41,7 +41,7 @@ test_tensor = torch.tensor(test_data, dtype=torch.float32)
 
 
 # Load the best hyperparameters
-study_name = "BetaVAE-Optimization"
+study_name = "Beta_TCVAE-Optimization"
 storage_name = f"sqlite:///./{study_name}.db"
 study = optuna.load_study(study_name=study_name, storage=storage_name)
 best_trial = study.best_trial
@@ -63,7 +63,7 @@ test_loader = DataLoader(TensorDataset(test_tensor), batch_size=batch_size, shuf
 
 
 #Initialize the model and optimizer
-model = BetaVAE(input_dim=train_data.shape[1], latent_dim=latent_dim, beta=beta)
+model = BetaTCVAE(input_dim=train_data.shape[1], latent_dim=latent_dim, beta=beta)
 optimizer = get_optimizer(optimizer, model.parameters(), learning_rate)
 
 # Training model
@@ -74,7 +74,7 @@ train_loss_history, val_loss_history, test_loss_history = compile_vae(model, tra
 
 
 # Save the model
-model_path = pathlib.Path("results/best_vae_model.pth")
+model_path = pathlib.Path("results/best_tc_vae_model.pth")
 torch.save(model.state_dict(), model_path)
 
 
@@ -88,7 +88,7 @@ history = {
     'test_loss': test_loss_history
 }
 
-history_path = pathlib.Path("results/training_history_layers.json")
+history_path = pathlib.Path("results/tc_training_history.json")
 with open(history_path, 'w') as f:
     json.dump(history, f)
 
@@ -97,12 +97,12 @@ with open(history_path, 'w') as f:
 
 
 # plot and save the figure
-save_path = pathlib.Path("../1.data-exploration/figures/training_curve.png")
+save_path = pathlib.Path("../1.data-exploration/figures/tc_training_curve.png")
 
 plt.figure(figsize=(6, 5), dpi=500)
-plt.plot(train_loss_history, label="Training data")
 plt.plot(val_loss_history, label="Validation data")
 plt.plot(test_loss_history, label="Testing data")
+plt.plot(train_loss_history, label="Training data")
 plt.yscale("log")
 plt.ylabel("MSE + KL Divergence")
 plt.xlabel("Epochs")
@@ -114,11 +114,11 @@ plt.show()
 # In[8]:
 
 
-save_path = pathlib.Path("../1.data-exploration/figures/training_curve_elbow.png")
+save_path = pathlib.Path("../1.data-exploration/figures/tc_training_curve_elbow.png")
 
 plt.figure(figsize=(6, 5), dpi=500)
-plt.xlim(-1,100)
-plt.ylim(0,300)
+plt.xlim(-1,80)
+plt.ylim(0,100)
 plt.plot(val_loss_history, label="Validation data")
 plt.plot(test_loss_history, label="Testing data")
 plt.plot(train_loss_history, label="Training data")
@@ -132,38 +132,14 @@ plt.show()
 # In[9]:
 
 
-# Extract the latent space dimensions
-metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.parquet")
-metadata = pd.read_parquet(metadata_df_dir)
-
-train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.parquet")
-train_and_test_subbed = pd.read_parquet(train_and_test_subbed_dir)
-
-
-# Convert DataFrame to NumPy and then Tensor
-train_test_array = train_and_test_subbed.to_numpy()
-train_test_tensor = torch.tensor(train_test_array, dtype=torch.float32)
-
-#Create TensorDataset and DataLoader
-tensor_dataset = TensorDataset(train_test_tensor)
-train_and_test_subbed_loader = DataLoader(tensor_dataset, batch_size=32, shuffle=False)
-
-latent_df = extract_latent_dimensions(model, train_and_test_subbed_loader, metadata)
-print(latent_df.head())
-
-#Save as parquet
-latent_df_dir = pathlib.Path("./results/latent_df.parquet")
-
-latent_df.to_parquet(latent_df_dir, index=False)
-
-
-# In[10]:
-
-
 # Load data
 data_directory = pathlib.Path("../0.data-download/data").resolve()
 train_df = load_train_test_data(
-    data_directory, train_or_test="train"
+    data_directory, train_or_test="train", drop_columns=False
+)
+
+train_df[["AgeCategory", "Sex"]] = train_df.age_and_sex.str.split(
+    pat="_", expand=True
 )
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
@@ -175,7 +151,7 @@ gene_list_passed_qc = gene_dict_df.loc[
 ].tolist()
 
 #Extract and process weights 
-path = "./results/weight_matrix_gsea.parquet"
+path = "./results/weight_matrix_gsea_tc.parquet"
 train_data = train_df.filter(gene_list_passed_qc, axis=1)
 final_gene_weights_df = weights(model, train_data, path)
 

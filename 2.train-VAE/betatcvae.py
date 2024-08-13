@@ -305,7 +305,7 @@ def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
 
     return train_loss_history, val_loss_history, test_loss_history
 
-def extract_latent_dimensions(model, data_loader, metadata):
+def extract_latent_dimensions(model, data_loader, metadata, path):
     """
     Extract latent dimensions from the VAE model and save them with Model IDs.
 
@@ -327,11 +327,11 @@ def extract_latent_dimensions(model, data_loader, metadata):
     latent_space = np.concatenate(latent_space, axis=0)
     latent_df = pd.DataFrame(latent_space)
     latent_df.insert(0, 'ModelID', metadata['ModelID'])
-    latent_df_dir = pathlib.Path("./results/latent_df_tc.parquet")
+    latent_df_dir = pathlib.Path(path)
     latent_df.to_parquet(latent_df_dir, index=False)
     return latent_df
 
-def weights(model, subset_train_df):
+def weights(model, subset_train_df, path):
     """
     Extract weight from the VAE model and save them with Model IDs.
 
@@ -358,6 +358,6 @@ def weights(model, subset_train_df):
     gene_name_df = split_data_df.iloc[:, :1]
     trimmed_gene_weight_df = gw_renumber_df.iloc[:, 1:]
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
-    gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea_tc.parquet")
+    gene_weight_dir = pathlib.Path(path)
     final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
     return final_gene_weights_df
