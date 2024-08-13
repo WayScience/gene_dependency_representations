@@ -1,0 +1,300 @@
+# betatcvae.py
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from typing import List
+import pandas as pd 
+import numpy as np
+import pathlib
+import math
+
+
+class BetaTCVAE(nn.Module):
+    """
+    Beta Total Correlation Variational Autoencoder (Beta-TCVAE) implementation.
+
+    Attributes:
+    -----------
+    latent_dim : int
+        Dimensionality of the latent space.
+    anneal_steps : int
+        Number of steps to anneal the KL divergence term.
+    alpha : float
+        Weight of the mutual information term in the loss function.
+    beta : float
+        Weight of the total correlation term in the loss function.
+    gamma : float
+        Weight of the KL divergence term in the loss function.
+    encoder : nn.Sequential
+        Encoder network.
+    fc1 : nn.Linear
+        Fully connected layer 1 in the encoder.
+    fc_mu : nn.Linear
+        Fully connected layer to output the mean of the latent space.
+    fc_logvar : nn.Linear
+        Fully connected layer to output the log variance of the latent space.
+    fc2 : nn.Linear
+        Fully connected layer 2 in the decoder.
+    fc3 : nn.Linear
+        Fully connected layer 3 in the decoder.
+    decoder_input : nn.Linear
+        Input layer for the decoder.
+    decoder : nn.Sequential
+        Decoder network.
+    final_layer : nn.Linear
+        Final layer of the decoder.
+    
+    Methods:
+    --------
+    encode(input: torch.Tensor) -> List[torch.Tensor]
+        Encodes the input into the latent space.
+    decode(z: torch.Tensor) -> torch.Tensor
+        Decodes the latent variable into the reconstructed input.
+    reparameterize(mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor
+        Reparameterization trick to sample from the latent space.
+    forward(x: torch.Tensor)
+        Forward pass through the network.
+    log_density_gaussian(x: torch.Tensor, mu: torch.Tensor, logvar: torch.Tensor)
+        Computes the log density of a Gaussian.
+    loss_function(*args, **kwargs) -> dict
+        Computes the loss for the Beta-TCVAE.
+    """
+    
+    num_iter = 0  # Global static variable to keep track of iterations
+    
+    def __init__(self,
+                 input_dim: int,
+                 latent_dim: int,
+                 beta: float,
+                 hidden_dims: List = None,
+                 alpha: float = 1.0,
+                 gamma: float = 1.0,
+                 anneal_steps: int = 200,
+                 **kwargs) -> None:
+        super(BetaTCVAE, self).__init__()
+
+        # Initialize class attributes
+        self.latent_dim = latent_dim
+        self.anneal_steps = anneal_steps
+        self.alpha = alpha
+        self.beta = beta
+        self.gamma = gamma
+
+        if hidden_dims is None:
+            hidden_dims = [256, 256, 256]  # Default hidden dimensions if none are provided
+
+        # Build Encoder
+        modules = []
+        in_dim = input_dim
+        for h_dim in hidden_dims:
+            modules.append(
+                nn.Sequential(
+                    nn.Linear(in_dim, h_dim),
+                    nn.ReLU())
+            )
+            in_dim = h_dim
+
+        self.encoder = nn.Sequential(*modules)
+        self.fc1 = nn.Linear(input_dim, 256) 
+        self.fc_mu = nn.Linear(256, latent_dim) 
+        self.fc_logvar = nn.Linear(256, latent_dim)  
+        self.fc2 = nn.Linear(latent_dim, 256)  
+        self.fc3 = nn.Linear(256, input_dim) 
+
+        # Build Decoder
+        self.decoder_input = nn.Linear(latent_dim, 256)  
+        modules = []
+        hidden_dims.reverse() 
+
+        for i in range(len(hidden_dims) - 1):
+            modules.append(
+                nn.Sequential(
+                    nn.Linear(hidden_dims[i], hidden_dims[i + 1]),
+                    nn.ReLU())
+            )
+
+        self.decoder = nn.Sequential(*modules)
+        self.final_layer = nn.Linear(hidden_dims[-1], input_dim)  
+
+    def encode(self, input: torch.Tensor) -> List[torch.Tensor]:
+        result = self.encoder(input) 
+        print(f"Encoder output shape: {result.shape}")
+        result = self.fc1(result)  
+        mu = self.fc_mu(result)  
+        log_var = self.fc_logvar(result)  
+        return [mu, log_var]
+
+    def decode(self, z: torch.Tensor) -> torch.Tensor:
+        result = self.decoder_input(z)  
+        result = self.decoder(result)  
+        result = self.final_layer(result)  
+        return result
+
+    def reparameterize(self, mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
+        std = torch.exp(0.5 * logvar)  
+        eps = torch.randn_like(std)  
+        return eps * std + mu  
+
+    def forward(self, x):
+        h1 = F.relu(self.fc1(x))  
+        mu = self.fc_mu(h1)  
+        logvar = self.fc_logvar(h1) 
+        z = self.reparameterize(mu, logvar)  
+        h2 = F.relu(self.fc2(z)) 
+        recon_x = self.fc3(h2)  # Get reconstruction
+        return recon_x, mu, logvar, z
+
+    def log_density_gaussian(self, x: torch.Tensor, mu: torch.Tensor, logvar: torch.Tensor):
+        normalization = -0.5 * (math.log(2 * math.pi) + logvar) 
+        inv_var = torch.exp(-logvar)  
+        log_density = normalization - 0.5 * ((x - mu)**2 * inv_var)  
+        return log_density
+
+    def loss_function(self,
+                      *args,
+                      **kwargs) -> dict:
+        recons = args[0]  
+        input = args[1]  
+        mu = args[2]  
+        log_var = args[3]  
+        z = args[4] 
+        M_N = kwargs.get('M_N', 1.0)  # Minibatch size
+
+        weight = 1  # kwargs['M_N']  # Account for the minibatch samples from the dataset
+
+        recons_loss = F.mse_loss(recons, input, reduction='sum')  
+
+        log_q_zx = self.log_density_gaussian(z, mu, log_var).sum(dim=1)  # Log q(z|x)
+
+        zeros = torch.zeros_like(z)
+        log_p_z = self.log_density_gaussian(z, zeros, zeros).sum(dim=1)  # Log p(z)
+
+        batch_size, latent_dim = z.shape
+        mat_log_q_z = self.log_density_gaussian(z.view(batch_size, 1, latent_dim),
+                                                mu.view(1, batch_size, latent_dim),
+                                                log_var.view(1, batch_size, latent_dim))  # Log q(z)
+
+        dataset_size = (1 / M_N) * batch_size  # Dataset size
+        strat_weight = (dataset_size - batch_size + 1) / (dataset_size * (batch_size - 1))  # Stratified weight
+        importance_weights = torch.Tensor(batch_size, batch_size).fill_(1 / (batch_size - 1)).to(input.device)
+        importance_weights.view(-1)[::batch_size] = 1 / dataset_size  # Importance weights
+        importance_weights.view(-1)[1::batch_size] = strat_weight
+        importance_weights[batch_size - 2, 0] = strat_weight
+        log_importance_weights = importance_weights.log()  # Log importance weights
+
+        mat_log_q_z += log_importance_weights.view(batch_size, batch_size, 1)  # Adjusted log q(z)
+
+        log_q_z = torch.logsumexp(mat_log_q_z.sum(2), dim=1, keepdim=False)  # Log q(z)
+        log_prod_q_z = torch.logsumexp(mat_log_q_z, dim=1, keepdim=False).sum(1)  # Log product of q(z)
+
+        mi_loss = (log_q_zx - log_q_z).mean()  # Mutual information loss
+        tc_loss = (log_q_z - log_prod_q_z).mean()  # Total correlation loss
+        kld_loss = (log_prod_q_z - log_p_z).mean()  # KL divergence loss
+
+        if self.training:
+            self.num_iter += 1  # Increment iteration count if training
+            anneal_rate = min(0 + 1 * self.num_iter / self.anneal_steps, 1)  # Anneal rate
+        else:
+            anneal_rate = 1.  # No annealing if not training
+
+        # Total loss with weighted components
+        loss = recons_loss + (self.alpha * mi_loss +  
+            self.beta * tc_loss +
+            anneal_rate * self.gamma * kld_loss)
+        
+        return loss
+
+
+
+
+    
+def train_model(model, train_loader, optimizer):
+    model.train()
+    train_loss = 0
+    for batch in train_loader:
+        data = batch[0]
+        optimizer.zero_grad()
+        recon_batch, mu, log_var, z = model(data)
+        loss = model.loss_function(recon_batch, data, mu, log_var, z)
+        loss.backward()
+        train_loss += loss.item()
+        optimizer.step()
+    avg_train_loss = train_loss / len(train_loader.dataset)
+    return avg_train_loss
+
+def train_vae(model, train_loader, optimizer, epochs):
+    train_loss_history = []
+    model.train()
+    for epoch in range(epochs):
+        avg_train_loss = train_model(model, train_loader, optimizer)
+        train_loss_history.append(avg_train_loss)
+        print(f"Epoch {epoch}, Loss: {avg_train_loss}")
+    return train_loss_history
+
+def evaluate_vae(model, val_loader):
+    model.eval()
+    val_loss = 0
+    with torch.no_grad():
+        for batch in val_loader:
+            data = batch[0]
+            recon, mu, log_var, z = model(data)
+            z = model.reparameterize(mu, log_var)
+            val_loss += model.loss_function(recon, data, mu, log_var, z).item()
+    return val_loss / len(val_loader.dataset)
+
+def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs):
+    model.train()
+    train_loss_history = []
+    val_loss_history = []
+    test_loss_history = []
+
+    for epoch in range(epochs):
+        avg_train_loss = train_model(model, train_loader, optimizer)
+        train_loss_history.append(avg_train_loss)
+
+        avg_val_loss = evaluate_vae(model, val_loader)
+        val_loss_history.append(avg_val_loss)
+
+        avg_test_loss = evaluate_vae(model, test_loader)
+        test_loss_history.append(avg_test_loss)
+
+        print(f"Epoch {epoch+1}, Train Loss: {avg_train_loss}, Val Loss: {avg_val_loss}, Test Loss: {avg_test_loss}")
+
+    return train_loss_history, val_loss_history, test_loss_history
+
+def extract_latent_dimensions(model, data_loader, metadata):
+    model.eval()
+    latent_space = []
+    with torch.no_grad():
+        for batch in data_loader:
+            data = batch[1]
+            mu, log_var = model.encode(data)  # Extract the mean and log variance
+            latent_space.append(mu.cpu().numpy())  # Append the mean to the latent space
+    latent_space = np.concatenate(latent_space, axis=0)
+    latent_df = pd.DataFrame(latent_space)
+    latent_df.insert(0, 'ModelID', metadata['ModelID'])
+    latent_df_dir = pathlib.Path("./results/latent_df_tc.parquet")
+    latent_df.to_parquet(latent_df_dir, index=False)
+    return latent_df
+
+def weights(model, subset_train_df):
+    # Access the first layer of the encoder within the Sequential container
+    weight_matrix = model.encoder[0][0].weight.detach().cpu().numpy().T  # Extract weights from the first linear layer
+    weight_df = pd.DataFrame(weight_matrix)
+    weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.parquet")
+    weight_df.to_parquet(weight_df_dir, index=False)
+
+    # Transpose, reformat, and save the weights
+    weight_df_T_df = weight_df.T
+    gene_weight_df = pd.DataFrame(data=weight_df_T_df.values, columns=subset_train_df.columns)
+    gene_weight_T_df = gene_weight_df.T
+    gw_reindex_df = gene_weight_T_df.reset_index()
+    gw_renumber_df = gw_reindex_df.rename(columns={x: y for x, y in zip(gw_reindex_df.columns, range(0, len(gw_reindex_df.columns)))})
+    split_data_df = gw_renumber_df[0].str.split(" ", expand=True)
+    gene_name_df = split_data_df.iloc[:, :1]
+    trimmed_gene_weight_df = gw_renumber_df.iloc[:, 1:]
+    final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
+    gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea_tc.parquet")
+    final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
+    return final_gene_weights_df

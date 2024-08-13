@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[11]:
 
 
 import torch
@@ -16,13 +16,14 @@ import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader, TensorDataset
 from pathlib import Path
 from betavae import BetaVAE, compile_vae, extract_latent_dimensions, weights
+from optimize_utils import get_optimizer
 
 script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data
 
 
-# In[2]:
+# In[12]:
 
 
 # Load data
@@ -36,7 +37,7 @@ val_tensor = torch.tensor(val_data, dtype=torch.float32)
 test_tensor = torch.tensor(test_data, dtype=torch.float32)
 
 
-# In[3]:
+# In[13]:
 
 
 # Load the best hyperparameters
@@ -50,6 +51,7 @@ beta = best_trial.params['beta']
 learning_rate = best_trial.params['learning_rate']
 batch_size = best_trial.params['batch_size']
 epochs = best_trial.params['epochs']
+optimizer = best_trial.params['optimizer_type']
 
 # Create DataLoader
 train_loader = DataLoader(TensorDataset(train_tensor), batch_size=batch_size, shuffle=True)
@@ -57,18 +59,18 @@ val_loader = DataLoader(TensorDataset(val_tensor), batch_size=batch_size, shuffl
 test_loader = DataLoader(TensorDataset(test_tensor), batch_size=batch_size, shuffle=False)
 
 
-# In[4]:
+# In[14]:
 
 
 #Initialize the model and optimizer
 model = BetaVAE(input_dim=train_data.shape[1], latent_dim=latent_dim, beta=beta)
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+optimizer = get_optimizer(optimizer, model.parameters(), learning_rate)
 
 # Training model
 train_loss_history, val_loss_history, test_loss_history = compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
 
 
-# In[ ]:
+# In[15]:
 
 
 # Save the model
@@ -76,7 +78,7 @@ model_path = pathlib.Path("results/best_vae_model.pth")
 torch.save(model.state_dict(), model_path)
 
 
-# In[ ]:
+# In[16]:
 
 
 # Save training history
@@ -86,21 +88,21 @@ history = {
     'test_loss': test_loss_history
 }
 
-history_path = pathlib.Path("results/training_history.json")
+history_path = pathlib.Path("results/training_history_layers.json")
 with open(history_path, 'w') as f:
     json.dump(history, f)
 
 
-# In[ ]:
+# In[17]:
 
 
 # plot and save the figure
 save_path = pathlib.Path("../1.data-exploration/figures/training_curve.png")
 
 plt.figure(figsize=(6, 5), dpi=500)
+plt.plot(train_loss_history, label="Training data")
 plt.plot(val_loss_history, label="Validation data")
 plt.plot(test_loss_history, label="Testing data")
-plt.plot(train_loss_history, label="Training data")
 plt.yscale("log")
 plt.ylabel("MSE + KL Divergence")
 plt.xlabel("Epochs")
@@ -109,14 +111,14 @@ plt.savefig(save_path)
 plt.show()
 
 
-# In[ ]:
+# In[23]:
 
 
 save_path = pathlib.Path("../1.data-exploration/figures/training_curve_elbow.png")
 
 plt.figure(figsize=(6, 5), dpi=500)
-plt.xlim(-10,75)
-plt.ylim(0,600)
+plt.xlim(-1,100)
+plt.ylim(0,300)
 plt.plot(val_loss_history, label="Validation data")
 plt.plot(test_loss_history, label="Testing data")
 plt.plot(train_loss_history, label="Training data")
@@ -127,7 +129,7 @@ plt.savefig(save_path)
 plt.show()
 
 
-# In[ ]:
+# In[19]:
 
 
 # Extract the latent space dimensions
@@ -155,7 +157,7 @@ latent_df_dir = pathlib.Path("./results/latent_df.parquet")
 latent_df.to_parquet(latent_df_dir, index=False)
 
 
-# In[ ]:
+# In[20]:
 
 
 # Load data
@@ -166,7 +168,7 @@ train_df = load_train_test_data(
 
 # create dataframe containing the genes that passed an initial QC (see Pan et al. 2022) and their corresponding gene label and extract the gene labels
 gene_dict_df = pd.read_parquet(
-    "../0.data-download/data/CRISPR_gene_dictionary.tsv", delimiter="\t"
+    "../0.data-download/data/CRISPR_gene_dictionary.parquet"
 )
 gene_list_passed_qc = gene_dict_df.loc[
     gene_dict_df["qc_pass"], "dependency_column"
