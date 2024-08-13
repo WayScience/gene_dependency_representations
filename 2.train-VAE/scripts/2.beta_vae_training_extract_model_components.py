@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[1]:
 
 
 import torch
@@ -23,7 +23,7 @@ sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data
 
 
-# In[12]:
+# In[2]:
 
 
 # Load data
@@ -37,7 +37,7 @@ val_tensor = torch.tensor(val_data, dtype=torch.float32)
 test_tensor = torch.tensor(test_data, dtype=torch.float32)
 
 
-# In[13]:
+# In[3]:
 
 
 # Load the best hyperparameters
@@ -59,7 +59,7 @@ val_loader = DataLoader(TensorDataset(val_tensor), batch_size=batch_size, shuffl
 test_loader = DataLoader(TensorDataset(test_tensor), batch_size=batch_size, shuffle=False)
 
 
-# In[14]:
+# In[4]:
 
 
 #Initialize the model and optimizer
@@ -70,7 +70,7 @@ optimizer = get_optimizer(optimizer, model.parameters(), learning_rate)
 train_loss_history, val_loss_history, test_loss_history = compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
 
 
-# In[15]:
+# In[5]:
 
 
 # Save the model
@@ -78,7 +78,7 @@ model_path = pathlib.Path("results/best_vae_model.pth")
 torch.save(model.state_dict(), model_path)
 
 
-# In[16]:
+# In[6]:
 
 
 # Save training history
@@ -93,7 +93,7 @@ with open(history_path, 'w') as f:
     json.dump(history, f)
 
 
-# In[17]:
+# In[7]:
 
 
 # plot and save the figure
@@ -111,7 +111,7 @@ plt.savefig(save_path)
 plt.show()
 
 
-# In[23]:
+# In[8]:
 
 
 save_path = pathlib.Path("../1.data-exploration/figures/training_curve_elbow.png")
@@ -129,7 +129,7 @@ plt.savefig(save_path)
 plt.show()
 
 
-# In[19]:
+# In[9]:
 
 
 # Extract the latent space dimensions
@@ -157,7 +157,7 @@ latent_df_dir = pathlib.Path("./results/latent_df.parquet")
 latent_df.to_parquet(latent_df_dir, index=False)
 
 
-# In[20]:
+# In[10]:
 
 
 # Load data
