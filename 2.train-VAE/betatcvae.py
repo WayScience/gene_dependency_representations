@@ -67,7 +67,7 @@ class BetaTCVAE(nn.Module):
                  input_dim: int,
                  latent_dim: int,
                  beta: float,
-                 hidden_dims: List = None,
+                 hidden_dims: List = [256, 256, 256],
                  alpha: float = 1.0,
                  gamma: float = 1.0,
                  anneal_steps: int = 200,
@@ -81,9 +81,6 @@ class BetaTCVAE(nn.Module):
         self.beta = beta
         self.gamma = gamma
 
-        if hidden_dims is None:
-            hidden_dims = [256, 256, 256]  # Default hidden dimensions if none are provided
-
         # Build Encoder
         modules = []
         in_dim = input_dim
@@ -96,14 +93,14 @@ class BetaTCVAE(nn.Module):
             in_dim = h_dim
 
         self.encoder = nn.Sequential(*modules)
-        self.fc1 = nn.Linear(input_dim, 256) 
-        self.fc_mu = nn.Linear(256, latent_dim) 
-        self.fc_logvar = nn.Linear(256, latent_dim)  
-        self.fc2 = nn.Linear(latent_dim, 256)  
-        self.fc3 = nn.Linear(256, input_dim) 
+        self.fc1 = nn.Linear(input_dim, hidden_dims[0]) 
+        self.fc_mu = nn.Linear(hidden_dims[0], latent_dim) 
+        self.fc_logvar = nn.Linear(hidden_dims[0], latent_dim)  
+        self.fc2 = nn.Linear(latent_dim, hidden_dims[0])  
+        self.fc3 = nn.Linear(hidden_dims[0], input_dim) 
 
         # Build Decoder
-        self.decoder_input = nn.Linear(latent_dim, 256)  
+        self.decoder_input = nn.Linear(latent_dim, hidden_dims[0])  
         modules = []
         hidden_dims.reverse() 
 
@@ -119,7 +116,6 @@ class BetaTCVAE(nn.Module):
 
     def encode(self, input: torch.Tensor) -> List[torch.Tensor]:
         result = self.encoder(input) 
-        print(f"Encoder output shape: {result.shape}")
         result = self.fc1(result)  
         mu = self.fc_mu(result)  
         log_var = self.fc_logvar(result)  
@@ -159,9 +155,9 @@ class BetaTCVAE(nn.Module):
         mu = args[2]  
         log_var = args[3]  
         z = args[4] 
-        M_N = kwargs.get('M_N', 1.0)  # Minibatch size
+        m_n = kwargs.get('m_n', 1.0)  # Minibatch size
 
-        weight = 1  # kwargs['M_N']  # Account for the minibatch samples from the dataset
+        weight = 1  # kwargs['m_n']  # Account for the minibatch samples from the dataset
 
         recons_loss = F.mse_loss(recons, input, reduction='sum')  
 
@@ -175,7 +171,7 @@ class BetaTCVAE(nn.Module):
                                                 mu.view(1, batch_size, latent_dim),
                                                 log_var.view(1, batch_size, latent_dim))  # Log q(z)
 
-        dataset_size = (1 / M_N) * batch_size  # Dataset size
+        dataset_size = (1 / m_n) * batch_size  # Dataset size
         strat_weight = (dataset_size - batch_size + 1) / (dataset_size * (batch_size - 1))  # Stratified weight
         importance_weights = torch.Tensor(batch_size, batch_size).fill_(1 / (batch_size - 1)).to(input.device)
         importance_weights.view(-1)[::batch_size] = 1 / dataset_size  # Importance weights
@@ -210,6 +206,15 @@ class BetaTCVAE(nn.Module):
 
     
 def train_model(model, train_loader, optimizer):
+    """
+    Definition of the VAE training model for use in both training and compiling
+    Args:
+        model (VAE): VAE model to be trained.
+        train_loader (DataLoader): DataLoader for the training data.
+        optimizer (Optimizer): Optimizer for the model.
+    Returns:
+        The average training loss for the current epoch
+    """
     model.train()
     train_loss = 0
     for batch in train_loader:
@@ -224,6 +229,17 @@ def train_model(model, train_loader, optimizer):
     return avg_train_loss
 
 def train_vae(model, train_loader, optimizer, epochs):
+    """
+    Train the VAE model.
+
+    Args:
+        model (VAE): VAE model to be trained.
+        train_loader (DataLoader): DataLoader for the training data.
+        optimizer (Optimizer): Optimizer for the model.
+        epochs (int, optional): Number of training epochs. Defaults to 5.
+    Returns:
+        Training history (loss)
+    """
     train_loss_history = []
     model.train()
     for epoch in range(epochs):
@@ -233,6 +249,16 @@ def train_vae(model, train_loader, optimizer, epochs):
     return train_loss_history
 
 def evaluate_vae(model, val_loader):
+    """
+    Evaluate the VAE model.
+
+    Args:
+        model (VAE): VAE model to be evaluated.
+        test_loader (DataLoader): DataLoader for the test data.
+
+    Returns:
+        Average loss over the test dataset.
+    """
     model.eval()
     val_loss = 0
     with torch.no_grad():
@@ -244,6 +270,21 @@ def evaluate_vae(model, val_loader):
     return val_loss / len(val_loader.dataset)
 
 def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs):
+    """
+    Compile the VAE model.
+
+    Args:
+        model (VAE): VAE model to be trained.
+        train_loader (DataLoader): DataLoader for the training data.
+        val_loader (DataLoader): DataLoader for the validation data.
+        test_loader (DataLoader): DataLoader for the testing data.
+        optimizer (Optimizer): Optimizer for the model.
+        epochs (int, optional): Number of training epochs. Defaults to 5.
+    Returns:
+        Training history (loss)
+        Validation history (loss)
+        Testing history (loss)
+    """
     model.train()
     train_loss_history = []
     val_loss_history = []
@@ -264,6 +305,17 @@ def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
     return train_loss_history, val_loss_history, test_loss_history
 
 def extract_latent_dimensions(model, data_loader, metadata):
+    """
+    Extract latent dimensions from the VAE model and save them with Model IDs.
+
+    Args:
+        model (VAE): Trained VAE model.
+        data_loader (DataLoader): DataLoader for the data.
+        metadata (DataFrame): Metadata containing Model IDs.
+
+    Returns:
+        DataFrame with latent dimensions and Model IDs.
+    """
     model.eval()
     latent_space = []
     with torch.no_grad():
@@ -279,6 +331,16 @@ def extract_latent_dimensions(model, data_loader, metadata):
     return latent_df
 
 def weights(model, subset_train_df):
+    """
+    Extract weight from the VAE model and save them with Model IDs.
+
+    Args:
+        model (VAE): Trained VAE model.
+        subset_train_df: the qc training dataframe
+
+    Returns:
+        Gene weight dataframe
+    """
     # Access the first layer of the encoder within the Sequential container
     weight_matrix = model.encoder[0][0].weight.detach().cpu().numpy().T  # Extract weights from the first linear layer
     weight_df = pd.DataFrame(weight_matrix)

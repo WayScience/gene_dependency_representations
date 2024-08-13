@@ -155,6 +155,21 @@ def evaluate_vae(model, val_loader):
 
 
 def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs):
+    """
+    Compile the VAE model.
+
+    Args:
+        model (VAE): VAE model to be trained.
+        train_loader (DataLoader): DataLoader for the training data.
+        val_loader (DataLoader): DataLoader for the validation data.
+        test_loader (DataLoader): DataLoader for the testing data.
+        optimizer (Optimizer): Optimizer for the model.
+        epochs (int, optional): Number of training epochs. Defaults to 5.
+    Returns:
+        Training history (loss)
+        Validation history (loss)
+        Testing history (loss)
+    """
     model.train()
     train_loss_history = []
     val_loss_history = []
@@ -240,7 +255,7 @@ def weights(model, subset_train_df):
     trimmed_gene_weight_df = gw_renumber_df.iloc[:, 1:]
 
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
-    
+
     # Save as parquet to use for GSEA
     gene_weight_dir = pathlib.Path("./results/weight_matrix_gsea.parquet")
     final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
