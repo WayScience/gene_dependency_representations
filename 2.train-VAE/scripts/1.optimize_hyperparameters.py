@@ -13,6 +13,7 @@ import torch
 import logging 
 
 from optimize_utils import get_optimize_args, objective
+from optimize_utils_tcvae import get_optimize_args_tc, objective_tc
 
 script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
@@ -28,7 +29,7 @@ import plotly.io as pio
 
 # Load command line arguments
 args = get_optimize_args()
-
+tc_args = get_optimize_args_tc()
 
 # Load data
 data_directory = pathlib.Path("../0.data-download/data").resolve()
@@ -74,12 +75,51 @@ print(f"Best hyperparameters: {best_trial.params}")
 
 
 #Plot and save hyperparameter importance
-save_path = pathlib.Path("../1.data-exploration/figures/param_importance.png")
+save_path = pathlib.Path("../1.data-exploration/figures/param_importance.png").resolve()
 figure = plot_param_importances(study)
 pio.write_image(figure, save_path)
 
 
 # In[7]:
+
+
+#Create a hiplot for the parameters 
+hiplot.Experiment.from_optuna(study).display()
+
+
+# In[12]:
+
+
+# Run Optuna optimization for Beta TC VAE and save study
+optuna.logging.get_logger("optuna").addHandler(logging.StreamHandler(sys.stdout))
+study_name = "BetaTCVAE-Optimization"  # Unique identifier of the study.
+storage_name = "sqlite:///{}.db".format(study_name)
+study = optuna.create_study(study_name=study_name, storage=storage_name, direction="minimize", load_if_exists=True)
+study.optimize(
+    lambda trial: objective_tc(trial, train_tensor, val_tensor, train_data), n_trials=500
+)
+
+
+# In[13]:
+
+
+# Save best hyperparameters
+best_trial = study.best_trial
+print(best_trial)
+print(f"Best trial: {best_trial.values}")
+print(f"Best hyperparameters: {best_trial.params}")
+
+
+# In[14]:
+
+
+#Plot and save hyperparameter importance
+save_path = pathlib.Path("../1.data-exploration/figures/tc_param_importance.png").resolve()
+figure = plot_param_importances(study)
+pio.write_image(figure, save_path)
+
+
+# In[15]:
 
 
 #Create a hiplot for the parameters 

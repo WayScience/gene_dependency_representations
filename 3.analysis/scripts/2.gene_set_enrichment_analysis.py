@@ -64,8 +64,8 @@ results = []
 
 range = signature.shape[1]
 
-for col in signature.iloc[:,1:range].columns:
-    df = signature.iloc[:,[0,int(col)]]
+for col in signature.iloc[:,1:range-1].columns:
+    df = signature.loc[:, [signature.columns[0], col]]
     result = blitz.gsea(df, library, seed=seed)
     results.append(result)
     all_GSEA_results.append(result.assign(z_dim=f"z_{col}"))
@@ -92,8 +92,8 @@ negative_control = []
 
 range = neg_signature.shape[1]
 
-for col in neg_signature.iloc[:,1:range].columns:
-    neg_df = neg_signature.iloc[:,[0,int(col)]]
+for col in neg_signature.iloc[:,1:range-1].columns:
+    neg_df = neg_signature.loc[:, [neg_signature.columns[0], col]]
     neg_result = blitz.gsea(neg_df, library, seed=seed)
     neg_GSEA_results.append(neg_result.assign(z_dim=f"z_{col}"))
     negative_control.append(neg_df)
@@ -103,28 +103,37 @@ for col in neg_signature.iloc[:,1:range].columns:
 
 
 # stack up all of the results to be analyzed
-all_GSEA_results= pd.concat(all_GSEA_results)
-neg_GSEA_results = pd.concat(neg_GSEA_results)
+all_GSEA_results_df= pd.concat(all_GSEA_results)
+neg_GSEA_results_df = pd.concat(neg_GSEA_results)
 
 # merging real and negative control gsea results to single dataframe with column specifying source
-all_GSEA_results['source'] = 'real'
-neg_GSEA_results['source'] = 'negative control'
+all_GSEA_results_df['source'] = 'real'
+neg_GSEA_results_df['source'] = 'negative control'
 
-combo_gsea_df = pd.concat([all_GSEA_results, neg_GSEA_results])
+#Remove separate term row 
+all_GSEA_results_df = all_GSEA_results_df.reset_index()
+neg_GSEA_results_df = neg_GSEA_results_df.reset_index()
+
+combo_gsea_df = pd.concat([all_GSEA_results_df, neg_GSEA_results_df])
 
 # Define cut-offs
 lfc_cutoff = 0.584
 fdr_cutoff = 0.25
 
 # Filter data for significant results
-significant_gsea_df = all_GSEA_results[
-    (all_GSEA_results['es'].abs() > lfc_cutoff) & 
-    (all_GSEA_results['fdr'] < fdr_cutoff)
+significant_gsea_df = all_GSEA_results_df[
+    (all_GSEA_results_df['es'].abs() > lfc_cutoff) & 
+    (all_GSEA_results_df['fdr'] < fdr_cutoff)
 ]
-significant_negs = neg_GSEA_results[
-    (neg_GSEA_results['es'].abs() > lfc_cutoff) & 
-    (neg_GSEA_results['fdr'] < fdr_cutoff)
+significant_negs = neg_GSEA_results_df[
+    (neg_GSEA_results_df['es'].abs() > lfc_cutoff) & 
+    (neg_GSEA_results_df['fdr'] < fdr_cutoff)
 ]
+
+
+# In[9]:
+
+
 # saving significant gsea results as single output file
 significant_gsea_dir = pathlib.Path("./results/significant_gsea_results.parquet.gz")
 significant_gsea_df.to_parquet(significant_gsea_dir, compression = 'gzip')
@@ -134,26 +143,31 @@ combo_gsea_dir = pathlib.Path("./results/combined_gsea_results.parquet.gz")
 combo_gsea_df.to_parquet(combo_gsea_dir, compression = 'gzip')
 
 
-# In[9]:
+# In[10]:
 
 
 # sort by what you want to evaluate
 combo_gsea_df.sort_values(by='nes', ascending = True)
 
+idx = significant_gsea_df.groupby('Term')['nes'].idxmax()
 
-# In[10]:
+# Use the indices to filter the original DataFrame
+sig_gsea_no_duplicates = significant_gsea_df.loc[idx].reset_index(drop=True)
+
+sig_gsea_no_duplicates.sort_values(by='nes', key=abs, ascending = False).head(50)
+
+
+# In[11]:
 
 
 # Define cut-offs
 lfc_cutoff = 0.584
 fdr_cutoff = 0.25
-significant_results = all_GSEA_results[
-    (all_GSEA_results['es'].abs() > lfc_cutoff) & 
-    (all_GSEA_results['fdr'] < fdr_cutoff)
-]
+
+    
 plt.figure()
-plt.scatter(x=all_GSEA_results['es'],y=all_GSEA_results['fdr'].apply(lambda x:-np.log10(x)),s=10, color='grey')
-plt.scatter(x=significant_results['es'],y=significant_results['fdr'].apply(lambda x:-np.log10(x)),s=10)
+plt.scatter(x=all_GSEA_results_df['es'],y=all_GSEA_results_df['fdr'].apply(lambda x:-np.log10(x)),s=10, color='grey')
+plt.scatter(x=significant_gsea_df['es'],y=significant_gsea_df['fdr'].apply(lambda x:-np.log10(x)),s=10)
 #LFC and FDR lines
 plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
 plt.axvline(x=lfc_cutoff, color='g', linestyle='--', linewidth=1)
@@ -169,7 +183,7 @@ plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
 
 
 plt.figure()
-plt.scatter(x=neg_GSEA_results['es'],y=neg_GSEA_results['fdr'].apply(lambda x:-np.log10(x)), s=10, color='grey')
+plt.scatter(x=neg_GSEA_results_df['es'],y=neg_GSEA_results_df['fdr'].apply(lambda x:-np.log10(x)), s=10, color='grey')
 plt.scatter(x=significant_negs['es'],y=significant_negs['fdr'].apply(lambda x:-np.log10(x)),s=10)
 #LFC and FDR lines
 plt.axhline(y=-np.log10(fdr_cutoff), color='r', linestyle='--', linewidth=1)
@@ -185,7 +199,7 @@ cgsea_save_path = pathlib.Path("../1.data-exploration/figures/controlgsea.png")
 plt.savefig(cgsea_save_path, bbox_inches="tight", dpi=600)
 
 
-# In[11]:
+# In[12]:
 
 
 # Using VAE generated data
@@ -200,7 +214,7 @@ for df in all_signatures:
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    geneset = "Signal Transduction R-HSA-162582"
+    geneset = "M Phase R-HSA-68886"
 
     text, ax = plt.subplots()
     ax.text(0.5, 0.5, 'The three following figures visualize the gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
@@ -238,7 +252,7 @@ for df in negative_control:
     dim = col_titles[1]
     z_result = results[int(dim)-1]
 
-    geneset = "Signal Transduction R-HSA-162582"
+    geneset = "M Phase R-HSA-68886"
 
     text, ax = plt.subplots()
     ax.text(0.5, 0.5, 'The three following figures visualize the negative control gene set enrichment analysis results for ' + geneset + ' in the latent dimension z=' + dim, fontsize=16, ha='center')
