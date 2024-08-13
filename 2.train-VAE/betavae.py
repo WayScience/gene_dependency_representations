@@ -1,11 +1,12 @@
 # Code based on https://github.com/1Konny/Beta-VAE/blob/master/model.py
 
+import pathlib
+
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import pandas as pd 
-import numpy as np
-import pathlib
 
 
 class BetaVAE(nn.Module):
