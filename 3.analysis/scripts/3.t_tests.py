@@ -17,13 +17,18 @@ import pathlib
 # In[2]:
 
 
-latent_df = pd.read_parquet("../2.train-VAE/results/latent_df.parquet")
-metadata_df = pd.read_parquet(".././0.data-download/data/metadata_df.parquet")
-data_dir = "../0.data-download/data/"
+latent_dir = pathlib.Path("../2.train-VAE/results/latent_df.parquet").resolve()
+latent_df = pd.read_parquet(latent_dir)
+metadata_dir = pathlib.Path(".././0.data-download/data/metadata_df.parquet").resolve()
+metadata_df = pd.read_parquet(metadata_dir)
+data_dir = pathlib.Path("../0.data-download/data/").resolve()
 model_df, dependency_df = load_data(data_dir, adult_or_pediatric="all")
-gsea_results_df = pd.read_parquet("../3.analysis/results/combined_gsea_results.parquet.gz")
-all_GSEA_results_df = pd.read_parquet("../3.analysis/results/all_gsea_results.parquet.gz")
-significant_gsea_df = pd.read_parquet("../3.analysis/results/significant_gsea_results.parquet.gz")
+gsea_results_dir = pathlib.Path("../3.analysis/results/combined_gsea_results.parquet.gz").resolve()
+gsea_results_df = pd.read_parquet(gsea_results_dir)
+all_GSEA_results_dir = pathlib.Path("../3.analysis/results/all_gsea_results.parquet.gz").resolve()
+all_GSEA_results_df = pd.read_parquet(all_GSEA_results_dir)
+significant_gsea_dir = pathlib.Path("../3.analysis/results/significant_gsea_results.parquet.gz")
+significant_gsea_df = pd.read_parquet(significant_gsea_dir)
 
 
 # In[3]:
@@ -207,30 +212,45 @@ anova_df = anova_df.dropna()
 anova_df
 
 
-# In[60]:
+# In[13]:
 
 
-#Lung Cancer in adult vs Neuroblastoma in ped comparison
+#Lung cancer in adults vs neuroblastoma in peds comparison
+
+# Extract Neuroblastoma model IDs from the model dataframe
 NB_ids = model_df.query("OncotreePrimaryDisease == 'Neuroblastoma'").ModelID.tolist()
 
+# Create a copy of the pediatric latent space dataframe
 ped_NB_latent_df = ped_latent_df.copy()
+
+# Filter the pediatric latent dataframe to include only Neuroblastoma models
 for index, row in ped_NB_latent_df.iterrows():
     if row['ModelID'] not in NB_ids:
         ped_NB_latent_df.drop(index, inplace=True)
+
+# Drop the 'ModelID' column from the filtered pediatric latent dataframe
+# and reset the index
 ped_NB_latent_float_df = ped_NB_latent_df.drop(columns=["ModelID"])
 ped_NB_latent_float_df.reset_index(drop=True, inplace=True)
 
+# Extract Non-Small Cell Lung Cancer (NSCLC) model IDs from the model dataframe
 LC_ids = model_df.query("OncotreePrimaryDisease == 'Non-Small Cell Lung Cancer'").ModelID.tolist()
 
+# Create a copy of the adult latent space dataframe
 adult_LC_latent_df = adult_latent_df.copy()
+
+# Filter the adult latent dataframe to include only NSCLC models
 for index, row in adult_LC_latent_df.iterrows():
     if row['ModelID'] not in LC_ids:
         adult_LC_latent_df.drop(index, inplace=True)
+
+# Drop the 'ModelID' column from the filtered adult latent dataframe
+# and reset the index
 adult_LC_latent_float_df = adult_LC_latent_df.drop(columns=["ModelID"])
 adult_LC_latent_float_df.reset_index(drop=True, inplace=True)
 
 
-# In[13]:
+# In[14]:
 
 
 # t tests comparing Lung Cancer in adult vs Neuroblastoma in ped for each latent dimension
@@ -247,7 +267,7 @@ print(t_test_diff_adult_vs_ped.shape)
 t_test_diff_adult_vs_ped.sort_values(by = 'p_value', ascending= True)
 
 
-# In[14]:
+# In[15]:
 
 
 # Obtaining shared cancer types in ped and adult
@@ -263,44 +283,58 @@ shared_types = set(adult_types) & set(ped_types)
 shared_types
 
 
-# In[15]:
+# In[16]:
 
 
 # Comparing the shared cancer types
+# Initialize a list to store the t-test results for each shared cancer type
 comp_dfs = []
 
+# Iterate over each cancer type shared between adult and pediatric datasets
 for cancer_type in shared_types:
+    # Extract the model IDs for the current cancer type from the model dataframe
     type_ids = model_df.query("OncotreePrimaryDisease == " + "'" + cancer_type + "'").ModelID.tolist()
 
+    # Filter the pediatric latent dataframe to include only models of the current cancer type
     ped_type_latent_df = ped_latent_df.copy()
-    for index, row in ped_type_latent_df.iterrows():
-        if row['ModelID'] not in type_ids:
-           ped_type_latent_df.drop(index, inplace=True)
+    ped_type_latent_df = ped_latent_df[ped_latent_df['ModelID'].isin(type_ids)].copy()
+
+    # Drop the 'ModelID' column and reset the index in the pediatric latent dataframe
     ped_type_latent_float_df = ped_type_latent_df.drop(columns=["ModelID"])
     ped_type_latent_float_df.reset_index(drop=True, inplace=True)
 
+    # Filter the adult latent dataframe to include only models of the current cancer type
     adult_type_latent_df = adult_latent_df.copy()
-    for index, row in adult_type_latent_df.iterrows():
-        if row['ModelID'] not in type_ids:
-            adult_type_latent_df.drop(index, inplace=True)
+    adult_type_latent_df = adult_latent_df[adult_latent_df['ModelID'].isin(type_ids)].copy()
+
+    # Drop the 'ModelID' column and reset the index in the adult latent dataframe
     adult_type_latent_float_df = adult_type_latent_df.drop(columns=["ModelID"])
     adult_type_latent_float_df.reset_index(drop=True, inplace=True)
 
+    # Perform a t-test comparing the latent features between adult and pediatric datasets
     t_test_type_adult_vs_ped = ttest_ind(adult_type_latent_float_df, ped_type_latent_float_df)
+
+    # Convert the t-test results to a DataFrame and add additional information
     t_test_type_adult_vs_ped = pd.DataFrame(t_test_type_adult_vs_ped).T
     t_test_type_adult_vs_ped.columns = ["t_stat", "p_value"]
     t_test_type_adult_vs_ped['comparison'] = 'Adult vs Pediatric'
     t_test_type_adult_vs_ped['cancer_type'] = cancer_type
     t_test_type_adult_vs_ped['latent_feature'] = t_test_type_adult_vs_ped.index + 1
+
+    # Append the t-test results for the current cancer type to the list
     comp_dfs.append(t_test_type_adult_vs_ped)
 
+# Concatenate all the t-test results into a single DataFrame
 t_test_type_results_df = pd.concat(comp_dfs).reset_index(drop=True)
-# Remove rows with NaN values
+
+# Remove any rows with NaN values from the results
 t_test_type_results_df = t_test_type_results_df.dropna()
-t_test_type_results_df.sort_values(by='p_value', ascending = True)
+
+# Sort the t-test results by the p-value in ascending order
+t_test_type_results_df.sort_values(by='p_value', ascending=True)
 
 
-# In[16]:
+# In[17]:
 
 
 # Prepare a DataFrame to store ANOVA results for multiple pathways
@@ -309,6 +343,7 @@ anova_results = []
 # Add "z_" prefix to the latent dimensions in the t-test DataFrame
 t_test_adult_vs_ped['z_dim'] = 'z_' + t_test_adult_vs_ped['latent_feature'].astype(str)
 t_test_adult_vs_ped['group'] = t_test_adult_vs_ped['t_stat'].apply(lambda x: 'Adult' if x > 0 else 'Pediatric')
+
 # Filter significant latent features
 significant_latent_features = t_test_adult_vs_ped[t_test_adult_vs_ped['p_value'] < 0.05]
 
@@ -360,7 +395,7 @@ significant_anova_results_df.to_csv(anova_dir)
 significant_anova_results_df.sort_values(by='F-statistic', key=abs, ascending = False).head(50)
 
 
-# In[17]:
+# In[18]:
 
 
 import matplotlib.pyplot as plt
