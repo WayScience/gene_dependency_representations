@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[48]:
+# In[1]:
 
 
 import sys
@@ -14,7 +14,7 @@ from scipy.stats import f_oneway
 import pathlib
 
 
-# In[49]:
+# In[2]:
 
 
 latent_df = pd.read_parquet("../2.train-VAE/results/latent_df.parquet")
@@ -26,7 +26,7 @@ all_GSEA_results_df = pd.read_parquet("../3.analysis/results/all_gsea_results.pa
 significant_gsea_df = pd.read_parquet("../3.analysis/results/significant_gsea_results.parquet.gz")
 
 
-# In[50]:
+# In[3]:
 
 
 # Creating categorized lists of sample IDs used in BVAE training
@@ -42,7 +42,7 @@ ped_female_ids = metadata_df.query("AgeCategory == 'Pediatric'").query("Sex == '
 adult_female_ids = metadata_df.query("AgeCategory == 'Adult'").query("Sex == 'Female'").ModelID.tolist()
 
 
-# In[51]:
+# In[4]:
 
 
 # Generating latent dataframes for each category and dropping the id column to prep for t tests
@@ -74,7 +74,7 @@ ped_female_latent_df, ped_female_latent_df_float = generate_latent_df(latent_df,
 adult_female_latent_df, adult_female_latent_df_float = generate_latent_df(latent_df, adult_female_ids)
 
 
-# In[52]:
+# In[5]:
 
 
 # t tests comparing adult vs ped for each latent dimension
@@ -91,7 +91,7 @@ print(t_test_adult_vs_ped.shape)
 t_test_adult_vs_ped.head(50)
 
 
-# In[53]:
+# In[6]:
 
 
 # t tests comparing male vs female for each latent dimension
@@ -108,7 +108,7 @@ print(t_test_male_vs_female.shape)
 t_test_male_vs_female.head()
 
 
-# In[54]:
+# In[7]:
 
 
 # t tests comparing adult male vs ped male for each latent dimension
@@ -125,7 +125,7 @@ print(t_test_adult_male_vs_ped_male.shape)
 t_test_adult_male_vs_ped_male.head()
 
 
-# In[55]:
+# In[8]:
 
 
 # t tests comparing adult female vs ped female for each latent dimension
@@ -142,7 +142,7 @@ print(t_test_adult_female_vs_ped_female.shape)
 t_test_adult_female_vs_ped_female.head()
 
 
-# In[56]:
+# In[9]:
 
 
 # t tests comparing ped male vs ped female for each latent dimension
@@ -159,7 +159,7 @@ print(t_test_ped_male_vs_ped_female.shape)
 t_test_ped_male_vs_ped_female.head()
 
 
-# In[57]:
+# In[10]:
 
 
 # t tests comparing adult male vs adult female for each latent dimension
@@ -176,7 +176,7 @@ print(t_test_adult_male_vs_adult_female.shape)
 t_test_adult_male_vs_adult_female.head()
 
 
-# In[58]:
+# In[11]:
 
 
 # Combining and saving t test results
@@ -195,7 +195,7 @@ t_test_results_df.to_parquet(t_test_results_dir)
 t_test_results_df.sort_values(by='p_value', ascending = True)
 
 
-# In[59]:
+# In[12]:
 
 
 # ANOVA Testing
@@ -230,7 +230,7 @@ adult_LC_latent_float_df = adult_LC_latent_df.drop(columns=["ModelID"])
 adult_LC_latent_float_df.reset_index(drop=True, inplace=True)
 
 
-# In[61]:
+# In[13]:
 
 
 # t tests comparing Lung Cancer in adult vs Neuroblastoma in ped for each latent dimension
@@ -247,7 +247,7 @@ print(t_test_diff_adult_vs_ped.shape)
 t_test_diff_adult_vs_ped.sort_values(by = 'p_value', ascending= True)
 
 
-# In[62]:
+# In[14]:
 
 
 # Obtaining shared cancer types in ped and adult
@@ -263,7 +263,7 @@ shared_types = set(adult_types) & set(ped_types)
 shared_types
 
 
-# In[63]:
+# In[15]:
 
 
 # Comparing the shared cancer types
@@ -300,7 +300,7 @@ t_test_type_results_df = t_test_type_results_df.dropna()
 t_test_type_results_df.sort_values(by='p_value', ascending = True)
 
 
-# In[64]:
+# In[16]:
 
 
 # Prepare a DataFrame to store ANOVA results for multiple pathways
@@ -360,7 +360,7 @@ significant_anova_results_df.to_csv(anova_dir)
 significant_anova_results_df.sort_values(by='F-statistic', key=abs, ascending = False).head(50)
 
 
-# In[98]:
+# In[17]:
 
 
 import matplotlib.pyplot as plt
