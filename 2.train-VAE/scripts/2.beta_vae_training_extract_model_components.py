@@ -83,14 +83,19 @@ torch.save(model.state_dict(), model_path)
 
 # Save training history
 history = {
-    'loss' : train_loss_history,
+    'loss': train_loss_history,
     'val_loss': val_loss_history,
     'test_loss': test_loss_history
 }
 
-history_path = pathlib.Path("results/training_history_layers.json")
-with open(history_path, 'w') as f:
-    json.dump(history, f)
+# Convert the history dictionary into a DataFrame
+history_df = pd.DataFrame(history)
+
+# Define the path for the CSV file
+history_path = pathlib.Path("results/training_history.csv")
+
+# Save the DataFrame to a CSV file
+history_df.to_csv(history_path, index=False)
 
 
 # In[7]:
