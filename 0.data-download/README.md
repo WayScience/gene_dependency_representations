@@ -1,13 +1,13 @@
 # Description of the Data
 
-## DepMap Public 23Q2
+## DepMap Public 24Q2
 
 This DepMap release contains data from in vitro studies of genetic dependencies in cancer cell lines using CRISPR/Cas9 loss-of-function screens from project Achilles, project Sanger, and several other datasets (e.g. CCLE)
 
 Data resource:
 https://depmap.org/portal/download/all/
 
-The 23Q2 release notes are described here: https://forum.depmap.org/t/announcing-the-23q2-release/2518
+The 24Q2 release notes are described here: https://forum.depmap.org/t/announcing-the-24q2-release/3312
 
 ## Files used in our multivariate gene dependency project
 
@@ -32,12 +32,12 @@ The higher the score, the greater the gene dependency.
 
 The probability estimate is derived from the CRISPRGeneEffect estimates.
 
-Columns (17,932): gene
-Rows (1,095): the ModelID
+Columns (18,444): gene
+Rows (1,150): the ModelID
 
 ### Model.parquet
 
 This file gives details on the cell lines, type of cancer, sex, age, and unique IDs of the patient.
 
 Columns (30): description of cancer, and patient's biological and ID information
-Rows (1,865): the ModelID
+Rows (1,960): the ModelID
