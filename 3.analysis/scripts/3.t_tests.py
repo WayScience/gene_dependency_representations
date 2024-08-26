@@ -258,7 +258,7 @@ adult_LC_latent_float_df.reset_index(drop=True, inplace=True)
 t_test_diff_adult_vs_ped = ttest_ind(adult_LC_latent_float_df, ped_NB_latent_float_df)
 t_test_diff_adult_vs_ped = pd.DataFrame(t_test_diff_adult_vs_ped).T
 t_test_diff_adult_vs_ped.columns = ["t_stat", "p_value"]
-t_test_diff_adult_vs_ped['comparison'] = 'Adult vs Pediatric'
+t_test_diff_adult_vs_ped['comparison'] = 'Lung Cancer vs Neuroblastoma'
 t_test_diff_adult_vs_ped['latent_feature'] = t_test_diff_adult_vs_ped.index + 1
 # Remove rows with NaN values
 t_test_diff_adult_vs_ped = t_test_diff_adult_vs_ped.dropna()
@@ -278,6 +278,8 @@ adult_types = list(set(adult_types))
 ped_types = model_df.query("AgeCategory == 'Pediatric'").OncotreePrimaryDisease.tolist()
 ped_types = [x for x in ped_types if ped_types.count(x) >= 5]
 ped_types = list(set(ped_types))
+
+all_types = set(adult_types) | set(ped_types)
 
 shared_types = set(adult_types) & set(ped_types)
 shared_types
@@ -348,7 +350,8 @@ t_test_adult_vs_ped['group'] = t_test_adult_vs_ped['t_stat'].apply(lambda x: 'Ad
 significant_latent_features = t_test_adult_vs_ped[t_test_adult_vs_ped['p_value'] < 0.05]
 
 # Add the 'z_dim' column if not already added
-significant_latent_features['z_dim'] = 'z_' + significant_latent_features['latent_feature'].astype(str)
+significant_latent_features.loc[:, 'z_dim'] = 'z_' + significant_latent_features['latent_feature'].astype(str)
+
 
 # Loop through all unique pathways (Terms) in the GSEA DataFrame
 for pathway in gsea_results_df['Term'].unique():
@@ -360,10 +363,10 @@ for pathway in gsea_results_df['Term'].unique():
     
     # Merge GSEA DataFrame with t-test DataFrame to get group information
     merged_df = pd.merge(filtered_gsea_df, significant_latent_features[['z_dim', 'group']], on='z_dim', how='inner')
-    
+
     # Group by 'group' and collect ES values
     grouped_data = merged_df.groupby('group')['es'].apply(list)
-    
+
     # Ensure we have data for both groups
     if len(grouped_data) == 2 and all(len(vals) > 1 for vals in grouped_data):
         # Perform ANOVA
@@ -469,4 +472,90 @@ plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
 
 # Show the plot
 plt.show()
+
+
+# In[19]:
+
+
+# Prepare a DataFrame to store ANOVA results for multiple pathways
+anova_results = []
+
+# Loop through each OncotreePrimaryDisease type in the dataset
+for disease in model_df['OncotreePrimaryDisease'].unique():
+    # Extract model IDs for the current disease
+    disease_ids = model_df.query(f"OncotreePrimaryDisease == '{disease}'").ModelID.tolist()
+
+    # Create a copy of the latent space dataframe (either adult or pediatric as applicable)
+    latent_df = latent_df.copy()  # Use the appropriate dataframe here (adult or pediatric)
+
+    # Filter the latent dataframe to include only the current disease models
+    disease_latent_df = latent_df[latent_df['ModelID'].isin(disease_ids)]
+
+    # Drop the 'ModelID' column and reset the index
+    disease_latent_float_df = disease_latent_df.drop(columns=["ModelID"]).reset_index(drop=True)
+
+    # Extract model IDs for the rest of the dataset
+    other_ids = model_df.query(f"OncotreePrimaryDisease != '{disease}'").ModelID.tolist()
+
+    # Filter the latent dataframe to include only the models not in the current disease
+    other_latent_df = latent_df[latent_df['ModelID'].isin(other_ids)]
+    other_latent_float_df = other_latent_df.drop(columns=["ModelID"]).reset_index(drop=True)
+
+    # Perform t-tests comparing current disease vs the rest for each latent dimension
+    t_test_results = ttest_ind(disease_latent_float_df, other_latent_float_df)
+    t_test_results_df = pd.DataFrame(t_test_results).T
+    t_test_results_df.columns = ["t_stat", "p_value"]
+    t_test_results_df['comparison'] = f"{disease} vs Rest"
+    t_test_results_df['latent_feature'] = t_test_results_df.index + 1
+    t_test_results_df['z_dim'] = 'z_' + t_test_results_df['latent_feature'].astype(str)
+    t_test_results_df['group'] = t_test_results_df['t_stat'].apply(lambda x: disease if x > 0 else 'Rest')
+
+    # Filter significant latent features
+    significant_latent_features = t_test_results_df[t_test_results_df['p_value'] < 0.05]
+
+    # Loop through all unique pathways (Terms) in the GSEA DataFrame
+    for pathway in gsea_results_df['Term'].unique():
+        # Filter for the pathway
+        filtered_gsea_df = gsea_results_df[gsea_results_df['Term'] == pathway]
+        
+        # Further filter by significant latent features
+        filtered_gsea_df = filtered_gsea_df[filtered_gsea_df['z_dim'].isin(significant_latent_features['z_dim'])]
+        
+        # Merge GSEA DataFrame with t-test DataFrame to get group information
+        merged_df = pd.merge(filtered_gsea_df, significant_latent_features[['z_dim', 'group']], on='z_dim', how='inner')
+
+        # Group by 'group' and collect ES values
+        grouped_data = merged_df.groupby('group')['es'].apply(list)
+
+        # Ensure we have data for both groups
+        if len(grouped_data) == 2 and all(len(vals) > 1 for vals in grouped_data):
+            # Perform ANOVA
+            f_statistic, p_value = f_oneway(*grouped_data)
+
+            # Determine which group has higher enrichment score
+            disease_mean = np.mean(grouped_data[disease])
+            rest_mean = np.mean(grouped_data['Rest'])
+            higher_group = disease if disease_mean > rest_mean else 'Other Types'
+
+            # Store results
+            anova_results.append({
+                'Cancer Type': disease,
+                'Pathway': pathway,
+                'F-statistic': f_statistic,
+                'p-value': p_value,
+                'Higher in': higher_group
+            })
+
+# Convert the results to a DataFrame
+anova_results_df = pd.DataFrame(anova_results)
+
+# Apply a significance threshold (e.g., p < 0.05)
+significant_anova_results_df = anova_results_df[anova_results_df['p-value'] < 0.05]
+
+# Save the results to a CSV file
+anova_dir = pathlib.Path("./results/cancer_type_anova_results.csv")
+significant_anova_results_df.to_csv(anova_dir, index=False)
+
+# Display significant pathways
+significant_anova_results_df.sort_values(by='F-statistic', key=abs, ascending=False).head(50)
 
