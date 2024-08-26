@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 import sys
@@ -14,7 +14,7 @@ from scipy.stats import f_oneway
 import pathlib
 
 
-# In[5]:
+# In[2]:
 
 
 latent_dir = pathlib.Path("../2.train-VAE/results/latent_df.parquet").resolve()
@@ -336,7 +336,7 @@ t_test_type_results_df = t_test_type_results_df.dropna()
 t_test_type_results_df.sort_values(by='p_value', ascending=True)
 
 
-# In[28]:
+# In[17]:
 
 
 # Prepare a DataFrame to store ANOVA results for multiple pathways
@@ -345,7 +345,6 @@ anova_results = []
 # Add "z_" prefix to the latent dimensions in the t-test DataFrame
 t_test_adult_vs_ped['z_dim'] = 'z_' + t_test_adult_vs_ped['latent_feature'].astype(str)
 t_test_adult_vs_ped['group'] = t_test_adult_vs_ped['t_stat'].apply(lambda x: 'Adult' if x > 0 else 'Pediatric')
-
 
 # Filter significant latent features
 significant_latent_features = t_test_adult_vs_ped[t_test_adult_vs_ped['p_value'] < 0.05]
@@ -399,7 +398,7 @@ significant_anova_results_df.to_csv(anova_dir)
 significant_anova_results_df.sort_values(by='F-statistic', key=abs, ascending = False).head(50)
 
 
-# In[25]:
+# In[18]:
 
 
 import matplotlib.pyplot as plt
@@ -475,7 +474,7 @@ plt.savefig(gsea_save_path, bbox_inches="tight", dpi=600)
 plt.show()
 
 
-# In[30]:
+# In[19]:
 
 
 # Prepare a DataFrame to store ANOVA results for multiple pathways
