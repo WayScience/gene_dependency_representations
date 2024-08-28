@@ -30,7 +30,7 @@ data_directory = "../0.data-download/data/"
 
 # load the training data
 train_data = load_train_test_data(
-    data_directory, train_or_test="train", load_gene_stats=False
+    data_directory, train_or_test="train", load_gene_stats=False, drop_columns=False
 )
 
 
