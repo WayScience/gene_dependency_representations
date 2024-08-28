@@ -7,7 +7,7 @@
 # 
 # We apply it to GeneEffect scores here and save latent representations (PCA components) for downstream comparative analyses (to compare with BetaVAE).
 
-# In[3]:
+# In[1]:
 
 
 import sys
@@ -20,7 +20,7 @@ sys.path.insert(0, "../utils/")
 from data_loader import load_model_data
 
 
-# In[4]:
+# In[2]:
 
 
 data_directory = pathlib.Path("../0.data-download/data")
@@ -32,13 +32,13 @@ pca_output_file = pathlib.Path(f"{output_dir}/pca_latent.parquet.gz")
 output_pca_weights_file = pathlib.Path(f"{output_dir}/PCA_weight_matrix_gsea.parquet")
 
 
-# In[5]:
+# In[3]:
 
 
 pca_components = 50
 
 
-# In[6]:
+# In[4]:
 
 
 # Load data
@@ -47,14 +47,14 @@ dependency_df, gene_dict_df = load_model_data(dependency_file, gene_dict_file)
 
 # # Perform PCA
 
-# In[7]:
+# In[5]:
 
 
 pca = PCA(n_components=pca_components)
 pca.fit(dependency_df.drop(columns=["ModelID"]))
 
 
-# In[8]:
+# In[6]:
 
 
 # Output explained variance and quickly visualize
@@ -66,7 +66,7 @@ explained_var = pd.DataFrame(pca.explained_variance_ratio_, columns=["explained_
 )
 
 
-# In[9]:
+# In[7]:
 
 
 # Transform models into pca space
@@ -84,7 +84,7 @@ print(dependency_df_transformed.shape)
 dependency_df_transformed.head(3)
 
 
-# In[ ]:
+# In[8]:
 
 
 # Obtain weights, which can be used in GSEA
