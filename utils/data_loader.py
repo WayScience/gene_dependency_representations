@@ -141,3 +141,47 @@ def load_train_test_data(
 
         return train_file, test_file, val_file, load_gene_stats
     
+def load_model_data(dependency_file, gene_dict_file):
+    # Load gene dependency data
+    dependency_df = pd.read_parquet(dependency_file)
+
+
+    print(dependency_df.shape)
+    dependency_df.head(3)
+
+    # Load gene dictionary (with QC columns)
+    gene_dict_df = (
+    pd.read_parquet(gene_dict_file)
+    .query("qc_pass")
+    .reset_index(drop=True)
+    )
+    gene_dict_df.entrez_id = gene_dict_df.entrez_id.astype(str)
+
+
+    ## Subset input data to common gene sets
+
+
+    # Recode column names to entrez ids
+    entrez_genes = [x[1].strip(")").strip() for x in dependency_df.iloc[:, 1:].columns.str.split("(")]
+
+
+    entrez_intersection = list(
+    set(gene_dict_df.entrez_id).intersection(set(entrez_genes))
+    )
+
+
+
+
+    gene_dict_df = gene_dict_df.set_index("entrez_id").reindex(entrez_intersection)
+
+
+    # Subset dependencies to the genes that passed qc
+    dependency_df.columns = ["ModelID"] + entrez_genes
+
+
+    dependency_df = dependency_df.loc[:, ["ModelID"] + gene_dict_df.index.tolist()]
+    dependency_df.columns = ["ModelID"] + gene_dict_df.symbol_id.tolist()
+
+
+    dependency_df = dependency_df.dropna(axis="columns")
+    return dependency_df, gene_dict_df
