@@ -33,7 +33,7 @@ def get_optimize_args():
     )
     parser.add_argument(
         "--max_latent_dim",
-        default=100,
+        default=200,
         type=int,
         help="Maximum size of the internal latent dimensions",
     )

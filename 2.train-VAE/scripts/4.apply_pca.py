@@ -10,26 +10,26 @@
 # In[1]:
 
 
-import pathlib
 import sys
-
+import pathlib
 import pandas as pd
 import plotnine as gg
 from sklearn.decomposition import PCA
 
-sys.path.insert(0, "../0.data-download/scripts/")
-from data_loader import load_train_test_data
+sys.path.insert(0, "../utils/")
+from data_loader import load_model_data
+
 
 # In[2]:
 
 
-data_directory = pathlib.Path("../0.data-download/data")
-dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet")
-gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.tsv")
+data_directory = pathlib.Path("../0.data-download/data").resolve()
+dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet").resolve()
+gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.parquet").resolve()
 
-output_dir = pathlib.Path("results")
-pca_output_file = pathlib.Path(f"{output_dir}/pca_latent.parquet.gz")
-output_pca_weights_file = pathlib.Path(f"{output_dir}/PCA_weight_matrix_gsea.parquet")
+output_dir = pathlib.Path("results").resolve()
+pca_output_file = pathlib.Path(f"{output_dir}/pca_latent.parquet.gz").resolve()
+output_pca_weights_file = pathlib.Path(f"{output_dir}/PCA_weight_matrix_gsea.parquet").resolve()
 
 
 # In[3]:
@@ -41,71 +41,20 @@ pca_components = 50
 # In[4]:
 
 
-# Load gene dependency data
-dependency_df = pd.read_parquet(dependency_file)
-
-print(dependency_df.shape)
-dependency_df.head(3)
-
-
-# In[5]:
-
-
-# Load gene dictionary (with QC columns)
-gene_dict_df = (
-    pd.read_parquet(gene_dict_file, sep="\t")
-    .query("qc_pass")
-    .reset_index(drop=True)
-)
-gene_dict_df.entrez_id = gene_dict_df.entrez_id.astype(str)
-
-print(gene_dict_df.shape)
-gene_dict_df.head(3)
-
-
-# ## Subset input data to common gene sets
-
-# In[6]:
-
-
-# Recode column names to entrez ids
-entrez_genes = [x[1].strip(")").strip() for x in dependency_df.iloc[:, 1:].columns.str.split("(")]
-
-entrez_intersection = list(
-    set(gene_dict_df.entrez_id).intersection(set(entrez_genes))
-)
-
-print(len(entrez_intersection))
-
-gene_dict_df = gene_dict_df.set_index("entrez_id").reindex(entrez_intersection)
-gene_dict_df.head(3)
-
-
-# In[7]:
-
-
-# Subset dependencies to the genes that passed qc
-dependency_df.columns = ["ModelID"] + entrez_genes
-
-dependency_df = dependency_df.loc[:, ["ModelID"] + gene_dict_df.index.tolist()]
-dependency_df.columns = ["ModelID"] + gene_dict_df.symbol_id.tolist()
-
-dependency_df = dependency_df.dropna(axis="columns")
-
-print(dependency_df.shape)
-dependency_df.head()
+# Load data
+dependency_df, gene_dict_df = load_model_data(dependency_file, gene_dict_file)
 
 
 # # Perform PCA
 
-# In[8]:
+# In[5]:
 
 
 pca = PCA(n_components=pca_components)
 pca.fit(dependency_df.drop(columns=["ModelID"]))
 
 
-# In[9]:
+# In[6]:
 
 
 # Output explained variance and quickly visualize
@@ -117,7 +66,7 @@ explained_var = pd.DataFrame(pca.explained_variance_ratio_, columns=["explained_
 )
 
 
-# In[10]:
+# In[7]:
 
 
 # Transform models into pca space
@@ -129,13 +78,13 @@ dependency_df_transformed = pd.DataFrame(
 dependency_df_transformed.columns = [f"PCA_{x}" for x in range(0, dependency_df_transformed.shape[1])]
 dependency_df_transformed = pd.concat([dependency_df.loc[:, "ModelID"], dependency_df_transformed], axis="columns")
 
-dependency_df_transformed.to_parquet(pca_output_file, sep=",", index=False)
+dependency_df_transformed.to_parquet(pca_output_file, index=False)
 
 print(dependency_df_transformed.shape)
 dependency_df_transformed.head(3)
 
 
-# In[11]:
+# In[8]:
 
 
 # Obtain weights, which can be used in GSEA
