@@ -24,13 +24,13 @@ from data_loader import load_model_data
 # In[2]:
 
 
-data_directory = pathlib.Path("../0.data-download/data")
-dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet")
-gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.parquet")
+data_directory = pathlib.Path("../0.data-download/data").resolve()
+dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet").resolve()
+gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.parquet").resolve()
 
-output_dir = pathlib.Path("results")
-ica_output_file = pathlib.Path(f"{output_dir}/ica_latent.parquet.gz")
-output_ica_weights_file = pathlib.Path(f"{output_dir}/ICA_weight_matrix_gsea.parquet")
+output_dir = pathlib.Path("results").resolve()
+ica_output_file = pathlib.Path(f"{output_dir}/ica_latent.parquet.gz").resolve()
+output_ica_weights_file = pathlib.Path(f"{output_dir}/ICA_weight_matrix_gsea.parquet").resolve()
 
 
 # In[3]:
