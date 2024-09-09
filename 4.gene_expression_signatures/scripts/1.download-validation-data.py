@@ -14,8 +14,8 @@
 # In[1]:
 
 
-import os
 import requests
+import pathlib
 import pandas as pd
 from urllib.request import urlretrieve
 
@@ -27,13 +27,14 @@ from sklearn import preprocessing
 
 url = "https://ndownloader.figshare.com/files/14138792"
 name = "2019-01-22-CellLineSTAR-fpkm-2pass_matrix.txt"
-path = os.path.join("data", name)
+data_dir = pathlib.Path("data").resolve()
+path = data_dir / name
 
 
 # In[3]:
 
 
-os.makedirs("data", exist_ok=True)
+data_dir.mkdir(parents=True, exist_ok=True)
 
 
 # In[4]:
@@ -55,13 +56,13 @@ get_ipython().system(' md5sum "data/2019-01-22-CellLineSTAR-fpkm-2pass_matrix.tx
 
 url = "https://www.nature.com/articles/sdata201733/tables/4"
 name = "nbl_cellline_phenotype.txt"
-path = os.path.join("data", name)
+path = data_dir / name
 
 
 # In[7]:
 
 
-if not os.path.isfile(path):
+if not path.is_file():
     html = requests.get(url).content
 
     pheno_df = pd.read_html(html)[0]
@@ -70,7 +71,7 @@ if not os.path.isfile(path):
     pheno_df.to_csv(path, sep='\t', index=False)
 
 else:
-    pheno_df = pd.read_csv(path, sep="\t")
+    pheno_df = pd.read_parquet(path)
 
 pheno_df.head()
 
@@ -86,8 +87,7 @@ get_ipython().system(' md5sum "data/nbl_cellline_phenotype.txt"')
 # In[9]:
 
 
-raw_file = os.path.join("data", "2019-01-22-CellLineSTAR-fpkm-2pass_matrix.txt")
-
+raw_file = data_dir / "2019-01-22-CellLineSTAR-fpkm-2pass_matrix.txt"
 raw_df = pd.read_table(raw_file, sep='\t')
 raw_df.head()
 
@@ -184,6 +184,7 @@ raw_df.head()
 # In[16]:
 
 
+#MinMax consistent with BetaVAE scaling
 raw_scaled_df = preprocessing.MinMaxScaler().fit_transform(raw_df.transpose())
 raw_scaled_df = (
     pd.DataFrame(raw_scaled_df,
@@ -201,8 +202,7 @@ raw_scaled_df.head()
 # In[17]:
 
 
-os.makedirs('data', exist_ok=True)
-
-file = os.path.join('data', 'nbl_celllines_processed_matrix.tsv.gz')
-raw_scaled_df.to_csv(file, sep='\t', compression='gzip')
+# In[17]
+processed_file = data_dir / 'nbl_celllines_processed_matrix.parquet'
+raw_scaled_df.to_parquet(processed_file)
 
