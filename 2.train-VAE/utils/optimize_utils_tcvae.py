@@ -167,6 +167,7 @@ def objective_tc(trial, train_tensor, val_tensor, train_df, latent_dim=None):
     Optuna objective function: optimized by study
     """
     # Define hyperparameters
+    print(latent_dim)
     beta = trial.suggest_float(
         "beta", args.min_beta, args.max_beta
     )
