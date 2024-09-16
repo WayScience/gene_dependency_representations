@@ -233,7 +233,6 @@ def train_tc_vae(model, train_loader, optimizer, epochs):
     for epoch in range(epochs):
         avg_train_loss = train_tc_model(model, train_loader, optimizer)
         train_loss_history.append(avg_train_loss)
-        print(f"Epoch {epoch}, Loss: {avg_train_loss}")
     return train_loss_history
 
 def evaluate_tc_vae(model, val_loader):
@@ -325,10 +324,17 @@ def tc_weights(model, subset_train_df, path=None):
     # Ensure model is in evaluation mode
     model.eval()
 
-    # Access the first layer of the encoder within the Sequential container
-    first_linear_layer = model.encoder[0]  # First layer is a Linear layer
-    weight_matrix = first_linear_layer.weight.detach().cpu().numpy().T  # Extract weights
+    # Access the weight matrix corresponding to the latent dimensions
+    latent_dim = model.latent_dim  # Assuming model has latent_dim attribute
+    weight_matrix = model.encoder[0].weight.detach().cpu().numpy().T  # Extract weights
+
+    # Split weight matrix if it's for both mu and logvar
+    weight_matrix = weight_matrix[:, :latent_dim]  # Take only the first half (mu part)
+
+    # Create a dataframe from the weight matrix
     weight_df = pd.DataFrame(weight_matrix)
+
+    # Save as parquet to use for heatmap
     weight_df_dir = pathlib.Path("./results/tc_weight_matrix_encoder.parquet")
     weight_df.to_parquet(weight_df_dir)
 
@@ -336,13 +342,21 @@ def tc_weights(model, subset_train_df, path=None):
     weight_df_T_df = weight_df.T
     gene_weight_df = pd.DataFrame(data=weight_df_T_df.values, columns=subset_train_df.columns)
     gene_weight_T_df = gene_weight_df.T
+
+    # Reformat and save
     gw_reindex_df = gene_weight_T_df.reset_index()
     gw_renumber_df = gw_reindex_df.rename(columns={x: y for x, y in zip(gw_reindex_df.columns, range(0, len(gw_reindex_df.columns)))})
+    
+    # Remove numbers from gene name column
     split_data_df = gw_renumber_df[0].str.split(" ", expand=True)
     gene_name_df = split_data_df.iloc[:, :1]
     trimmed_gene_weight_df = gw_renumber_df.iloc[:, 1:]
+
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
+
+    # Save as parquet for GSEA
     if path:
         gene_weight_dir = pathlib.Path(path)
         final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
+
     return final_gene_weights_df

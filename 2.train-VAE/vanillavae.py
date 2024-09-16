@@ -82,7 +82,6 @@ def train_vvae(model, train_loader, optimizer, epochs):
     for epoch in range(epochs):
         avg_train_loss = train_model(model, train_loader, optimizer)
         train_loss_history.append(avg_train_loss)
-        print(f"Epoch {epoch}, Loss: {avg_train_loss}")
 
     return train_loss_history
 
@@ -121,6 +120,8 @@ def vanilla_weights(model, subset_train_df, path=None):
         Gene weight dataframe
     """
     weight_matrix = model.encoder[0].weight.detach().cpu().numpy().T  # Transpose the weight matrix
+    latent_dim = weight_matrix.shape[1] // 2
+    weight_matrix = weight_matrix[:, :latent_dim]  # Only take the first half
     weight_df = pd.DataFrame(weight_matrix)
 
     # Save as parquet to use for heatmap
