@@ -22,8 +22,8 @@ class BetaVAE(nn.Module):
     def __init__(self, input_dim: int, latent_dim: int, beta: float):
         super(BetaVAE, self).__init__()
         self.encoder = nn.Sequential(
-            nn.Linear(input_dim, latent_dim * 2),
-            nn.BatchNorm1d(latent_dim * 2),
+            nn.Linear(input_dim, latent_dim*2),
+            nn.BatchNorm1d(latent_dim*2),
             nn.ReLU(),
         )
         self.decoder = nn.Sequential(
@@ -129,7 +129,6 @@ def train_vae(model, train_loader, optimizer, epochs):
     for epoch in range(epochs):
         avg_train_loss = train_model(model, train_loader, optimizer)
         train_loss_history.append(avg_train_loss)
-        print(f"Epoch {epoch}, Loss: {avg_train_loss}")
 
     return train_loss_history
 
@@ -223,7 +222,7 @@ def extract_latent_dimensions(model, data_loader, metadata, path):
     return latent_df
 
 
-def weights(model, subset_train_df, path):
+def weights(model, subset_train_df, path=None):
     """
     Extract weight from the VAE model and save them with Model IDs.
 
@@ -235,8 +234,11 @@ def weights(model, subset_train_df, path):
         Gene weight dataframe
     """
     weight_matrix = model.encoder[0].weight.detach().cpu().numpy().T  # Transpose the weight matrix
+    # Split the weight matrix to get only the latent dimensions
+    latent_dim = weight_matrix.shape[1] // 2
+    weight_matrix = weight_matrix[:, :latent_dim]  # Only take the first half
     weight_df = pd.DataFrame(weight_matrix)
-
+    
     # Save as parquet to use for heatmap
     weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.parquet")
     weight_df.to_parquet(weight_df_dir, index=False)
@@ -245,7 +247,6 @@ def weights(model, subset_train_df, path):
     weight_df_T_df = weight_df.T
     gene_weight_df = pd.DataFrame(data=weight_df_T_df.values, columns=subset_train_df.columns)
     gene_weight_T_df = gene_weight_df.T
-
     gw_reindex_df = gene_weight_T_df.reset_index()
     gw_renumber_df = gw_reindex_df.rename(columns={x: y for x, y in zip(gw_reindex_df.columns, range(0, len(gw_reindex_df.columns)))})
 
@@ -258,7 +259,8 @@ def weights(model, subset_train_df, path):
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
 
     # Save as parquet to use for GSEA
-    gene_weight_dir = pathlib.Path(path)
-    final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
+    if path:
+        gene_weight_dir = pathlib.Path(path)
+        final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
 
     return final_gene_weights_df

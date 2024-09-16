@@ -119,7 +119,7 @@ def get_optimize_args():
     return args
 
 
-def objective(trial, train_tensor, val_tensor, train_df):
+def objective(trial, train_tensor, val_tensor, train_df, latent_dim=None):
     """
     Optuna objective function
     Args:
@@ -127,19 +127,22 @@ def objective(trial, train_tensor, val_tensor, train_df):
         train_tensor: Training data tensor
         val_tensor: Validation data tensor
         train_df: Training dataframe
+        latent_dim: Optional latent dimension provided externally
 
     Returns:
         Validation loss
     """
     val_loss = []
     args = get_optimize_args()
+
+    # Use provided latent dimension if available, otherwise suggest via Optuna
+    if latent_dim is None:
+        latent_dim = trial.suggest_int("latent_dim", args.min_latent_dim, args.max_latent_dim)
+
     """
     Optuna objective function: optimized by study
     """
     # Define hyperparameters
-    latent_dim = trial.suggest_int(
-        "latent_dim", args.min_latent_dim, args.max_latent_dim
-    )
     beta = trial.suggest_float(
         "beta", args.min_beta, args.max_beta
     )

@@ -1,7 +1,7 @@
 import argparse
 
 import torch
-from betatcvae import BetaTCVAE, train_vae, evaluate_vae
+from betatcvae import BetaTCVAE, train_tc_vae, evaluate_tc_vae
 from torch.utils.data import DataLoader, TensorDataset
 
 
@@ -143,7 +143,7 @@ def get_optimize_args_tc():
     return args
 
 
-def objective_tc(trial, train_tensor, val_tensor, train_df):
+def objective_tc(trial, train_tensor, val_tensor, train_df, latent_dim=None):
     """
     Optuna objective function
     Args:
@@ -151,19 +151,23 @@ def objective_tc(trial, train_tensor, val_tensor, train_df):
         train_tensor: Training data tensor
         val_tensor: Validation data tensor
         train_df: Training dataframe
+        latent_dim: Optional latent dimension provided externally
 
     Returns:
         Validation loss
     """
     val_loss = []
     args = get_optimize_args_tc()
+
+    # Use provided latent dimension if available, otherwise suggest via Optuna
+    if latent_dim is None:
+        latent_dim = trial.suggest_int("latent_dim", args.min_latent_dim, args.max_latent_dim)
+
     """
     Optuna objective function: optimized by study
     """
     # Define hyperparameters
-    latent_dim = trial.suggest_int(
-        "latent_dim", args.min_latent_dim, args.max_latent_dim
-    )
+    print(latent_dim)
     beta = trial.suggest_float(
         "beta", args.min_beta, args.max_beta
     )
@@ -189,16 +193,16 @@ def objective_tc(trial, train_tensor, val_tensor, train_df):
     )
 
     model = BetaTCVAE(input_dim=train_df.shape[1], latent_dim=latent_dim, beta=beta)
-    optimizer = get_optimizer(optimizer_type, model.parameters(), learning_rate)
+    optimizer = get_optimizer_tc(optimizer_type, model.parameters(), learning_rate)
 
-    train_vae(model, train_loader, optimizer, epochs=epochs)
+    train_tc_vae(model, train_loader, optimizer, epochs=epochs)
 
-    val_loss = evaluate_vae(model, val_loader)
+    val_loss = evaluate_tc_vae(model, val_loader)
 
 
     return val_loss
 
-def get_optimizer(optimizer_type, model_parameters, learning_rate):
+def get_optimizer_tc(optimizer_type, model_parameters, learning_rate):
     if optimizer_type == 'adam':
         return torch.optim.Adam(model_parameters, lr=learning_rate)
     elif optimizer_type == 'rmsprop':
