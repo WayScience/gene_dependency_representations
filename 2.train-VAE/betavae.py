@@ -223,7 +223,7 @@ def extract_latent_dimensions(model, data_loader, metadata, path):
     return latent_df
 
 
-def weights(model, subset_train_df, path):
+def weights(model, subset_train_df, path=None):
     """
     Extract weight from the VAE model and save them with Model IDs.
 
@@ -258,7 +258,8 @@ def weights(model, subset_train_df, path):
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
 
     # Save as parquet to use for GSEA
-    gene_weight_dir = pathlib.Path(path)
-    final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
+    if path:
+        gene_weight_dir = pathlib.Path(path)
+        final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
 
     return final_gene_weights_df

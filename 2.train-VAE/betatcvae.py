@@ -61,9 +61,7 @@ class BetaTCVAE(nn.Module):
     loss_function(*args, **kwargs) -> dict
         Computes the loss for the Beta-TCVAE.
     """
-    
-    num_iter = 0  # Global static variable to keep track of iterations
-    
+    num_iter=0
     def __init__(self,
                  input_dim: int,
                  latent_dim: int,
@@ -86,61 +84,50 @@ class BetaTCVAE(nn.Module):
         modules = []
         in_dim = input_dim
         for h_dim in hidden_dims:
-            modules.append(
-                nn.Sequential(
-                    nn.Linear(in_dim, h_dim),
-                    nn.ReLU())
-            )
+            modules.append(nn.Linear(in_dim, h_dim))
+            modules.append(nn.ReLU())
             in_dim = h_dim
 
         self.encoder = nn.Sequential(*modules)
-        self.fc1 = nn.Linear(input_dim, hidden_dims[0]) 
-        self.fc_mu = nn.Linear(hidden_dims[0], latent_dim) 
-        self.fc_logvar = nn.Linear(hidden_dims[0], latent_dim)  
-        self.fc2 = nn.Linear(latent_dim, hidden_dims[0])  
-        self.fc3 = nn.Linear(hidden_dims[0], input_dim) 
+        self.fc1 = nn.Linear(hidden_dims[-1], latent_dim)
+        self.fc_mu = nn.Linear(latent_dim, latent_dim)
+        self.fc_logvar = nn.Linear(latent_dim, latent_dim)
 
         # Build Decoder
-        self.decoder_input = nn.Linear(latent_dim, hidden_dims[0])  
         modules = []
         hidden_dims.reverse() 
 
+        self.decoder_input = nn.Linear(latent_dim, hidden_dims[0])
         for i in range(len(hidden_dims) - 1):
-            modules.append(
-                nn.Sequential(
-                    nn.Linear(hidden_dims[i], hidden_dims[i + 1]),
-                    nn.ReLU())
-            )
+            modules.append(nn.Linear(hidden_dims[i], hidden_dims[i + 1]))
+            modules.append(nn.ReLU())
 
         self.decoder = nn.Sequential(*modules)
-        self.final_layer = nn.Linear(hidden_dims[-1], input_dim)  
+        self.final_layer = nn.Linear(hidden_dims[-1], input_dim)
 
     def encode(self, input: torch.Tensor) -> List[torch.Tensor]:
-        result = self.encoder(input) 
-        result = self.fc1(result)  
-        mu = self.fc_mu(result)  
-        log_var = self.fc_logvar(result)  
+        result = self.encoder(input)
+        result = self.fc1(result)  # Apply fc1 to match dimensions
+        mu = self.fc_mu(result)  # Latent space mean
+        log_var = self.fc_logvar(result)  # Latent space log-variance
         return [mu, log_var]
 
+    def reparameterize(self, mu: torch.Tensor, log_var: torch.Tensor) -> torch.Tensor:
+        std = torch.exp(0.5 * log_var)
+        eps = torch.randn_like(std)
+        return mu + eps * std
+
     def decode(self, z: torch.Tensor) -> torch.Tensor:
-        result = self.decoder_input(z)  
-        result = self.decoder(result)  
-        result = self.final_layer(result)  
-        return result
+        result = self.decoder_input(z)
+        result = self.decoder(result)
+        return self.final_layer(result)
 
-    def reparameterize(self, mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
-        std = torch.exp(0.5 * logvar)  
-        eps = torch.randn_like(std)  
-        return eps * std + mu  
+    def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
+        mu, log_var = self.encode(x)
+        z = self.reparameterize(mu, log_var)
+        reconstructed_x = self.decode(z)
+        return [reconstructed_x, mu, log_var, z]
 
-    def forward(self, x):
-        h1 = F.relu(self.fc1(x))  
-        mu = self.fc_mu(h1)  
-        logvar = self.fc_logvar(h1) 
-        z = self.reparameterize(mu, logvar)  
-        h2 = F.relu(self.fc2(z)) 
-        recon_x = self.fc3(h2)  # Get reconstruction
-        return recon_x, mu, logvar, z
 
     def log_density_gaussian(self, x: torch.Tensor, mu: torch.Tensor, logvar: torch.Tensor):
         normalization = -0.5 * (math.log(2 * math.pi) + logvar) 
@@ -206,7 +193,7 @@ class BetaTCVAE(nn.Module):
 
 
     
-def train_model(model, train_loader, optimizer):
+def train_tc_model(model, train_loader, optimizer):
     """
     Definition of the VAE training model for use in both training and compiling
     Args:
@@ -229,7 +216,7 @@ def train_model(model, train_loader, optimizer):
     avg_train_loss = train_loss / len(train_loader.dataset)
     return avg_train_loss
 
-def train_vae(model, train_loader, optimizer, epochs):
+def train_tc_vae(model, train_loader, optimizer, epochs):
     """
     Train the VAE model.
 
@@ -244,12 +231,12 @@ def train_vae(model, train_loader, optimizer, epochs):
     train_loss_history = []
     model.train()
     for epoch in range(epochs):
-        avg_train_loss = train_model(model, train_loader, optimizer)
+        avg_train_loss = train_tc_model(model, train_loader, optimizer)
         train_loss_history.append(avg_train_loss)
         print(f"Epoch {epoch}, Loss: {avg_train_loss}")
     return train_loss_history
 
-def evaluate_vae(model, val_loader):
+def evaluate_tc_vae(model, val_loader):
     """
     Evaluate the VAE model.
 
@@ -270,7 +257,7 @@ def evaluate_vae(model, val_loader):
             val_loss += model.loss_function(recon, data, mu, log_var, z).item()
     return val_loss / len(val_loader.dataset)
 
-def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs):
+def compile_tc_vae(model, train_loader, val_loader, test_loader, optimizer, epochs):
     """
     Compile the VAE model.
 
@@ -292,13 +279,13 @@ def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
     test_loss_history = []
 
     for epoch in range(epochs):
-        avg_train_loss = train_model(model, train_loader, optimizer)
+        avg_train_loss = train_tc_model(model, train_loader, optimizer)
         train_loss_history.append(avg_train_loss)
 
-        avg_val_loss = evaluate_vae(model, val_loader)
+        avg_val_loss = evaluate_tc_vae(model, val_loader)
         val_loss_history.append(avg_val_loss)
 
-        avg_test_loss = evaluate_vae(model, test_loader)
+        avg_test_loss = evaluate_tc_vae(model, test_loader)
         test_loss_history.append(avg_test_loss)
 
         print(f"Epoch {epoch+1}, Train Loss: {avg_train_loss}, Val Loss: {avg_val_loss}, Test Loss: {avg_test_loss}")
@@ -321,7 +308,7 @@ def extract_latent_dimensions(model, data_loader, metadata, path):
     latent_space = []
     with torch.no_grad():
         for batch in data_loader:
-            data = batch[1]
+            data = batch[0]
             mu, log_var = model.encode(data)  # Extract the mean and log variance
             latent_space.append(mu.cpu().numpy())  # Append the mean to the latent space
     latent_space = np.concatenate(latent_space, axis=0)
@@ -331,22 +318,19 @@ def extract_latent_dimensions(model, data_loader, metadata, path):
     latent_df.to_parquet(latent_df_dir, index=False)
     return latent_df
 
-def weights(model, subset_train_df, path):
+def tc_weights(model, subset_train_df, path=None):
     """
-    Extract weight from the VAE model and save them with Model IDs.
-
-    Args:
-        model (VAE): Trained VAE model.
-        subset_train_df: the qc training dataframe
-
-    Returns:
-        Gene weight dataframe
+    Extract weight from the TC VAE model and save them with Model IDs.
     """
+    # Ensure model is in evaluation mode
+    model.eval()
+
     # Access the first layer of the encoder within the Sequential container
-    weight_matrix = model.encoder[0][0].weight.detach().cpu().numpy().T  # Extract weights from the first linear layer
+    first_linear_layer = model.encoder[0]  # First layer is a Linear layer
+    weight_matrix = first_linear_layer.weight.detach().cpu().numpy().T  # Extract weights
     weight_df = pd.DataFrame(weight_matrix)
-    weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.parquet")
-    weight_df.to_parquet(weight_df_dir, index=False)
+    weight_df_dir = pathlib.Path("./results/tc_weight_matrix_encoder.parquet")
+    weight_df.to_parquet(weight_df_dir)
 
     # Transpose, reformat, and save the weights
     weight_df_T_df = weight_df.T
@@ -358,6 +342,7 @@ def weights(model, subset_train_df, path):
     gene_name_df = split_data_df.iloc[:, :1]
     trimmed_gene_weight_df = gw_renumber_df.iloc[:, 1:]
     final_gene_weights_df = gene_name_df.join(trimmed_gene_weight_df)
-    gene_weight_dir = pathlib.Path(path)
-    final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
+    if path:
+        gene_weight_dir = pathlib.Path(path)
+        final_gene_weights_df.to_parquet(gene_weight_dir, index=False)
     return final_gene_weights_df

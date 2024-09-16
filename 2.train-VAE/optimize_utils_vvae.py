@@ -1,15 +1,12 @@
 import argparse
-
 import torch
-from betatcvae import BetaTCVAE, train_tc_vae, evaluate_tc_vae
+from vanillavae import VanillaVAE, train_vvae, evaluate_vvae  # Import VanillaVAE 
 from torch.utils.data import DataLoader, TensorDataset
 
-
-def get_optimize_args_tc():
+def get_optimize_args_vvae():
     """
     Get arguments for the hyperparameter optimization procedure
     """
-
     parser = argparse.ArgumentParser()
     # dummy arguments for ipykernel error
     parser.add_argument("-f", "--fff", help="dummy argument", default="1")
@@ -27,7 +24,7 @@ def get_optimize_args_tc():
     )
     parser.add_argument(
         "--min_latent_dim",
-        default=0,
+        default=10,
         type=int,
         help="Minimum size of the internal latent dimensions",
     )
@@ -36,18 +33,6 @@ def get_optimize_args_tc():
         default=200,
         type=int,
         help="Maximum size of the internal latent dimensions",
-    )
-    parser.add_argument(
-        "--min_beta",
-        default=1,
-        type=int,
-        help="Minimum beta penalty applied to TC",
-    )
-    parser.add_argument(
-        "--max_beta",
-        default=2,
-        type=int,
-        help="Maximum beta penalty applied to TC",
     )
     parser.add_argument(
         "--learning_rate",
@@ -100,33 +85,9 @@ def get_optimize_args_tc():
     )
     parser.add_argument(
         "--max_lr",
-        default=1e-4,
+        default=5e-3,
         type=float,
         help="Maximum learning rate",
-    )
-    parser.add_argument(
-        "--min_alpha",
-        default=0,
-        type=float,
-        help="Minimum alpha",
-    )
-    parser.add_argument(
-        "--max_alpha",
-        default=5.0,
-        type=float,
-        help="Maximum alpha",
-    )
-    parser.add_argument(
-        "--min_gamma",
-        default=0,
-        type=float,
-        help="Minimum gamma",
-    )
-    parser.add_argument(
-        "--max_gamma",
-        default=5.0,
-        type=float,
-        help="Maximum gamma",
     )
     parser.add_argument(
         "--architecture", 
@@ -142,8 +103,7 @@ def get_optimize_args_tc():
     args = parser.parse_args()
     return args
 
-
-def objective_tc(trial, train_tensor, val_tensor, train_df, latent_dim=None):
+def objective_vvae(trial, train_tensor, val_tensor, train_df, latent_dim=None):
     """
     Optuna objective function
     Args:
@@ -156,20 +116,14 @@ def objective_tc(trial, train_tensor, val_tensor, train_df, latent_dim=None):
     Returns:
         Validation loss
     """
-    val_loss = []
-    args = get_optimize_args_tc()
+    args = get_optimize_args_vvae()
 
     # Use provided latent dimension if available, otherwise suggest via Optuna
     if latent_dim is None:
         latent_dim = trial.suggest_int("latent_dim", args.min_latent_dim, args.max_latent_dim)
 
-    """
-    Optuna objective function: optimized by study
-    """
     # Define hyperparameters
-    beta = trial.suggest_float(
-        "beta", args.min_beta, args.max_beta
-    )
+    
     learning_rate = trial.suggest_float(
         "learning_rate", args.min_lr, args.max_lr
     )
@@ -180,9 +134,9 @@ def objective_tc(trial, train_tensor, val_tensor, train_df, latent_dim=None):
         "epochs", args.min_epochs, args.max_epochs
     )
     optimizer_type = trial.suggest_categorical(
-        "optimizer_type", ["adam","rmsprop"]
+        "optimizer_type", ["adam", "rmsprop"]
     )
-
+    
     # Create DataLoader
     train_loader = DataLoader(
         TensorDataset(train_tensor), batch_size=batch_size, shuffle=True
@@ -191,17 +145,18 @@ def objective_tc(trial, train_tensor, val_tensor, train_df, latent_dim=None):
         TensorDataset(val_tensor), batch_size=batch_size, shuffle=False
     )
 
-    model = BetaTCVAE(input_dim=train_df.shape[1], latent_dim=latent_dim, beta=beta)
-    optimizer = get_optimizer_tc(optimizer_type, model.parameters(), learning_rate)
+    # Initialize VanillaVAE
+    model = VanillaVAE(input_dim=train_df.shape[1], latent_dim=latent_dim)
+    
+    optimizer = get_optimizer_vvae(optimizer_type, model.parameters(), learning_rate)
 
-    train_tc_vae(model, train_loader, optimizer, epochs=epochs)
-
-    val_loss = evaluate_tc_vae(model, val_loader)
-
+    # Train and evaluate VanillaVAE
+    train_vvae(model, train_loader, optimizer, epochs=epochs)
+    val_loss = evaluate_vvae(model, val_loader)
 
     return val_loss
 
-def get_optimizer_tc(optimizer_type, model_parameters, learning_rate):
+def get_optimizer_vvae(optimizer_type, model_parameters, learning_rate):
     if optimizer_type == 'adam':
         return torch.optim.Adam(model_parameters, lr=learning_rate)
     elif optimizer_type == 'rmsprop':
