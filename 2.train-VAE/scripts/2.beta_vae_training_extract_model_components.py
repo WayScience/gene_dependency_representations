@@ -15,6 +15,9 @@ import optuna
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader, TensorDataset
 from pathlib import Path
+
+script_directory = pathlib.Path("../2.train-VAE/utils/").resolve()
+sys.path.insert(0, str(script_directory))
 from betavae import BetaVAE, compile_vae, extract_latent_dimensions, weights
 from optimize_utils import get_optimizer
 

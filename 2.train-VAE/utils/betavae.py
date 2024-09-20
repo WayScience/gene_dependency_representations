@@ -240,8 +240,9 @@ def weights(model, subset_train_df, path=None):
     weight_df = pd.DataFrame(weight_matrix)
     
     # Save as parquet to use for heatmap
-    weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.parquet")
-    weight_df.to_parquet(weight_df_dir, index=False)
+    if path:
+        weight_df_dir = pathlib.Path("./results/weight_matrix_encoder.parquet")
+        weight_df.to_parquet(weight_df_dir, index=False)
 
     # Transpose, add gene names back in, transpose again, reset the index, renumber the columns 
     weight_df_T_df = weight_df.T

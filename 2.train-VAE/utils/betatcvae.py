@@ -334,9 +334,10 @@ def tc_weights(model, subset_train_df, path=None):
     # Create a dataframe from the weight matrix
     weight_df = pd.DataFrame(weight_matrix)
 
-    # Save as parquet to use for heatmap
-    weight_df_dir = pathlib.Path("./results/tc_weight_matrix_encoder.parquet")
-    weight_df.to_parquet(weight_df_dir)
+    if path:
+        # Save as parquet to use for heatmap
+        weight_df_dir = pathlib.Path("./results/tc_weight_matrix_encoder.parquet")
+        weight_df.to_parquet(weight_df_dir)
 
     # Transpose, reformat, and save the weights
     weight_df_T_df = weight_df.T
