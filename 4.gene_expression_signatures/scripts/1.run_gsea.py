@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[13]:
+# In[1]:
 
 
 import joblib
@@ -22,7 +22,7 @@ sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data, load_model_data
 
 
-# In[14]:
+# In[2]:
 
 
 # Load data
@@ -39,7 +39,7 @@ dependency_df, gene_dict_df= load_model_data(dependency_file, gene_dict_file)
 gene_dict_df = pd.DataFrame(gene_dict_df)
 
 
-# In[15]:
+# In[3]:
 
 
 #Load weight data for VAEs
@@ -56,7 +56,7 @@ weight_data = weight_df.filter(gene_list_passed_qc, axis=1)
 weight_data.head()
 
 
-# In[20]:
+# In[4]:
 
 
 # Function to extract weights for sklearn models
@@ -151,7 +151,7 @@ for num_components in latent_dims:
             
 
 
-# In[21]:
+# In[5]:
 
 
 # Save the combined dataframe to a file
@@ -165,7 +165,7 @@ csv_output_file = output_dir / "combined_z_matrix_gsea_results.csv"
 combined_results_df.to_csv(csv_output_file, index=False)
 
 
-# In[22]:
+# In[6]:
 
 
 combined_results_df.sort_values(by='gsea_es_score', key=abs, ascending = False).head(50)
