@@ -12,6 +12,8 @@ import optuna
 import torch
 import logging 
 
+script_directory = pathlib.Path("../2.train-VAE/utils/").resolve()
+sys.path.insert(0, str(script_directory))
 from optimize_utils import get_optimize_args, objective
 from optimize_utils_tcvae import get_optimize_args_tc, objective_tc
 
