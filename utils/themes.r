@@ -22,4 +22,3 @@ custom_theme <- function() {
   theme(
     legend.position = "right"
   )
-}
