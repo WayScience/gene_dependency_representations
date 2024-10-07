@@ -142,7 +142,7 @@ merged_df.to_csv("../5.drug-dependency/results/drug_diff_results.csv", index=Fal
 # In[8]:
 
 
-# Assuming merged_df and correlation_df are already defined
+# Filter correlation dataframe to only include essential columns 
 correlation_df_filtered = correlation_df[['drug', 'latent_dimension', 'correlation', 'indication','phase']]
 
 # Get unique values from "Higher in" column and exclude "Other types"

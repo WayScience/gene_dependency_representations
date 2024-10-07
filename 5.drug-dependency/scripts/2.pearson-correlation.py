@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 import pandas as pd
@@ -14,7 +14,7 @@ sys.path.append("../")
 from utils import load_utils
 
 
-# In[3]:
+# In[2]:
 
 
 # Load PRISM data
@@ -38,7 +38,7 @@ print(prism_df.shape)
 prism_df.head(3)
 
 
-# In[4]:
+# In[3]:
 
 
 #Load reactome pathways
@@ -47,7 +47,7 @@ pathway_df = pd.read_parquet(pathway_dir)
 pathway_df.head()
 
 
-# In[5]:
+# In[4]:
 
 
 # load the latent dim matrix 
@@ -56,7 +56,7 @@ latent_df = pd.read_parquet(latent_dir)
 latent_df.head()
 
 
-# In[6]:
+# In[5]:
 
 
 # Ensure ModelID is the index for both dataframes to align 
@@ -65,14 +65,14 @@ prism_df.set_index('ModelID', inplace=True)
 latent_df.head()
 
 
-# In[7]:
+# In[6]:
 
 
 # Align both dataframes based on the ModelID
 common_model_ids = latent_df.index.intersection(prism_df.index)
 
 
-# In[8]:
+# In[7]:
 
 
 # Filter both dataframes to keep only common ModelIDs
@@ -80,7 +80,7 @@ latent_df_filtered = latent_df.loc[common_model_ids]
 prism_df_filtered = prism_df.loc[common_model_ids]
 
 
-# In[9]:
+# In[8]:
 
 
 # Check the variance of each latent dimension and drug response column
@@ -92,19 +92,19 @@ latent_df_filtered = latent_df_filtered.loc[:, latent_variance != 0]
 prism_df_filtered = prism_df_filtered.loc[:, prism_variance != 0]
 
 
-# In[10]:
+# In[9]:
 
 
 latent_df_filtered.head()
 
 
-# In[11]:
+# In[10]:
 
 
 prism_df_filtered.head()
 
 
-# In[12]:
+# In[11]:
 
 
 # Create a dataframe to store the Pearson correlation results
@@ -146,7 +146,7 @@ correlation_df = pd.DataFrame(correlation_results)
 correlation_df.sort_values(by='correlation', key=abs, ascending=False).head(50)
 
 
-# In[17]:
+# In[12]:
 
 
 #Sort pathways by NES score (ascending order)
@@ -165,7 +165,7 @@ grouped_pathway_df.columns = ['latent dimension', 'Associated Pathways']
 grouped_pathway_df.head()
 
 
-# In[18]:
+# In[13]:
 
 
 # Assuming 'drug_column_name' is the column in prism_trt_df that matches the 'drug' column in correlation_df

@@ -15,7 +15,7 @@ sys.path.append("../")
 from utils import load_utils
 
 
-# In[5]:
+# In[2]:
 
 
 # Load PRISM data
@@ -34,28 +34,28 @@ print(prism_df.shape)
 prism_df.head(3)
 
 
-# In[6]:
+# In[3]:
 
 
 print(prism_cell_df.shape)
 prism_cell_df.head(3)
 
 
-# In[7]:
+# In[4]:
 
 
 print(prism_trt_df.shape)
 prism_trt_df.head(3)
 
 
-# In[8]:
+# In[5]:
 
 
 # How many tissues
 prism_cell_df.loc[:, "tissue"].value_counts()
 
 
-# In[9]:
+# In[6]:
 
 
 # How many unique treatments
@@ -68,7 +68,7 @@ prism_trt_df.moa.value_counts().head(20)
 
 # ## Secondary screen data
 
-# In[10]:
+# In[7]:
 
 
 prism_df, prism_cell_df, prism_trt_df = load_utils.load_prism(
@@ -83,28 +83,28 @@ print(prism_df.shape)
 prism_df.head(3)
 
 
-# In[11]:
+# In[8]:
 
 
 print(prism_cell_df.shape)
 prism_cell_df.head(3)
 
 
-# In[12]:
+# In[9]:
 
 
 print(prism_trt_df.shape)
 prism_trt_df.head(3)
 
 
-# In[13]:
+# In[10]:
 
 
 # How many tissues in secondary screen
 prism_cell_df.loc[:, "tissue"].value_counts()
 
 
-# In[14]:
+# In[11]:
 
 
 # How many unique treatments
@@ -115,7 +115,7 @@ print(prism_trt_df.moa.nunique())
 prism_trt_df.moa.value_counts().head(20)
 
 
-# In[15]:
+# In[12]:
 
 
 # How many doses per compound
