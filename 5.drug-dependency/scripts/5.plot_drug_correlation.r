@@ -212,9 +212,9 @@ glioma_plot <- ggplot(glioma_df, aes(x = correlation, y = `F-statistic`, color =
     x = "Correlation",
     y = "F-statistic"
   ) +
-  scale_color_manual(values = c("In clinical trials" = "blue", 
-                                "In vitro results" = "green", 
-                                "No testing" = "red")) +  # Custom colors for each group
+  scale_color_manual(values = c("In clinical trials" = "#648FFF", 
+                                "In vitro results" = "#FFC20A", 
+                                "No testing" = "#D41159")) +  # Custom colors for each group
   theme(
     plot.title = element_text(hjust = 0.5),  # Center the plot title
     legend.title = element_blank(),  # Remove legend title
