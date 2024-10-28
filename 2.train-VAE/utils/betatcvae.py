@@ -291,7 +291,7 @@ def compile_tc_vae(model, train_loader, val_loader, test_loader, optimizer, epoc
 
     return train_loss_history, val_loss_history, test_loss_history
 
-def extract_latent_dimensions(model, data_loader, metadata, path):
+def tc_extract_latent_dimensions(model, data_loader, metadata, path):
     """
     Extract latent dimensions from the VAE model and save them with Model IDs.
 

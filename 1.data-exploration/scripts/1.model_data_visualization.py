@@ -78,7 +78,7 @@ gene_dependency_df.head(3)
 
 
 # Load gene data for subsetting
-gene_meta_df = pd.read_parquet(gene_input_file, sep="\t")
+gene_meta_df = pd.read_csv(gene_input_file, sep="\t")
 
 print(gene_meta_df.shape)
 gene_meta_df.head(3)

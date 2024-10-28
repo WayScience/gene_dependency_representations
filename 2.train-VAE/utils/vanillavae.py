@@ -107,6 +107,30 @@ def evaluate_vvae(model, val_loader):
             val_loss += model.loss_function(recon, data, mu, log_var).item()
     return val_loss / len(val_loader.dataset)
 
+def vvae_extract_latent_dimensions(model, data_loader):
+    """
+    Extracts the latent dimensions (mean values) from the Vanilla VAE's encoder.
+
+    Args:
+        model (VAE): Trained VAE model.
+        data_loader (DataLoader): DataLoader for the dataset.
+
+    Returns:
+        DataFrame: A DataFrame with the latent dimensions (mean values) for each sample.
+    """
+    model.eval()
+    latent_means = []
+    with torch.no_grad():
+        for batch in data_loader:
+            data = batch[0]
+            mean, _ = model.encode(data)
+            latent_means.append(mean.cpu().numpy())
+
+    latent_means = torch.cat(latent_means, dim=0).numpy()
+    latent_df = pd.DataFrame(latent_means)
+    
+    return latent_df
+
 
 def vanilla_weights(model, subset_train_df, path=None):
     """
