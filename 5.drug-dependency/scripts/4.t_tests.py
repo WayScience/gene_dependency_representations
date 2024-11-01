@@ -135,20 +135,31 @@ merged_df = pd.merge(significant_ttest_results_df, prism_trt_df_filtered, how='l
 # Drop the redundant drug_column_name column after the merge if needed
 merged_df = merged_df.drop(columns=['column_name'])
 
-# Save results to a CSV file
-merged_df.to_csv("../5.drug-dependency/results/drug_diff_results.csv", index=False)
+# Save results to a parquet file
+merged_df.to_parquet("../5.drug-dependency/results/drug_diff_results.parquet", index=False)
 
 
 # In[8]:
 
 
-# Filter correlation dataframe to only include essential columns 
+# Assuming merged_df and correlation_df are already defined
 correlation_df_filtered = correlation_df[['drug', 'latent_dimension', 'correlation', 'indication','phase']]
 
 # Get unique values from "Higher in" column and exclude "Other types"
 higher_in_values = merged_df["Higher in"].unique()
 higher_in_values = [value for value in higher_in_values if value != "Other Types"]
 
+# Filter for 'Diffuse Glioma' in the 'Higher in' column
+diffuse_glioma_df = merged_df[merged_df["Higher in"] == "Diffuse Glioma"]
+
+# Merge with correlation_df on the "Drug" column for Diffuse Glioma
+diffuse_glioma_final_df = pd.merge(diffuse_glioma_df, correlation_df_filtered, left_on="Drug", right_on="drug", how="inner")
+
+# Save the Diffuse Glioma DataFrame to a Parquet file
+diffuse_glioma_parquet_path = pathlib.Path('../5.drug-dependency/results/Diffuse_Glioma_Analysis.parquet').resolve()
+diffuse_glioma_final_df.to_parquet(diffuse_glioma_parquet_path)
+
+#Path for PDF file
 pdf_path = pathlib.Path('../5.drug-dependency/results/Individual_Drug_Analysis.pdf').resolve()
 
 # Create a PDF file to save the plots
