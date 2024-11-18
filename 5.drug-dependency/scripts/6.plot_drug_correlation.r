@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[1]:
 
 
@@ -5,6 +8,7 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(cowplot))
 suppressPackageStartupMessages(library(reticulate))
+suppressPackageStartupMessages(library(arrow))
 
 
 # In[2]:
@@ -13,13 +17,13 @@ suppressPackageStartupMessages(library(reticulate))
 #Load data
 data_dir <- file.path("../5.drug-dependency/results")
 
-results_file <- file.path(data_dir, "combined_latent_drug_correlations.csv")
-drug_results_df <- readr::read_csv(
+results_file <- file.path(data_dir, "combined_latent_drug_correlations.parquet")
+drug_results_df <- arrow::read_parquet(
     results_file,
 )
 
-glioma_file <- file.path(data_dir, "diffuse_glioma.csv")
-glioma_df <- readr::read_csv(
+glioma_file <- file.path(data_dir, "diffuse_glioma.parquet")
+glioma_df <- arrow::read_parquet(
     glioma_file,
 )
 

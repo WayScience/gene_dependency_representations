@@ -1,4 +1,10 @@
 
+## Visualizing GSEA Results for Latent Dimensions Across Models
+# 
+# This script loads GSEA results for various latent dimension models, extracts the highest enrichment scores (ES) for 
+# each model and dimension, and generates visualizations. The plots include the maximum ES score across all pathways as well 
+# as a specific pathway. The results are saved as PNG files.
+
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(cowplot))
@@ -10,8 +16,8 @@ suppressPackageStartupMessages(library(reticulate))
 #Load data
 data_dir <- file.path("../4.gene_expression_signatures/results")
 
-results_file <- file.path(data_dir, "combined_z_matrix_gsea_results.csv")
-gsea_results_df <- readr::read_csv(
+results_file <- file.path(data_dir, "combined_z_matrix_gsea_results.parquet")
+gsea_results_df <- arrow::read_parquet(
     results_file,
 )
 

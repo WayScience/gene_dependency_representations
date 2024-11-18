@@ -54,6 +54,7 @@ pathway_df.head()
 latent_dir = pathlib.Path("../2.train-VAE/results/latent_df.parquet").resolve()
 latent_df = pd.read_parquet(latent_dir)
 latent_df.head()
+print(latent_df.shape)
 
 
 # In[5]:
@@ -169,7 +170,7 @@ grouped_pathway_df.head()
 
 
 # Assuming 'drug_column_name' is the column in prism_trt_df that matches the 'drug' column in correlation_df
-prism_trt_df_filtered = prism_trt_df[['column_name', 'name', 'moa', 'target']]
+prism_trt_df_filtered = prism_trt_df[['column_name', 'name', 'moa', 'target', 'indication', 'phase']]
 
 # Merge correlation_df with prism_trt_df based on the 'drug' column in correlation_df and the matching column in prism_trt_df
 correlation_df_merged1 = pd.merge(correlation_df, prism_trt_df_filtered, how='left', left_on='drug', right_on='column_name')
@@ -187,8 +188,8 @@ significant_corr_df = correlation_df_merged[
     (correlation_df_merged['correlation'].abs() > 0.1)
 ]
 # saving results as single output file
-correlation_dir = pathlib.Path("./results/drug_correlation.csv")
-significant_corr_df.to_csv(correlation_dir)
+correlation_dir = pathlib.Path("./results/drug_correlation.parquet")
+significant_corr_df.to_parquet(correlation_dir)
 
 # Display the updated dataframe with the new columns
 correlation_df_merged.sort_values(by='correlation', key=abs, ascending=False).head(50)

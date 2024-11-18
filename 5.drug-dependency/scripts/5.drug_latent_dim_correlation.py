@@ -313,10 +313,6 @@ significant_corr_df = correlation_df_merged[
     (correlation_df_merged['pearson_correlation'].abs() > 0.1)
 ]
 
-#Save as CSV for R 
-csv_output_file = output_dir / "combined_latent_drug_correlations.csv"
-combined_results_df.to_csv(csv_output_file, index=False)
-
 
 # In[10]:
 

@@ -9,6 +9,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.data import DataLoader
 
 
 class BetaTCVAE(nn.Module):
@@ -291,7 +292,7 @@ def compile_tc_vae(model, train_loader, val_loader, test_loader, optimizer, epoc
 
     return train_loss_history, val_loss_history, test_loss_history
 
-def extract_latent_dimensions(model, data_loader, metadata, path):
+def tc_extract_latent_dimensions(model: BetaTCVAE, data_loader: DataLoader, metadata: pd.DataFrame, path: pathlib.Path) -> pd.DataFrame:
     """
     Extract latent dimensions from the VAE model and save them with Model IDs.
 
