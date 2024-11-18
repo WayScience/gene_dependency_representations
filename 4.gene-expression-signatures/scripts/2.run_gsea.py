@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+## GSEA Analysis Pipeline for Dimensionality Reduction Models
+
+#This script performs Gene Set Enrichment Analysis (GSEA) on weight matrices 
+#extracted from various dimensionality reduction models (PCA, ICA, NMF, VanillaVAE, 
+#BetaVAE, and BetaTCVAE). It iterates over different latent dimensions and 
+#model types, extracts the weight matrices, and computes GSEA scores. The 
+#results are combined into a single output file for downstream analysis.
+    
 # In[1]:
 
 
@@ -159,10 +167,6 @@ final_output_file = output_dir / "combined_z_matrix_gsea_results.parquet"
 combined_results_df.to_parquet(final_output_file, index=False)
 
 print(f"Saved final combined z_matrix and GSEA results to {final_output_file}")
-
-#Save as CSV for R 
-csv_output_file = output_dir / "combined_z_matrix_gsea_results.csv"
-combined_results_df.to_csv(csv_output_file, index=False)
 
 
 # In[6]:

@@ -188,7 +188,7 @@ significant_corr_df = correlation_df_merged[
     (correlation_df_merged['correlation'].abs() > 0.1)
 ]
 # saving results as single output file
-correlation_dir = pathlib.Path("./results/drug_correlation.parquet.gz")
+correlation_dir = pathlib.Path("./results/drug_correlation.parquet")
 significant_corr_df.to_parquet(correlation_dir)
 
 # Display the updated dataframe with the new columns

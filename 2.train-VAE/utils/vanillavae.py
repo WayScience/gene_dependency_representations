@@ -107,7 +107,7 @@ def evaluate_vvae(model, val_loader):
             val_loss += model.loss_function(recon, data, mu, log_var).item()
     return val_loss / len(val_loader.dataset)
 
-def vvae_extract_latent_dimensions(model, data_loader):
+def vvae_extract_latent_dimensions(model: VanillaVAE, data_loader: DataLoader):
     """
     Extracts the latent dimensions (mean values) from the Vanilla VAE's encoder.
 

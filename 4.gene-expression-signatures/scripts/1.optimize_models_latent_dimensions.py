@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+## Dimensionality Reduction and Variational Autoencoder Optimization Pipeline
+
+# This notebook performs dimensionality reduction and optimizes Variational Autoencoder (VAE) models
+# using Optuna. It supports multiple techniques including PCA, ICA, NMF, VanillaVAE, BetaVAE, and BetaTCVAE.
+# The pipeline processes gene expression data, fits the models for a range of latent dimensions, and saves
+# the trained models for future analysis.
+
+
 # In[1]:
 
 
