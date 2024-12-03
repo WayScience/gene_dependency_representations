@@ -85,22 +85,30 @@ def extract_weights(
             columns=dependency_df.drop(columns=["ModelID"]).columns.tolist()
         ).transpose()
         weights_df.columns = [f"{x}" for x in range(0, weights_df.shape[1])]
-    elif model_name == "betavae":
-        weights_df = weights(model, weight_data)
-        weights_df.rename(columns={0: 'genes'}, inplace=True)
-    elif model_name == "betatcvae":
-        weights_df = tc_weights(model, weight_data)
-        weights_df.rename(columns={0: 'genes'}, inplace=True)
-    elif model_name == "vanillavae":
-        weights_df = vanilla_weights(model, weight_data)
-        weights_df.rename(columns={0: 'genes'}, inplace=True)
+        weights_df = weights_df.reset_index().rename(columns={"index": "genes"})
+    elif model_name in ["betavae", "betatcvae", "vanillavae"]:
+        if model_name == "betavae":
+            weights_df = weights(model, weight_data)
+        elif model_name == "betatcvae":
+            weights_df = tc_weights(model, weight_data)
+        elif model_name == "vanillavae":
+            weights_df = vanilla_weights(model, weight_data)
+
+        # Ensure no duplicate or unintended columns
+        weights_df = weights_df.loc[:, ~weights_df.columns.duplicated()]
+        
+        # Rename first column to 'genes', if appropriate
+        if weights_df.columns[0] != "genes":
+            weights_df.rename(columns={weights_df.columns[0]: "genes"}, inplace=True)
+
+        # Reset index without adding duplicates
+        weights_df = weights_df.reset_index(drop=True)
     else:
         raise ValueError(f"Unsupported model type: {model_name}")
 
-    weights_df = weights_df.reset_index().rename(columns={"index": "genes"})
     return weights_df
 
-def perform_gsea(weights_df: pd.DataFrame, model_name: str, num_components: int, lib: str = "CORUM") -> pd.DataFrame:
+def perform_gsea(weights_df: pd.DataFrame, model_name: str, num_components: int, init: int, modelseed:int, lib: str = "CORUM") -> pd.DataFrame:
     """
     Performs Gene Set Enrichment Analysis (GSEA) for a given weight matrix.
 
@@ -128,6 +136,8 @@ def perform_gsea(weights_df: pd.DataFrame, model_name: str, num_components: int,
                     result_row = {
                         "z": int(col),
                         "full_model_z": num_components,
+                        "init" : int(init),
+                        "modelseed" : int(modelseed),
                         "model": str(model_name),
                         "reactome_pathway": str(pathway_result['Term']),
                         "gsea_es_score": pathway_result['es'],
@@ -148,10 +158,6 @@ model_save_dir = pathlib.Path("saved_models")
 output_dir = pathlib.Path("gsea_results")
 output_dir.mkdir(parents=True, exist_ok=True)
 
-# Latent dimensions and model names to iterate over
-latent_dims = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200]
-model_names = ["pca", "ica", "nmf", "vanillavae", "betavae", "betatcvae"]
-
 final_output_file = output_dir / "combined_z_matrix_gsea_results.parquet"
 try:
     combined_results_df = pd.read_parquet(final_output_file)
@@ -161,48 +167,66 @@ except FileNotFoundError:
     combined_results_df = pd.DataFrame()
     print(f"No existing file found. Initialized empty DataFrame.")
 
-for num_components in latent_dims:
-    for model_name in model_names:
-        # Load the saved model
-        # Check if this model and latent dimension have already been processed
-        if not combined_results_df.empty:
-            if ((combined_results_df['model'] == model_name) & 
-                (combined_results_df['full_model_z'] == num_components)).any():
-                print(f"Skipping {model_name} with {num_components} dimensions as it is already processed.")
-                continue  # Skip to the next iteration if this combination is already present
-        model_filename = model_save_dir / f"{model_name}_{num_components}_components_model.joblib"
-        if model_filename.exists():
-            print(f"Loading model from {model_filename}")
-            model = joblib.load(model_filename)
 
-            # Extract the weight matrix
-            try:
-                weight_matrix_df = extract_weights(model, model_name, weight_data)
-            except ValueError as e:
-                print(e)
-                continue
+# Iterate over all files in the saved_models directory
+for model_file in model_save_dir.glob("*.joblib"):
+    # Extract model name and number of components from the filename
+    model_file_name = model_file.stem
+    try:
+        # Assuming the filename format includes model_name, num_components, and potentially a seed
+        # Example: "BetaVAE_100_components_seed42_model.joblib"
+        parts = model_file_name.split("_")
+        model_name = parts[0]  # First part is the model name
+        num_components = int(parts[3])  # Second part should indicate the number of components
+        init = int(parts[7])
+        seed = int(parts[9])
+    except (IndexError, ValueError) as e:
+        print(f"Skipping file {model_file} due to unexpected filename format.")
+        continue
+    # Check if this model, latent dimension, and initialization have already been processed
+    if not combined_results_df.empty:
+        if ((combined_results_df['model'] == model_name) & 
+            (combined_results_df['init'] == init) &
+            (combined_results_df['full_model_z'] == num_components)).any():
+            print(f"Skipping {model_name} init {init} with {num_components} dimensions as it is already processed.")
+            continue
 
-            # Perform GSEA
-            gsea_results_df = perform_gsea(weight_matrix_df, model_name, num_components)
-            combined_results_df = pd.concat([combined_results_df, gsea_results_df], ignore_index=True)
-        else:
-            print(f"Model file {model_filename} not found. Skipping.")
+    # Load the model
+    print(f"Loading model from {model_file}")
+    try:
+        model = joblib.load(model_file)
+    except Exception as e:
+        print(f"Failed to load model from {model_file}: {e}")
+        continue
 
+    # Extract the weight matrix
+    
+    weight_matrix_df = extract_weights(model, model_name, weight_data)
+    
+    # Perform GSEA
+    gsea_results_df = perform_gsea(weight_matrix_df, model_name, num_components, init, seed)
+    combined_results_df = pd.concat([combined_results_df, gsea_results_df], ignore_index=True)
             
 
 
 # In[5]:
 
 
-# Save the combined dataframe to a file
-final_output_file = output_dir / "combined_z_matrix_gsea_results.parquet"
-combined_results_df.to_parquet(final_output_file, index=False)
+# Define the allowed values for the z column
+allowed_z_values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200]
 
-print(f"Saved final combined z_matrix and GSEA results to {final_output_file}")
+# Filter the dataframe to keep only rows where z is in the allowed list
+filtered_results_df = combined_results_df[combined_results_df['z'].isin(allowed_z_values)]
+
+# Save the filtered dataframe to a file
+final_output_file = output_dir / "combined_z_matrix_gsea_results.parquet"
+filtered_results_df.to_parquet(final_output_file, index=False)
+
+print(f"Saved final filtered z_matrix and GSEA results to {final_output_file}")
 
 
 # In[6]:
 
 
-combined_results_df.sort_values(by='gsea_es_score', key=abs, ascending = False).head(50)
+filtered_results_df.sort_values(by='gsea_es_score', key=abs, ascending = False).head(50)
 
