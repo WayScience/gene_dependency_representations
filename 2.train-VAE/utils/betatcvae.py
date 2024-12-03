@@ -292,7 +292,7 @@ def compile_tc_vae(model, train_loader, val_loader, test_loader, optimizer, epoc
 
     return train_loss_history, val_loss_history, test_loss_history
 
-def tc_extract_latent_dimensions(model: BetaTCVAE, data_loader: DataLoader, metadata: pd.DataFrame, path: pathlib.Path) -> pd.DataFrame:
+def tc_extract_latent_dimensions(model: BetaTCVAE, data_loader: DataLoader, metadata: pd.DataFrame, path: pathlib.Path=None) -> pd.DataFrame:
     """
     Extract latent dimensions from the VAE model and save them with Model IDs.
 
@@ -314,8 +314,9 @@ def tc_extract_latent_dimensions(model: BetaTCVAE, data_loader: DataLoader, meta
     latent_space = np.concatenate(latent_space, axis=0)
     latent_df = pd.DataFrame(latent_space)
     latent_df.insert(0, 'ModelID', metadata['ModelID'])
-    latent_df_dir = pathlib.Path(path)
-    latent_df.to_parquet(latent_df_dir, index=False)
+    if path:
+        latent_df_dir = pathlib.Path(path)
+        latent_df.to_parquet(latent_df_dir, index=False)
     return latent_df
 
 def tc_weights(model, subset_train_df, path=None):
