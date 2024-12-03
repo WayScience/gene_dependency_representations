@@ -212,15 +212,9 @@ for model_file in model_save_dir.glob("*.joblib"):
 # In[5]:
 
 
-# Define the allowed values for the z column
-allowed_z_values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200]
-
-# Filter the dataframe to keep only rows where z is in the allowed list
-filtered_results_df = combined_results_df[combined_results_df['z'].isin(allowed_z_values)]
-
-# Save the filtered dataframe to a file
+# Save the dataframe to a file
 final_output_file = output_dir / "combined_z_matrix_gsea_results.parquet"
-filtered_results_df.to_parquet(final_output_file, index=False)
+combined_results_df.to_parquet(final_output_file, index=False)
 
 print(f"Saved final filtered z_matrix and GSEA results to {final_output_file}")
 
@@ -228,5 +222,5 @@ print(f"Saved final filtered z_matrix and GSEA results to {final_output_file}")
 # In[6]:
 
 
-filtered_results_df.sort_values(by='gsea_es_score', key=abs, ascending = False).head(50)
+combined_results_df.sort_values(by='gsea_es_score', key=abs, ascending = False).head(50)
 
