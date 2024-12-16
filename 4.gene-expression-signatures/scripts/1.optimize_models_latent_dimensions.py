@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-## Dimensionality Reduction and Variational Autoencoder Optimization Pipeline
-
+# ## Dimensionality Reduction and Variational Autoencoder Optimization Pipeline
+# 
 # This notebook performs dimensionality reduction and optimizes Variational Autoencoder (VAE) models
 # using Optuna. It supports multiple techniques including PCA, ICA, NMF, VanillaVAE, BetaVAE, and BetaTCVAE.
-#The pipeline processes gene expression data, fits the models for a range of latent dimensions and initializations,
-# and saves the trained models for future analysis. 
+# The pipeline processes gene expression data, fits the models for a range of latent dimensions and initializations,
+# and saves the trained models for future analysis.
 
 # In[1]:
 
@@ -14,15 +14,16 @@
 import pathlib 
 import optuna
 import pandas as pd
-import joblib
 import torch
 import sys
-import numpy as np
 import random
-import os 
 
 from sklearn.decomposition import PCA, FastICA, NMF
 from torch.utils.data import DataLoader, TensorDataset
+
+script_directory = pathlib.Path("./scripts")
+sys.path.insert(0, str(script_directory))
+from utils import save_model, set_random_seed
 
 script_directory = pathlib.Path("../2.train-VAE/utils/").resolve()
 sys.path.insert(0, str(script_directory))
@@ -39,62 +40,6 @@ from data_loader import load_train_test_data, load_model_data
 
 
 # In[2]:
-
-
-def set_random_seed(seed):
-    """
-    Set the random seed for reproducibility.
-    
-    Args:
-        seed: Random seed value
-    """
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-
-
-# In[3]:
-
-
-def save_model(trial, model, directory, modelname, latent_dims, init, seed):
-    """
-    Save the model state_dict or the full model based on its type.
-    
-    Args:
-        trial: Current Optuna trial object or string for non-Optuna cases
-        model: The model being optimized
-        directory: The directory where the models will be saved
-        modelname: Name of the model (e.g., "pca", "ica", etc.)
-        latent_dims: Number of latent dimensions
-        init: Initialization number (e.g., 0 to 4)
-        seed: Random seed used for the initialization
-    """
-    # Ensure the save directory exists
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    # Handle trial number for Optuna trials or use "non-optuna" for others
-    trial_number = trial.number if hasattr(trial, "number") else "non-optuna"
-
-    # Define the model save path
-    model_save_path = os.path.join(
-        directory,
-        f"{modelname}_latent_dims_{latent_dims}_trial_{trial_number}_init_{init}_seed_{seed}"
-    )
-    
-    
-    joblib.dump(model, model_save_path + ".joblib")
-
-    # Optionally, store the model path and seed in the trial's attributes for later retrieval
-    if hasattr(trial, "set_user_attr"):
-        trial.set_user_attr(f"model_path_init_{init}", model_save_path)
-        trial.set_user_attr(f"seed_init_{init}", seed)
-
-
-# In[4]:
 
 
 # Load command line arguments
@@ -117,7 +62,7 @@ gene_dict_df = pd.DataFrame(gene_dict_df)
 train_data.head()
 
 
-# In[5]:
+# In[3]:
 
 
 # Convert dataframes to tensors
@@ -126,7 +71,7 @@ test_tensor = torch.tensor(test_df, dtype=torch.float32)
 val_tensor = torch.tensor(val_df, dtype=torch.float32)
 
 
-# In[6]:
+# In[4]:
 
 
 # Directory where models will be saved

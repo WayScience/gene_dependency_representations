@@ -216,7 +216,7 @@ for model_file in model_save_dir.glob("*.joblib"):
 final_output_file = output_dir / "combined_z_matrix_gsea_results.parquet"
 combined_results_df.to_parquet(final_output_file, index=False)
 
-print(f"Saved final filtered z_matrix and GSEA results to {final_output_file}")
+print(f"Saved final z_matrix combining all models and latent dimensions and GSEA results to {final_output_file}")
 
 
 # In[6]:
