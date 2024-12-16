@@ -192,7 +192,7 @@ def compile_vae(model, train_loader, val_loader, test_loader, optimizer, epochs)
 
 
 
-def extract_latent_dimensions(model, data_loader, metadata, path):
+def extract_latent_dimensions(model, data_loader, metadata, path=None):
     """
     Extract latent dimensions from the VAE model and save them with Model IDs.
 
@@ -216,8 +216,9 @@ def extract_latent_dimensions(model, data_loader, metadata, path):
     latent_df = pd.DataFrame(latent_space)
     latent_df.insert(0, 'ModelID', metadata['ModelID'])
 
-    latent_df_dir = pathlib.Path(path)
-    latent_df.to_parquet(latent_df_dir, index=False)
+    if path:
+        latent_df_dir = pathlib.Path(path)
+        latent_df.to_parquet(latent_df_dir, index=False)
 
     return latent_df
 
