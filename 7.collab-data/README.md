@@ -1,6 +1,6 @@
 # Downloading collaborator data
 
-In this module, we download and test RNA-seq data from a collaborator on the project (Dr. Adam Green) to extend and test real-world applications. The get_geo_data.sh script will download this data from the NCBI database. 
+In this module, we download and test bulk RNA-seq data from pediatric tumors provided by a collaborator on the project (Dr. Adam Green) to extend and test real-world applications. The 'get_geo_data.sh' script will download this data from the NCBI database. 
 
 
 ## Files Downloaded
@@ -15,17 +15,7 @@ Source: [NCBI GEO Accession](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=
 
 ## Setup and Usage
 
-Follow these steps to use the script:
+Execute the following command to update permissions and run the script:
 
-1. **Navigate to the Project Directory**  
-   Move into the directory where the script is located:
-   ```bash
-   cd 7.collab-data
-2. **Make the script executable**
-    Update the script permissions:
-    ```bash
-    chmod +x get_geo_data.sh
-3. **Run the script**
-    Execute the script to download the data:
-    ```bash
-    ./get_geo_data.sh
+```bash
+    chmod +x 7.collab-data/get_geo_data.sh && ./7.collab-data/get_geo_data.sh
