@@ -18,4 +18,4 @@ Source: [NCBI GEO Accession](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=
 Execute the following command to update permissions and run the script:
 
 ```bash
-    chmod +x 7.collab-data/get_geo_data.sh && ./7.collab-data/get_geo_data.sh
+chmod +x 7.collab-data/get_geo_data.sh && ./7.collab-data/get_geo_data.sh
