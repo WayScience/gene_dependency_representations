@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 # In[2]:
 
 
-data_directory = "../7.collab-data/data/"
+data_directory = pathlib.Path("../7.collab-data/data/").resolve()
 rnaseq_file = pathlib.Path(data_directory, "GSE231858_norm_counts_TPM_GRCh38.p13_NCBI.tsv.gz").resolve()
 annot_file = pathlib.Path(data_directory, "Human.GRCh38.p13.annot.tsv.gz").resolve()
 final_file = pathlib.Path(data_directory, "collaboration_rna_data.parquet")
