@@ -15,15 +15,10 @@ import random
 import pathlib
 import sys
 
-script_directory = pathlib.Path("../2.train-VAE/utils/").resolve()
-sys.path.insert(0, str(script_directory))
-from betavae import BetaVAE, weights
-from betatcvae import BetaTCVAE, tc_weights
-from vanillavae import VanillaVAE, vanilla_weights
-
 script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
 from data_loader import load_train_test_data, load_model_data
+from model_utils import extract_weights
 
 
 # In[2]:
@@ -62,51 +57,6 @@ weight_data.head()
 
 # In[4]:
 
-
-def extract_weights(
-    model: object, 
-    model_name: str, 
-    weight_data: pd.DataFrame = None
-) -> pd.DataFrame:
-    """
-    Extracts weight matrix from a given model based on its type.
-
-    Args:
-        model (object): A fitted model (e.g., PCA, ICA, NMF, or a VAE).
-        model_name (str): Name of the model (e.g., 'pca', 'ica', 'nmf', 'betavae', 'betatcvae', 'vanillavae').
-        weight_data (pd.DataFrame, optional): Data required for weight extraction in VAE models.
-
-    Returns:
-        pd.DataFrame: DataFrame containing weights with genes as rows and components as columns.
-    """
-    if model_name in ["pca", "ica", "nmf"]:
-        weights_df = pd.DataFrame(
-            model.components_,
-            columns=dependency_df.drop(columns=["ModelID"]).columns.tolist()
-        ).transpose()
-        weights_df.columns = [f"{x}" for x in range(0, weights_df.shape[1])]
-        weights_df = weights_df.reset_index().rename(columns={"index": "genes"})
-    elif model_name in ["betavae", "betatcvae", "vanillavae"]:
-        if model_name == "betavae":
-            weights_df = weights(model, weight_data)
-        elif model_name == "betatcvae":
-            weights_df = tc_weights(model, weight_data)
-        elif model_name == "vanillavae":
-            weights_df = vanilla_weights(model, weight_data)
-
-        # Ensure no duplicate or unintended columns
-        weights_df = weights_df.loc[:, ~weights_df.columns.duplicated()]
-        
-        # Rename first column to 'genes', if appropriate
-        if weights_df.columns[0] != "genes":
-            weights_df.rename(columns={weights_df.columns[0]: "genes"}, inplace=True)
-
-        # Reset index without adding duplicates
-        weights_df = weights_df.reset_index(drop=True)
-    else:
-        raise ValueError(f"Unsupported model type: {model_name}")
-
-    return weights_df
 
 def perform_gsea(weights_df: pd.DataFrame, model_name: str, num_components: int, init: int, modelseed:int, lib: str = "CORUM") -> pd.DataFrame:
     """
@@ -200,9 +150,9 @@ for model_file in model_save_dir.glob("*.joblib"):
         continue
 
     # Extract the weight matrix
+    weight_matrix_df = extract_weights(model, model_name, weight_data, dependency_df)
     
-    weight_matrix_df = extract_weights(model, model_name, weight_data)
-    
+    print(weight_matrix_df)
     # Perform GSEA
     gsea_results_df = perform_gsea(weight_matrix_df, model_name, num_components, init, seed)
     combined_results_df = pd.concat([combined_results_df, gsea_results_df], ignore_index=True)

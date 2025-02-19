@@ -18,9 +18,7 @@ from torch.utils.data import DataLoader, TensorDataset
 sys.path.insert(0, "../utils/")
 from data_loader import load_model_data
 from pinwheels import compute_and_plot_latent_scores
-
-sys.path.insert(0,"../6.RNAseq/utils")
-from optimizing_utils import extract_latent_dims
+from model_utils import extract_latent_dims
 
 sys.path.append("../5.drug-dependency")
 from utils import load_utils
