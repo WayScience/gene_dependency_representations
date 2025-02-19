@@ -4,11 +4,13 @@
 # In[1]:
 
 
-import pandas as pd
 import pathlib
 import sys
-from sklearn.preprocessing import MinMaxScaler
+
 import joblib
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -27,16 +29,16 @@ from utils import load_utils
 # In[2]:
 
 
-data_directory = pathlib.Path("../0.data-download/data").resolve()
-dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet").resolve()
-gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.parquet").resolve()
+data_directory = pathlib.Path("../0.data-download/data").resolve(strict=True)
+dependency_file = pathlib.Path(f"{data_directory}/CRISPRGeneEffect.parquet").resolve(strict=True)
+gene_dict_file = pathlib.Path(f"{data_directory}/CRISPR_gene_dictionary.parquet").resolve(strict=True)
 
 
 # In[3]:
 
 
 # Load metadata
-metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.parquet")
+metadata_df_dir = pathlib.Path("../0.data-download/data/metadata_df.parquet").resolve(strict=True)
 metadata = pd.read_parquet(metadata_df_dir)
 print(metadata.shape)
 
@@ -56,7 +58,7 @@ dependency_df[dependency_df.select_dtypes(include=['float64', 'int']).columns] =
 # In[4]:
 
 
-train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.parquet")
+train_and_test_subbed_dir = pathlib.Path("../0.data-download/data/train_and_test_subbed.parquet").resolve(strict=True)
 train_and_test_subbed = pd.read_parquet(train_and_test_subbed_dir)
 
 # Convert DataFrame to NumPy and then Tensor
@@ -71,7 +73,7 @@ train_and_test_subbed_loader = DataLoader(tensor_dataset, batch_size=32, shuffle
 # In[5]:
 
 
-gsea_dir = pathlib.Path("../4.gene-expression-signatures/gsea_results/combined_z_matrix_gsea_results.parquet")
+gsea_dir = pathlib.Path("../4.gene-expression-signatures/gsea_results/combined_z_matrix_gsea_results.parquet").resolve(strict=True)
 gsea_df = pd.read_parquet(gsea_dir)
 
 
