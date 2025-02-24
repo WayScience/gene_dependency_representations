@@ -152,7 +152,6 @@ for model_file in model_save_dir.glob("*.joblib"):
     # Extract the weight matrix
     weight_matrix_df = extract_weights(model, model_name, weight_data, dependency_df)
     
-    print(weight_matrix_df)
     # Perform GSEA
     gsea_results_df = perform_gsea(weight_matrix_df, model_name, num_components, init, seed)
     combined_results_df = pd.concat([combined_results_df, gsea_results_df], ignore_index=True)
