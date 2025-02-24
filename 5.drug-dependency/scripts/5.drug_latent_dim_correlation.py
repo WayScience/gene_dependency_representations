@@ -16,48 +16,15 @@ from scipy.stats import pearsonr
 from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import DataLoader, TensorDataset
 
-script_directory = pathlib.Path("../2.train-VAE/utils/").resolve()
-sys.path.insert(0, str(script_directory))
-from betatcvae import tc_extract_latent_dimensions
-from betavae import extract_latent_dimensions
 from utils import load_utils
-from vanillavae import vvae_extract_latent_dimensions
 
 sys.path.insert(0, "../utils/")
 from data_loader import load_model_data
+from model_utils import extract_latent_dims
 
 
 # In[2]:
 
-
-# Function to extract latent dimensions for PCA, ICA, and NMF models
-def sklearn_extract_latent_dimensions(model, 
-    dependency_df: pd.DataFrame):
-    """
-    Extracts latent dimensions from a dimensionality reduction model (PCA, ICA, or NMF)
-    and returns a DataFrame with the latent dimensions.
-
-    Args:
-        model (sklearn model): A trained dimensionality reduction model (e.g., PCA, ICA, NMF).
-        dependency_df (pd.DataFrame): A DataFrame containing gene dependency data, where 
-                                      rows are samples and columns are gene features.
-
-    Returns:
-        pd.DataFrame: A DataFrame with the latent dimensions (z columns) and ModelID.
-    """
-    # Extract components from the model (latent vectors)
-    original_feature_names = model.feature_names_in_
-    reordered_df = dependency_df[original_feature_names]
-    # Transform models into pca space
-    latent_df = pd.DataFrame(
-        model.transform(reordered_df)
-    )
-
-    # Recode column space and add back model IDs
-    latent_df.columns = [f"z_{x}" for x in range(0, latent_df.shape[1])]
-    latent_df = pd.concat([dependency_df.loc[:, "ModelID"], latent_df], axis="columns")
-    
-    return latent_df
 
 # Configure the logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -127,7 +94,6 @@ def perform_correlation(latent_df: pd.DataFrame,
                 if len(latent_values_valid) > 1 and len(drug_values_valid) > 1:
                     # Calculate Pearson correlation
                     corr, p_value = pearsonr(latent_values_valid, drug_values_valid)
-                    logging.info(f"Correlation for {latent_col} and {drug_col}: {corr} (p-value: {p_value})")
                 else:
                     corr = np.nan
                     p_value = np.nan
@@ -271,15 +237,7 @@ for num_components in latent_dims:
             print(f"Loading model from {model_filename}")
             model = joblib.load(model_filename)
             
-            if model_name in ["pca", "ica", "nmf"]:
-                # Extract the latent dimensions for these models
-                latent_df = sklearn_extract_latent_dimensions(model, dependency_df)
-            elif model_name == "betavae":
-                latent_df = extract_latent_dimensions(model, train_and_test_subbed_loader, metadata)
-            elif model_name == "betatcvae":
-                latent_df = tc_extract_latent_dimensions(model, train_and_test_subbed_loader, metadata)
-            elif model_name == "vanillavae":
-                latent_df = vvae_extract_latent_dimensions(model, train_and_test_subbed_loader, metadata)
+            latent_df = extract_latent_dims(model_name, model, dependency_df, train_and_test_subbed_loader, metadata)
 
             latent_df.columns = ['ModelID'] + [f'z_{col}' if isinstance(col, int) else col for col in latent_df.columns[1:]]
             # Perform Pearson correlation between latent dimensions and drug data
