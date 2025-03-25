@@ -4,26 +4,32 @@
 # In[1]:
 
 
-import pandas as pd
 import pathlib
 import sys
-from sklearn.preprocessing import MinMaxScaler
+
 import joblib
+import pandas as pd
 import torch
+from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import DataLoader, TensorDataset
 
 sys.path.insert(0, "../utils/")
 from data_loader import load_model_data
 from model_utils import extract_latent_dims
 
-sys.path.insert(0,"./utils")
+sys.path.insert(0, "./utils")
 from optimizing_utils import model_training
 
 
 # In[2]:
 
 
-def align_dataframes(train, test, val, latent_df):
+def align_dataframes(
+    train: pd.DataFrame, 
+    test: pd.DataFrame, 
+    val: pd.DataFrame, 
+    latent_df: pd.DataFrame
+    ):
     """
     Aligns gene expression datasets (train, test, val) with latent representations from latent_df.
 
@@ -71,7 +77,6 @@ def align_dataframes(train, test, val, latent_df):
     y_val = y_val.drop(columns=zero_columns)
     y_test = y_test.drop(columns=zero_columns)
 
-    X_test_features = pd.concat([X_val_features, X_test_features], axis=0)
     y_test = pd.concat([y_val, y_test], axis=0)
 
     return X_train_features, X_val_features, X_test_features, y_train, y_val, y_test

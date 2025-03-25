@@ -1,14 +1,20 @@
-import os
-import joblib
+from typing import Union
 import optuna
 import pandas as pd
+import numpy as np
 from joblib import dump
 from sklearn.linear_model import ElasticNet
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-def optimize_elasticnet(trial, X_train, y_train, X_val, y_val):
+def optimize_elasticnet(
+    trial: optuna.trial.Trial, 
+    X_train: Union[pd.DataFrame, np.ndarray], 
+    y_train: Union[pd.Series, np.ndarray], 
+    X_val: Union[pd.DataFrame, np.ndarray], 
+    y_val: Union[pd.Series, np.ndarray]
+) -> float:
     """
     Optimize ElasticNet hyperparameters using Optuna and evaluate the model on validation data.
     
