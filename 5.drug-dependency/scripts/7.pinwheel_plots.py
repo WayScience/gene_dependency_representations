@@ -4,20 +4,19 @@
 # In[1]:
 
 
+import pandas as pd
 import pathlib
 import sys
-
-import joblib
-import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-
+import joblib
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
+import matplotlib.pyplot as plt
 
 sys.path.insert(0, "../utils/")
 from data_loader import load_model_data
-from pinwheels import compute_and_plot_latent_scores
+from pinwheels import compute_and_plot_latent_scores, assign_unique_latent_dims
 from model_utils import extract_latent_dims
 
 sys.path.append("../5.drug-dependency")
@@ -71,8 +70,30 @@ train_and_test_subbed_loader = DataLoader(tensor_dataset, batch_size=32, shuffle
 # In[5]:
 
 
-gsea_dir = pathlib.Path("../4.gene-expression-signatures/gsea_results/combined_z_matrix_gsea_results.parquet").resolve(strict=True)
-gsea_df = pd.read_parquet(gsea_dir)
+corum_dir = pathlib.Path("../4.gene-expression-signatures/gsea_results/combined_z_matrix_gsea_results_corum.parquet")
+corum_df = pd.read_parquet(corum_dir)
+
+reactome_dir = pathlib.Path("../4.gene-expression-signatures/gsea_results/combined_z_matrix_gsea_results.parquet")
+reactome_df = pd.read_parquet(reactome_dir)
+
+
+# In[ ]:
+
+
+# Define cut-offs
+lfc_cutoff = 0.584
+fdr_cutoff = 0.05
+
+# Filter data for significant results
+significant_corum_df = corum_df[
+    (corum_df['gsea_es_score'].abs() > lfc_cutoff) & 
+    (corum_df['p_value'] < fdr_cutoff)
+]
+
+significant_reactome_df = reactome_df[
+    (reactome_df['gsea_es_score'].abs() > lfc_cutoff) & 
+    (reactome_df['p_value'] < fdr_cutoff)
+]
 
 
 # In[6]:
@@ -84,59 +105,60 @@ output_dir = pathlib.Path("results")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 
-# In[7]:
+# In[ ]:
 
 
 # Placeholder for storing all latent representations
 latent_dfs = []
+cache_file = pathlib.Path("./results/combined_latent_df.parquet")
 
-# Iterate over all saved model files
-for model_file in model_save_dir.glob("*.joblib"):
-    model_file_name = model_file.stem
-    try:
-        parts = model_file_name.split("_")
-        model_name = parts[0]
-        num_components = int(parts[3])  # Example: Extract number of components
-        init = int(parts[7])  # Extract initialization value
-        seed = int(parts[9])  # Extract seed value
-    except (IndexError, ValueError):
-        print(f"Skipping file {model_file} due to unexpected filename format.")
-        continue
+# Check if the cached file exists
+if cache_file.exists():
+    print(f"Loading cached latent representations from {cache_file}")
+    combined_latent_df = pd.read_parquet(cache_file)
 
-    # Load the model
-    print(f"Loading model from {model_file}")
-    try:
-        model = joblib.load(model_file)
-    except Exception as e:
-        print(f"Failed to load model from {model_file}: {e}")
-        continue
-    
+else:
+    # Iterate over all saved model files
+    for model_file in model_save_dir.glob("*.joblib"):
+        model_file_name = model_file.stem
+        try:
+            parts = model_file_name.split("_")
+            model_name = parts[0]
+            num_components = int(parts[3])  # Example: Extract number of components
+            init = int(parts[7])  # Extract initialization value
+            seed = int(parts[9])  # Extract seed value
+        except (IndexError, ValueError):
+            print(f"Skipping file {model_file} due to unexpected filename format.")
+            continue
 
-    # Extract latent dimensions
-    latent_df = extract_latent_dims(model_name, model, dependency_df, train_and_test_subbed_loader, metadata)
+        # Load the model
+        print(f"Loading model from {model_file}")
+        try:
+            model = joblib.load(model_file)
+        except Exception as e:
+            print(f"Failed to load model from {model_file}: {e}")
+            continue
+        
 
-    # Add metadata to the latent dataframe
-    latent_df["model"] = model_name
-    latent_df["latent_dim_total"] = num_components
-    latent_df["init"] = init
-    latent_df["seed"] = seed
+        # Extract latent dimensions
+        latent_df = extract_latent_dims(model_name, model, dependency_df, train_and_test_subbed_loader, metadata)
 
-    # Move metadata columns to the front
-    metadata_columns = ["model", "latent_dim_total", "init", "seed"]
-    latent_df = latent_df.loc[:, ~latent_df.columns.duplicated()]
-    latent_df.columns = latent_df.columns.astype(str)
-    latent_df = latent_df[metadata_columns + [col for col in latent_df.columns if col not in metadata_columns]]
-    latent_dfs.append(latent_df)
+        # Add metadata to the latent dataframe
+        latent_df["model"] = model_name
+        latent_df["latent_dim_total"] = num_components
+        latent_df["init"] = init
+        latent_df["seed"] = seed
 
-# Combine all latent representations into one dataframe
-combined_latent_df = pd.concat(latent_dfs, ignore_index=True)
+        # Move metadata columns to the front
+        metadata_columns = ["model", "latent_dim_total", "init", "seed"]
+        latent_df = latent_df.loc[:, ~latent_df.columns.duplicated()]
+        latent_df.columns = latent_df.columns.astype(str)
+        latent_df = latent_df[metadata_columns + [col for col in latent_df.columns if col not in metadata_columns]]
+        latent_dfs.append(latent_df)
 
-
-# In[8]:
-
-
-# Combine all latent representations into one dataframe
-combined_latent_df = pd.concat(latent_dfs, ignore_index=True)
+    # Combine all latent representations into one dataframe
+    combined_latent_df = pd.concat(latent_dfs, ignore_index=True)
+    combined_latent_df.to_parquet(cache_file)
 
 
 # In[9]:
@@ -174,20 +196,48 @@ drug_df = drug_df.drop(columns=['column_name'])
 drug_df.head()
 
 
+# In[ ]:
+
+
+# Define cut-offs
+corr_cutoff = 0.15
+pval_cutoff = 0.05
+
+# Filter data for significant results
+significant_drug_df = drug_df[
+    (drug_df['pearson_correlation'].abs() > corr_cutoff) & 
+    (drug_df['p_value'] < pval_cutoff)
+]
+
+
+# In[ ]:
+
+
+reactome_max = assign_unique_latent_dims(significant_reactome_df, score_col="gsea_es_score", target_col="reactome_pathway")
+corum_max = assign_unique_latent_dims(significant_corum_df, score_col="gsea_es_score", target_col="reactome_pathway")
+drug_max = assign_unique_latent_dims(significant_drug_df, score_col="pearson_correlation", target_col="name")
+
+
 # In[11]:
 
 
 # Loop through each unique ModelID to process and plot
-gsea_max = gsea_df.loc[gsea_df.groupby("reactome_pathway")["gsea_es_score"].idxmax()]
 for model_id in combined_latent_df['ModelID'].unique():
-    compute_and_plot_latent_scores(model_id, combined_latent_df, gsea_max, "reactome_pathway", "gsea_es_score", "Multi-Gene Dependency")
+    compute_and_plot_latent_scores(model_id, combined_latent_df, reactome_max, "reactome_pathway", "gsea_es_score", "Multi-Gene Dependency")
+
+
+# In[ ]:
+
+
+# Loop through each unique ModelID to process and plot
+for model_id in combined_latent_df['ModelID'].unique():
+    compute_and_plot_latent_scores(model_id, combined_latent_df, corum_max, "reactome_pathway", "gsea_es_score", "Multi-Gene Dependency")
 
 
 # In[12]:
 
 
 # Loop through each unique ModelID to process and plot
-drug_max = drug_df.loc[drug_df.groupby("name")["pearson_correlation"].idxmax()]
 for model_id in combined_latent_df['ModelID'].unique():
     compute_and_plot_latent_scores(model_id, combined_latent_df, drug_max, "name", "pearson_correlation", "Drug")
 
