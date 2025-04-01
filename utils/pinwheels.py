@@ -90,3 +90,59 @@ def compute_and_plot_latent_scores(model_id, latent_df, comp_df, id, score, name
     
     # Generate the plot
     plot_pinwheel(model_id, merged_df, id, name)
+    
+
+def assign_unique_latent_dims(df, score_col, target_col, latent_col="z"):
+    """
+    Assigns each pathway/drug to the highest available latent dimension without replacement.
+
+    Parameters:
+    - df (pd.DataFrame): DataFrame containing pathways/drugs and their corresponding latent dimensions.
+    - score_col (str): Column name for the enrichment score (e.g., "gsea_es_score", "drug_es_score").
+    - target_col (str): Column name for the pathway or drug.
+    - latent_col (str): Column name for the latent dimension (default: "z").
+
+    Returns:
+    - pd.DataFrame: A filtered DataFrame with unique latent dimensions assigned to each pathway/drug.
+    """
+    # Sort by highest score first
+    if score_col is not "pearson_correlation":
+        df[score_col] = df[score_col].abs()
+        is_drug = False
+    else:
+        is_drug = True
+
+    df_sorted = df.sort_values(score_col, ascending=is_drug).copy()
+
+    # Track used latent dimensions and their associated pathways
+    used_latents = {}
+    assigned_rows = []
+
+    # Group by pathway or drug to process each one sequentially
+    grouped = df_sorted.groupby(target_col)
+
+    sorted_groups = sorted(grouped, key=lambda group: group[1][score_col].max(), reverse=True)
+
+    for pathway, group in sorted_groups:
+        print(f"Processing pathway: {pathway}")
+
+        # Filter out rows with already used latent dimensions
+        available_latents = group[~group.apply(
+            lambda r: (r[latent_col], r['model'], r['full_model_z'], r['init']) in used_latents.keys(), axis=1)]
+
+        if available_latents.empty:
+            print(f"No unused latent dimensions left for pathway {pathway}.")
+            continue  # Skip to the next pathway
+
+        # Sort by GSEA score (descending) to pick the top available latent dimension
+        best_latent = available_latents.sort_values(by=score_col, ascending=is_drug).head(1).iloc[0]
+
+        # Record the assignment
+        latent_key = (best_latent[latent_col], best_latent['model'], best_latent['full_model_z'], best_latent['init'])
+        used_latents[latent_key] = pathway  # Assign the latent dimension to the pathway
+        assigned_rows.append(best_latent)  # Add to assigned rows
+
+        print(f"Assigned latent dimension {best_latent[latent_col]} for model {best_latent['model']}, {best_latent['full_model_z']}, init {best_latent['init']} to pathway {pathway}.")
+
+    # Convert list of assigned rows back to DataFrame
+    return pd.DataFrame(assigned_rows)
