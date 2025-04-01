@@ -77,7 +77,7 @@ reactome_dir = pathlib.Path("../4.gene-expression-signatures/gsea_results/combin
 reactome_df = pd.read_parquet(reactome_dir)
 
 
-# In[ ]:
+# In[6]:
 
 
 # Define cut-offs
@@ -96,7 +96,7 @@ significant_reactome_df = reactome_df[
 ]
 
 
-# In[6]:
+# In[7]:
 
 
 # Define the location of the saved models and output directory for results
@@ -105,7 +105,7 @@ output_dir = pathlib.Path("results")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 
-# In[ ]:
+# In[8]:
 
 
 # Placeholder for storing all latent representations
@@ -210,7 +210,7 @@ significant_drug_df = drug_df[
 ]
 
 
-# In[ ]:
+# In[11]:
 
 
 reactome_max = assign_unique_latent_dims(significant_reactome_df, score_col="gsea_es_score", target_col="reactome_pathway")
@@ -218,7 +218,7 @@ corum_max = assign_unique_latent_dims(significant_corum_df, score_col="gsea_es_s
 drug_max = assign_unique_latent_dims(significant_drug_df, score_col="pearson_correlation", target_col="name")
 
 
-# In[11]:
+# In[12]:
 
 
 # Loop through each unique ModelID to process and plot
@@ -226,7 +226,7 @@ for model_id in combined_latent_df['ModelID'].unique():
     compute_and_plot_latent_scores(model_id, combined_latent_df, reactome_max, "reactome_pathway", "gsea_es_score", "Multi-Gene Dependency")
 
 
-# In[ ]:
+# In[13]:
 
 
 # Loop through each unique ModelID to process and plot
@@ -234,7 +234,7 @@ for model_id in combined_latent_df['ModelID'].unique():
     compute_and_plot_latent_scores(model_id, combined_latent_df, corum_max, "reactome_pathway", "gsea_es_score", "Multi-Gene Dependency")
 
 
-# In[12]:
+# In[14]:
 
 
 # Loop through each unique ModelID to process and plot
