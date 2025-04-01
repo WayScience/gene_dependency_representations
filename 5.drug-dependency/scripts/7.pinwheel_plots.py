@@ -4,22 +4,24 @@
 # In[1]:
 
 
-import pandas as pd
-import pathlib
 import sys
-from sklearn.preprocessing import MinMaxScaler
+import pathlib
+
+import pandas as pd
 import joblib
 import torch
 from torch.utils.data import DataLoader, TensorDataset
-
+from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 
+# Add project-specific paths
 sys.path.insert(0, "../utils/")
+sys.path.append("../5.drug-dependency")
+
+# Import local modules
 from data_loader import load_model_data
 from pinwheels import compute_and_plot_latent_scores, assign_unique_latent_dims
 from model_utils import extract_latent_dims
-
-sys.path.append("../5.drug-dependency")
 from utils import load_utils
 
 
