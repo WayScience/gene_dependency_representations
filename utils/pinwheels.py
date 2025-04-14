@@ -90,6 +90,8 @@ def compute_and_plot_latent_scores(model_id, latent_df, comp_df, id, score, name
     
     # Generate the plot
     plot_pinwheel(model_id, merged_df, id, name)
+
+    return merged_df
     
 
 def assign_unique_latent_dims(df, score_col, target_col, latent_col="z"):
@@ -105,13 +107,14 @@ def assign_unique_latent_dims(df, score_col, target_col, latent_col="z"):
     Returns:
     - pd.DataFrame: A filtered DataFrame with unique latent dimensions assigned to each pathway/drug.
     """
-    # Sort by highest score first
+    # Check to see if score is pearson correlation or not, so the ordering is the correct direction. GSEA results are non-directional, pearson correlation is
     if score_col is not "pearson_correlation":
         df[score_col] = df[score_col].abs()
         is_drug = False
     else:
         is_drug = True
 
+    # Sort so that the most important values are first (highest abs for GSEA, most negative for pearson correlation)
     df_sorted = df.sort_values(score_col, ascending=is_drug).copy()
 
     # Track used latent dimensions and their associated pathways
