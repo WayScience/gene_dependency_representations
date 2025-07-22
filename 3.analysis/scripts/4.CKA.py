@@ -20,7 +20,7 @@ from data_loader import load_train_test_data, load_model_data
 from model_utils import extract_weights
 
 
-# In[ ]:
+# In[2]:
 
 
 def compute_cka(X, Y):
@@ -191,7 +191,7 @@ for (model_name, latent_dim), models in model_groups.items():
         })
 
 
-# In[14]:
+# In[8]:
 
 
 # Compare across models for the same latent dimension (averaging over initializations)
@@ -243,7 +243,7 @@ for latent_dim in unique_latent_dims:
                 })
 
 
-# In[15]:
+# In[9]:
 
 
 # Save CKA results to a CSV
@@ -252,7 +252,7 @@ cka_results_df.to_csv("cka_results.csv", index=False)
 print("CKA results saved to cka_results.csv")
 
 
-# In[16]:
+# In[10]:
 
 
 # Filter for within-model initialization scores
