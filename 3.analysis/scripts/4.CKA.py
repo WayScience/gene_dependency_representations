@@ -4,18 +4,21 @@
 # In[1]:
 
 
-import numpy as np
+import os
+import sys
+import pathlib
+
 import joblib
 from joblib import load
-import pathlib
-import pandas as pd 
-import sys
-import os
+import numpy as np
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Add utils directory to path
 script_directory = pathlib.Path("../utils/").resolve()
 sys.path.insert(0, str(script_directory))
+
 from data_loader import load_train_test_data, load_model_data
 from model_utils import extract_weights
 
@@ -27,6 +30,8 @@ def compute_cka(X, Y):
     """
     Computes the centered kernel alignment (CKA) similarity between two feature matrices X and Y.
     X and Y should have the same number of samples (rows).
+
+    The feature matrices are weight matrices for two models. This can be multiple initializations of the same model for the VAEs, or two different model types.
     """
     # Drop non-numeric columns (like 'genes') if they exist
     if 'genes' in X.columns:
